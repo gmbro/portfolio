@@ -107,6 +107,9 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.83.0
         version: 5.101.4(react@18.3.1)
+      '@typebot.io/react':
+        specifier: ^0.10.7
+        version: 0.10.7(react@18.3.1)
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -1748,6 +1751,14 @@ packages:
 
   '@tweenjs/tween.js@23.1.3':
     resolution: {integrity: sha512-vJmvvwFxYuGnF2axRtPYocag6Clbb5YS7kLL+SO/TeVFzHqDIWrNKYtcsPMibjDx9O+bu+psAy9NKfWklassUA==}
+
+  '@typebot.io/js@0.10.7':
+    resolution: {integrity: sha512-c5GKjgJlfSjOIhTm8kqohWE/daJeBWlnqK6Xi3AYlFu/3W0NkqsD+T6G+ehu2sDGv8po+FuMB/K6g12/zQVN2Q==}
+
+  '@typebot.io/react@0.10.7':
+    resolution: {integrity: sha512-f/2oIk7AupWIsTrB6QlP3jKNLC2HRvFRp9Nbo9DXczF6kLxBkyRoJyqsTT2uGY1WKtedlxa5Ar3yQS/oHcMxOg==}
+    peerDependencies:
+      react: '>=18'
 
   '@types/aria-query@5.0.4':
     resolution: {integrity: sha512-rfT93uj5s0PRL7EzccGMs3brplhcrghnDoV26NqKhCAS1hVo+WdNsPvE/yb6ilfr5hi2MEk6d5EWJTKdxg8jVw==}
@@ -4859,6 +4870,13 @@ snapshots:
   '@tootallnate/once@2.0.1': {}
 
   '@tweenjs/tween.js@23.1.3': {}
+
+  '@typebot.io/js@0.10.7': {}
+
+  '@typebot.io/react@0.10.7(react@18.3.1)':
+    dependencies:
+      '@typebot.io/js': 0.10.7
+      react: 18.3.1
 
   '@types/aria-query@5.0.4': {}
 

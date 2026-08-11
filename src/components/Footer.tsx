@@ -18,7 +18,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="pt-20 pb-8 px-6 md:px-16 border-t border-border">
+    <footer className="pt-20 pb-28 px-6 md:px-16 border-t border-border">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 pb-12">
           {/* Left — brand */}
