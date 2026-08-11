@@ -353,6 +353,7 @@
 
 - 프로덕션 빌드: GitHub Pages base(`/portfolio/`) 기준 통과. Hero 대형 배경 이미지를 제거해 기존 약 2.59MB 자산이 배포 번들에서 제외됨.
 - 테스트·정적 검사: TypeScript 통과, Vitest 8개 통과, ESLint 오류 0·기존 fast-refresh 경고 8개
+- CI 재점검: 최초 Pages run #5에서 문의 폼 테스트가 로컬 `.env.local`에 의존해 실패한 것을 확인했다. `src/test/contact.test.tsx`에 전용 가짜 EmailJS 환경값과 모듈 초기화를 명시한 뒤 TypeScript·Vitest 8개를 다시 통과했다.
 - EmailJS 실발송: SDK mock 전송과 GitHub Secrets 연결 통과. 실제 Pages URL에서 1회 전송 결과를 배포 후 확인한다.
 - 미해결 문제: EmailJS 템플릿의 실제 Gmail 수신 여부는 성공 응답 후 사용자의 Gmail에서 최종 확인이 필요하다. Typebot 웹 컴포넌트 청크 약 696KB와 메인 청크 약 1.56MB는 후속 성능 최적화 대상으로 기록한다.
 - 배포 가능 여부: `가능`

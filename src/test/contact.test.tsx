@@ -1,6 +1,5 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { beforeEach, describe, expect, it, vi } from "vitest";
-import Contact from "@/components/Contact";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const { sendMock } = vi.hoisted(() => ({ sendMock: vi.fn() }));
 
@@ -18,9 +17,18 @@ describe("Contact", () => {
   beforeEach(() => {
     sendMock.mockReset();
     sendMock.mockResolvedValue({ status: 200, text: "OK" });
+    vi.stubEnv("VITE_EMAILJS_SERVICE_ID", "test-service");
+    vi.stubEnv("VITE_EMAILJS_TEMPLATE_ID", "test-template");
+    vi.stubEnv("VITE_EMAILJS_PUBLIC_KEY", "test-public-key");
+  });
+
+  afterEach(() => {
+    vi.unstubAllEnvs();
+    vi.resetModules();
   });
 
   it("sends verified form fields through EmailJS without a client-controlled recipient", async () => {
+    const { default: Contact } = await import("@/components/Contact");
     render(<Contact />);
 
     fireEvent.change(screen.getByLabelText("이름"), { target: { value: "채용 담당자" } });
