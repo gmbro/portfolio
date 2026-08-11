@@ -63,7 +63,7 @@ const Leadership = () => {
         >
           <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
             <div className="max-w-sm">
-              <span className="font-body text-xs font-semibold uppercase tracking-[0.25em] text-white/35">
+              <span className="font-body text-xs font-semibold uppercase tracking-[0.25em] text-white/55">
                 VERIFIED TOOLKIT
               </span>
               <h3 className="mt-3 font-display text-2xl font-bold text-white">

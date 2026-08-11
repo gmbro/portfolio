@@ -132,7 +132,7 @@ const Hero = ({ content = defaultHeroContent }: HeroProps) => {
                 key={`${stat.value}-${stat.label}`}
                 className="min-w-0 rounded-2xl border border-white/10 bg-[#111111]/90 px-2 py-4 shadow-[0_16px_60px_rgba(0,0,0,.25)] md:rounded-3xl md:px-6 md:py-6"
               >
-                <dd className="whitespace-nowrap font-display text-2xl font-extrabold tracking-[-0.03em] text-white sm:text-3xl md:text-5xl">
+                <dd className="whitespace-nowrap font-display text-[1.35rem] font-extrabold tracking-[-0.03em] text-white sm:text-3xl md:text-5xl">
                   {stat.value}
                 </dd>
                 <dt className="mt-1 font-body text-[10px] font-medium leading-4 text-white/50 sm:text-xs md:mt-2 md:text-sm md:leading-5">
@@ -144,7 +144,7 @@ const Hero = ({ content = defaultHeroContent }: HeroProps) => {
         )}
       </div>
 
-      <div className="absolute bottom-7 left-1/2 z-10 hidden -translate-x-1/2 items-center gap-2 text-white/30 md:flex">
+      <div className="absolute bottom-7 left-1/2 z-10 hidden -translate-x-1/2 items-center gap-2 text-white/55 md:flex">
         <span className="font-body text-[10px] font-semibold uppercase tracking-[0.24em]">Selected work</span>
         <ChevronDown size={14} aria-hidden="true" />
       </div>

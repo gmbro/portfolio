@@ -6,6 +6,7 @@ const TypebotBubble = () => {
   const { pathname } = useLocation();
   const isPublicPortfolio = pathname === "/" || pathname.startsWith("/p/");
   const [showBubble, setShowBubble] = useState(false);
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   useEffect(() => {
     if (!isPublicPortfolio) {
@@ -42,18 +43,21 @@ const TypebotBubble = () => {
     };
   }, [isPublicPortfolio, pathname]);
 
-  if (!isPublicPortfolio || !showBubble) return null;
+  if (!isPublicPortfolio) return null;
 
   return (
     <Bubble
       typebot="gmbro"
       apiHost="https://typebot.io"
+      onOpen={() => setIsChatOpen(true)}
+      onClose={() => setIsChatOpen(false)}
       theme={{
         button: {
           backgroundColor: "#0042DA",
           customIconSrc:
             "https://s3.typebotstorage.com/public/workspaces/cmsodqtlt00000ajdy01a2oa5/typebots/cmsodrpss000004ji0579oaia/bubble-icon?v=1786441335928",
           size: "large",
+          isHidden: !showBubble && !isChatOpen,
         },
       }}
     />

@@ -94,7 +94,7 @@ const Experience = () => {
 
                   <div className="shrink-0 md:text-right">
                     <p className="font-body text-sm font-medium text-white/65">{experience.period}</p>
-                    {experience.team && <p className="mt-1 font-body text-xs text-white/35">{experience.team}</p>}
+                    {experience.team && <p className="mt-1 font-body text-xs text-white/55">{experience.team}</p>}
                   </div>
                 </header>
 

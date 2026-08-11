@@ -631,7 +631,7 @@
 | Syrup Wallet 운영 | 2018.04–2020.04, 기여도 100% | 푸시 효율·서버 과부하·수작업 | 타기팅·분산 발송·리타기팅 설계 | 수신율 2배, 열람률 1.5배, 운영 1/10 | service operations | Large-scale Operations | 약 3.5M MAU 서비스의 운영을 제품 개선으로 전환 | 상세 baseline 자료는 추가 확인 필요 |
 
 - 동일 경험의 Result를 다른 카드에서 새 성과처럼 중복하지 않는다.
-- `2억`은 사용자 직접 확인값이지만 통화·계약금·예산·관리 범위가 확인되지 않았으므로 `200M / AI Project Scope` 이상으로 의미를 확대하지 않는다.
+- `2억`은 사용자가 한국어로 직접 확인한 프로젝트 규모이므로 영문 독자가 단위를 오해하지 않게 `₩200M / AI Project Scope`로 표기한다. 예산·계약금·수주액·개별 관리 범위로는 확대하지 않는다.
 - Arkylab의 한국어 직함 `대표`는 확인된 소유·운영 책임만 전달하도록 `Owner`로 번역하고, 제품 역할은 설명과 성과 항목에서 증명한다.
 
 ##### 3. 콘텐츠 설계 — Hero 3안
@@ -680,7 +680,7 @@
 | QA-BASE5-001 | `src/pages/Index.tsx`, `Navbar.tsx` | 정보 구조를 `Hero → Work → AI Capabilities → Experience → Contact → About`으로 변경하고 내비게이션 순서를 일치시킴 | 없음 | 최신 증거 우선 스캔 가능 |
 | QA-BASE5-002 | `src/data/portfolio.ts`, `ImageCards.tsx` | 프로젝트를 최신순으로 재정렬하고 상위 3개는 상세, 이전 3개는 native details로 압축. 수행 조직·기여 범위·지표를 CAR보다 먼저 표시 | 기존 검증 사실의 구조만 변경 | 최신 AI 경험과 역할이 즉시 보임 |
 | QA-BASE5-003 | `src/data/portfolio.ts`, `Experience.tsx` | Arkylab 2026.06–현재 경력과 사용자 이미지의 3개 업무를 첫 항목에 추가. 최신 3개 경력 상세, 이전 4개 펼쳐보기 처리 | 사용자 이미지 근거만 사용 | 현재 AI 제품 활동을 첫 경력으로 확인 가능 |
-| QA-BASE5-004 | `TypebotBubble.tsx`, `index.css` | 외부 Q&A 라벨 삭제, Work·Contact·About·무효 링크에서는 숨김, Skills·Experience에서만 56px 원형 노출. 사진 위에 말풍선 glyph 배지 추가 | 없음 | 모바일 핵심 콘텐츠 비가림·기능 인지성 개선 |
+| QA-BASE5-004 | `TypebotBubble.tsx`, `index.css` | 외부 Q&A 라벨 삭제, Work·Contact·About·무효 링크에서는 닫힌 launcher 숨김, Skills·Experience에서 56px 원형 노출. 사진 위에 말풍선 glyph 배지 추가. 열린 대화는 Contact로 이동해도 mount 상태 유지 | 없음 | 모바일 핵심 콘텐츠 비가림·기능 인지성·대화 연속성 개선 |
 | QA-BASE5-005 | `ThemeProvider.tsx`, `Navbar.tsx`, `sonner.tsx` | 햇빛 버튼과 라이트 전환 제거, 다크 테마 고정 | 없음 | 화면별 톤 일관성 확보 |
 | QA-BASE5-006 | 공개 컴포넌트·페이지·`index.html` | 공개 UI, 상태, ARIA, SEO 메타를 영어로 통일. 비공개 `/admin/links`는 한국어 유지 | 번역만 수행 | 공개 메인 번들 한국어 0건 |
 | QA-BASE5-007 | `About.tsx`, `Contact.tsx`, `Footer.tsx` | 학력·자격·교육, Activities, Contact 소개·연락 카드, Footer 설명·연락처 제거. EmailJS form과 최소 copyright만 유지 | 없음 | 보조 정보가 핵심 AI 증거를 가리지 않음 |
@@ -689,6 +689,7 @@
 | QA-BASE5-010 | `Index.tsx`, `App.tsx`, `Hero.tsx`, `Navbar.tsx` | skip link·main landmark·Hero 접근성 이름·reduced-motion·44px 모바일 메뉴 타깃 추가 | 없음 | 키보드·스크린리더·모션 민감 사용자 접근성 개선 |
 | QA-BASE5-011 | `Contact.tsx`, `LinkManager.tsx` | 문의 payload에서 page URL·전송 시각 제거, delivery 실패일 때만 mail fallback 노출. 관리자 이탈 시 title·robots 복원 | 개인정보 최소화 | 회사별 slug 전송 방지·SPA 메타 회귀 방지 |
 | QA-BASE5-012 | `portfolio.ts` | 공식 영문명 `GenON`, `FIXNESS`, `HEALTHBOYGYM` 교정. Learning Tracker 수행 주체를 `Arkylab · Independent build`로 명시 | 사용자 자료·공식 표기와 일치 | 고유명사와 프로젝트 귀속 명확화 |
+| QA-BASE5-013 | `Hero.tsx`, `Experience.tsx`, `Leadership.tsx`, `Contact.tsx` | Hero `2억`을 단위가 명확한 `₩200M`으로 번역하고 390px 내부 오버플로를 제거. 작은 보조 텍스트 대비를 white 55%로 상향 | 사용자 확인값의 단위 명시 | 영문 신뢰도·WCAG 일반 텍스트 대비 개선 |
 
 #### 동일 조건 재검사
 
@@ -701,16 +702,17 @@
 - 수정 전 대비 문서 높이: 390px `18,044 → 15,081`, 768px `14,828 → 12,430`, 1440px `11,180 → 9,585`.
 - 섹션 DOM 순서: `hero → case-studies → skills → experience → contact → about`.
 - 프로젝트 순서: `Arkylab 2026.06 → Learning Tracker 2026.05 → Vision AI 2025.06 → Selectstar 2024.06 → Skelter Labs 2021.09 → SK Planet 2018.04`.
-- Typebot: 390px에서 56×56px, radius `9999px`, 말풍선 glyph 표시. Work·Contact·About·무효 링크에서 숨김, Experience에서 콘텐츠와 겹침 없음.
+- Typebot: 390px에서 56×56px, radius `9999px`, 말풍선 glyph 표시. Work·Contact·About·무효 링크에서는 닫힌 launcher 숨김, Experience에서 콘텐츠와 겹침 없음. 열린 상태로 Contact 이동 시 `Close chatbot`과 대화 mount 유지, 닫으면 launcher 숨김.
 - 모바일 내비게이션: 5개 항목, Contact 중복 0, 각 target 높이 44px.
 - 무효 공개 route: `/p/not-real-slug`가 영문 invalid 화면, `noindex, nofollow`, 가로 스크롤·Typebot 없음.
 - 비공개 관리자 route: 390px 가로 스크롤·Typebot 없음. 이탈 cleanup에서 기존 title·robots 복원.
-- 프로덕션 빌드: Vite 6.4.3 통과. 초기 index 520.52kB, Typebot web 697.83kB로 chunk-size 경고만 존재.
+- Hero 첫 지표: 390px에서 `₩200M`, value `scrollWidth 86 = clientWidth 86`, 문서 가로 오버플로 0.
+- 프로덕션 빌드: Vite 6.4.3 통과. 초기 index 520.60kB, Typebot web 697.83kB로 chunk-size 경고만 존재.
 - 테스트·정적 검사: TypeScript 통과, Vitest 11/11, ESLint 오류 0·기존 UI fast-refresh 경고 7, `git diff --check` 통과.
 - 사실·보안 검사: 공식 브랜드 표기 교정, public main bundle 한국어 0건, raw HTML/eval·client-controlled recipient·service-role/private key 없음, `.env.local` ignore, dist env/source map 없음.
 - EmailJS: 로컬 3개 공개 식별자와 GitHub Actions secret 이름 연결 확인. 수신 주소는 client payload에 포함하지 않고 EmailJS template에 고정하는 구조 유지.
 - 외부 설정 보강 필요: Typebot 편집 화면은 현재 로그아웃 상태라 bot 내부의 한국어 greeting·input placeholder·기본 한국어 답변 규칙은 이번 코드 배포에서 변경하지 못했다. 공개 페이지 shell은 영어이며 Typebot flow 영문화는 Typebot 로그인 후 별도 수정이 필요하다.
-- 사실 보강 필요: Hero `200M / AI Project Scope`는 사용자 직접 확인값 `2억`만 변환했으며, 통화·예산/계약/관리 범위는 확인 전 확대하지 않는다.
+- 사실 범위: Hero `₩200M / AI Project Scope`는 사용자 직접 확인값 `2억`의 영문 표기이며, 예산·계약금·수주액·개별 관리 범위로는 확대하지 않는다.
 - 시각 자료 제공 슬롯:
   - Arkylab: 제품 화면, 강사 기록 workflow, beta learning snapshot.
   - Learning Tracker: OCR capture → parsed record → gamification/community screen.

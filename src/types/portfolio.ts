@@ -45,7 +45,7 @@ export const defaultHeroContent: HeroContent = {
   ctaLabel: "View selected work",
   ctaTarget: "case-studies",
   stats: [
-    { value: "200M", label: "AI Project Scope" },
+    { value: "₩200M", label: "AI Project Scope" },
     { value: "3.5M", label: "MAU Service Operations" },
     { value: "70%+", label: "Operating Cost Reduction" },
   ],

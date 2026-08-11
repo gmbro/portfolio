@@ -214,7 +214,7 @@ const Contact = () => {
               className="w-full resize-y rounded-xl border border-white/10 bg-black/25 px-5 py-4 font-body text-base text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-[#ff6645]/55"
               placeholder="Tell me about the role, project, or partnership."
             />
-            <p className="mt-2 text-right font-body text-xs text-white/35">{form.message.length} / 2000</p>
+            <p className="mt-2 text-right font-body text-xs text-white/55">{form.message.length} / 2000</p>
           </div>
 
           <label className="mt-5 flex cursor-pointer items-start gap-3 rounded-xl border border-white/10 bg-black/20 p-4">
