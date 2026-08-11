@@ -26,4 +26,5 @@ declare module "@typebot.io/react" {
 
   export const Bubble: ComponentType<BubbleProps>;
   export const hidePreviewMessage: () => void;
+  export const showPreviewMessage: () => void;
 }

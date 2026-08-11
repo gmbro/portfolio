@@ -1,4 +1,4 @@
-import { Bubble, hidePreviewMessage } from "@typebot.io/react";
+import { Bubble, hidePreviewMessage, showPreviewMessage } from "@typebot.io/react";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
@@ -7,12 +7,27 @@ const TypebotBubble = () => {
   const isPublicPortfolio = pathname === "/" || pathname.startsWith("/p/");
 
   useEffect(() => {
+    let previewTimer: number | undefined;
+
     const hidePreviewAfterHero = () => {
-      if (window.scrollY > 120) hidePreviewMessage();
+      if (window.scrollY <= 120) return;
+      if (previewTimer !== undefined) window.clearTimeout(previewTimer);
+      hidePreviewMessage();
     };
 
+    if (window.scrollY <= 120) {
+      previewTimer = window.setTimeout(() => {
+        if (window.scrollY <= 120) showPreviewMessage();
+      }, 2500);
+    } else {
+      hidePreviewMessage();
+    }
+
     window.addEventListener("scroll", hidePreviewAfterHero, { passive: true });
-    return () => window.removeEventListener("scroll", hidePreviewAfterHero);
+    return () => {
+      if (previewTimer !== undefined) window.clearTimeout(previewTimer);
+      window.removeEventListener("scroll", hidePreviewAfterHero);
+    };
   }, [pathname]);
 
   if (!isPublicPortfolio) return null;
@@ -23,7 +38,6 @@ const TypebotBubble = () => {
       apiHost="https://typebot.io"
       previewMessage={{
         message: "답변해드립니다",
-        autoShowDelay: 2500,
       }}
       theme={{
         button: {

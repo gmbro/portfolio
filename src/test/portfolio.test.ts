@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { Json } from "@/lib/database.types";
 import { defaultHeroContent, parsePortfolioPageContent } from "@/types/portfolio";
-import { careerExperiences, featuredProjects, profile } from "@/data/portfolio";
+import { careerExperiences, educationAndCertificates, featuredProjects, profile } from "@/data/portfolio";
 
 const validContent: Json = {
   meta: {
@@ -75,5 +75,15 @@ describe("verified base portfolio content", () => {
     const projectTitles = featuredProjects.map((project) => project.title).join(" ");
     expect(projectTitles).toContain("운동강사");
     expect(projectTitles).toContain("독서모임");
+  });
+
+  it("separates school, certificates, and training without changing the verified entries", () => {
+    expect(educationAndCertificates.map((item) => item.type)).toEqual([
+      "school",
+      "certificate",
+      "certificate",
+      "training",
+      "training",
+    ]);
   });
 });

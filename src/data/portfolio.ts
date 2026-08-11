@@ -7,28 +7,42 @@ export const profile = {
   archiLab: "http://archi.best",
 };
 
-export const educationAndCertificates = [
+export type EducationEntryType = "school" | "certificate" | "training";
+
+export interface EducationEntry {
+  type: EducationEntryType;
+  title: string;
+  sub: string;
+  year: string;
+}
+
+export const educationAndCertificates: EducationEntry[] = [
   {
+    type: "school",
     title: "충남대학교 지질학과·의류학과",
     sub: "지질학 주전공 · 의류학 복수전공",
     year: "2006.03–2018.02",
   },
   {
+    type: "certificate",
     title: "Google Project Manager Certificate",
     sub: "Google",
     year: "2025",
   },
   {
+    type: "certificate",
     title: "Prompt Designer 2급",
     sub: "한국지식재산서비스협회",
     year: "2024",
   },
   {
+    type: "training",
     title: "Tableau 실전교육",
     sub: "Planit",
     year: "2020",
   },
   {
+    type: "training",
     title: "R 데이터 실무 분석",
     sub: "재직자직무교육",
     year: "2018",

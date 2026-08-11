@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
-import { BrainCircuit, Handshake, Network, PackageCheck } from "lucide-react";
-import { educationAndCertificates } from "@/data/portfolio";
+import { Award, BookOpen, BrainCircuit, GraduationCap, Handshake, Network, PackageCheck } from "lucide-react";
+import { educationAndCertificates, type EducationEntryType } from "@/data/portfolio";
 
 const strengths = [
   {
@@ -27,6 +27,16 @@ const strengths = [
     description:
       "AI 모델 개발이 아니라 기술의 활용 범위, 데이터 구조와 실제 서비스 경험을 구체화합니다.",
   },
+];
+
+const educationGroups: Array<{
+  type: EducationEntryType;
+  label: string;
+  icon: typeof GraduationCap;
+}> = [
+  { type: "school", label: "학력", icon: GraduationCap },
+  { type: "certificate", label: "자격", icon: Award },
+  { type: "training", label: "교육", icon: BookOpen },
 ];
 
 const About = () => {
@@ -67,22 +77,47 @@ const About = () => {
               운영 프로세스에 연결하고, 요구사항·데이터 기준·협업 구조를 설계해 서비스를 검증해 왔습니다.
             </p>
 
-            <h3 className="mb-5 font-body text-xs uppercase tracking-[0.3em] text-muted-foreground">
-              교육 & 자격
-            </h3>
-            <div className="space-y-4">
-              {educationAndCertificates.map((item) => (
-                <div
-                  key={`${item.title}-${item.year}`}
-                  className="flex items-start justify-between gap-4 border-b border-border pb-4 last:border-0"
-                >
-                  <div className="min-w-0">
-                    <p className="break-keep font-display text-sm font-bold text-foreground">{item.title}</p>
-                    <p className="mt-1 break-keep font-body text-xs text-muted-foreground">{item.sub}</p>
-                  </div>
-                  <span className="shrink-0 font-body text-xs text-muted-foreground">{item.year}</span>
-                </div>
-              ))}
+            <div className="space-y-7">
+              {educationGroups.map((group) => {
+                const items = educationAndCertificates.filter((item) => item.type === group.type);
+
+                return (
+                  <section key={group.type} aria-labelledby={`about-${group.type}`}>
+                    <div className="mb-3 flex items-center gap-3">
+                      <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10">
+                        <group.icon size={17} className="text-primary" aria-hidden="true" />
+                      </div>
+                      <h3
+                        id={`about-${group.type}`}
+                        className="font-display text-base font-bold text-foreground"
+                      >
+                        {group.label}
+                      </h3>
+                    </div>
+
+                    <div className="divide-y divide-border rounded-2xl border border-border bg-card/35 px-5">
+                      {items.map((item) => (
+                        <div
+                          key={`${item.title}-${item.year}`}
+                          className="flex flex-col gap-2 py-4 sm:flex-row sm:items-start sm:justify-between sm:gap-6"
+                        >
+                          <div className="min-w-0">
+                            <p className="break-keep font-display text-sm font-bold leading-6 text-foreground">
+                              {item.title}
+                            </p>
+                            <p className="mt-1 break-keep font-body text-xs leading-5 text-muted-foreground">
+                              {item.sub}
+                            </p>
+                          </div>
+                          <span className="shrink-0 font-body text-xs leading-5 text-muted-foreground sm:text-right">
+                            {item.year}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                );
+              })}
             </div>
           </motion.div>
 

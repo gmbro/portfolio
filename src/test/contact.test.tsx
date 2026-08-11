@@ -37,7 +37,7 @@ describe("Contact", () => {
       target: { value: "AI Product Manager 포지션에 대해 이야기하고 싶습니다." },
     });
     fireEvent.click(screen.getByRole("checkbox"));
-    fireEvent.click(screen.getByRole("button", { name: "EmailJS로 문의 보내기 →" }));
+    fireEvent.click(screen.getByRole("button", { name: "문의하기" }));
 
     await waitFor(() => expect(sendMock).toHaveBeenCalledTimes(1));
     const templateParams = sendMock.mock.calls[0][2] as Record<string, unknown>;

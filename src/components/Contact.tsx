@@ -1,7 +1,7 @@
 import emailjs from "@emailjs/browser";
 import { hidePreviewMessage } from "@typebot.io/react";
 import { motion } from "framer-motion";
-import { ExternalLink, Linkedin, Mail } from "lucide-react";
+import { ExternalLink, Linkedin, LoaderCircle, Mail } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { profile } from "@/data/portfolio";
 
@@ -330,9 +330,11 @@ const Contact = () => {
             <button
               type="submit"
               disabled={sending}
+              aria-busy={sending}
               className="flex min-h-14 w-full items-center justify-center rounded-full bg-gradient-accent px-6 py-4 font-body text-sm font-semibold text-primary-foreground transition-all duration-500 hover:shadow-[var(--shadow-glow)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {sending ? "전송 중..." : isEmailJsConfigured ? "EmailJS로 문의 보내기 →" : "이메일 앱으로 문의하기 →"}
+              {sending && <LoaderCircle size={18} className="mr-2 animate-spin" aria-hidden="true" />}
+              문의하기
             </button>
           </motion.form>
         </div>
