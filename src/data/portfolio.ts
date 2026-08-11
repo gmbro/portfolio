@@ -52,6 +52,12 @@ export const educationAndCertificates: EducationEntry[] = [
 export interface FeaturedProject {
   category: string;
   period: string;
+  organizationLabel: "수행 회사" | "수행 주체" | "사업 구분";
+  organization: string;
+  involvement: {
+    label: "기여도" | "역할 범위";
+    value: string;
+  };
   title: string;
   challenge: string;
   action: string;
@@ -68,6 +74,9 @@ export const featuredProjects: FeaturedProject[] = [
   {
     category: "AI·데이터 운영",
     period: "2024.06–2025.01",
+    organizationLabel: "수행 회사",
+    organization: "셀렉트스타 · 프로젝트실",
+    involvement: { label: "기여도", value: "100%" },
     title: "STT 기반 운영 구조로 맨먼스와 원가를 함께 줄였습니다.",
     challenge: "수작업 중심의 음성 전사 과정은 많은 인력과 반복 작업이 필요했습니다.",
     action:
@@ -79,17 +88,23 @@ export const featuredProjects: FeaturedProject[] = [
   {
     category: "AI 서비스 기획",
     period: "2021.09–2023.04",
+    organizationLabel: "수행 회사",
+    organization: "스켈터랩스 · Product",
+    involvement: { label: "기여도", value: "90%" },
     title: "AI 기술을 B2C 상담 경험으로 전환한 0→1 PoC를 기획했습니다.",
     challenge: "사내 B2B 챗봇 엔진을 실제 사용자가 경험할 수 있는 B2C 상담 서비스로 확장해야 했습니다.",
     action:
       "STT·TTS·Retrieval을 연결하고 서비스 범위, 대화 흐름, PRD, 와이어프레임과 대화데이터를 설계했습니다. 디지털휴먼·TTS·대학 산학연 제휴도 주도했습니다.",
-    result: "B2C AI 상담사 PoC를 0에서 1까지 구축했으며 프로젝트 기여도는 90%입니다.",
-    metrics: ["0→1 PoC", "기여도 90%"],
+    result: "B2C AI 상담사 PoC를 0에서 1까지 구축했습니다.",
+    metrics: ["0→1 PoC"],
     tags: ["STT·TTS", "Retrieval", "대화데이터", "사업 제휴"],
   },
   {
     category: "AI MVP·시장 검증",
     period: "2026.06–진행 중",
+    organizationLabel: "수행 주체",
+    organization: "개인 프로젝트 · ArchiLab",
+    involvement: { label: "역할 범위", value: "기획·MVP 개발" },
     title: "운동강사의 수업 기록과 회원 관리를 돕는 AI 서비스를 만들고 있습니다.",
     challenge: "운동강사가 수업 기록과 회원 상태를 지속적으로 관리하기 어려운 문제를 확인했습니다.",
     action:
@@ -105,17 +120,23 @@ export const featuredProjects: FeaturedProject[] = [
   {
     category: "OCR·바이브 코딩",
     period: "2026.05–진행 중",
+    organizationLabel: "수행 주체",
+    organization: "개인 프로젝트 · 러닝보드",
+    involvement: { label: "기여도", value: "100%" },
     title: "독서모임을 위한 러닝 기록 트래킹 MVP를 1인 프로젝트로 구현했습니다.",
     challenge: "커뮤니티 참여자가 학습 기록을 꾸준히 남기고 성취를 확인할 수 있는 흐름이 필요했습니다.",
     action:
       "바이브 코딩과 OCR을 활용해 러닝보드를 기획·구현하고, 참여자의 흥미를 높이기 위한 게이미피케이션 기능을 구성했습니다.",
     result: "독서모임에 솔루션을 제공했으며 다음 시즌 고도화와 다른 커뮤니티 적용을 준비하고 있습니다.",
-    metrics: ["1인 프로젝트", "기여도 100%"],
+    metrics: ["1인 기획·구현"],
     tags: ["OCR", "바이브 코딩", "게이미피케이션", "MVP"],
   },
   {
     category: "Vision AI 프로젝트 관리",
     period: "2025.06–2025.12",
+    organizationLabel: "사업 구분",
+    organization: "NIPA 지원사업",
+    involvement: { label: "역할 범위", value: "제안→종결 관리" },
     title: "Vision AI 도입 프로젝트를 제안부터 종결까지 관리했습니다.",
     challenge: "수동 신발 아웃솔 품질검사 공정을 개선하기 위한 AI Vision 사업을 수행해야 했습니다.",
     action:
@@ -127,6 +148,9 @@ export const featuredProjects: FeaturedProject[] = [
   {
     category: "대규모 서비스 운영",
     period: "2018.04–2020.04",
+    organizationLabel: "수행 회사",
+    organization: "SK플래닛 · 시럽월렛",
+    involvement: { label: "기여도", value: "100%" },
     title: "350만 MAU 서비스의 푸시 운영을 제품 개선 과제로 바꿨습니다.",
     challenge: "광고 푸시의 낮은 수신 효율, 서버 과부하와 반복적인 수작업 운영을 함께 개선해야 했습니다.",
     action:

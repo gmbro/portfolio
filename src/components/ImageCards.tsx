@@ -46,6 +46,25 @@ const ImageCards = () => {
                 {project.title}
               </h3>
 
+              <dl className="mt-5 flex flex-col gap-3 rounded-2xl border border-white/10 bg-black/25 px-4 py-3.5 sm:flex-row sm:items-center sm:justify-between">
+                <div className="min-w-0">
+                  <dt className="font-body text-[10px] font-semibold uppercase tracking-[0.16em] text-white/35">
+                    {project.organizationLabel}
+                  </dt>
+                  <dd className="mt-1 break-keep font-body text-sm font-semibold leading-5 text-white/90">
+                    {project.organization}
+                  </dd>
+                </div>
+                <div className="w-fit shrink-0 rounded-xl border border-[#ff6645]/30 bg-[#ff6645]/10 px-3 py-2 sm:text-right">
+                  <dt className="font-body text-[10px] font-semibold uppercase tracking-[0.14em] text-[#ff9a83]">
+                    {project.involvement.label}
+                  </dt>
+                  <dd className="mt-0.5 whitespace-nowrap font-display text-sm font-bold text-white">
+                    {project.involvement.value}
+                  </dd>
+                </div>
+              </dl>
+
               <dl className="mt-7 space-y-5">
                 <div>
                   <dt className="mb-1.5 font-body text-[11px] font-semibold uppercase tracking-[0.18em] text-white/35">

@@ -77,6 +77,25 @@ describe("verified base portfolio content", () => {
     expect(projectTitles).toContain("독서모임");
   });
 
+  it("shows verified project organizations and involvement without inventing missing percentages", () => {
+    expect(featuredProjects.map((project) => project.organization)).toEqual([
+      "셀렉트스타 · 프로젝트실",
+      "스켈터랩스 · Product",
+      "개인 프로젝트 · ArchiLab",
+      "개인 프로젝트 · 러닝보드",
+      "NIPA 지원사업",
+      "SK플래닛 · 시럽월렛",
+    ]);
+    expect(featuredProjects.map((project) => `${project.involvement.label} ${project.involvement.value}`)).toEqual([
+      "기여도 100%",
+      "기여도 90%",
+      "역할 범위 기획·MVP 개발",
+      "기여도 100%",
+      "역할 범위 제안→종결 관리",
+      "기여도 100%",
+    ]);
+  });
+
   it("separates school, certificates, and training without changing the verified entries", () => {
     expect(educationAndCertificates.map((item) => item.type)).toEqual([
       "school",
