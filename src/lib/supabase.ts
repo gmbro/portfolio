@@ -18,7 +18,7 @@ export const supabase = isSupabaseConfigured
 
 export const requireSupabase = () => {
   if (!supabase) {
-    throw new Error("Supabase 환경 변수가 설정되지 않았습니다.");
+    throw new Error("Supabase environment variables are not configured.");
   }
 
   return supabase;

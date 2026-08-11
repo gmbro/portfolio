@@ -34,20 +34,20 @@ export interface PortfolioPublication {
 
 export const defaultHeroContent: HeroContent = {
   roleLabel: "AI Product & Project Manager",
-  careerLabel: "· 9년 경력",
-  headline: "기술로 고객의 문제를 해결하고\n성과로 증명합니다.",
-  highlight: "성과로 증명합니다.",
+  careerLabel: "· 9 years",
+  headline: "I turn AI into products, operating systems,\nand measurable outcomes.",
+  highlight: "measurable outcomes.",
   subcopy: [
-    "AI 서비스 기획부터 데이터 프로젝트 운영, SaaS 사업화까지 경험했습니다.",
-    "기술을 사용자 흐름과 운영 구조로 연결해 빠르게 검증합니다.",
+    "Nine years across AI product planning, data operations, and B2B/B2G commercialization.",
+    "From 0→1 PoCs to 3.5M-MAU operations and 70%+ cost reduction.",
   ],
-  keywords: ["AI 서비스 기획", "데이터 프로젝트 운영", "B2B·B2G 사업화"],
-  ctaLabel: "대표 프로젝트 보기",
+  keywords: ["AI Product Design", "Data & Operations", "Commercial Delivery"],
+  ctaLabel: "View selected work",
   ctaTarget: "case-studies",
   stats: [
-    { value: "2억", label: "AI 프로젝트 규모" },
-    { value: "350만", label: "MAU 서비스 운영" },
-    { value: "70%+", label: "프로젝트 운영 원가 절감" },
+    { value: "200M", label: "AI Project Scope" },
+    { value: "3.5M", label: "MAU Service Operations" },
+    { value: "70%+", label: "Operating Cost Reduction" },
   ],
 };
 

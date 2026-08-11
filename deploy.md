@@ -587,3 +587,149 @@
 - 최종 공개 URL: `https://gmbro.github.io/portfolio/`
 - 발행 revision: 기본 포트폴리오 base revision 4 / Git commit `a763f71`
 - 배포 결과: `성공`
+
+### 배포: 2026-08-11 / 영문 AI-first 포트폴리오 재구성 / base revision 5
+
+- 작업 대상 URL: `/`, `/p/:slug`
+- 로컬 미리보기 URL: `http://127.0.0.1:8080/`
+- 배포 예정 URL: `https://gmbro.github.io/portfolio/`
+- 대상 revision: 기본 포트폴리오 base revision 5
+- 검사 브라우저: Codex In-app Browser
+- 검사 담당: Codex
+- 콘텐츠 기준 자료: 사용자 제공 경력 원문, 현재 검증 데이터, 2026.06 Arkylab 최신 경력 이미지
+- 적용 범위: 공개 포트폴리오만 영문화. 비공개 `/admin/links` 관리 화면은 기존 한국어 운영 UI 유지
+
+#### 4단계 콘텐츠 설계
+
+이번 작업에는 특정 회사 JD가 제공되지 않았다. 따라서 존재하지 않는 JD 문장을 만들지 않고, 사용자가 지정한 평가자(채용 담당자·대표)가 10초 안에 확인해야 할 공통 채용 신호를 기준으로 기본 포트폴리오를 재구성한다.
+
+##### 1. 요청 분석
+
+| 우선 역량 | 평가자가 먼저 확인할 신호 | 우선 노출 키워드 | 필요한 증거 |
+|---|---|---|---|
+| AI 제품 설계 | AI 기술을 사용자 흐름·요구사항·MVP로 전환했는가 | AI Product Design | Arkylab, Skelter Labs, Learning Tracker 사례 |
+| 데이터·운영 실행 | 복잡한 데이터/운영 구조를 실제로 개선했는가 | Data & Operations | Selectstar 맨먼스 1/10·운영 원가 70%+ |
+| AI-assisted MVP 검증 | 직접 작동하는 제품을 빠르게 만들고 실제 사용으로 검증했는가 | AI-assisted MVP Validation | Arkylab beta, OCR 기반 Learning Tracker |
+| 프로젝트 리딩 | 제안·일정·산출물·이해관계자를 끝까지 관리했는가 | End-to-end Delivery | Vision AI 7개월, NIPA 조율 |
+| 사업화 연결 | 제품을 B2B·B2G·공공조달·보안 요건까지 연결했는가 | Commercial Delivery | GenON SaaS·CSAP·공공조달 경험 |
+
+핵심 Pain Point:
+
+- 최신 AI 제품 구축 경험이 기존 프로젝트 3·4번째와 긴 About 뒤에 묻혀 있다.
+- 채용 담당자는 같은 크기의 긴 텍스트 카드 여섯 개를 읽기 전에는 최신성·기여도·성과를 구분하기 어렵다.
+- 대표 관점에서는 제품 설계, 운영 개선, 사업화 연결이라는 강점이 여러 섹션에 반복돼 한 문장으로 기억되지 않는다.
+
+##### 2. 역량 구조화
+
+| 경험명 | 맥락 | Challenge | Action | Result | 도구·방식 | 역량 태그 | 한 줄 포지셔닝 | 보강 필요 메모 |
+|---|---|---|---|---|---|---|---|---|
+| Arkylab AI 기록 솔루션 | 2026.06–현재, 대표 | 운동 강사의 기록·회원 관리 문제 | AI 기록 솔루션 개발·운영, beta 검증 | beta 운영 중 | Codex, Supabase | AI Product Design, MVP Validation | 고객 문제에서 live beta까지 연결한 현재 AI 제품 | 승인된 제품 화면·사용 흐름 필요 |
+| Trevari 커뮤니티 AI 솔루션 | 2026.05–현재, Arkylab 내 독립 구축 | 학습 기록 지속성과 성취 확인 | OCR·게이미피케이션 기반 MVP 기획·구현 | 커뮤니티 제공·고도화 준비 | OCR, AI-assisted development | AI-assisted Delivery | 커뮤니티 사용 맥락에 맞춘 AI 도구형 제품 | 화면 공개 범위 확인 |
+| Vision AI 품질 검사 | 2025.06–2025.12, 지원 사업 | 수동 outsole 검사 개선 | 제안, 7개월 일정·PoC·산출물·피드백 관리 | 프로젝트 종결·정산 지원 | PoC, stakeholder coordination | End-to-end Delivery | 제안부터 종결까지 관리한 Vision AI 프로젝트 | 실제 수행 회사·허용 가능한 산출물 필요 |
+| Selectstar STT 데이터 운영 | 2024.06–2025.01, 기여도 100% | 수작업 전사 인력·반복 작업 | STT 흐름·전후처리·Python 보완·약 200명 운영 설계 | 맨먼스 약 1/10, 운영 원가 70%+ | STT, Python | Data & Operations | AI 데이터 운영 구조로 비용과 시간을 함께 줄인 사례 | before/after workflow 자료 필요 |
+| Skelter Labs AI 상담사 PoC | 2021.09–2023.04, 기여도 90% | B2B 챗봇 엔진의 B2C 확장 | STT·TTS·Retrieval, PRD·대화 데이터·제휴 설계 | 0→1 PoC 구축 | STT, TTS, Retrieval | AI Product Design | AI 기술을 사용자 상담 경험으로 전환 | 공개 가능한 flow diagram 필요 |
+| Syrup Wallet 운영 | 2018.04–2020.04, 기여도 100% | 푸시 효율·서버 과부하·수작업 | 타기팅·분산 발송·리타기팅 설계 | 수신율 2배, 열람률 1.5배, 운영 1/10 | service operations | Large-scale Operations | 약 3.5M MAU 서비스의 운영을 제품 개선으로 전환 | 상세 baseline 자료는 추가 확인 필요 |
+
+- 동일 경험의 Result를 다른 카드에서 새 성과처럼 중복하지 않는다.
+- `2억`은 사용자 직접 확인값이지만 통화·계약금·예산·관리 범위가 확인되지 않았으므로 `200M / AI Project Scope` 이상으로 의미를 확대하지 않는다.
+- Arkylab의 한국어 직함 `대표`는 확인된 소유·운영 책임만 전달하도록 `Owner`로 번역하고, 제품 역할은 설명과 성과 항목에서 증명한다.
+
+##### 3. 콘텐츠 설계 — Hero 3안
+
+| 안 | Headline | Subcopy | 강조 키워드 |
+|---|---|---|---|
+| 1 (채택) | `I turn AI into products, operating systems, and measurable outcomes.` | `Nine years across AI product planning, data operations, and B2B/B2G commercialization.` / `From 0→1 PoCs to 3.5M-MAU operations and 70%+ cost reduction.` | AI Product Design · Data & Operations · Commercial Delivery |
+| 2 | `I build AI products that move from prototype to real-world operation.` | `I connect user problems, technical constraints, and delivery systems.` / `Current work includes live AI product betas at Arkylab.` | 0→1 Product · MVP Validation · Product Operations |
+| 3 | `I turn complex technology into products teams can ship and operate.` | `Experience spans AI services, data delivery, SaaS, and public-sector projects.` / `My work is measured in usable products, leaner operations, and business readiness.` | Product Strategy · Project Delivery · Commercialization |
+
+채택 이유: 1안이 AI 제품 설계, 운영 구조, 정량 성과를 한 문장에 묶어 채용 담당자와 대표 모두에게 가장 빠르게 역할과 결과를 전달한다.
+
+##### 4. 웹사이트화
+
+- 공개 정보 구조를 `Hero → Selected Work → AI Capabilities → Experience → Contact form → About → minimal Footer`로 고정한다.
+- 프로젝트는 `Arkylab 2026.06 → Learning Tracker 2026.05 → Vision AI 2025.06 → Selectstar 2024.06 → Skelter Labs 2021.09 → SK Planet 2018.04` 순으로 정렬한다.
+- 최신 AI 프로젝트 세 개는 강조 카드, 나머지 세 개는 압축 카드로 구분하고 `Headline → Organization/Ownership → Metrics → Problem/Action/Impact` 순으로 읽히게 한다.
+- 공개 화면은 다크 뉴트럴 배경, `#FF6645` 성과 강조, 동일 radius·border·padding으로 통일한다.
+- 시각 자료는 optional data slot으로 준비하되 자료가 없을 때 빈 박스를 공개하지 않는다. 개발 환경에서만 교체 위치를 안내한다.
+
+#### 1차 진단 — 수정 전
+
+| ID | 너비 | 섹션 | 발견한 문제 | 사용자 영향 | 심각도 | 수정 방향 | 상태 |
+|---|---:|---|---|---|---|---|---|
+| QA-BASE5-001 | 390·768·1440px | 전체 정보 구조 | `Hero → About → Projects → Marquee → Experience → AI Capabilities → Activities → Contact` 순서이며 최신 증거보다 소개가 먼저 나옴 | 평가자가 현재 AI 제품과 성과를 보기 전에 긴 소개·학력 정보를 통과해야 함 | 차단 | Projects를 Hero 직후로 이동하고 About을 마지막 본문으로 이동, Activities·Marquee 제거 | 발견 |
+| QA-BASE5-002 | 390·768·1440px | Selected Projects | 프로젝트가 `2024 → 2021 → 2026 → 2026 → 2025 → 2018` 순으로 섞여 있고 모든 카드가 동일 위계 | 현재 AI 제품이 과거 사례에 묻히며 최신성을 오해할 수 있음 | 차단 | 최신순 재정렬, 최신 3개 강조, 지표를 CAR 앞에 배치 | 발견 |
+| QA-BASE5-003 | 전체 | Experience | 최신 Arkylab 경력이 없고 2025.01 GenON이 첫 항목 | 현재 역할과 진행 중인 AI 제품 활동을 확인할 수 없음 | 차단 | 사용자 이미지의 2026.06 Arkylab 대표 경력과 3개 업무를 영문으로 첫 항목에 추가 | 발견 |
+| QA-BASE5-004 | 390px | Typebot·Project | `경력·프로젝트 Q&A` 외부 라벨이 첫 프로젝트 카드의 조직·기여도 영역 위를 가림 | 모바일에서 핵심 역할 정보가 가려지고 챗봇 UI가 과도하게 시선을 점유 | 높음 | 외부 라벨 삭제, 원형 Typebot trigger만 유지 | 발견 |
+| QA-BASE5-005 | 390·768·1440px | Navbar·Theme | 햇빛 모양 테마 버튼이 남아 있고 localStorage에 따라 공개 페이지 표면 톤이 달라질 수 있음 | 통일된 다크 톤이 보장되지 않음 | 높음 | 버튼·theme toggle 의존 제거, 공개 포트폴리오 다크 테마 고정 | 발견 |
+| QA-BASE5-006 | 전체 | 공개 카피 | Hero, Navbar, 프로젝트·경력·Contact·상태 화면·메타데이터에 한국어가 남아 있음 | 영문 포트폴리오 요구를 충족하지 못하고 언어 전환이 중간에 끊김 | 차단 | 공개 UI·상태·ARIA·메타 전체 영문화. 비공개 관리자 화면만 제외 | 발견 |
+| QA-BASE5-007 | 전체 | About·Activities·Contact·Footer | 학력·자격·교육, Activities & Awards, Contact 소개 문구·연락 카드, Footer 설명·연락처가 모두 남아 있음 | 핵심 AI 경험보다 보조 정보가 화면 길이와 시선을 차지 | 높음 | 요청 항목 삭제, Contact는 EmailJS form만 유지, Footer는 copyright만 유지 | 발견 |
+| QA-BASE5-008 | 390·768·1440px | 시각 톤 | Shader Hero, 검정 Projects, glass 카드, 움직이는 Marquee가 서로 다른 표면·모션 체계를 사용 | 템플릿 조합처럼 보이고 장시간 스캔 시 피로함 | 높음 | 고정 다크 surface·border·accent 체계, 절제된 fade, Marquee 제거 | 발견 |
+| QA-BASE5-009 | 전체 | 프로젝트 증거 | 프로젝트 화면·flow·before/after 자료를 넣을 구조가 없음 | 텍스트 주장과 실제 산출물을 연결해 확인하기 어려움 | 보통 | optional visual slot과 개발 전용 placeholder를 추가하고 공개 화면은 자료 없을 때 완성형 유지 | 발견 |
+
+1차 진단 요약:
+
+- 실제 브라우저에서 390px, 768px, 1440px 모두 가로 스크롤은 없었으나 문서 높이가 각각 약 18,044px, 14,828px, 11,180px로 핵심 증거 대비 과도하게 길었다.
+- 1440px 첫 프로젝트는 2024 Selectstar, 세 번째에야 2026 Arkylab이 나타났고, 섹션 DOM 순서도 About이 Projects보다 앞이었다.
+- 390px에서 Typebot 설명 라벨이 첫 프로젝트 메타 카드와 겹쳤다.
+- 수정 후 동일 너비에서 섹션 순서, 최신순, 다크 톤, 영문 잔존, 가로 스크롤, 챗봇 겹침을 다시 검사한다.
+
+#### 직접 수정
+
+| ID | 수정 파일 | 실제 수정 내용 | 콘텐츠 사실 변경 여부 | 결과 |
+|---|---|---|---|---|
+| QA-BASE5-001 | `src/pages/Index.tsx`, `Navbar.tsx` | 정보 구조를 `Hero → Work → AI Capabilities → Experience → Contact → About`으로 변경하고 내비게이션 순서를 일치시킴 | 없음 | 최신 증거 우선 스캔 가능 |
+| QA-BASE5-002 | `src/data/portfolio.ts`, `ImageCards.tsx` | 프로젝트를 최신순으로 재정렬하고 상위 3개는 상세, 이전 3개는 native details로 압축. 수행 조직·기여 범위·지표를 CAR보다 먼저 표시 | 기존 검증 사실의 구조만 변경 | 최신 AI 경험과 역할이 즉시 보임 |
+| QA-BASE5-003 | `src/data/portfolio.ts`, `Experience.tsx` | Arkylab 2026.06–현재 경력과 사용자 이미지의 3개 업무를 첫 항목에 추가. 최신 3개 경력 상세, 이전 4개 펼쳐보기 처리 | 사용자 이미지 근거만 사용 | 현재 AI 제품 활동을 첫 경력으로 확인 가능 |
+| QA-BASE5-004 | `TypebotBubble.tsx`, `index.css` | 외부 Q&A 라벨 삭제, Work·Contact·About·무효 링크에서는 숨김, Skills·Experience에서만 56px 원형 노출. 사진 위에 말풍선 glyph 배지 추가 | 없음 | 모바일 핵심 콘텐츠 비가림·기능 인지성 개선 |
+| QA-BASE5-005 | `ThemeProvider.tsx`, `Navbar.tsx`, `sonner.tsx` | 햇빛 버튼과 라이트 전환 제거, 다크 테마 고정 | 없음 | 화면별 톤 일관성 확보 |
+| QA-BASE5-006 | 공개 컴포넌트·페이지·`index.html` | 공개 UI, 상태, ARIA, SEO 메타를 영어로 통일. 비공개 `/admin/links`는 한국어 유지 | 번역만 수행 | 공개 메인 번들 한국어 0건 |
+| QA-BASE5-007 | `About.tsx`, `Contact.tsx`, `Footer.tsx` | 학력·자격·교육, Activities, Contact 소개·연락 카드, Footer 설명·연락처 제거. EmailJS form과 최소 copyright만 유지 | 없음 | 보조 정보가 핵심 AI 증거를 가리지 않음 |
+| QA-BASE5-008 | Hero·Work·Experience·Capabilities·About | Shader·Marquee 제거, `#070707/#111111/#FF6645` surface·accent 체계와 절제된 fade로 통일 | 없음 | 템플릿 혼합감·불필요 모션 감소 |
+| QA-BASE5-009 | `FeaturedProjectVisual`, `ProjectVisual` | Arkylab, Learning Tracker, Vision AI, STT에 optional image/video slot과 필수 alt 추가. 자료가 없으면 production에서 박스를 렌더링하지 않음 | 없음 | 자료 제공 전에도 완성형, 제공 후 증거 확장 가능 |
+| QA-BASE5-010 | `Index.tsx`, `App.tsx`, `Hero.tsx`, `Navbar.tsx` | skip link·main landmark·Hero 접근성 이름·reduced-motion·44px 모바일 메뉴 타깃 추가 | 없음 | 키보드·스크린리더·모션 민감 사용자 접근성 개선 |
+| QA-BASE5-011 | `Contact.tsx`, `LinkManager.tsx` | 문의 payload에서 page URL·전송 시각 제거, delivery 실패일 때만 mail fallback 노출. 관리자 이탈 시 title·robots 복원 | 개인정보 최소화 | 회사별 slug 전송 방지·SPA 메타 회귀 방지 |
+| QA-BASE5-012 | `portfolio.ts` | 공식 영문명 `GenON`, `FIXNESS`, `HEALTHBOYGYM` 교정. Learning Tracker 수행 주체를 `Arkylab · Independent build`로 명시 | 사용자 자료·공식 표기와 일치 | 고유명사와 프로젝트 귀속 명확화 |
+
+#### 동일 조건 재검사
+
+| 너비 | 텍스트·줄바꿈 | optional visual | 버튼·CTA | 카드·간격·패딩 | 가로 스크롤 | 모바일 hover | 전체 결과 |
+|---:|---|---|---|---|---|---|---|
+| 390px | Hero·프로젝트·경력·Contact·About 영문 줄바꿈 통과 | production placeholder 0개 | CTA·모바일 메뉴·Contact target 44px 이상 | 프로젝트 327px, Contact form right 351/375px, 이전 Work·경력 details 압축 | 없음 (`scrollWidth 375 = clientWidth 375`) | 고정 hover 없음 | 통과 |
+| 768px | Hero headline·subcopy·지표 라벨 통과 | production placeholder 0개 | Hero CTA·Contact·menu 통과 | 지표 각 208px, 전체 surface·gap 일관 | 없음 (`scrollWidth 753 = clientWidth 753`) | 해당 없음 | 통과 |
+| 1440px | Work 제목·조직·기여 범위·CAR 통과 | production placeholder 0개 | 상단 nav·Contact·외부 링크 통과 | 상위 3개 1280px, 압축 3개 각 411px·동일 높이 620px | 없음 (`scrollWidth 1425 = clientWidth 1425`) | 해당 없음 | 통과 |
+
+- 수정 전 대비 문서 높이: 390px `18,044 → 15,081`, 768px `14,828 → 12,430`, 1440px `11,180 → 9,585`.
+- 섹션 DOM 순서: `hero → case-studies → skills → experience → contact → about`.
+- 프로젝트 순서: `Arkylab 2026.06 → Learning Tracker 2026.05 → Vision AI 2025.06 → Selectstar 2024.06 → Skelter Labs 2021.09 → SK Planet 2018.04`.
+- Typebot: 390px에서 56×56px, radius `9999px`, 말풍선 glyph 표시. Work·Contact·About·무효 링크에서 숨김, Experience에서 콘텐츠와 겹침 없음.
+- 모바일 내비게이션: 5개 항목, Contact 중복 0, 각 target 높이 44px.
+- 무효 공개 route: `/p/not-real-slug`가 영문 invalid 화면, `noindex, nofollow`, 가로 스크롤·Typebot 없음.
+- 비공개 관리자 route: 390px 가로 스크롤·Typebot 없음. 이탈 cleanup에서 기존 title·robots 복원.
+- 프로덕션 빌드: Vite 6.4.3 통과. 초기 index 520.52kB, Typebot web 697.83kB로 chunk-size 경고만 존재.
+- 테스트·정적 검사: TypeScript 통과, Vitest 11/11, ESLint 오류 0·기존 UI fast-refresh 경고 7, `git diff --check` 통과.
+- 사실·보안 검사: 공식 브랜드 표기 교정, public main bundle 한국어 0건, raw HTML/eval·client-controlled recipient·service-role/private key 없음, `.env.local` ignore, dist env/source map 없음.
+- EmailJS: 로컬 3개 공개 식별자와 GitHub Actions secret 이름 연결 확인. 수신 주소는 client payload에 포함하지 않고 EmailJS template에 고정하는 구조 유지.
+- 외부 설정 보강 필요: Typebot 편집 화면은 현재 로그아웃 상태라 bot 내부의 한국어 greeting·input placeholder·기본 한국어 답변 규칙은 이번 코드 배포에서 변경하지 못했다. 공개 페이지 shell은 영어이며 Typebot flow 영문화는 Typebot 로그인 후 별도 수정이 필요하다.
+- 사실 보강 필요: Hero `200M / AI Project Scope`는 사용자 직접 확인값 `2억`만 변환했으며, 통화·예산/계약/관리 범위는 확인 전 확대하지 않는다.
+- 시각 자료 제공 슬롯:
+  - Arkylab: 제품 화면, 강사 기록 workflow, beta learning snapshot.
+  - Learning Tracker: OCR capture → parsed record → gamification/community screen.
+  - Vision AI: 허용 가능한 inspection workflow, PoC 산출물, 7개월 timeline.
+  - STT: before/after workflow, 운영 화면, 1/10·70%+ 근거 자료.
+  - 권장 형식: 1600×1000 WebP/AVIF 350kB 이하 또는 15–20초 무음 WebM/MP4 8MB 이하와 poster. 고객·개인정보·내부정보 제거 및 공개 허용 확인 필수.
+- 배포 가능 여부: `가능` — 코드·레이아웃 차단 없음. Typebot 내부 언어는 외부 계정 설정 후 후속 보강.
+
+#### 배포 후 실제 URL 점검
+
+| 항목 | 390px | 768px | 1440px |
+|---|---|---|---|
+| 실제 asset revision | 배포 후 기록 | 배포 후 기록 | 배포 후 기록 |
+| 레이아웃·가로 스크롤 | 배포 후 기록 | 배포 후 기록 | 배포 후 기록 |
+| 프로젝트 최신순·영문 | 배포 후 기록 | 배포 후 기록 | 배포 후 기록 |
+| Typebot·Contact 겹침 | 배포 후 기록 | 배포 후 기록 | 배포 후 기록 |
+| `/p/not-real-slug` | 배포 후 기록 | 배포 후 기록 | 배포 후 기록 |
+
+- GitHub Actions: 배포 후 기록
+- 최종 공개 URL: 배포 후 기록
+- 발행 revision: base revision 5 / Git commit 배포 후 기록
+- 배포 결과: `대기`

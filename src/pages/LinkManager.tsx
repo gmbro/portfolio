@@ -26,20 +26,34 @@ const LinkManager = () => {
   const queryClient = useQueryClient();
 
   useEffect(() => {
+    const previousTitle = document.title;
+    const existingRobots = document.querySelector<HTMLMetaElement>('meta[name="robots"]');
+    const previousRobotsContent = existingRobots?.getAttribute("content") ?? null;
     document.title = "포트폴리오 링크 관리";
-    const robots = document.querySelector<HTMLMetaElement>('meta[name="robots"]') ?? document.createElement("meta");
+    const robots = existingRobots ?? document.createElement("meta");
     robots.name = "robots";
     robots.content = "noindex, nofollow";
     if (!robots.parentNode) document.head.appendChild(robots);
 
-    if (!supabase) return;
+    let unsubscribe: (() => void) | undefined;
+    if (supabase) {
+      supabase.auth.getSession().then(({ data }) => setSession(data.session));
+      const { data: subscription } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+        setSession(nextSession);
+      });
+      unsubscribe = () => subscription.subscription.unsubscribe();
+    }
 
-    supabase.auth.getSession().then(({ data }) => setSession(data.session));
-    const { data: subscription } = supabase.auth.onAuthStateChange((_event, nextSession) => {
-      setSession(nextSession);
-    });
-
-    return () => subscription.subscription.unsubscribe();
+    return () => {
+      unsubscribe?.();
+      document.title = previousTitle;
+      if (existingRobots) {
+        if (previousRobotsContent === null) existingRobots.removeAttribute("content");
+        else existingRobots.content = previousRobotsContent;
+      } else {
+        robots.remove();
+      }
+    };
   }, []);
 
   const publicationsQuery = useQuery({

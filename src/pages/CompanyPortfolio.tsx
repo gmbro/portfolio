@@ -46,7 +46,7 @@ const StateScreen = ({ title, description, showHomeLink = false }: StateScreenPr
           to="/"
           className="mt-8 inline-flex min-h-11 items-center justify-center rounded-full border border-white/20 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6645] focus-visible:ring-offset-4 focus-visible:ring-offset-black md:mt-10 md:text-base"
         >
-          기본 포트폴리오 보기
+          View the main portfolio
         </Link>
       )}
     </div>
@@ -60,7 +60,7 @@ const CompanyPortfolio = () => {
     queryKey: ["portfolio-publication", slug],
     enabled: isSupabaseConfigured && Boolean(slug),
     queryFn: async () => {
-      if (!supabase) throw new Error("Supabase가 설정되지 않았습니다.");
+      if (!supabase) throw new Error("Supabase is not configured.");
 
       const { data, error } = await supabase
         .rpc("get_public_portfolio_by_slug", { p_slug: slug })
@@ -76,34 +76,39 @@ const CompanyPortfolio = () => {
     : null;
 
   usePageMetadata(
-    pageContent?.meta?.pageTitle ?? pageContent?.meta?.roleTitle ?? "맞춤 포트폴리오",
+    pageContent?.meta?.pageTitle ?? pageContent?.meta?.roleTitle ?? "Tailored Portfolio",
     publicationQuery.data?.noindex ?? true,
   );
 
   if (!isSupabaseConfigured) {
-    return <StateScreen title="연결 설정이 필요합니다" description="포트폴리오 데이터 연결을 확인해 주세요." />;
+    return <StateScreen title="Connection required" description="Please check the portfolio data connection." />;
   }
 
   if (publicationQuery.isLoading) {
-    return <StateScreen title="포트폴리오를 불러오는 중입니다" description="잠시만 기다려 주세요." />;
+    return <StateScreen title="Loading portfolio" description="This will only take a moment." />;
   }
 
   if (publicationQuery.isError) {
-    return <StateScreen title="포트폴리오를 열 수 없습니다" description="잠시 후 다시 시도해 주세요." />;
+    return <StateScreen title="Unable to open this portfolio" description="Please try again in a moment." />;
   }
 
   if (!publicationQuery.data) {
     return (
       <StateScreen
-        title="유효하지 않은 링크입니다"
-        description="링크가 중지되었거나 만료되었을 수 있습니다."
+        title="This link is not available"
+        description="It may have been paused or expired."
         showHomeLink
       />
     );
   }
 
   if (!pageContent) {
-    return <StateScreen title="콘텐츠를 확인하고 있습니다" description="현재 revision의 공개 콘텐츠 형식을 점검 중입니다." />;
+    return (
+      <StateScreen
+        title="Portfolio update in progress"
+        description="This portfolio revision is not available yet."
+      />
+    );
   }
 
   return <Index heroContent={pageContent.hero} />;

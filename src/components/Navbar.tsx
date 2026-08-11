@@ -1,24 +1,22 @@
 import { motion } from "framer-motion";
-import { Menu, X, Sun, Moon } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useState } from "react";
-import { useTheme } from "./ThemeProvider";
 import { profile } from "@/data/portfolio";
 
 const navItems = [
-  { label: "소개", id: "about" },
-  { label: "대표 프로젝트", id: "case-studies" },
-  { label: "경력", id: "experience" },
-  { label: "AI 역량", id: "skills" },
-  { label: "활동·수상", id: "activities" },
-  { label: "연락", id: "contact" },
+  { label: "Work", id: "case-studies" },
+  { label: "AI Capabilities", id: "skills" },
+  { label: "Experience", id: "experience" },
+  { label: "Contact", id: "contact" },
+  { label: "About", id: "about" },
 ];
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { theme, toggle } = useTheme();
 
   const scrollTo = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    document.getElementById(id)?.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
     setMobileOpen(false);
   };
 
@@ -28,6 +26,7 @@ const Navbar = () => {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
       className="fixed top-0 left-0 right-0 z-50 px-6 py-4 md:px-12 bg-background/70 backdrop-blur-xl border-b border-border"
+      aria-label="Primary navigation"
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
@@ -41,9 +40,10 @@ const Navbar = () => {
         <div className="hidden lg:flex items-center gap-6 absolute left-1/2 -translate-x-1/2">
           {navItems.map((item) => (
             <button
+              type="button"
               key={item.id}
               onClick={() => scrollTo(item.id)}
-              className="text-[13px] font-body font-medium text-muted-foreground hover:text-foreground transition-colors duration-300 tracking-wide whitespace-nowrap"
+              className="inline-flex min-h-10 items-center rounded-lg px-2 text-[13px] font-body font-medium text-muted-foreground hover:text-foreground transition-colors duration-300 tracking-wide whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             >
               {item.label}
             </button>
@@ -53,22 +53,17 @@ const Navbar = () => {
         {/* CTA — right */}
         <div className="flex items-center gap-4">
           <button
-            onClick={toggle}
-            className="w-9 h-9 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-foreground/20 transition-all duration-300"
-            aria-label={theme === "dark" ? "라이트 모드로 전환" : "다크 모드로 전환"}
-          >
-            {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
-          </button>
-          <button
+            type="button"
             onClick={() => scrollTo("contact")}
-            className="hidden sm:block px-5 py-2 text-xs font-body font-semibold uppercase tracking-wider bg-gradient-accent text-primary-foreground rounded-full hover:shadow-[var(--shadow-glow)] transition-all duration-500"
+            className="hidden min-h-11 sm:block px-5 py-2 text-xs font-body font-semibold uppercase tracking-wider bg-gradient-accent text-primary-foreground rounded-full hover:shadow-[var(--shadow-glow)] transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
-            협업 문의
+            Contact
           </button>
           <button
-            className="lg:hidden text-foreground"
+            type="button"
+            className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary lg:hidden"
             onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label={mobileOpen ? "메뉴 닫기" : "메뉴 열기"}
+            aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
             aria-expanded={mobileOpen}
             aria-controls="mobile-navigation"
           >
@@ -87,6 +82,7 @@ const Navbar = () => {
         >
           {navItems.map((item) => (
             <button
+              type="button"
               key={item.id}
               onClick={() => scrollTo(item.id)}
               className="flex min-h-11 items-center text-sm font-body text-muted-foreground hover:text-foreground transition-colors text-left"
@@ -94,12 +90,6 @@ const Navbar = () => {
               {item.label}
             </button>
           ))}
-          <button
-            onClick={() => scrollTo("contact")}
-            className="sm:hidden px-5 py-2 text-xs font-body font-semibold uppercase tracking-wider bg-gradient-accent text-primary-foreground rounded-full w-fit hover:shadow-[var(--shadow-glow)] transition-all duration-500"
-          >
-            협업 문의
-          </button>
         </motion.div>
       )}
     </motion.nav>

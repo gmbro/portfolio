@@ -1,123 +1,219 @@
 import { motion } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
-import { featuredProjects } from "@/data/portfolio";
+import { ArrowUpRight, Image as ImageIcon } from "lucide-react";
+import { featuredProjects, type FeaturedProject } from "@/data/portfolio";
+
+const ProjectVisual = ({ project }: { project: FeaturedProject }) => {
+  const visual = project.visual;
+  if (!visual) return null;
+
+  if (visual.src && visual.type === "video") {
+    return (
+      <figure className="overflow-hidden rounded-2xl border border-white/10 bg-black/30">
+        <video
+          controls
+          preload="metadata"
+          poster={visual.poster}
+          className="aspect-[16/10] w-full object-cover"
+          aria-label={visual.alt}
+        >
+          <source src={visual.src} />
+        </video>
+        {visual.caption && <figcaption className="px-4 py-3 text-xs leading-5 text-white/45">{visual.caption}</figcaption>}
+      </figure>
+    );
+  }
+
+  if (visual.src) {
+    return (
+      <figure className="overflow-hidden rounded-2xl border border-white/10 bg-black/30">
+        <img
+          src={visual.src}
+          alt={visual.alt}
+          loading="lazy"
+          className="aspect-[16/10] w-full object-cover"
+        />
+        {visual.caption && <figcaption className="px-4 py-3 text-xs leading-5 text-white/45">{visual.caption}</figcaption>}
+      </figure>
+    );
+  }
+
+  if (!import.meta.env.DEV) return null;
+
+  return (
+    <aside
+      data-visual-slot={project.title}
+      className="flex min-h-56 flex-col justify-between rounded-2xl border border-dashed border-[#ff6645]/35 bg-[#ff6645]/[0.045] p-5"
+      aria-label={`Local visual evidence slot for ${project.title}`}
+    >
+      <div>
+        <div className="flex items-center gap-2 text-[#ff8a70]">
+          <ImageIcon size={17} aria-hidden="true" />
+          <span className="font-body text-[10px] font-bold uppercase tracking-[0.2em]">Local visual slot</span>
+        </div>
+        <p className="mt-4 font-display text-base font-bold text-white">{visual.title}</p>
+      </div>
+      {visual.placeholderItems && (
+        <ul className="mt-6 space-y-2">
+          {visual.placeholderItems.map((item) => (
+            <li key={item} className="flex items-start gap-2 font-body text-xs leading-5 text-white/45">
+              <span className="text-[#ff6645]" aria-hidden="true">
+                +
+              </span>
+              {item}
+            </li>
+          ))}
+        </ul>
+      )}
+    </aside>
+  );
+};
+
+const ProjectCard = ({ project, index }: { project: FeaturedProject; index: number }) => {
+  const isPriority = index < 3;
+  const showsVisual = Boolean(project.visual?.src) || (import.meta.env.DEV && Boolean(project.visual));
+  const evidence = (
+    <dl className={`grid gap-6 ${isPriority ? "md:grid-cols-3" : ""}`}>
+      <div>
+        <dt className="mb-2 font-body text-[10px] font-bold uppercase tracking-[0.2em] text-white/50">Problem</dt>
+        <dd className="font-body text-sm leading-6 text-white/60">{project.challenge}</dd>
+      </div>
+      <div>
+        <dt className="mb-2 font-body text-[10px] font-bold uppercase tracking-[0.2em] text-white/50">Action</dt>
+        <dd className="font-body text-sm leading-6 text-white/68">{project.action}</dd>
+      </div>
+      <div>
+        <dt className="mb-2 font-body text-[10px] font-bold uppercase tracking-[0.2em] text-[#ff8a70]">Impact</dt>
+        <dd className="font-body text-sm font-medium leading-6 text-white/88">{project.result}</dd>
+      </div>
+    </dl>
+  );
+
+  return (
+    <motion.article
+      data-project-rank={index + 1}
+      initial={{ opacity: 0, y: 18 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.08 }}
+      transition={{ duration: 0.45, delay: Math.min(index * 0.05, 0.18) }}
+      className={`min-w-0 rounded-3xl border bg-[#111111] p-6 md:p-8 ${
+        isPriority ? "lg:col-span-2 lg:p-10 xl:col-span-6" : "border-white/10 xl:col-span-2"
+      } ${index === 0 ? "border-[#ff6645]/45 shadow-[0_20px_80px_rgba(255,102,69,.08)]" : "border-white/10"}`}
+    >
+      <div className={isPriority && showsVisual ? "grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:gap-10" : ""}>
+        <div className="min-w-0">
+          <header className="flex flex-wrap items-center justify-between gap-3">
+            <span className="rounded-full border border-[#ff6645]/30 bg-[#ff6645]/10 px-3 py-1.5 font-body text-[10px] font-bold uppercase tracking-[0.1em] text-[#ff8a70]">
+              {project.category}
+            </span>
+            <span className="font-body text-xs font-medium text-white/55">{project.period}</span>
+          </header>
+
+          <h3
+            className={`mt-6 font-display font-bold leading-[1.25] tracking-[-0.025em] text-white ${
+              isPriority ? "text-2xl md:text-4xl" : "text-xl md:text-2xl"
+            }`}
+          >
+            {project.title}
+          </h3>
+
+          <dl className="mt-6 flex flex-col gap-3 rounded-2xl border border-white/[0.08] bg-black/25 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="min-w-0">
+              <dt className="font-body text-[10px] font-bold uppercase tracking-[0.16em] text-white/50">
+                {project.organizationLabel}
+              </dt>
+              <dd className="mt-1 font-body text-sm font-semibold leading-5 text-white/85">{project.organization}</dd>
+            </div>
+            <div className="w-fit shrink-0 rounded-xl border border-[#ff6645]/25 bg-[#ff6645]/10 px-3 py-2 sm:text-right">
+              <dt className="font-body text-[10px] font-bold uppercase tracking-[0.14em] text-[#ff9a83]">
+                {project.involvement.label}
+              </dt>
+              <dd className="mt-0.5 whitespace-nowrap font-display text-sm font-bold text-white">
+                {project.involvement.value}
+              </dd>
+            </div>
+          </dl>
+
+          <div className="mt-5 flex flex-wrap gap-2" aria-label="Verified outcomes">
+            {project.metrics.map((metric) => (
+              <span
+                key={metric}
+                className="rounded-xl border border-[#ff6645]/20 bg-[#ff6645]/[0.08] px-3 py-2 font-display text-xs font-bold text-[#ff9a83]"
+              >
+                {metric}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {isPriority && showsVisual && <ProjectVisual project={project} />}
+      </div>
+
+      {!isPriority && showsVisual && <div className="mt-6"><ProjectVisual project={project} /></div>}
+
+      {isPriority ? (
+        <div className="mt-8">{evidence}</div>
+      ) : (
+        <details className="group mt-6 rounded-2xl border border-white/[0.08] bg-black/20 px-4 py-3">
+          <summary className="min-h-11 cursor-pointer list-none py-2 font-body text-xs font-bold uppercase tracking-[0.14em] text-white/65 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6645]">
+            <span className="inline-flex items-center gap-2">
+              View problem, action, and impact
+              <span className="text-[#ff6645] transition-transform group-open:rotate-45" aria-hidden="true">+</span>
+            </span>
+          </summary>
+          <div className="pb-3 pt-4">{evidence}</div>
+        </details>
+      )}
+
+      <footer className="mt-8 flex flex-wrap items-end justify-between gap-5 border-t border-white/[0.07] pt-6">
+        <div className="flex flex-wrap gap-x-3 gap-y-2">
+          {project.tags.map((tag) => (
+            <span key={tag} className="font-body text-[11px] text-white/50">
+              #{tag}
+            </span>
+          ))}
+        </div>
+        {project.link && (
+          <a
+            href={project.link.href}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex min-h-11 items-center gap-2 rounded-full border border-white/15 px-4 py-2 font-body text-xs font-bold text-white transition-colors hover:border-[#ff6645]/60 hover:text-[#ff8a70] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6645]"
+          >
+            {project.link.label}
+            <ArrowUpRight size={15} aria-hidden="true" />
+          </a>
+        )}
+      </footer>
+    </motion.article>
+  );
+};
 
 const ImageCards = () => {
   return (
-    <section id="case-studies" className="scroll-mt-20 bg-[hsl(0_0%_4%)] px-6 py-24 text-white md:px-12 md:py-32">
+    <section id="case-studies" className="scroll-mt-20 bg-[#070707] px-6 py-24 text-white md:px-12 md:py-32">
       <div className="mx-auto max-w-7xl">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mb-14 max-w-3xl md:mb-16"
+          transition={{ duration: 0.5 }}
+          className="mb-12 max-w-4xl md:mb-16"
         >
           <span className="font-body text-xs font-semibold uppercase tracking-[0.3em] text-[#ff6645]">
-            SELECTED PROJECTS
+            SELECTED WORK
           </span>
-          <h2 className="mt-4 break-keep font-display text-3xl font-bold leading-tight md:text-5xl">
-            AI 기술을 <span className="text-[#ff6645]">서비스와 운영 성과</span>로 연결한 경험입니다.
+          <h2 className="mt-4 font-display text-3xl font-bold leading-tight tracking-[-0.03em] text-white md:text-5xl">
+            Current AI products first. Verified outcomes next.
           </h2>
-          <p className="mt-6 break-keep font-body text-base leading-7 text-white/60 md:text-lg">
-            문제 정의, 제가 맡은 실행과 검증된 결과를 중심으로 정리했습니다. 모델 개발이 아니라
-            서비스 기획, 기술 연계, 데이터 운영과 프로젝트 관리 역할을 구분해 설명합니다.
+          <p className="mt-6 max-w-3xl font-body text-base leading-7 text-white/55 md:text-lg">
+            Ordered by recency. Each case separates the organization, my ownership, the operating problem,
+            and the evidence-backed impact.
           </p>
         </motion.div>
 
-        <div className="grid gap-6 lg:grid-cols-2">
+        <div className="grid gap-5 lg:grid-cols-2 lg:gap-6 xl:grid-cols-6">
           {featuredProjects.map((project, index) => (
-            <motion.article
-              key={project.title}
-              initial={{ opacity: 0, y: 28 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.55, delay: Math.min(index * 0.08, 0.3) }}
-              className="flex h-full min-w-0 flex-col rounded-[1.75rem] border border-white/10 bg-white/[0.035] p-6 shadow-[0_18px_70px_rgba(0,0,0,0.18)] transition-colors hover:border-[#ff6645]/35 md:p-8"
-            >
-              <div className="mb-5 flex flex-wrap items-center justify-between gap-2">
-                <span className="rounded-full border border-[#ff6645]/30 bg-[#ff6645]/10 px-3 py-1.5 font-body text-[11px] font-semibold text-[#ff7a5f]">
-                  {project.category}
-                </span>
-                <span className="font-body text-xs text-white/40">{project.period}</span>
-              </div>
-
-              <h3 className="break-keep font-display text-xl font-bold leading-snug text-white md:text-2xl">
-                {project.title}
-              </h3>
-
-              <dl className="mt-5 flex flex-col gap-3 rounded-2xl border border-white/10 bg-black/25 px-4 py-3.5 sm:flex-row sm:items-center sm:justify-between">
-                <div className="min-w-0">
-                  <dt className="font-body text-[10px] font-semibold uppercase tracking-[0.16em] text-white/35">
-                    {project.organizationLabel}
-                  </dt>
-                  <dd className="mt-1 break-keep font-body text-sm font-semibold leading-5 text-white/90">
-                    {project.organization}
-                  </dd>
-                </div>
-                <div className="w-fit shrink-0 rounded-xl border border-[#ff6645]/30 bg-[#ff6645]/10 px-3 py-2 sm:text-right">
-                  <dt className="font-body text-[10px] font-semibold uppercase tracking-[0.14em] text-[#ff9a83]">
-                    {project.involvement.label}
-                  </dt>
-                  <dd className="mt-0.5 whitespace-nowrap font-display text-sm font-bold text-white">
-                    {project.involvement.value}
-                  </dd>
-                </div>
-              </dl>
-
-              <dl className="mt-7 space-y-5">
-                <div>
-                  <dt className="mb-1.5 font-body text-[11px] font-semibold uppercase tracking-[0.18em] text-white/35">
-                    Challenge
-                  </dt>
-                  <dd className="break-keep font-body text-sm leading-6 text-white/65">{project.challenge}</dd>
-                </div>
-                <div>
-                  <dt className="mb-1.5 font-body text-[11px] font-semibold uppercase tracking-[0.18em] text-white/35">
-                    Action
-                  </dt>
-                  <dd className="break-keep font-body text-sm leading-6 text-white/75">{project.action}</dd>
-                </div>
-                <div>
-                  <dt className="mb-1.5 font-body text-[11px] font-semibold uppercase tracking-[0.18em] text-[#ff7a5f]">
-                    Result
-                  </dt>
-                  <dd className="break-keep font-body text-sm font-medium leading-6 text-white/90">{project.result}</dd>
-                </div>
-              </dl>
-
-              <div className="mt-7 flex flex-wrap gap-2">
-                {project.metrics.map((metric) => (
-                  <span
-                    key={metric}
-                    className="rounded-xl border border-white/10 bg-black/30 px-3 py-2 font-display text-xs font-bold text-white"
-                  >
-                    {metric}
-                  </span>
-                ))}
-              </div>
-
-              <div className="mt-auto flex flex-wrap items-end justify-between gap-4 pt-7">
-                <div className="flex flex-wrap gap-2">
-                  {project.tags.map((tag) => (
-                    <span key={tag} className="font-body text-[11px] text-white/40">
-                      #{tag}
-                    </span>
-                  ))}
-                </div>
-                {project.link && (
-                  <a
-                    href={project.link.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex min-h-11 items-center gap-2 rounded-full border border-white/15 px-4 py-2 font-body text-xs font-semibold text-white transition-colors hover:border-[#ff6645]/60 hover:text-[#ff7a5f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6645]"
-                  >
-                    {project.link.label}
-                    <ArrowUpRight size={15} aria-hidden="true" />
-                  </a>
-                )}
-              </div>
-            </motion.article>
+            <ProjectCard key={`${project.period}-${project.title}`} project={project} index={index} />
           ))}
         </div>
       </div>
