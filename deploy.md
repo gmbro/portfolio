@@ -571,3 +571,19 @@
 - 프로덕션 검사: TypeScript 통과, Vitest 10개 통과, ESLint 오류 0·기존 fast-refresh 경고 8개, Vite 6 프로덕션 빌드 통과.
 - 낮은 우선순위 잔여: 초기 번들 일부가 500kB를 초과하며 추후 코드 분할 가능. GitHub Pages는 사용자 지정 응답 헤더 설정이 제한되므로 CSP 응답 헤더는 별도 호스팅 전환 시 강화 가능.
 - 배포 가능 여부: `가능`
+
+#### 배포 후 실제 URL 점검
+
+| 항목 | 390px | 768px | 1440px |
+|---|---|---|---|
+| 실제 URL·revision | `index-D_ETzTEN.js`, 새 headline·3개 지표 확인 | 동일 revision 통과 | 동일 revision 통과 |
+| Hero 지표 | 104px 카드 3개 한 행, 내부 오버플로 없음 | 195px 카드 3개 한 행 | 264px 카드 3개 한 행 |
+| Typebot | 64px 원형·기능 라벨, 열기·닫기·재표시 통과 | 원형 버튼·라벨 정렬 통과 | 원형 반경 `9999px` 확인 |
+| 가로 스크롤 | 없음 | 없음 | 없음 |
+| 공개 RPC 라우트 | `/p/not-real-slug`가 무효 링크 화면 반환 | 동일 | 동일 |
+| 카피·링크 | 공식 자격명, 학력·자격·교육 구분, 프로젝트 수행 주체, ArchiLab HTTPS 확인 | DOM 확인 | DOM 확인 |
+
+- GitHub Actions: `Deploy Portfolio to GitHub Pages #12` 성공, run `31497968672`.
+- 최종 공개 URL: `https://gmbro.github.io/portfolio/`
+- 발행 revision: 기본 포트폴리오 base revision 4 / Git commit `a763f71`
+- 배포 결과: `성공`
