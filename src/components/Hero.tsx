@@ -162,12 +162,12 @@ const Hero = ({ content = defaultHeroContent }: HeroProps) => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7, duration: 0.8 }}
-          className="mt-16 flex max-w-full flex-wrap items-stretch justify-center gap-3 md:gap-5 relative z-10"
+          className="mt-2 flex max-w-full flex-wrap items-stretch justify-center gap-3 md:mt-16 md:gap-5 relative z-10"
         >
           {stats.map((stat) => (
             <div
               key={`${stat.value}-${stat.label}`}
-              className="min-w-[5.5rem] rounded-2xl border border-white/25 bg-black/45 px-4 py-3 text-center shadow-lg backdrop-blur-sm md:min-w-[8rem] md:px-6 md:py-4"
+              className="min-w-[5.5rem] rounded-2xl border border-white/25 bg-black/45 px-4 py-2.5 text-center shadow-lg backdrop-blur-sm md:min-w-[8rem] md:px-6 md:py-4"
             >
               <div className="text-3xl md:text-4xl font-display font-extrabold text-white">
                 {stat.value}

@@ -4,6 +4,11 @@ declare module "@typebot.io/react" {
   interface BubbleProps {
     typebot: string;
     apiHost?: string;
+    previewMessage?: {
+      message: string;
+      autoShowDelay?: number;
+      avatarUrl?: string;
+    };
     theme?: {
       position?: "fixed" | "static";
       button?: {
@@ -11,6 +16,10 @@ declare module "@typebot.io/react" {
         customIconSrc?: string;
         iconColor?: string;
         size?: "medium" | "large" | `${number}px`;
+      };
+      previewMessage?: {
+        backgroundColor?: string;
+        textColor?: string;
       };
     };
   }
