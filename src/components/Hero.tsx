@@ -25,7 +25,7 @@ const Hero = ({ content = defaultHeroContent }: HeroProps) => {
   const stats = content.stats ?? [];
 
   return (
-    <section className="relative min-h-screen flex flex-col justify-center items-center text-center px-6 md:px-16 pt-24 pb-20">
+    <section className="relative min-h-[100svh] flex flex-col justify-center items-center text-center px-6 md:px-16 pt-28 pb-24 md:pt-24 md:pb-20">
       {/* Shader Gradient Background */}
       <div className="absolute inset-0 z-0">
         <ShaderGradientCanvas
@@ -102,7 +102,7 @@ const Hero = ({ content = defaultHeroContent }: HeroProps) => {
         transition={{ duration: 0.9, ease: [0.25, 0.46, 0.45, 0.94] }}
         className="max-w-4xl relative z-10"
       >
-        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[5rem] font-extrabold font-display tracking-tight text-white break-keep" style={{ lineHeight: 1.35 }}>
+        <h1 className="text-[2.35rem] sm:text-5xl md:text-6xl lg:text-[5rem] font-extrabold font-display tracking-tight text-white break-keep" style={{ lineHeight: 1.3 }}>
           {headlineLines.map((line, index) => (
             <span key={`${line}-${index}`} className="block">
               {highlightHeadline(line, content.highlight)}
@@ -148,6 +148,7 @@ const Hero = ({ content = defaultHeroContent }: HeroProps) => {
         className="mt-10 relative z-10"
       >
         <button
+          type="button"
           onClick={() => document.getElementById(content.ctaTarget)?.scrollIntoView({ behavior: "smooth" })}
           className="group px-8 py-4 text-sm font-body font-semibold uppercase tracking-wider bg-gradient-accent text-white shadow-lg rounded-full hover:shadow-[var(--shadow-glow)] transition-all duration-500 flex items-center gap-2"
         >
@@ -162,12 +163,12 @@ const Hero = ({ content = defaultHeroContent }: HeroProps) => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7, duration: 0.8 }}
-          className="mt-2 flex max-w-full flex-wrap items-stretch justify-center gap-3 md:mt-16 md:gap-5 relative z-10"
+          className="relative z-10 mt-8 mb-20 flex max-w-full flex-wrap items-stretch justify-center gap-3 md:mt-16 md:mb-0 md:gap-5"
         >
           {stats.map((stat) => (
             <div
               key={`${stat.value}-${stat.label}`}
-              className="min-w-[5.5rem] rounded-2xl border border-white/25 bg-black/45 px-4 py-2.5 text-center shadow-lg backdrop-blur-sm md:min-w-[8rem] md:px-6 md:py-4"
+              className="min-w-[5.5rem] max-w-[6.5rem] rounded-2xl border border-white/25 bg-black/45 px-3 py-3 text-center shadow-lg backdrop-blur-sm md:min-w-[9rem] md:max-w-none md:px-6 md:py-4"
             >
               <div className="text-3xl md:text-4xl font-display font-extrabold text-white">
                 {stat.value}
@@ -185,7 +186,7 @@ const Hero = ({ content = defaultHeroContent }: HeroProps) => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2, duration: 0.8 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1"
+        className="absolute bottom-8 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-1 md:flex"
       >
         <span className="text-[10px] font-body text-white/40 uppercase tracking-widest">Scroll</span>
         <motion.div

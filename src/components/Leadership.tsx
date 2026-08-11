@@ -1,215 +1,102 @@
 import { motion } from "framer-motion";
-import type { CSSProperties } from "react";
+import { BrainCircuit, Database, ShieldCheck, Sparkles } from "lucide-react";
+import { aiCapabilities, verifiedSkillGroups } from "@/data/portfolio";
 
-const items = [
-  {
-    title: "전략적 로드맵 설계 및 병렬 프로세스 관리",
-  },
-  {
-    title: "21명 규모의 대규모 프로덕트 팀 리소스 최적화",
-  },
-  {
-    title: "데이터 기반의 사후 관리 및 지속적 성장 견인",
-  },
-];
-
-const phases = [
-  {
-    label: "Strategy & Definition",
-    bars: [
-      { text: "Stakeholder interviews & briefing", width: "45%" },
-      { text: "User & market research", width: "60%" },
-      { text: "Creative & strategic exploration", width: "80%" },
-    ],
-  },
-  {
-    label: "Product Alignment",
-    bars: [
-      { text: "Direction alignment", width: "65%" },
-      { text: "Concept refinement", width: "85%" },
-    ],
-  },
-  {
-    label: "Execution",
-    bars: [
-      { text: "Design systems", width: "55%" },
-      { text: "Iterative testing & QA", width: "75%" },
-    ],
-  },
-  {
-    label: "Launch",
-    bars: [
-      { text: "Rollout & support", width: "65%" },
-      { text: "Post-launch optimisations", width: "85%" },
-    ],
-  },
-];
+const capabilityIcons = [BrainCircuit, Database, Sparkles, ShieldCheck];
 
 const Leadership = () => {
   return (
-    <section id="skills" className="scroll-mt-20 py-24 md:py-32 px-6 md:px-12 relative overflow-hidden">
-      {/* Animated mesh gradient background */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-orange-600/20 via-amber-500/15 to-yellow-400/10" />
-        <motion.div
-          animate={{ x: [0, 30, -20, 0], y: [0, -40, 20, 0], scale: [1, 1.2, 0.9, 1] }}
-          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -top-1/4 -left-1/4 w-[70%] h-[70%] rounded-full bg-orange-500/25 blur-[100px]"
-        />
-        <motion.div
-          animate={{ x: [0, -40, 30, 0], y: [0, 30, -30, 0], scale: [1, 0.85, 1.15, 1] }}
-          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -bottom-1/4 -right-1/4 w-[65%] h-[65%] rounded-full bg-amber-400/20 blur-[120px]"
-        />
-        <motion.div
-          animate={{ x: [0, 20, -30, 0], y: [0, -20, 40, 0], scale: [1, 1.1, 0.95, 1] }}
-          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[50%] h-[50%] rounded-full bg-yellow-500/15 blur-[80px]"
-        />
-        <motion.div
-          animate={{ x: [0, -15, 25, 0], y: [0, 25, -15, 0], scale: [1.1, 0.9, 1.05, 1.1] }}
-          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-0 right-1/4 w-[40%] h-[40%] rounded-full bg-orange-400/20 blur-[90px]"
-        />
-        <div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-            backgroundRepeat: "repeat",
-            backgroundSize: "128px 128px",
-          }}
-        />
-      </div>
+    <section id="skills" className="relative scroll-mt-20 overflow-hidden px-6 py-24 md:px-12 md:py-32">
+      <div className="absolute inset-0 bg-gradient-to-br from-orange-600/15 via-amber-500/10 to-transparent" />
+      <div className="absolute -left-40 top-12 h-96 w-96 rounded-full bg-orange-500/15 blur-[120px]" />
+      <div className="absolute -right-40 bottom-0 h-[30rem] w-[30rem] rounded-full bg-amber-400/10 blur-[140px]" />
 
-      <div className="max-w-7xl mx-auto relative z-10">
-        {/* Top: central diamond node */}
-        <div className="flex flex-col items-center mb-0">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="relative w-36 h-36 flex items-center justify-center"
-          >
-            <div className="absolute inset-0 rotate-45 rounded-2xl border border-border bg-secondary/50 backdrop-blur-sm" />
-            <div className="relative z-10 text-center px-2">
-              <span className="font-display text-lg font-bold text-foreground">PM</span>
-              <span className="text-primary font-display text-lg font-bold">.</span>
-            </div>
-          </motion.div>
-          <div className="w-px h-16 bg-border" />
-          <div className="relative w-full max-w-4xl">
-            <div className="absolute top-0 left-[16.66%] right-[16.66%] h-px bg-border" />
-            <div className="flex justify-between px-[16.66%]">
-              <div className="w-px h-8 bg-border" />
-              <div className="w-px h-8 bg-border" />
-              <div className="w-px h-8 bg-border" />
-            </div>
-          </div>
-        </div>
-
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
+      <div className="relative z-10 mx-auto max-w-7xl">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center text-sm md:text-base font-body text-muted-foreground leading-relaxed max-w-4xl mx-auto mb-12 break-keep"
+          transition={{ duration: 0.6 }}
+          className="mx-auto mb-14 max-w-4xl text-center md:mb-16"
         >
-          최대 21명 규모의 팀을 리딩하며, 제품 생애 주기 전반의 마일스톤을 설계하고 불확실성을 통제했습니다.
-        </motion.p>
+          <span className="font-body text-xs font-semibold uppercase tracking-[0.3em] text-primary">
+            AI CAPABILITIES
+          </span>
+          <h2 className="mt-4 break-keep font-display text-3xl font-bold leading-tight text-foreground md:text-5xl">
+            AI를 모델이 아니라 <span className="text-gradient">서비스와 운영의 관점</span>에서 다룹니다.
+          </h2>
+          <p className="mx-auto mt-6 max-w-3xl break-keep font-body text-base leading-7 text-muted-foreground md:text-lg">
+            제가 맡아온 역할은 기술의 활용 범위를 정의하고, 사용자 흐름과 데이터 기준을 설계하며,
+            개발팀·고객·사업 파트너가 실행할 수 있는 구조로 연결하는 일입니다.
+          </p>
+        </motion.div>
 
-        {/* Three cards */}
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
-          {items.map((item, i) => (
-            <motion.div
-              key={item.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="relative min-w-0"
-            >
-              <div className="flex justify-center mb-4">
-                <div className="w-2.5 h-2.5 rounded-full bg-muted-foreground/30 border-2 border-border" />
-              </div>
-              <div className="glass-card rounded-2xl p-6 md:p-8 text-center h-full">
-                <h3 className="font-display text-sm md:text-[clamp(0.7rem,1.1vw,1rem)] font-bold text-foreground leading-relaxed break-keep">
-                  {item.title}
-                </h3>
-              </div>
-            </motion.div>
-          ))}
+        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+          {aiCapabilities.map((capability, index) => {
+            const Icon = capabilityIcons[index];
+            return (
+              <motion.article
+                key={capability.title}
+                initial={{ opacity: 0, y: 22 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.08 }}
+                className="glass-card flex h-full min-w-0 flex-col rounded-2xl p-6 md:p-7"
+              >
+                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl border border-primary/20 bg-primary/10">
+                  <Icon size={22} className="text-primary" aria-hidden="true" />
+                </div>
+                <h3 className="break-keep font-display text-lg font-bold text-foreground">{capability.title}</h3>
+                <p className="mt-3 break-keep font-body text-sm leading-6 text-muted-foreground">
+                  {capability.description}
+                </p>
+                <p className="mt-auto pt-6 font-body text-xs font-semibold leading-5 text-primary">
+                  {capability.evidence}
+                </p>
+              </motion.article>
+            );
+          })}
         </div>
 
-        {/* Timeline Gantt Chart Section */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 26 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="mt-20 glass-card rounded-2xl p-8 md:p-12"
+          transition={{ duration: 0.6, delay: 0.15 }}
+          className="glass-card mt-12 rounded-[1.75rem] p-6 md:mt-16 md:p-10"
         >
-          {/* Description */}
-          <div className="mb-10 max-w-3xl">
-            <p className="text-sm md:text-base font-body text-muted-foreground leading-relaxed">
-              7년차 PM으로서 최대 21명의 프로덕트 팀을 리드하며, 제품 생애 주기 전반의 마일스톤을 체계적으로 설계했습니다.
-            </p>
-            <p className="text-sm md:text-base font-body text-muted-foreground leading-relaxed mt-4">
-              단순히 일정을 나열하는 것을 넘어 기획, 디자인, 개발 간의 병목 현상을 최소화하기 위해 전략적 우선순위를 결정하고 리소스를 최적화했습니다. 'Direction Alignment'를 통한 이해관계자 싱크와 'Post-launch' 단계의 지속적 최적화를 프로세스화하여, 일회성 배포가 아닌 비즈니스의 지속적인 성장을 견인했습니다.
-            </p>
+          <div className="mb-8 max-w-3xl">
+            <span className="font-body text-xs font-semibold uppercase tracking-[0.25em] text-muted-foreground">
+              VERIFIED TOOLKIT
+            </span>
+            <h3 className="mt-3 break-keep font-display text-2xl font-bold text-foreground md:text-3xl">
+              도구 이름보다 무엇을 빠르게 검증했는지 설명합니다.
+            </h3>
           </div>
 
-          {/* Gantt-style timeline */}
-          <div className="relative">
-            {/* Central vertical timeline line */}
-            <div className="absolute left-[calc(50%)] top-0 bottom-0 w-px bg-primary/40" />
-            {/* Top dot */}
-            <div className="absolute left-[calc(50%-5px)] -top-1 w-2.5 h-2.5 rounded-full bg-primary shadow-[0_0_8px_hsl(var(--primary)/0.6)]" />
-
-            <div className="space-y-8 pt-6">
-              {phases.map((phase, phaseIdx) => (
-                <motion.div
-                  key={phase.label}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: phaseIdx * 0.1 }}
-                  className="relative"
-                >
-                  {/* Phase label */}
-                  <h4 className="font-display text-sm md:text-base font-bold text-foreground mb-3">
-                    {phase.label}
-                  </h4>
-
-                  {/* Bars */}
-                  <div className="space-y-2">
-                    {phase.bars.map((bar, barIdx) => (
-                      <motion.div
-                        key={bar.text}
-                        initial={{ opacity: 0, scaleX: 0 }}
-                        whileInView={{ opacity: 1, scaleX: 1 }}
-                        viewport={{ once: true }}
-                        transition={{
-                          duration: 0.5,
-                          delay: phaseIdx * 0.1 + barIdx * 0.08,
-                          ease: "easeOut",
-                        }}
-                        style={{
-                          "--bar-width": bar.width,
-                          transformOrigin: "left",
-                        } as CSSProperties}
-                        className="h-10 w-full rounded-lg bg-background/30 border border-foreground/20 backdrop-blur-md flex items-center px-4 transition-colors md:w-[var(--bar-width)] md:hover:bg-background/40"
-                      >
-                        <span className="text-xs md:text-sm font-body text-muted-foreground whitespace-nowrap">
-                          {bar.text}
-                        </span>
-                      </motion.div>
-                    ))}
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            {verifiedSkillGroups.map((group) => (
+              <div key={group.label}>
+                <h4 className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.18em] text-primary">
+                  {group.label}
+                </h4>
+                <div className="flex flex-wrap gap-2">
+                  {group.items.map((item) => (
+                    <span
+                      key={item}
+                      className="rounded-lg border border-border bg-background/35 px-3 py-2 font-body text-xs text-foreground/80"
+                    >
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
+
+          <p className="mt-8 break-keep rounded-xl border border-primary/15 bg-primary/5 px-4 py-3 font-body text-xs leading-5 text-muted-foreground">
+            CSAP 경험은 최종 인증 취득이 아니라 IaaS·SaaS 심사 대응과 예비인증 준비 체계를 주도한 경험으로 설명합니다.
+          </p>
         </motion.div>
       </div>
     </section>

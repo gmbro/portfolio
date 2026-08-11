@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link, useParams } from "react-router-dom";
-import Hero from "@/components/Hero";
 import { isSupabaseConfigured, supabase } from "@/lib/supabase";
 import { parsePortfolioPageContent, type PortfolioPublication } from "@/types/portfolio";
+import Index from "@/pages/Index";
 
 const usePageMetadata = (title: string, noindex = true) => {
   useEffect(() => {
@@ -108,11 +108,7 @@ const CompanyPortfolio = () => {
     return <StateScreen title="콘텐츠를 확인하고 있습니다" description="현재 revision의 공개 콘텐츠 형식을 점검 중입니다." />;
   }
 
-  return (
-    <main className="min-h-screen overflow-x-hidden bg-background">
-      <Hero content={pageContent.hero} />
-    </main>
-  );
+  return <Index heroContent={pageContent.hero} />;
 };
 
 export default CompanyPortfolio;

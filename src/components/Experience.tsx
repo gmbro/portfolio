@@ -1,143 +1,83 @@
 import { motion } from "framer-motion";
-
-interface ExperienceCard {
-  company: string;
-  companyDesc: string;
-  title: string;
-  period: string;
-  team: string;
-  description: string;
-  achievements: string[];
-  tags: string[];
-}
-
-const experiences: ExperienceCard[] = [
-  {
-    company: "N사",
-    companyDesc: "네이버 계열 커머스",
-    title: "Senior Product Manager",
-    period: "2021.03 — 현재",
-    team: "쇼핑 검색 & 추천 팀",
-    description:
-      "쇼핑 검색 알고리즘 개선 및 개인화 추천 시스템 기획 주도. 월간 활성 사용자 1,200만 명 규모 서비스 담당.",
-    achievements: [
-      "검색→구매 전환율 +34% 개선 (6개월)",
-      "개인화 추천 CTR +52% 향상",
-      "신규 카테고리 탐색 기능 론칭 (MAU 280만)",
-    ],
-    tags: ["B2C", "커머스", "추천 시스템", "검색"],
-  },
-  {
-    company: "K사",
-    companyDesc: "카카오 계열 핀테크",
-    title: "Product Manager",
-    period: "2019.07 — 2021.02",
-    team: "간편결제 & 송금 팀",
-    description:
-      "간편결제 온보딩 플로우 리디자인 및 송금 기능 개선 담당. 사용자 이탈 원인 분석으로 핵심 전환 포인트 개선.",
-    achievements: [
-      "온보딩 완료율 +41% 개선",
-      "D7 리텐션 +28% 향상",
-      "QR 결제 기능 신규 론칭 (3개월 내 MAU 50만)",
-    ],
-    tags: ["핀테크", "B2C", "온보딩", "결제"],
-  },
-  {
-    company: "B사",
-    companyDesc: "스타트업, Series B",
-    title: "Junior Product Manager",
-    period: "2017.09 — 2019.06",
-    team: "코어 프로덕트 팀",
-    description:
-      "B2B SaaS 협업 툴 초기 기획 및 PMF 탐색. 고객 인터뷰 100+ 건 직접 수행.",
-    achievements: [
-      "유료 전환율 3.2% → 8.7% 개선",
-      "핵심 기능 3개 신규 개발",
-      "NPS 점수 +22점 향상",
-    ],
-    tags: ["B2B SaaS", "스타트업", "PMF", "협업 툴"],
-  },
-];
+import { careerExperiences } from "@/data/portfolio";
 
 const Experience = () => {
   return (
-    <section id="experience" className="py-24 md:py-32 px-6 md:px-12">
-      <div className="max-w-5xl mx-auto">
-        {/* Header */}
+    <section id="experience" className="scroll-mt-20 px-6 py-24 md:px-12 md:py-32">
+      <div className="mx-auto max-w-5xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mb-16"
+          className="mb-14 md:mb-16"
         >
-          <span className="text-xs font-body font-semibold uppercase tracking-[0.3em] text-primary">
+          <span className="font-body text-xs font-semibold uppercase tracking-[0.3em] text-primary">
             EXPERIENCE
           </span>
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mt-3">
-            경력 사항
+          <h2 className="mt-3 break-keep font-display text-3xl font-bold text-foreground md:text-5xl">
+            마케팅에서 AI·데이터와 사업개발까지 확장했습니다.
           </h2>
+          <p className="mt-5 max-w-3xl break-keep font-body text-base leading-7 text-muted-foreground">
+            사용자 반응을 읽는 일에서 시작해 제품 운영, 0→1 AI 서비스, 데이터 구축과 B2B·B2G 사업화로
+            경험을 넓혀 왔습니다.
+          </p>
         </motion.div>
 
-        {/* Cards */}
-        <div className="space-y-8">
-          {experiences.map((exp, index) => (
-            <motion.div
-              key={exp.company}
+        <div className="space-y-6 md:space-y-8">
+          {careerExperiences.map((experience, index) => (
+            <motion.article
+              key={`${experience.company}-${experience.period}`}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.15 }}
-              className="glass-card glass-card-hover rounded-2xl p-8 md:p-10 transition-all duration-500"
+              transition={{ duration: 0.55, delay: Math.min(index * 0.08, 0.25) }}
+              className="glass-card glass-card-hover rounded-2xl p-6 transition-all duration-500 md:p-10"
             >
-              {/* Top row */}
-              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-6">
-                <div>
-                  <div className="flex items-center gap-3 mb-1">
-                    <h3 className="font-display text-xl font-bold text-foreground">
-                      {exp.company}
+              <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                <div className="min-w-0">
+                  <div className="mb-2 flex flex-wrap items-center gap-2.5">
+                    <h3 className="font-display text-xl font-bold text-foreground md:text-2xl">
+                      {experience.company}
                     </h3>
-                    <span className="text-xs font-body text-muted-foreground px-2.5 py-0.5 rounded-full border border-border">
-                      {exp.companyDesc}
+                    <span className="rounded-full border border-border px-2.5 py-1 font-body text-[11px] text-muted-foreground">
+                      {experience.companyDesc}
                     </span>
                   </div>
-                  <p className="text-primary font-body font-semibold text-sm">
-                    {exp.title}
-                  </p>
+                  <p className="font-body text-sm font-semibold text-primary">{experience.title}</p>
                 </div>
-                <div className="text-right shrink-0">
-                  <p className="text-sm font-body text-muted-foreground">{exp.period}</p>
-                  <p className="text-xs font-body text-muted-foreground/60 mt-0.5">{exp.team}</p>
+                <div className="shrink-0 text-left sm:text-right">
+                  <p className="font-body text-sm text-muted-foreground">{experience.period}</p>
+                  <p className="mt-1 font-body text-xs text-muted-foreground/60">{experience.team}</p>
                 </div>
               </div>
 
-              {/* Description */}
-              <p className="text-muted-foreground font-body text-sm leading-relaxed mb-6">
-                {exp.description}
+              <p className="mb-6 break-keep font-body text-sm leading-7 text-muted-foreground md:text-base">
+                {experience.description}
               </p>
 
-              {/* Achievements */}
-              <div className="space-y-2.5 mb-6">
-                {exp.achievements.map((a) => (
-                  <div key={a} className="flex items-start gap-2.5">
-                    <span className="text-primary mt-0.5 shrink-0">→</span>
-                    <span className="text-sm font-body text-foreground/90">{a}</span>
+              <div className="mb-6 space-y-3">
+                {experience.achievements.map((achievement) => (
+                  <div key={achievement} className="flex items-start gap-2.5">
+                    <span className="mt-0.5 shrink-0 text-primary" aria-hidden="true">→</span>
+                    <span className="break-keep font-body text-sm leading-6 text-foreground/90">
+                      {achievement}
+                    </span>
                   </div>
                 ))}
               </div>
 
-              {/* Tags */}
               <div className="flex flex-wrap gap-2">
-                {exp.tags.map((tag) => (
+                {experience.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="text-[11px] font-body font-medium text-muted-foreground px-3 py-1.5 rounded-full bg-secondary"
+                    className="rounded-full bg-secondary px-3 py-1.5 font-body text-[11px] font-medium text-muted-foreground"
                   >
                     {tag}
                   </span>
                 ))}
               </div>
-            </motion.div>
+            </motion.article>
           ))}
         </div>
       </div>

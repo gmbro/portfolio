@@ -4,8 +4,7 @@ import ImageCards from "@/components/ImageCards";
 import Marquee from "@/components/Marquee";
 import Experience from "@/components/Experience";
 import Leadership from "@/components/Leadership";
-
-import Testimonials from "@/components/Testimonials";
+import Activities from "@/components/Activities";
 import About from "@/components/About";
 
 import Contact from "@/components/Contact";
@@ -26,9 +25,7 @@ const Index = ({ heroContent }: IndexProps) => {
       <Marquee />
       <Experience />
       <Leadership />
-
-      <Testimonials />
-
+      <Activities />
       <Contact />
       <Footer />
     </div>

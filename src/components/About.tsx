@@ -1,48 +1,43 @@
 import { motion } from "framer-motion";
-import { BarChart3, Users, Zap, HeartHandshake } from "lucide-react";
+import { BrainCircuit, Handshake, Network, PackageCheck } from "lucide-react";
+import { educationAndCertificates } from "@/data/portfolio";
 
-const values = [
+const strengths = [
   {
-    icon: BarChart3,
-    title: "데이터 기반 의사결정",
+    icon: PackageCheck,
+    title: "제품 관리",
     description:
-      "직관보다 데이터를 우선합니다. 모든 기획의 출발점은 명확한 지표와 측정 가능한 가설입니다.",
+      "문제 정의부터 요구사항, 사용자 흐름, PRD, QA와 지표까지 제품의 실행 구조를 설계합니다.",
   },
   {
-    icon: Users,
-    title: "사용자 중심 사고",
+    icon: Network,
+    title: "프로젝트 관리",
     description:
-      "제품의 성공은 사용자의 문제를 얼마나 깊이 이해하느냐에 달려 있습니다. 현장 인터뷰를 즐깁니다.",
+      "개발팀·고객·외부 작업자·공공기관 사이의 일정, 산출물과 품질 기준을 관리합니다.",
   },
   {
-    icon: Zap,
-    title: "빠른 실험과 학습",
+    icon: Handshake,
+    title: "사업 제휴",
     description:
-      "완벽한 기획보다 빠른 검증을 선호합니다. 실패에서 배우고, 그 인사이트를 다음 스프린트에 반영합니다.",
+      "제품 기획을 기술·콘텐츠 제휴와 B2B·B2G 사업화, 공공조달 요건까지 연결합니다.",
   },
   {
-    icon: HeartHandshake,
-    title: "팀과 함께 성장",
+    icon: BrainCircuit,
+    title: "AI 서비스 기획",
     description:
-      "PM은 혼자 만드는 역할이 아닙니다. 개발·디자인·비즈니스 팀과의 신뢰 관계가 좋은 제품의 기반입니다.",
+      "AI 모델 개발이 아니라 기술의 활용 범위, 데이터 구조와 실제 서비스 경험을 구체화합니다.",
   },
-];
-
-const education = [
-  { title: "연세대학교 경영학과", sub: "부전공: 컴퓨터과학", year: "2013–2017" },
-  { title: "Google Analytics Certification", sub: "", year: "2019" },
-  { title: "SQL for Data Analysis", sub: "Mode Analytics", year: "2020" },
 ];
 
 const About = () => {
   return (
-    <section id="about" className="py-32 px-6 md:px-16">
-      <div className="max-w-7xl mx-auto">
+    <section id="about" className="scroll-mt-20 px-6 py-24 md:px-16 md:py-32">
+      <div className="mx-auto max-w-7xl">
         <motion.p
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-4 font-body"
+          className="mb-4 font-body text-xs uppercase tracking-[0.3em] text-muted-foreground"
         >
           ABOUT
         </motion.p>
@@ -51,76 +46,64 @@ const About = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-3xl md:text-5xl font-bold font-display text-foreground leading-tight mb-16"
+          className="mb-12 break-keep font-display text-3xl font-bold leading-tight text-foreground md:mb-16 md:text-5xl"
         >
-          저는 이런 <span className="text-gradient">PM입니다</span>.
+          기술과 사업 사이에서 <span className="text-gradient">실행 구조를 만드는 PM</span>입니다.
         </motion.h2>
 
-        <div className="grid md:grid-cols-2 gap-16">
-          {/* Left — intro + education */}
+        <div className="grid gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <p className="text-base font-body text-muted-foreground leading-relaxed mb-10">
-              안녕하세요, 7년차 Product Manager 김지수입니다. 국내 주요 테크
-              기업에서 커머스, 핀테크, B2B SaaS 도메인의 제품을 기획하고
-              성장시켜왔습니다. 저는 '왜 이 기능을 만들어야 하는가'에
-              집착합니다. 사용자 인터뷰와 데이터 분석을 통해 진짜 문제를
-              발굴하고, 그 문제를 해결하는 가장 단순한 방법을 찾는 것이 PM의
-              핵심 역할이라고 믿습니다.
+            <p className="mb-5 break-keep font-body text-base leading-8 text-muted-foreground md:text-lg">
+              저는 퍼포먼스 마케팅으로 사용자 반응을 읽는 일에서 시작해 350만 MAU 서비스 운영,
+              AI 서비스 기획, 데이터 구축, SaaS·공공사업까지 경험을 확장한 9년차 PM입니다.
+            </p>
+            <p className="mb-10 break-keep font-body text-base leading-8 text-muted-foreground md:text-lg">
+              AI 모델을 직접 개발하기보다 STT·TTS·Retrieval·RAG·OCR 같은 기술을 사용자 흐름과
+              운영 프로세스에 연결하고, 요구사항·데이터 기준·협업 구조를 설계해 서비스를 검증해 왔습니다.
             </p>
 
-            <h3 className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-5 font-body">
-              학력 & 자격
+            <h3 className="mb-5 font-body text-xs uppercase tracking-[0.3em] text-muted-foreground">
+              교육 & 자격
             </h3>
             <div className="space-y-4">
-              {education.map((edu) => (
+              {educationAndCertificates.map((item) => (
                 <div
-                  key={edu.title}
-                  className="flex items-start justify-between gap-4 pb-4 border-b border-border last:border-0"
+                  key={`${item.title}-${item.year}`}
+                  className="flex items-start justify-between gap-4 border-b border-border pb-4 last:border-0"
                 >
-                  <div>
-                    <p className="text-sm font-display font-bold text-foreground">
-                      {edu.title}
-                    </p>
-                    {edu.sub && (
-                      <p className="text-xs font-body text-muted-foreground mt-0.5">
-                        {edu.sub}
-                      </p>
-                    )}
+                  <div className="min-w-0">
+                    <p className="break-keep font-display text-sm font-bold text-foreground">{item.title}</p>
+                    <p className="mt-1 break-keep font-body text-xs text-muted-foreground">{item.sub}</p>
                   </div>
-                  <span className="text-xs font-body text-muted-foreground whitespace-nowrap">
-                    {edu.year}
-                  </span>
+                  <span className="shrink-0 font-body text-xs text-muted-foreground">{item.year}</span>
                 </div>
               ))}
             </div>
           </motion.div>
 
-          {/* Right — 2x2 value cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            {values.map((v, i) => (
-              <motion.div
-                key={v.title}
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+            {strengths.map((strength, index) => (
+              <motion.article
+                key={strength.title}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: 0.1 + i * 0.1, duration: 0.5 }}
-                className="p-6 rounded-2xl glass-card"
+                transition={{ delay: 0.1 + index * 0.08, duration: 0.5 }}
+                className="glass-card rounded-2xl p-6"
               >
-                <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
-                  <v.icon size={20} className="text-primary" />
+                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10">
+                  <strength.icon size={20} className="text-primary" aria-hidden="true" />
                 </div>
-                <h4 className="text-sm font-display font-bold text-foreground mb-2">
-                  {v.title}
-                </h4>
-                <p className="text-xs font-body text-muted-foreground leading-relaxed">
-                  {v.description}
+                <h3 className="mb-2 font-display text-base font-bold text-foreground">{strength.title}</h3>
+                <p className="break-keep font-body text-sm leading-6 text-muted-foreground">
+                  {strength.description}
                 </p>
-              </motion.div>
+              </motion.article>
             ))}
           </div>
         </div>

@@ -2,14 +2,15 @@ import { motion } from "framer-motion";
 import { Menu, X, Sun, Moon } from "lucide-react";
 import { useState } from "react";
 import { useTheme } from "./ThemeProvider";
+import { profile } from "@/data/portfolio";
 
 const navItems = [
   { label: "소개", id: "about" },
+  { label: "대표 프로젝트", id: "case-studies" },
   { label: "경력", id: "experience" },
-  { label: "케이스 스터디", id: "case-studies" },
-  { label: "스킬", id: "skills" },
-  { label: "추천사", id: "testimonials" },
-  { label: "연락하기", id: "contact" },
+  { label: "AI 역량", id: "skills" },
+  { label: "활동·수상", id: "activities" },
+  { label: "연락", id: "contact" },
 ];
 
 const Navbar = () => {
@@ -32,7 +33,7 @@ const Navbar = () => {
         {/* Logo */}
         <div className="flex items-center shrink-0">
           <span className="font-display text-base font-bold tracking-tight text-foreground">
-            KIM JISOO
+            {profile.englishName}
           </span>
         </div>
 
@@ -54,7 +55,7 @@ const Navbar = () => {
           <button
             onClick={toggle}
             className="w-9 h-9 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-foreground/20 transition-all duration-300"
-            aria-label="Toggle theme"
+            aria-label={theme === "dark" ? "라이트 모드로 전환" : "다크 모드로 전환"}
           >
             {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
           </button>
@@ -62,7 +63,7 @@ const Navbar = () => {
             onClick={() => scrollTo("contact")}
             className="hidden sm:block px-5 py-2 text-xs font-body font-semibold uppercase tracking-wider bg-gradient-accent text-primary-foreground rounded-full hover:shadow-[var(--shadow-glow)] transition-all duration-500"
           >
-            이력서 요청
+            협업 문의
           </button>
           <button
             className="lg:hidden text-foreground"
@@ -82,13 +83,13 @@ const Navbar = () => {
           id="mobile-navigation"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="lg:hidden mt-4 pb-4 flex flex-col gap-4 border-t border-border pt-4"
+          className="max-h-[calc(100vh-5rem)] overflow-y-auto lg:hidden mt-4 pb-4 flex flex-col gap-2 border-t border-border pt-4"
         >
           {navItems.map((item) => (
             <button
               key={item.id}
               onClick={() => scrollTo(item.id)}
-              className="text-sm font-body text-muted-foreground hover:text-foreground transition-colors text-left"
+              className="flex min-h-11 items-center text-sm font-body text-muted-foreground hover:text-foreground transition-colors text-left"
             >
               {item.label}
             </button>
@@ -97,7 +98,7 @@ const Navbar = () => {
             onClick={() => scrollTo("contact")}
             className="sm:hidden px-5 py-2 text-xs font-body font-semibold uppercase tracking-wider bg-gradient-accent text-primary-foreground rounded-full w-fit hover:shadow-[var(--shadow-glow)] transition-all duration-500"
           >
-            이력서 요청
+            협업 문의
           </button>
         </motion.div>
       )}

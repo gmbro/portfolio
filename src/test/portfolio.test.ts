@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { Json } from "@/lib/database.types";
-import { parsePortfolioPageContent } from "@/types/portfolio";
+import { defaultHeroContent, parsePortfolioPageContent } from "@/types/portfolio";
+import { careerExperiences, featuredProjects, profile } from "@/data/portfolio";
 
 const validContent: Json = {
   meta: {
@@ -48,5 +49,31 @@ describe("parsePortfolioPageContent", () => {
     invalidMeta.meta = { pageTitle: 42 };
 
     expect(parsePortfolioPageContent(invalidMeta as Json)).toBeNull();
+  });
+});
+
+describe("verified base portfolio content", () => {
+  it("uses the approved AI PM positioning and exactly three Hero keywords", () => {
+    expect(defaultHeroContent.roleLabel).toBe("AI Product & Project Manager");
+    expect(defaultHeroContent.careerLabel).toContain("9년");
+    expect(defaultHeroContent.keywords).toHaveLength(3);
+  });
+
+  it("contains only the verified profile identity and career companies", () => {
+    expect(profile.name).toBe("이경민");
+    expect(careerExperiences.map((experience) => experience.company)).toEqual([
+      "제논",
+      "셀렉트스타",
+      "아들러",
+      "스켈터랩스",
+      "SK플래닛",
+      "카카오커머스",
+    ]);
+  });
+
+  it("includes both approved ongoing AI side projects", () => {
+    const projectTitles = featuredProjects.map((project) => project.title).join(" ");
+    expect(projectTitles).toContain("운동강사");
+    expect(projectTitles).toContain("독서모임");
   });
 });

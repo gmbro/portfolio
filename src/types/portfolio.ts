@@ -37,21 +37,21 @@ export interface PortfolioPublication {
 }
 
 export const defaultHeroContent: HeroContent = {
-  roleLabel: "Product Manager",
-  careerLabel: "· 7년 경력",
-  headline: "정량/정성 데이터로\n지표를 성장시킵니다.",
-  highlight: "지표를",
+  roleLabel: "AI Product & Project Manager",
+  careerLabel: "· 9년 경력",
+  headline: "AI 기술을 사용자 문제와\n운영 성과로 연결합니다.",
+  highlight: "운영 성과로",
   subcopy: [
-    "사용자 인사이트와 데이터 분석을 기반으로 제품 전략을 수립하고,",
-    "개발·디자인·비즈니스 팀을 연결하여 실질적인 성과를 만들어온 Product Manager입니다.",
+    "AI 서비스 기획부터 데이터 프로젝트 운영, SaaS 사업화까지 경험했습니다.",
+    "기술을 사용자 흐름과 운영 구조로 연결해 빠르게 검증합니다.",
   ],
-  keywords: ["사용자 인사이트", "데이터 분석", "제품 실행"],
-  ctaLabel: "포트폴리오 확인하기",
+  keywords: ["AI 서비스 기획", "데이터 프로젝트 운영", "B2B·B2G 사업화"],
+  ctaLabel: "대표 프로젝트 보기",
   ctaTarget: "case-studies",
   stats: [
-    { value: "7+", label: "년 경력" },
-    { value: "12+", label: "런칭 프로덕트" },
-    { value: "3개", label: "재직 기업" },
+    { value: "9년", label: "제품·프로젝트 경험" },
+    { value: "350만", label: "MAU 서비스 운영" },
+    { value: "70%+", label: "데이터 운영 원가 절감" },
   ],
 };
 
