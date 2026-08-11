@@ -1,0 +1,4 @@
+interface:
+  display_name: "JD 맞춤 포트폴리오"
+  short_description: "JD 분석부터 회사별 포트폴리오 링크 발급까지 수행"
+  default_prompt: "Use $tailor-jd-portfolio to turn this JD into a verified company-specific portfolio, publish it, and return the final link."
