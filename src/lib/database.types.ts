@@ -237,6 +237,14 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      get_public_portfolio_by_slug: {
+        Args: { p_slug: string }
+        Returns: {
+          noindex: boolean
+          published_content: Json
+          slug: string
+        }[]
+      }
       publish_portfolio_revision: {
         Args: { p_publication_id: string; p_revision_id: string }
         Returns: {

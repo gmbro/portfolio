@@ -27,20 +27,16 @@ export interface PortfolioPageContent {
 }
 
 export interface PortfolioPublication {
-  id: string;
   slug: string;
-  current_revision_id: string | null;
   noindex: boolean;
-  status: string;
-  updated_at: string;
   published_content: Json;
 }
 
 export const defaultHeroContent: HeroContent = {
   roleLabel: "AI Product & Project Manager",
   careerLabel: "· 9년 경력",
-  headline: "AI 기술을 사용자 문제와\n운영 성과로 연결합니다.",
-  highlight: "운영 성과로",
+  headline: "기술로 고객의 문제를 해결하고\n성과로 증명합니다.",
+  highlight: "성과로 증명합니다.",
   subcopy: [
     "AI 서비스 기획부터 데이터 프로젝트 운영, SaaS 사업화까지 경험했습니다.",
     "기술을 사용자 흐름과 운영 구조로 연결해 빠르게 검증합니다.",
@@ -49,9 +45,9 @@ export const defaultHeroContent: HeroContent = {
   ctaLabel: "대표 프로젝트 보기",
   ctaTarget: "case-studies",
   stats: [
-    { value: "9년", label: "제품·프로젝트 경험" },
+    { value: "2억", label: "AI 프로젝트 규모" },
     { value: "350만", label: "MAU 서비스 운영" },
-    { value: "70%+", label: "데이터 운영 원가 절감" },
+    { value: "70%+", label: "프로젝트 운영 원가 절감" },
   ],
 };
 

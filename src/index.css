@@ -200,3 +200,37 @@
     animation: none;
   }
 }
+
+typebot-bubble::part(button) {
+  overflow: hidden;
+  border-radius: 9999px;
+  box-shadow:
+    0 0 0 2px rgb(255 255 255 / 0.85),
+    0 10px 30px rgb(0 0 0 / 0.3);
+}
+
+typebot-bubble::part(button-icon) {
+  border-radius: 9999px;
+  object-fit: cover;
+  object-position: center;
+}
+
+typebot-bubble::part(button):focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px #0042da;
+}
+
+@media (hover: none), (pointer: coarse) {
+  typebot-bubble::part(button):hover {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  typebot-bubble::part(button),
+  typebot-bubble::part(button-icon) {
+    animation: none;
+    transition: none;
+  }
+}

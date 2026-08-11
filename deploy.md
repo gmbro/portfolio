@@ -497,3 +497,77 @@
 - 최종 공개 URL: `https://gmbro.github.io/portfolio/`
 - 발행 revision: 기본 포트폴리오 base revision 3 / Git commit `d7e51fa`
 - 배포 결과: `성공`
+
+### 배포: 2026-08-11 / Hero 핵심 지표·AI 챗봇 인지성 개선 / base revision 4
+
+- 작업 대상 URL: `/`, `/p/:slug`
+- 로컬 미리보기 URL: `http://127.0.0.1:4173/` (production build)
+- 배포 예정 URL: `https://gmbro.github.io/portfolio/`
+- 대상 revision: 기본 포트폴리오 base revision 4
+- 검사 브라우저: Codex In-app Browser
+- 검사 담당: Codex
+- 콘텐츠 기준 자료: 사용자 직접 확인값, 사용자 제공 경력 원문, 현재 대표 프로젝트 데이터
+
+#### 콘텐츠 단계 요약
+
+| 단계 | 결과 |
+|---|---|
+| 1. 요청 분석 | 채용 담당자가 첫 화면에서 프로젝트 규모·서비스 규모·원가 성과를 확인하고, 챗봇의 기능을 즉시 인지하도록 개선 |
+| 2. 증거 구조화 | `2억`은 이번 사용자 직접 확인, `약 350만 MAU`는 SK플래닛 경력 원문, `70%+`는 셀렉트스타 운영 원가 절감 원문에 연결 |
+| 3. 콘텐츠 설계 | 사용자가 직접 지정한 `기술로 고객의 문제를 해결하고 성과로 증명합니다.`를 최종안으로 채택하고 의미 확장 없이 세 지표 적용 |
+| 4. 웹사이트화 | 공통 기본 Hero·Footer·메타 설명과 챗봇 진입 UI를 수정하고 같은 공개 링크에 base revision 4로 배포 예정 |
+
+#### 1차 진단 — 수정 전
+
+| ID | 너비 | 섹션 | 발견한 문제·제약 | 사용자 영향 | 심각도 | 수정 방향 | 상태 |
+|---|---:|---|---|---|---|---|---|
+| QA-BASE4-001 | 390·768·1440px | Hero | 첫 번째 지표가 `9년 / 제품·프로젝트 경험`으로 남아 있고 요청한 `2억 / AI 프로젝트 규모`가 없음 | 첫 화면에서 AI 프로젝트 규모를 확인할 수 없음 | 높음 | 사용자가 직접 확인한 값과 라벨로 교체 | 발견 |
+| QA-BASE4-002 | 390px | Hero 지표 | 104px 카드 3개가 한 행에 들어가지 못해 `2개 + 1개`로 배치되고 `350만`이 `350 / 만`으로 분리됨 | 세 핵심 수치의 비교·스캔 가독성이 낮음 | 높음 | 모바일 3열 grid, 더 작은 안전 간격·유동 폭·줄바꿈 방지 값 적용 | 발견 |
+| QA-BASE4-003 | 전체 | Hero·Footer·메타 | Hero, Footer, OG 설명에 기존 `AI 기술을 사용자 문제와 운영 성과로 연결` 문구가 남아 있음 | 공유 미리보기와 페이지 하단이 새 포지셔닝과 불일치 | 보통 | 사용자 지정 문구 의미로 세 위치를 일관되게 교체 | 발견 |
+| QA-BASE4-004 | 390·768·1440px | Typebot | 버튼과 사진의 실제 모서리 반경이 16px인 둥근 사각형이고, 사진만 남으면 기능 설명이 보이지 않음 | 방문자가 인물 사진인지 챗봇 진입점인지 즉시 이해하기 어려움 | 높음 | 완전한 원형 아바타, 채팅 아이콘 배지, 상시 기능 라벨, 한국어 접근성 이름을 가진 자체 트리거 적용 | 발견 |
+| QA-BASE4-005 | 전체 | 사실성 | `2억`은 사용자 직접 확인 외 교차 자료가 없고, `350만` 원문에는 `약`, `70%+`는 `운영 원가`로 한정됨 | 금액 성격·정확도·성과 범위를 확대하면 과장 위험 | 차단 | `AI 프로젝트 규모 2억` 이상으로 의미를 확대하지 않고 상세 경력의 `약 350만`, `운영 원가 70%+` 범위 유지 | 발견 |
+
+1차 진단 요약:
+
+- 수정 전 가로 스크롤은 세 너비 모두 없었고, 768·1440px에서는 세 지표가 한 행에 표시됐다.
+- Typebot 버튼과 이미지의 계산된 `border-radius`는 모두 `16px`였으며 기본 접근성 이름은 영문 `Open chatbot`이었다.
+- 본 작업은 회사별 JD variant가 아닌 기본 포트폴리오의 사용자가 확정한 Hero 수정이므로 `/`를 갱신하고 기존 회사별 데이터 구조는 유지한다.
+
+#### 직접 수정
+
+| ID | 수정 파일 | 실제 수정 내용 | 콘텐츠 사실 변경 여부 | 결과 |
+|---|---|---|---|---|
+| QA-BASE4-001 | `src/types/portfolio.ts`, `src/test/portfolio.test.ts` | Hero 지표를 `2억 / AI 프로젝트 규모`, `350만 / MAU 서비스 운영`, `70%+ / 프로젝트 운영 원가 절감`으로 교체하고 정확한 카피를 테스트로 고정 | 사용자 확인값·검증 자료로 교체 | 통과 |
+| QA-BASE4-002 | `src/components/Hero.tsx` | 모바일부터 3열 grid를 사용하고 값 줄바꿈 금지, 유동 카드 폭·간격·타이포 크기를 조정 | 없음 | 통과 |
+| QA-BASE4-003 | `src/types/portfolio.ts`, `src/components/Footer.tsx`, `index.html` | Hero, Footer, OG 설명을 `기술로 고객의 문제를 해결하고 성과로 증명`하는 포지셔닝으로 통일 | 사용자 지정 카피 적용 | 통과 |
+| QA-BASE4-004 | `src/components/TypebotBubble.tsx`, `src/index.css`, `src/types/typebot-react.d.ts` | Typebot 기본 열기·닫기 기능을 유지한 64px 원형 인물 버튼, 채팅 아이콘과 `경력·프로젝트 Q&A` 기능 라벨, 한국어 접근성 이름 추가 | 없음 | 통과 |
+| QA-BASE4-005 | `src/data/portfolio.ts`, `src/components/ui/chart.tsx` | 공식 자격명과 한국어 띄어쓰기를 교정하고 ArchiLab을 검증된 HTTPS로 전환했으며, 사용하지 않는 차트 스타일의 raw HTML 주입을 React 텍스트 노드로 교체 | 경력 수치 변경 없음 | 통과 |
+| SEC-BASE4-001 | `supabase/migrations/20260811133000_harden_public_portfolio_access.sql`, `src/pages/CompanyPortfolio.tsx`, `src/lib/database.types.ts` | 익명 테이블 직접 조회와 전체 공개 정책을 제거하고, exact slug의 공개 안전 필드 3개만 반환하는 `SECURITY DEFINER` RPC로 전환 | 공개 링크 정책 유지 | 통과 |
+| SEC-BASE4-002 | `src/pages/LinkManager.tsx`, `supabase/config.toml`, Supabase Auth 설정 | OTP의 자동 사용자 생성을 막고 신규 가입을 차단, 소유자 이메일만 초대했으며 배포·로컬 관리 URL을 allow-list로 확인 | 없음 | 통과 |
+| SEC-BASE4-003 | `package.json`, `pnpm-lock.yaml`, `vite.config.ts` | React Router 7.18.2와 Vite 6.4.3 보안 수정판으로 갱신하고 개발 서버를 localhost에만 바인딩 | 없음 | 통과 |
+| SEC-BASE4-004 | `.github/workflows/deploy-pages.yml` | GitHub Actions의 전역 권한을 제거하고 build·deploy job에 필요한 최소 권한만 부여 | 없음 | 통과 |
+
+#### 동일 조건 재검사
+
+| 너비 | Hero 지표 | 챗봇 UI | 겹침·오버플로 | 가로 스크롤 | 전체 결과 |
+|---:|---|---|---|---|---|
+| 390px | 104px 카드 3개 한 행, 값·라벨 내부 오버플로 없음 | 64px 원형·기능 라벨 표시, 열기→닫기→재표시 통과 | 지표 하단과 플로팅 UI 사이 11px 이상 간격 | 없음 | 통과 |
+| 768px | 195px 카드 3개 한 행, 내부 오버플로 없음 | 원형 반경 `9999px`, 하단 라벨 표시 | 지표 카드와 플로팅 UI 사이 29px 이상 간격 | 없음 | 통과 |
+| 1440px | 264px 카드 3개 한 행, 중앙 정렬·내부 오버플로 없음 | 원형 버튼·기능 라벨 우측 하단 정렬 | 콘텐츠와 겹침 없음 | 없음 | 통과 |
+
+- 모바일 챗봇 패널: 390×844px에서 열기·닫기 접근성 이름 전환, 패널 390×704px, 문서 가로 스크롤 없음.
+- 공개 라우트 회귀: `/p/not-real-slug`가 DB 오류가 아닌 `유효하지 않은 링크입니다` 화면을 반환.
+- 관리자 라우트 회귀: `/admin/links` 390px에서 로그인 폼 정상, Typebot 미노출, 가로 스크롤 없음.
+
+#### 사실·보안·정적 검사
+
+- 사실 확인: `2억`은 이번 사용자 직접 확인값으로만 사용하고 예산·수주액·통화로 확대하지 않았다. `350만` 상세 경력은 원문의 `약 350만 MAU`, `70%+` 상세 성과는 `운영 원가 70% 이상` 범위를 유지했다.
+- Supabase 실환경 검증: anon 테이블 SELECT `false`, 기존 공개 정책 `false`, anon/authenticated exact-slug RPC 실행 `true`, `not-real-slug` 반환 `0건`.
+- Supabase Auth: 일반 신규 가입 `false`, 수동 계정 연결 `false`, 익명 가입 `false`, 소유자 `gmbro7942@gmail.com` 초대 사용자 생성 확인.
+- 의존성 감사: 운영·개발 포함 `critical 0 / high 0 / moderate 0 / low 0`.
+- 비밀정보 점검: 추적 파일에서 service-role/private key 패턴 없음, `.env.local`은 gitignore 적용·권한 `600`, 배포 산출물에 `.env`·source map 없음.
+- 링크·주입 점검: 외부 새 창 링크 모두 `rel="noreferrer"`, 앱 경로에 사용자 입력 raw HTML 주입 없음. ArchiLab HTTPS는 HTTP 200과 HSTS 응답 확인.
+- 오타 점검: 공식 명칭 `Google Project Management Certificate`와 운동 강사·독서 모임·대화 데이터·디지털 휴먼·지원 사업 등 공개 카피 띄어쓰기 교정, 이전 문자열 잔존 없음.
+- 프로덕션 검사: TypeScript 통과, Vitest 10개 통과, ESLint 오류 0·기존 fast-refresh 경고 8개, Vite 6 프로덕션 빌드 통과.
+- 낮은 우선순위 잔여: 초기 번들 일부가 500kB를 초과하며 추후 코드 분할 가능. GitHub Pages는 사용자 지정 응답 헤더 설정이 제한되므로 CSP 응답 헤더는 별도 호스팅 전환 시 강화 가능.
+- 배포 가능 여부: `가능`

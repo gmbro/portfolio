@@ -25,7 +25,7 @@ const Hero = ({ content = defaultHeroContent }: HeroProps) => {
   const stats = content.stats ?? [];
 
   return (
-    <section className="relative min-h-[100svh] flex flex-col justify-center items-center text-center px-6 md:px-16 pt-28 pb-24 md:pt-24 md:pb-20">
+    <section className="relative flex min-h-[100svh] flex-col items-center justify-center px-6 pb-24 pt-20 text-center md:px-16 md:pb-20 md:pt-24">
       {/* Shader Gradient Background */}
       <div className="absolute inset-0 z-0">
         <ShaderGradientCanvas
@@ -100,9 +100,9 @@ const Hero = ({ content = defaultHeroContent }: HeroProps) => {
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.9, ease: [0.25, 0.46, 0.45, 0.94] }}
-        className="max-w-4xl relative z-10"
+        className="relative z-10 max-w-6xl"
       >
-        <h1 className="text-[2.35rem] sm:text-5xl md:text-6xl lg:text-[5rem] font-extrabold font-display tracking-tight text-white break-keep" style={{ lineHeight: 1.3 }}>
+        <h1 className="break-keep font-display text-[2.35rem] font-extrabold tracking-tight text-white sm:text-5xl md:text-6xl lg:text-[4.5rem]" style={{ lineHeight: 1.3 }}>
           {headlineLines.map((line, index) => (
             <span key={`${line}-${index}`} className="block">
               {highlightHeadline(line, content.highlight)}
@@ -163,17 +163,17 @@ const Hero = ({ content = defaultHeroContent }: HeroProps) => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7, duration: 0.8 }}
-          className="relative z-10 mt-8 mb-20 flex max-w-full flex-wrap items-stretch justify-center gap-3 md:mt-16 md:mb-0 md:gap-5"
+          className="relative z-10 mb-20 mt-8 grid w-full max-w-[22rem] grid-cols-3 gap-2 md:mb-0 md:mt-16 md:max-w-[52rem] md:gap-5"
         >
           {stats.map((stat) => (
             <div
               key={`${stat.value}-${stat.label}`}
-              className="min-w-[5.5rem] max-w-[6.5rem] rounded-2xl border border-white/25 bg-black/45 px-3 py-3 text-center shadow-lg backdrop-blur-sm md:min-w-[9rem] md:max-w-none md:px-6 md:py-4"
+              className="flex min-w-0 flex-col items-center justify-center rounded-2xl border border-white/25 bg-black/45 px-2 py-4 text-center shadow-lg backdrop-blur-sm md:min-h-[8.5rem] md:rounded-[1.75rem] md:px-6 md:py-5"
             >
-              <div className="text-3xl md:text-4xl font-display font-extrabold text-white">
+              <div className="whitespace-nowrap font-display text-2xl font-extrabold text-white sm:text-3xl md:text-5xl">
                 {stat.value}
               </div>
-              <div className="text-xs md:text-sm font-body font-medium text-white/90 mt-1">
+              <div className="mt-1 break-keep font-body text-[11px] font-medium leading-4 text-white/90 sm:text-xs md:mt-2 md:text-base md:leading-6">
                 {stat.label}
               </div>
             </div>

@@ -32,7 +32,7 @@ const Footer = () => {
               </span>
             </div>
             <p className="max-w-sm break-keep font-body text-sm leading-6 text-muted-foreground">
-              AI 기술을 사용자 문제와 운영 성과로 연결하는 9년차 Product & Project Manager
+              기술로 고객의 문제를 해결하고 성과로 증명하는 9년차 Product & Project Manager
             </p>
           </motion.div>
 

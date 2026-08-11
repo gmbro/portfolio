@@ -4,7 +4,7 @@ export const profile = {
   role: "AI Product & Project Manager",
   email: "gmbro7942@gmail.com",
   linkedin: "https://www.linkedin.com/in/gmbro",
-  archiLab: "http://archi.best",
+  archiLab: "https://archi.best",
 };
 
 export type EducationEntryType = "school" | "certificate" | "training";
@@ -25,7 +25,7 @@ export const educationAndCertificates: EducationEntry[] = [
   },
   {
     type: "certificate",
-    title: "Google Project Manager Certificate",
+    title: "Google Project Management Certificate",
     sub: "Google",
     year: "2025",
   },
@@ -37,14 +37,14 @@ export const educationAndCertificates: EducationEntry[] = [
   },
   {
     type: "training",
-    title: "Tableau 실전교육",
+    title: "Tableau 실전 교육",
     sub: "Planit",
     year: "2020",
   },
   {
     type: "training",
     title: "R 데이터 실무 분석",
-    sub: "재직자직무교육",
+    sub: "재직자 직무교육",
     year: "2018",
   },
 ];
@@ -94,10 +94,10 @@ export const featuredProjects: FeaturedProject[] = [
     title: "AI 기술을 B2C 상담 경험으로 전환한 0→1 PoC를 기획했습니다.",
     challenge: "사내 B2B 챗봇 엔진을 실제 사용자가 경험할 수 있는 B2C 상담 서비스로 확장해야 했습니다.",
     action:
-      "STT·TTS·Retrieval을 연결하고 서비스 범위, 대화 흐름, PRD, 와이어프레임과 대화데이터를 설계했습니다. 디지털휴먼·TTS·대학 산학연 제휴도 주도했습니다.",
+      "STT·TTS·Retrieval을 연결하고 서비스 범위, 대화 흐름, PRD, 와이어프레임과 대화 데이터를 설계했습니다. 디지털 휴먼·TTS·대학 산학연 제휴도 주도했습니다.",
     result: "B2C AI 상담사 PoC를 0에서 1까지 구축했습니다.",
     metrics: ["0→1 PoC"],
-    tags: ["STT·TTS", "Retrieval", "대화데이터", "사업 제휴"],
+    tags: ["STT·TTS", "Retrieval", "대화 데이터", "사업 제휴"],
   },
   {
     category: "AI MVP·시장 검증",
@@ -105,8 +105,8 @@ export const featuredProjects: FeaturedProject[] = [
     organizationLabel: "수행 주체",
     organization: "개인 프로젝트 · ArchiLab",
     involvement: { label: "역할 범위", value: "기획·MVP 개발" },
-    title: "운동강사의 수업 기록과 회원 관리를 돕는 AI 서비스를 만들고 있습니다.",
-    challenge: "운동강사가 수업 기록과 회원 상태를 지속적으로 관리하기 어려운 문제를 확인했습니다.",
+    title: "운동 강사의 수업 기록과 회원 관리를 돕는 AI 서비스를 만들고 있습니다.",
+    challenge: "운동 강사가 수업 기록과 회원 상태를 지속적으로 관리하기 어려운 문제를 확인했습니다.",
     action:
       "Codex를 활용해 MVP를 구현하고 Supabase로 기록 데이터를 구조화했습니다. 실제 러닝 교정 수업에 적용하면서 CESK·픽스니스·헬스보이짐과 제휴 가능성을 논의하고 있습니다.",
     result: "실제 사용 사례와 고객 반응을 확인하며 기능과 사업 방향을 검증하고 있습니다.",
@@ -114,7 +114,7 @@ export const featuredProjects: FeaturedProject[] = [
     tags: ["Codex", "Supabase", "AI 서비스", "사업 제휴"],
     link: {
       label: "ArchiLab 보기",
-      href: "http://archi.best",
+      href: "https://archi.best",
     },
   },
   {
@@ -123,11 +123,11 @@ export const featuredProjects: FeaturedProject[] = [
     organizationLabel: "수행 주체",
     organization: "개인 프로젝트 · 러닝보드",
     involvement: { label: "기여도", value: "100%" },
-    title: "독서모임을 위한 러닝 기록 트래킹 MVP를 1인 프로젝트로 구현했습니다.",
+    title: "독서 모임을 위한 러닝 기록 트래킹 MVP를 1인 프로젝트로 구현했습니다.",
     challenge: "커뮤니티 참여자가 학습 기록을 꾸준히 남기고 성취를 확인할 수 있는 흐름이 필요했습니다.",
     action:
       "바이브 코딩과 OCR을 활용해 러닝보드를 기획·구현하고, 참여자의 흥미를 높이기 위한 게이미피케이션 기능을 구성했습니다.",
-    result: "독서모임에 솔루션을 제공했으며 다음 시즌 고도화와 다른 커뮤니티 적용을 준비하고 있습니다.",
+    result: "독서 모임에 솔루션을 제공했으며 다음 시즌 고도화와 다른 커뮤니티 적용을 준비하고 있습니다.",
     metrics: ["1인 기획·구현"],
     tags: ["OCR", "바이브 코딩", "게이미피케이션", "MVP"],
   },
@@ -135,12 +135,12 @@ export const featuredProjects: FeaturedProject[] = [
     category: "Vision AI 프로젝트 관리",
     period: "2025.06–2025.12",
     organizationLabel: "사업 구분",
-    organization: "NIPA 지원사업",
+    organization: "NIPA 지원 사업",
     involvement: { label: "역할 범위", value: "제안→종결 관리" },
     title: "Vision AI 도입 프로젝트를 제안부터 종결까지 관리했습니다.",
-    challenge: "수동 신발 아웃솔 품질검사 공정을 개선하기 위한 AI Vision 사업을 수행해야 했습니다.",
+    challenge: "수동 신발 아웃솔 품질 검사 공정을 개선하기 위한 AI Vision 사업을 수행해야 했습니다.",
     action:
-      "제안서를 작성하고 7개월간 중간보고, PoC 결과, 고객 피드백과 주요 산출물을 관리했습니다. 수요기업·개발팀·NIPA 사이의 일정을 조율했습니다.",
+      "제안서를 작성하고 7개월간 중간 보고, PoC 결과, 고객 피드백과 주요 산출물을 관리했습니다. 수요 기업·개발팀·NIPA 사이의 일정을 조율했습니다.",
     result: "PoC 결과와 피드백을 문서화하고 프로젝트 종결과 사업 정산을 지원했습니다.",
     metrics: ["7개월 수행", "제안→종결 관리"],
     tags: ["Vision AI", "PoC", "산출물 관리", "이해관계자 조율"],
@@ -180,9 +180,9 @@ export const careerExperiences: CareerExperience[] = [
     period: "2025.01–2026.05",
     team: "사업개발",
     description:
-      "SaaS·클라우드의 공공시장 진입을 위한 B2B·B2G 사업개발, 보안인증 대응과 대외 마케팅을 담당했습니다.",
+      "SaaS·클라우드의 공공 시장 진입을 위한 B2B·B2G 사업개발, 보안 인증 대응과 대외 마케팅을 담당했습니다.",
     achievements: [
-      "CSAP IaaS·SaaS 심사 대응, 보안 문서와 증적자료 준비 주도",
+      "CSAP IaaS·SaaS 심사 대응, 보안 문서와 증적 자료 준비 주도",
       "나라장터 융합서비스 요건 검토와 등록 절차 관리",
       "공고 수집·Slack 알림 자동화로 반복 검색 시간 50% 이상 단축",
     ],
@@ -213,7 +213,7 @@ export const careerExperiences: CareerExperience[] = [
       "3D SNS MVP의 출시 전 기획 보완과 QA, 개발 일정, 차기 버전의 UX·UI 개선을 관리했습니다.",
     achievements: [
       "CS 어드민·신고·차단 기능과 운영 프로세스 설계",
-      "기능명세서·요구사항정의서·와이어프레임 작성",
+      "기능 명세서·요구사항 정의서·와이어프레임 작성",
       "WAU·DAU 기반 Engagement 대시보드와 전사 지표 정의",
     ],
     tags: ["MVP", "QA", "제품 운영", "지표 설계"],
@@ -228,10 +228,10 @@ export const careerExperiences: CareerExperience[] = [
       "STT·TTS·Retrieval을 결합한 B2C AI 상담사 PoC를 0에서 1까지 기획했습니다.",
     achievements: [
       "서비스 콘셉트·기능 범위·대화 흐름·PRD·와이어프레임 설계",
-      "페르소나·심리테스트 기반 대화데이터 기획",
-      "디지털휴먼·TTS·대학 산학연 제휴 주도",
+      "페르소나·심리테스트 기반 대화 데이터 기획",
+      "디지털 휴먼·TTS·대학 산학연 제휴 주도",
     ],
-    tags: ["AI 서비스", "0→1", "대화데이터", "사업 제휴"],
+    tags: ["AI 서비스", "0→1", "대화 데이터", "사업 제휴"],
   },
   {
     company: "SK플래닛",
@@ -282,7 +282,7 @@ export const aiCapabilities = [
     title: "AI 도구 기반 MVP 검증",
     description:
       "Codex·Supabase·OCR 같은 도구를 활용해 아이디어를 빠르게 MVP로 만들고 실제 사용과 고객 반응으로 검증합니다.",
-    evidence: "ArchiLab · 독서모임 러닝보드",
+    evidence: "ArchiLab · 독서 모임 러닝보드",
   },
   {
     title: "AI 신뢰성·안전성 검증",
@@ -323,11 +323,11 @@ export const activities = [
 export const verifiedSkillGroups = [
   {
     label: "AI·데이터",
-    items: ["STT", "TTS", "Retrieval", "RAG", "OCR", "대화데이터", "Python"],
+    items: ["STT", "TTS", "Retrieval", "RAG", "OCR", "대화 데이터", "Python"],
   },
   {
     label: "기획·실행",
-    items: ["제품 관리", "프로젝트 관리", "PRD", "요구사항정의", "Figma", "QA"],
+    items: ["제품 관리", "프로젝트 관리", "PRD", "요구사항 정의", "Figma", "QA"],
   },
   {
     label: "MVP·자동화",

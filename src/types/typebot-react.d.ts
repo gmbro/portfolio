@@ -4,6 +4,8 @@ declare module "@typebot.io/react" {
   interface BubbleProps {
     typebot: string;
     apiHost?: string;
+    onOpen?: () => void;
+    onClose?: () => void;
     previewMessage?: {
       message: string;
       autoShowDelay?: number;
@@ -15,6 +17,7 @@ declare module "@typebot.io/react" {
         backgroundColor?: string;
         customIconSrc?: string;
         iconColor?: string;
+        isHidden?: boolean;
         size?: "medium" | "large" | `${number}px`;
       };
       previewMessage?: {
@@ -25,6 +28,7 @@ declare module "@typebot.io/react" {
   }
 
   export const Bubble: ComponentType<BubbleProps>;
+  export const open: () => void;
   export const hidePreviewMessage: () => void;
   export const showPreviewMessage: () => void;
 }

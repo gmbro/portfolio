@@ -63,9 +63,7 @@ const CompanyPortfolio = () => {
       if (!supabase) throw new Error("Supabase가 설정되지 않았습니다.");
 
       const { data, error } = await supabase
-        .from("portfolio_publications")
-        .select("id, slug, current_revision_id, noindex, status, updated_at, published_content")
-        .eq("slug", slug)
+        .rpc("get_public_portfolio_by_slug", { p_slug: slug })
         .maybeSingle();
 
       if (error) throw error;

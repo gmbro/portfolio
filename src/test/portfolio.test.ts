@@ -56,7 +56,15 @@ describe("verified base portfolio content", () => {
   it("uses the approved AI PM positioning and exactly three Hero keywords", () => {
     expect(defaultHeroContent.roleLabel).toBe("AI Product & Project Manager");
     expect(defaultHeroContent.careerLabel).toContain("9년");
+    expect(defaultHeroContent.headline.replace("\n", " ")).toBe(
+      "기술로 고객의 문제를 해결하고 성과로 증명합니다.",
+    );
     expect(defaultHeroContent.keywords).toHaveLength(3);
+    expect(defaultHeroContent.stats).toEqual([
+      { value: "2억", label: "AI 프로젝트 규모" },
+      { value: "350만", label: "MAU 서비스 운영" },
+      { value: "70%+", label: "프로젝트 운영 원가 절감" },
+    ]);
   });
 
   it("contains only the verified profile identity and career companies", () => {
@@ -73,8 +81,8 @@ describe("verified base portfolio content", () => {
 
   it("includes both approved ongoing AI side projects", () => {
     const projectTitles = featuredProjects.map((project) => project.title).join(" ");
-    expect(projectTitles).toContain("운동강사");
-    expect(projectTitles).toContain("독서모임");
+    expect(projectTitles).toContain("운동 강사");
+    expect(projectTitles).toContain("독서 모임");
   });
 
   it("shows verified project organizations and involvement without inventing missing percentages", () => {
@@ -83,7 +91,7 @@ describe("verified base portfolio content", () => {
       "스켈터랩스 · Product",
       "개인 프로젝트 · ArchiLab",
       "개인 프로젝트 · 러닝보드",
-      "NIPA 지원사업",
+      "NIPA 지원 사업",
       "SK플래닛 · 시럽월렛",
     ]);
     expect(featuredProjects.map((project) => `${project.involvement.label} ${project.involvement.value}`)).toEqual([

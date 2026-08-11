@@ -121,7 +121,10 @@ const LinkManager = () => {
     const redirectUrl = new URL("admin/links", document.baseURI).href;
     const { error } = await supabase.auth.signInWithOtp({
       email: email.trim(),
-      options: { emailRedirectTo: redirectUrl },
+      options: {
+        emailRedirectTo: redirectUrl,
+        shouldCreateUser: false,
+      },
     });
 
     setAuthMessage(error ? error.message : "로그인 링크를 이메일로 보냈습니다.");
