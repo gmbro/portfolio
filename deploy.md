@@ -290,13 +290,15 @@
 
 | 항목 | 390px | 768px | 1440px |
 |---|---|---|---|
-| 실제 URL 로드 |  |  |  |
-| `답변해드립니다` 표시 |  |  |  |
-| route 새로고침 |  |  |  |
-| 기본 포트폴리오 복귀 |  |  |  |
-| 콘솔·네트워크 |  |  |  |
+| 실제 URL 로드 | 새 자산 `index-BhWi4S2k.js` 확인 | 통과 | 통과 |
+| `답변해드립니다` 표시 | 700ms 후 사진 위 표시·챗봇 열기 시 숨김 통과 | 통과 | 통과 |
+| route 새로고침 | `/`, `/p/not-real-slug` 통과 | `/p/not-real-slug` 통과 | `/p/not-real-slug` 통과 |
+| 기본 포트폴리오 복귀 | 직접 클릭 후 `/portfolio` 이동 통과 | 링크 렌더링·대상 `/portfolio` 확인 | 링크 렌더링·대상 `/portfolio` 확인 |
+| 콘솔·네트워크 | 신규 화면 오류·실패 asset 없음 | 신규 화면 오류·실패 asset 없음 | 신규 화면 오류·실패 asset 없음 |
 
-- 최종 공개 URL:
-- 발행 revision:
-- 배포 결과: `성공` / `롤백` / `중단`
-- 남은 낮은 우선순위 항목:
+- 최종 공개 URL: `https://gmbro.github.io/portfolio/`
+- 상태 화면 검증 URL: `https://gmbro.github.io/portfolio/p/not-real-slug`
+- 발행 revision: Typebot·링크 상태 integration revision 2 / Git commit `da19ec1`
+- `noindex, nofollow`: `/p/not-real-slug`의 실제 meta 값 확인
+- 배포 결과: `성공`
+- 남은 낮은 우선순위 항목: 첨부 검증 자료를 반영한 기본 포트폴리오 콘텐츠 교체, 최초 실제 publication 발행, 기존 번들·Hero 이미지 용량 최적화
