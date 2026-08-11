@@ -725,13 +725,15 @@
 
 | 항목 | 390px | 768px | 1440px |
 |---|---|---|---|
-| 실제 asset revision | 배포 후 기록 | 배포 후 기록 | 배포 후 기록 |
-| 레이아웃·가로 스크롤 | 배포 후 기록 | 배포 후 기록 | 배포 후 기록 |
-| 프로젝트 최신순·영문 | 배포 후 기록 | 배포 후 기록 | 배포 후 기록 |
-| Typebot·Contact 겹침 | 배포 후 기록 | 배포 후 기록 | 배포 후 기록 |
-| `/p/not-real-slug` | 배포 후 기록 | 배포 후 기록 | 배포 후 기록 |
+| 실제 asset revision | `index-Bpcthuwg.js` / `index-SP_i0-K6.css` | 동일 | 동일 |
+| 레이아웃·가로 스크롤 | `375 = 375`, 문서 높이 15,082px | `753 = 753`, 문서 높이 12,430px | `1425 = 1425`, 문서 높이 9,585px |
+| 프로젝트 최신순·영문 | 6개 기간 최신순, 공개 한국어 0, visual placeholder 0 | 공개 한국어 0, Hero 지표 각 208px | Arkylab 첫 카드, 상위 3개 1280px·이전 3개 각 411px |
+| Typebot·Contact 겹침 | Experience 56px 원형, 열린 대화 Contact 이동 후 유지, 닫으면 launcher 숨김, form right 351/375px | Hero·Work launcher 숨김 | Work launcher 숨김 |
+| `/p/not-real-slug` | 새로고침 후 영문 invalid 화면, `noindex, nofollow`, Typebot 없음 | 동일 route 동작 확인 | 동일 route 동작 확인 |
 
-- GitHub Actions: 배포 후 기록
-- 최종 공개 URL: 배포 후 기록
-- 발행 revision: base revision 5 / Git commit 배포 후 기록
-- 배포 결과: `대기`
+- Hero CTA: 실서비스 390px에서 클릭 후 `scrollY 898.5`, Work top `80.07px`로 정상 이동.
+- 실서비스 로그: `https://gmbro.github.io/portfolio/` 범위 console error/warn `0건`.
+- GitHub Actions: `Deploy Portfolio to GitHub Pages` run `31503115896` build·deploy 성공 — `https://github.com/gmbro/portfolio/actions/runs/31503115896`.
+- 최종 공개 URL: `https://gmbro.github.io/portfolio/`
+- 발행 revision: 기본 포트폴리오 base revision 5 / Git commit `90607d8`
+- 배포 결과: `성공`
