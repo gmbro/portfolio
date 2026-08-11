@@ -354,22 +354,24 @@
 - 프로덕션 빌드: GitHub Pages base(`/portfolio/`) 기준 통과. Hero 대형 배경 이미지를 제거해 기존 약 2.59MB 자산이 배포 번들에서 제외됨.
 - 테스트·정적 검사: TypeScript 통과, Vitest 8개 통과, ESLint 오류 0·기존 fast-refresh 경고 8개
 - CI 재점검: 최초 Pages run #5에서 문의 폼 테스트가 로컬 `.env.local`에 의존해 실패한 것을 확인했다. `src/test/contact.test.tsx`에 전용 가짜 EmailJS 환경값과 모듈 초기화를 명시한 뒤 TypeScript·Vitest 8개를 다시 통과했다.
-- EmailJS 실발송: SDK mock 전송과 GitHub Secrets 연결 통과. 실제 Pages URL에서 1회 전송 결과를 배포 후 확인한다.
-- 미해결 문제: EmailJS 템플릿의 실제 Gmail 수신 여부는 성공 응답 후 사용자의 Gmail에서 최종 확인이 필요하다. Typebot 웹 컴포넌트 청크 약 696KB와 메인 청크 약 1.56MB는 후속 성능 최적화 대상으로 기록한다.
+- EmailJS 실발송: SDK mock 전송과 GitHub Secrets 연결 통과. 공개 폼은 `EmailJS로 문의 보내기` 상태로 정상 초기화됐다. 자동화 브라우저의 1회 제출은 의도한 `blockHeadless` 방어에 의해 실패 상태와 입력 보존 UI로 처리됐고, 비브라우저 API 확인도 EmailJS 계정의 non-browser API 차단 정책(403)으로 거부됐다.
+- 미해결 문제: 실제 Gmail 수신은 일반 사용자 브라우저에서 폼을 1회 제출해 최종 확인해야 한다. 보안 옵션을 낮추거나 non-browser API를 활성화하지는 않았다. Typebot 웹 컴포넌트 청크 약 696KB와 메인 청크 약 1.56MB는 후속 성능 최적화 대상으로 기록한다.
 - 배포 가능 여부: `가능`
 
 #### 배포 후 실제 URL 점검
 
 | 항목 | 390px | 768px | 1440px |
 |---|---|---|---|
-| 실제 URL 로드 |  |  |  |
-| 전체 콘텐츠·route 새로고침 |  |  |  |
-| AI 프로젝트·링크 |  |  |  |
-| 문의 폼·fallback |  |  |  |
-| 콘솔·네트워크 |  |  |  |
+| 실제 URL 로드 | 새 자산 `index-CwL-fBSv.js`, 새 title·Hero 확인 | 통과 | 통과 |
+| 전체 콘텐츠·route 새로고침 | `/`, `/p/not-real-slug`, `/admin/links` 통과 | `/` 통과 | `/` 통과 |
+| AI 프로젝트·링크 | 6개 대표 프로젝트·6개 경력·4개 AI 역량 표시, ArchiLab이 `https://archi.best/`로 정상 이동 | 통과 | LinkedIn·ArchiLab href와 메뉴 통과 |
+| 문의 폼·fallback | EmailJS 설정 인식·입력·동의·오류 시 입력 보존과 직접 메일 링크 통과 | 버튼·폼 너비 통과 | 2열 문의 레이아웃 통과 |
+| 콘솔·네트워크 | 신규 렌더링 오류 없음. 자동화 제출은 anti-headless 정책으로 안전하게 실패 처리 | 신규 오류 없음 | 신규 오류 없음 |
 
-- 최종 공개 URL:
-- 발행 revision:
-- EmailJS 상태:
-- 배포 결과: `성공` / `롤백` / `중단`
-- 남은 낮은 우선순위 항목:
+- 최종 공개 URL: `https://gmbro.github.io/portfolio/`
+- 상태 화면 검증 URL: `https://gmbro.github.io/portfolio/p/not-real-slug`
+- 링크 관리 화면: `https://gmbro.github.io/portfolio/admin/links`
+- 발행 revision: 기본 포트폴리오 base revision 1 / 콘텐츠 commit `8446f34` / CI fix commit `c7fd46a`
+- EmailJS 상태: Service·Template·Public 식별자 GitHub Secrets 연결, 공개 빌드 인식, mock 전송 통과. anti-headless·non-browser API 차단 정책을 유지했으므로 Gmail 실수신만 사용자 일반 브라우저 확인 필요.
+- 배포 결과: `성공`
+- 남은 낮은 우선순위 항목: 최초 실제 JD 기반 publication 발행, EmailJS Gmail 실수신 1회 확인, 메인·Typebot 청크 코드 분할
