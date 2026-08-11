@@ -483,3 +483,17 @@
 - 테스트·정적 검사: TypeScript 통과, Vitest 10개 통과, ESLint 오류 0·기존 fast-refresh 경고 8개
 - 미해결 문제: 기능 차단 없음. ArchiLab과 Vision AI의 퍼센트 기여도는 확인 자료가 없어 역할 범위로 공개하며, 확인값을 받으면 같은 배지에 교체할 수 있다.
 - 배포 가능 여부: `가능`
+
+#### 배포 후 실제 URL 점검
+
+| 항목 | 390px | 768px | 1440px |
+|---|---|---|---|
+| 실제 URL·revision | 새 자산 `index-By8mfszM.js`, 6개 카드 확인 | 동일 revision 통과 | 동일 revision 통과 |
+| 수행 회사·주체 | 여섯 조직명과 `수행 회사 / 수행 주체 / 사업 구분` 확인 | 여섯 조직명 확인 | 2열에서 셀렉트스타·스켈터랩스 비교 확인 |
+| 기여도·역할 범위 | 100%·90%·역할 범위 배지, 카드 내부 오버플로 없음 | 메타 한 행 정렬 통과 | 우측 강조 배지 정렬 통과 |
+| 콘솔·레이아웃 | 신규 `error` 로그 없음, 가로 스크롤 없음 | 가로 스크롤 없음 | 가로 스크롤 없음 |
+
+- GitHub Actions: `Deploy Portfolio to GitHub Pages #10` 성공
+- 최종 공개 URL: `https://gmbro.github.io/portfolio/`
+- 발행 revision: 기본 포트폴리오 base revision 3 / Git commit `d7e51fa`
+- 배포 결과: `성공`
