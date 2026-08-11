@@ -162,14 +162,17 @@ const Hero = ({ content = defaultHeroContent }: HeroProps) => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7, duration: 0.8 }}
-          className="mt-16 flex max-w-full flex-wrap items-center justify-center gap-8 md:gap-16 relative z-10"
+          className="mt-16 flex max-w-full flex-wrap items-stretch justify-center gap-3 md:gap-5 relative z-10"
         >
           {stats.map((stat) => (
-            <div key={`${stat.value}-${stat.label}`} className="text-center">
+            <div
+              key={`${stat.value}-${stat.label}`}
+              className="min-w-[5.5rem] rounded-2xl border border-white/25 bg-black/45 px-4 py-3 text-center shadow-lg backdrop-blur-sm md:min-w-[8rem] md:px-6 md:py-4"
+            >
               <div className="text-3xl md:text-4xl font-display font-extrabold text-white">
                 {stat.value}
               </div>
-              <div className="text-xs md:text-sm font-body text-white/75 mt-1">
+              <div className="text-xs md:text-sm font-body font-medium text-white/90 mt-1">
                 {stat.label}
               </div>
             </div>
