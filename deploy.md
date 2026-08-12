@@ -941,4 +941,12 @@
 
 #### 배포 후 실제 URL 점검
 
-GitHub Pages 배포 완료 후 실제 asset revision, Hero·PM 증거 보드·대표 사례 순서, CTA, 무효 맞춤 링크, 콘솔 상태를 기록한다.
+- GitHub Actions `Deploy Portfolio to GitHub Pages` 실행 `31570911305`가 성공했다.
+- 배포 커밋: `396b34c` (`feat: focus portfolio on product management narrative`).
+- 실제 공개 URL: `https://gmbro.github.io/portfolio/`.
+- 라이브 asset: `index-Dt7uemzk.js`; `lang=ko`, title `이경민 | 프로덕트 매니저`.
+- 라이브 Hero에서 `고객의 문제를 제품으로 해결하고 실제 사용과 성과로 검증합니다.`와 `0→1·350만·70%+` 지표를 확인했다.
+- PM 증거 보드는 `고객 문제 발견→제품 정의·0→1→운영·성장→측정·개선`, 대표 사례는 `Arkylab→Skelter Labs→SK Planet→Selectstar→학습 기록→Vision AI` 순으로 반영됐다.
+- 라이브 390px `375=375`, 768px `753=753`, 1440px `1425=1425`로 세 너비 모두 가로 오버플로 0이며 로컬 재검사와 문서 높이가 일치했다.
+- 라이브 `/portfolio/p/not-real-slug`는 한국어 무효 링크 화면과 `noindex, nofollow`, console error/warn 0건을 확인했다.
+- 배포 결과: `성공` — 기본 공개 포트폴리오 base revision 7.
