@@ -1012,4 +1012,13 @@
 
 #### 배포 후 실제 URL 점검
 
-GitHub Pages 배포 후 같은 세 너비에서 asset revision, 섹션 순서, 상시 fixed Typebot, 문의 비가림, 무효 맞춤 링크와 관리자 제외, 콘솔 상태를 기록한다.
+- GitHub Actions `Deploy Portfolio to GitHub Pages` 실행 `31573493921`이 성공했다.
+- 배포 커밋: `a40a8b1` (`feat: prioritize intro and pin portfolio chatbot`).
+- 실제 공개 URL: `https://gmbro.github.io/portfolio/`.
+- 라이브 asset: `index-DXXvWY4h.js`; `lang=ko`, title `이경민 | 프로덕트 매니저`.
+- 라이브 본문 순서는 `Hero→소개→제품으로 검증한 PM 역량→대표 PM 사례→PM 역량→경력→문의`로 반영됐다.
+- 라이브 390px `375=375`·13,070px, 768px `753=753`·11,667px, 1440px `1425=1425`·9,360px로 세 너비 모두 가로 오버플로 0이며 로컬과 일치했다.
+- Typebot은 라이브 Hero·대표 사례·문의·Footer에서 계속 표시되며 390px 56px, 768·1440px 64px 원형으로 우측 35px·하단 20px에 고정됐다. 열기·닫기 상태와 한국어 접근성 이름도 정상이다.
+- 라이브 390px 문의 CTA와 Typebot 교차 영역은 0이다. `/portfolio/p/not-real-slug`, `/portfolio/admin/links`, 404에는 Typebot이 노출되지 않는다.
+- 기본 공개 URL과 무효 맞춤 링크·관리자 화면의 console error/warn은 0건이다. 의도된 404 route는 기존 진단용 `console.error` 1건을 남기지만 UI·라우팅에는 영향이 없다.
+- 배포 결과: `성공` — 기본 공개 포트폴리오 base revision 8.
