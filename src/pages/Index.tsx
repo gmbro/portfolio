@@ -3,7 +3,6 @@ import Hero from "@/components/Hero";
 import ProductProof from "@/components/ProductProof";
 import ImageCards from "@/components/ImageCards";
 import Experience from "@/components/Experience";
-import Leadership from "@/components/Leadership";
 import About from "@/components/About";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
@@ -29,7 +28,6 @@ const Index = ({ heroContent }: IndexProps) => {
         <About />
         <ProductProof />
         <ImageCards />
-        <Leadership />
         <Experience />
         <Contact />
       </main>

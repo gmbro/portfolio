@@ -28,6 +28,7 @@ class IntersectionObserverMock implements IntersectionObserver {
 }
 
 Object.defineProperty(globalThis, "IntersectionObserver", {
+  configurable: true,
   writable: true,
   value: IntersectionObserverMock,
 });

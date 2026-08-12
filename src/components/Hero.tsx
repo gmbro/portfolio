@@ -24,7 +24,7 @@ const Hero = ({ content = defaultHeroContent }: HeroProps) => {
   const stats = content.stats ?? [];
 
   return (
-    <section className="relative flex min-h-[100svh] overflow-hidden bg-[#070707] px-6 pb-20 pt-28 text-white md:px-12 md:pb-24 md:pt-32">
+    <section id="hero" className="relative flex min-h-[100svh] overflow-hidden bg-[#070707] px-6 pb-20 pt-28 text-white md:px-12 md:pb-24 md:pt-32">
       <div
         className="pointer-events-none absolute inset-0 opacity-90"
         style={{

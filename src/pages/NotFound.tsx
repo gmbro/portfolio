@@ -14,8 +14,6 @@ const NotFound = () => {
     robots.content = "noindex, nofollow";
     if (!existingRobots) document.head.appendChild(robots);
     document.title = "페이지를 찾을 수 없습니다 | 이경민";
-    console.error("404 오류: 존재하지 않는 경로에 접근했습니다:", location.pathname);
-
     return () => {
       document.title = previousTitle;
       if (!existingRobots) robots.remove();

@@ -117,16 +117,16 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
     expect(featuredProjects.map((project) => project.id)).toEqual([
       "arkylab-ai-coach",
       "skelter-ai-counselor",
-      "sk-planet-syrup-wallet",
       "selectstar-stt-operations",
+      "sk-planet-syrup-wallet",
       "trevari-learning-record",
       "nipa-vision-ai-poc",
     ]);
     expect(featuredProjects.map((project) => project.period)).toEqual([
       "2026.06–진행 중",
       "2021.09–2023.04",
-      "2018.04–2020.04",
       "2024.06–2025.01",
+      "2018.04–2020.04",
       "2026.05–진행 중",
       "2025.06–2025.12",
     ]);
@@ -138,8 +138,8 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
     ).toEqual([
       "수행 주체: Arkylab",
       "수행 회사: Skelter Labs · 제품",
-      "수행 회사: SK Planet · Syrup Wallet",
       "수행 회사: Selectstar · 프로젝트실",
+      "수행 회사: SK Planet · Syrup Wallet",
       "수행 주체: Arkylab · 독립 구축",
       "지원 사업: NIPA 지원 사업",
     ]);

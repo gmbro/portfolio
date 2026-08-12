@@ -132,7 +132,7 @@ const LinkManager = () => {
     if (!supabase || !email.trim()) return;
 
     setAuthMessage("");
-    const redirectUrl = new URL("admin/links", document.baseURI).href;
+    const redirectUrl = new URL("/admin/links", window.location.origin).href;
     const { error } = await supabase.auth.signInWithOtp({
       email: email.trim(),
       options: {

@@ -22,7 +22,7 @@ type FormState = {
 type SubmitStatus = {
   type: "idle" | "success" | "error" | "fallback";
   message: string;
-  showEmailFallback?: boolean;
+  fallbackHref?: string;
 };
 
 const initialForm: FormState = { name: "", email: "", message: "", website: "" };
@@ -31,6 +31,29 @@ const buildMailtoUrl = (form: FormState) => {
   const subject = encodeURIComponent(`[포트폴리오 문의] ${form.name}`);
   const body = encodeURIComponent(`보낸 사람: ${form.name}\n회신 이메일: ${form.email}\n\n${form.message}`);
   return `mailto:${profile.email}?subject=${subject}&body=${body}`;
+};
+
+const getEmailJsErrorStatus = (error: unknown) => {
+  if (!error || typeof error !== "object" || !("status" in error)) return null;
+
+  const status = (error as { status?: unknown }).status;
+  return typeof status === "number" ? status : null;
+};
+
+const getEmailJsErrorMessage = (status: number | null) => {
+  if (status === 429) {
+    return "요청이 너무 빠르게 반복되었습니다. 10초 후 다시 시도하거나 아래 이메일로 직접 보내 주세요.";
+  }
+
+  if (status === 451) {
+    return "현재 브라우저에서 자동 전송을 완료하지 못했습니다. 아래 이메일 링크로 작성한 내용을 보내 주세요.";
+  }
+
+  if (status && [400, 401, 403, 404, 412, 422].includes(status)) {
+    return "이메일 전송 설정을 확인하지 못했습니다. 작성한 내용은 유지됩니다. 아래 이메일로 직접 보내 주세요.";
+  }
+
+  return "자동 전송에 실패했습니다. 작성한 내용은 유지됩니다. 아래 이메일로 직접 보내 주세요.";
 };
 
 const Contact = () => {
@@ -99,7 +122,6 @@ const Contact = () => {
         },
         {
           publicKey: emailJsConfig.publicKey,
-          blockHeadless: true,
           limitRate: { id: "portfolio-contact", throttle: 10_000 },
         },
       );
@@ -110,11 +132,11 @@ const Contact = () => {
         type: "success",
         message: `문의가 전송되었습니다. ${profile.email}을 통해 답변드리겠습니다.`,
       });
-    } catch {
+    } catch (error) {
       setStatus({
         type: "error",
-        message: "자동 전송에 실패했습니다. 작성한 내용은 유지됩니다. 아래 이메일로 직접 보내 주세요.",
-        showEmailFallback: true,
+        message: getEmailJsErrorMessage(getEmailJsErrorStatus(error)),
+        fallbackHref: buildMailtoUrl(cleaned),
       });
     } finally {
       setSending(false);
@@ -241,8 +263,12 @@ const Contact = () => {
               }`}
             >
               {status.message}
-              {status.showEmailFallback && (
-                <a href={`mailto:${profile.email}`} className="ml-1 font-semibold text-[#ff8a70] underline underline-offset-4">
+              {status.fallbackHref && (
+                <a
+                  href={status.fallbackHref}
+                  aria-label={`작성한 내용으로 ${profile.email}에 이메일 보내기`}
+                  className="ml-1 font-semibold text-[#ff8a70] underline underline-offset-4"
+                >
                   {profile.email}
                 </a>
               )}
@@ -253,7 +279,7 @@ const Contact = () => {
             type="submit"
             disabled={sending}
             aria-busy={sending}
-            className="mt-6 flex min-h-14 w-[calc(100%-7rem)] items-center justify-center rounded-full bg-[#ff6645] px-6 py-4 font-body text-sm font-bold text-white transition-colors hover:bg-[#ff7a5f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6645] focus-visible:ring-offset-4 focus-visible:ring-offset-[#111111] disabled:cursor-not-allowed disabled:opacity-50 sm:w-[calc(100%-9rem)] lg:w-full"
+            className="mt-6 flex min-h-14 w-full items-center justify-center rounded-full bg-[#ff6645] px-6 py-4 font-body text-sm font-bold text-white transition-colors hover:bg-[#ff7a5f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6645] focus-visible:ring-offset-4 focus-visible:ring-offset-[#111111] disabled:cursor-not-allowed disabled:opacity-50"
           >
             {sending && <LoaderCircle size={18} className="mr-2 animate-spin" aria-hidden="true" />}
             문의하기

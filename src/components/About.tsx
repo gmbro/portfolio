@@ -17,24 +17,24 @@ const workingRange = [
 
 const About = () => {
   return (
-    <section id="about" className="scroll-mt-20 bg-[#0a0a0a] px-6 py-24 text-white md:px-12 md:py-32">
+    <section id="about" className="scroll-mt-20 bg-[#0a0a0a] px-6 py-16 text-white md:px-12 md:py-20">
       <div className="mx-auto max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.5 }}
-          className="grid gap-10 lg:grid-cols-[0.72fr_1.28fr] lg:gap-20"
+          className="grid gap-8 lg:grid-cols-[0.72fr_1.28fr] lg:gap-16"
         >
           <div>
             <p className="font-body text-xs font-semibold uppercase tracking-[0.3em] text-[#ff6645]">소개</p>
-            <h2 className="mt-4 max-w-xl break-keep font-display text-3xl font-bold leading-tight tracking-[-0.03em] text-white md:text-5xl">
+            <h2 className="mt-4 max-w-xl break-keep font-display text-3xl font-bold leading-tight tracking-[-0.03em] text-white md:text-4xl">
               도메인은 달라도, 문제를 해결하는 방식은 일관됐습니다.
             </h2>
           </div>
 
           <div>
-            <div className="max-w-3xl space-y-5 break-keep font-body text-base leading-8 text-white/60 md:text-lg">
+            <div className="max-w-3xl space-y-4 break-keep font-body text-base leading-7 text-white/70 md:text-lg md:leading-8">
               <p>
                 퍼포먼스 마케팅, 대규모 제품 운영, 0→1 AI 서비스, 데이터 프로젝트와 B2B·B2G
                 사업화까지 서로 다른 환경을 경험했습니다.
@@ -45,11 +45,16 @@ const About = () => {
               </p>
             </div>
 
-            <dl className="mt-10 grid gap-px overflow-hidden rounded-3xl border border-white/10 bg-white/10 md:grid-cols-3">
-              {workingRange.map((item) => (
-                <div key={item.label} className="bg-[#111111] p-6 md:min-h-44 md:p-7">
-                  <dt className="font-display text-sm font-bold text-[#ff7a5f]">{item.label}</dt>
-                  <dd className="mt-3 break-keep font-body text-sm leading-6 text-white/55">{item.copy}</dd>
+            <dl className="mt-8 grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 md:grid-cols-3">
+              {workingRange.map((item, index) => (
+                <div key={item.label} className="flex gap-4 bg-[#111111] p-5 md:p-6">
+                  <span className="font-display text-xs font-extrabold tracking-[0.12em] text-[#ff6645]" aria-hidden="true">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <div>
+                    <dt className="font-display text-sm font-bold text-[#ff8a70]">{item.label}</dt>
+                    <dd className="mt-2 break-keep font-body text-sm leading-6 text-white/65">{item.copy}</dd>
+                  </div>
                 </div>
               ))}
             </dl>

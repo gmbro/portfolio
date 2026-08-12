@@ -84,20 +84,6 @@ export const featuredProjects: FeaturedProject[] = [
     tags: ["STT · TTS", "Retrieval", "대화 데이터", "사업 제휴"],
   },
   {
-    id: "sk-planet-syrup-wallet",
-    category: "대규모 제품 운영",
-    period: "2018.04–2020.04",
-    organizationLabel: "수행 회사",
-    organization: "SK Planet · Syrup Wallet",
-    involvement: { label: "기여도", value: "100%" },
-    title: "350만 MAU 제품의 푸시 병목을 진단하고 타기팅·발송 구조를 개선했습니다.",
-    challenge: "광고 푸시의 수신 효율, 서버 과부하와 반복적인 수작업 운영을 함께 개선해야 했습니다.",
-    action: "유효 토큰 타기팅, 분산 발송과 사용자군 리타기팅 기능을 기획하고 운영 프로세스를 재설계했습니다.",
-    result: "수신율을 2배, 열람률을 1.5배 높이고 운영 시간을 기존의 1/10 수준으로 단축했습니다.",
-    metrics: ["약 350만 MAU", "수신율 2배", "운영 시간 1/10"],
-    tags: ["B2C", "서비스 운영", "타기팅", "프로세스 개선"],
-  },
-  {
     id: "selectstar-stt-operations",
     category: "AI 데이터 · 운영",
     period: "2024.06–2025.01",
@@ -117,6 +103,20 @@ export const featuredProjects: FeaturedProject[] = [
       alt: "STT 운영 전후 흐름과 검증된 비용 및 시간 개선 자료",
       placeholderItems: ["개선 전후 프로세스", "운영 화면", "비용·시간 개선 자료"],
     },
+  },
+  {
+    id: "sk-planet-syrup-wallet",
+    category: "대규모 제품 운영",
+    period: "2018.04–2020.04",
+    organizationLabel: "수행 회사",
+    organization: "SK Planet · Syrup Wallet",
+    involvement: { label: "기여도", value: "100%" },
+    title: "350만 MAU 제품의 푸시 병목을 진단하고 타기팅·발송 구조를 개선했습니다.",
+    challenge: "광고 푸시의 수신 효율, 서버 과부하와 반복적인 수작업 운영을 함께 개선해야 했습니다.",
+    action: "유효 토큰 타기팅, 분산 발송과 사용자군 리타기팅 기능을 기획하고 운영 프로세스를 재설계했습니다.",
+    result: "수신율을 2배, 열람률을 1.5배 높이고 운영 시간을 기존의 1/10 수준으로 단축했습니다.",
+    metrics: ["약 350만 MAU", "수신율 2배", "운영 시간 1/10"],
+    tags: ["B2C", "서비스 운영", "타기팅", "프로세스 개선"],
   },
   {
     id: "trevari-learning-record",
@@ -271,45 +271,5 @@ export const careerExperiences: CareerExperience[] = [
       "클릭 반응률을 기준으로 대표 상품을 선정하고 시즌 프로모션 개선",
     ],
     tags: ["커머스", "퍼포먼스 마케팅", "콘텐츠", "전환 개선"],
-  },
-];
-
-export const aiCapabilities = [
-  {
-    title: "고객 문제 정의 · 제품 가설",
-    description:
-      "사용자의 반복 행동과 운영 병목을 관찰해 해결할 문제를 좁히고, AI가 실제 가치를 만드는 제품 가설과 검증 기준으로 구체화합니다.",
-    evidence: "Arkylab 운동 강사용 AI 제품 · Skelter Labs AI 상담사 PoC",
-  },
-  {
-    title: "0→1 제품 설계 · 실행",
-    description:
-      "제품 범위, 사용자 흐름, PRD와 데이터 구조를 설계하고 기술·운영·사업 이해관계자를 연결해 작동하는 제품으로 구현합니다.",
-    evidence: "Skelter Labs B2C AI 상담사 · Arkylab AI 제품",
-  },
-  {
-    title: "운영 데이터 기반 개선",
-    description:
-      "사용·운영 데이터를 기준으로 병목을 찾고 타기팅, 자동화와 운영 구조를 개선해 제품 성과와 비용 효율을 함께 검증합니다.",
-    evidence: "SK Planet 350만 MAU 제품 · Selectstar STT 운영 구조",
-  },
-];
-
-export const verifiedSkillGroups = [
-  {
-    label: "AI · 데이터",
-    items: ["STT", "TTS", "Retrieval", "RAG", "OCR", "대화 데이터", "Python"],
-  },
-  {
-    label: "제품 · 프로젝트 실행",
-    items: ["제품 관리", "프로젝트 관리", "PRD", "요구사항 정의", "Figma", "QA"],
-  },
-  {
-    label: "MVP · 자동화",
-    items: ["Codex", "Supabase", "LangChain", "Slack 연동", "웹 자동화"],
-  },
-  {
-    label: "사업화",
-    items: ["B2B", "B2C", "B2G", "SaaS", "CSAP", "공공조달", "사업 제휴"],
   },
 ];

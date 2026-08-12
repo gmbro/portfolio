@@ -1091,3 +1091,91 @@
 #### 배포 후 실제 URL 점검
 
 GitHub Pages 배포 후 같은 세 너비에서 asset revision, launcher 외형·상호작용, 문의 비가림, 제외 route, console 상태를 기록한다.
+
+---
+
+### 2026-08-12 / 사용자 지정 도메인·문의 복구·PM 포트폴리오 최적화 / base revision 10
+
+- 작업 대상 URL: `/`, 유효한 `/p/:slug`, `/admin/links`
+- 수정 전 공개 URL: `https://gmbro.github.io/portfolio/`
+- 배포 예정 URL: `https://archilab.ai.kr/`
+- 대상 revision: 기본 포트폴리오 base revision 10
+- 검사 브라우저: Codex In-app Browser
+- 검사 담당: Codex
+
+#### 1~4단계 적용 기준
+
+- 특정 회사 JD가 새로 제공되지 않았으므로 존재하지 않는 JD 요구를 만들지 않는다. 기존에 검증한 공통 PM 채용 신호 `고객 문제 정의 → 0→1 제품 설계 → 운영 데이터 기반 개선`을 유지한다.
+- 경력·수치·Hero 주장은 바꾸지 않고, 채용 담당자와 대표가 같은 근거를 반복해서 읽지 않도록 소개·증거 보드·PM 역량·경력의 위계를 압축한다.
+- 문의는 사용자가 제공한 EmailJS 공개 식별자를 유지하되 수신자는 템플릿에 고정하고 클라이언트 `to_email`을 금지한다. 실패해도 작성 내용을 잃지 않는 메일 앱 경로를 제공한다.
+- 사용자 지정 도메인은 GitHub Pages에 `archilab.ai.kr`로 먼저 등록한 뒤 가비아 DNS, 루트 base, HTTPS를 순서대로 검증한다. DNS와 EmailJS 템플릿처럼 외부 설정이 완료되지 않으면 완료로 보고하지 않는다.
+
+#### 1차 진단 — 수정 전
+
+| ID | 너비·환경 | 섹션 | 발견한 문제 | 사용자 영향 | 심각도 | 수정 방향 | 상태 |
+|---|---:|---|---|---|---|---|---|
+| QA-BASE10-001 | 실제 EmailJS API | 문의 | `template_zeewzqa` 전송이 HTTP 400 `The template ID not found`로 응답 | 정상 입력도 자동 전송 실패 | 차단 | 대시보드 템플릿을 올바른 계정에 저장하고 ID 확인. 코드에서는 실패 유형과 본문 포함 mailto를 제공 | 발견 |
+| QA-BASE10-002 | Codex In-app Browser | 문의 | `blockHeadless: true`가 `navigator.webdriver` 환경에서 451 오탐 가능 | 인앱·자동화 브라우저의 정상 방문자가 전송 전에 차단될 수 있음 | 높음 | honeypot·10초 제한은 유지하고 blockHeadless 제거 | 발견 |
+| QA-BASE10-003 | 390px | Hero·Typebot | 132px pill launcher가 `350만`, `70%+` 지표 카드와 교차 | 첫 화면의 핵심 성과 수치를 가림 | 차단 | 챗봇은 계속 mount하되 Hero가 보이고 대화가 닫혔을 때 launcher만 숨김 | 발견 |
+| QA-BASE10-004 | 768px | Hero·Typebot | 196px pill launcher가 `70%+` 지표 카드와 교차 | 태블릿 첫 화면 성과 카드 비가림 | 차단 | 390px과 동일한 smart visibility 적용 | 발견 |
+| QA-BASE10-005 | 390·768px | Contact | 챗봇 충돌 회피를 위해 제출 버튼을 `calc(100%-7/9rem)`으로 축소 | 주 CTA가 반쪽처럼 보여 신뢰와 터치 가독성 저하 | 높음 | Contact가 보이고 대화가 닫혔을 때 launcher 숨김, 제출 버튼 full width 복구 | 발견 |
+| QA-BASE10-006 | 390·768·1440px | 정보 구조 | About·ProductProof·Leadership가 동일한 `문제 정의→제품 설계→성과 검증` 메시지를 반복 | 실제 프로젝트 증거 도달이 늦고 제너럴리스트 인상 강화 | 높음 | About·증거 보드를 압축하고 독립 Leadership 렌더 제거, 경력은 모두 요약형으로 전환 | 발견 |
+| QA-BASE10-007 | 390·768·1440px | 대표 사례 | PM 증거 순서가 `Arkylab→Skelter→SK Planet→Selectstar`로 이어져 강한 70%+ 개선 사례가 뒤에 위치 | 0→1 다음 개선 역량의 연결이 약함 | 보통 | `Arkylab→Skelter→Selectstar→SK Planet`으로 대표 증거를 재배치 | 발견 |
+| QA-BASE10-008 | 전체 | 성능 | Pretendard 5개 파일 약 3.65MiB, 미사용 전역 Toaster·Tooltip provider, 사용되지 않는 자산·파일이 남음 | 첫 로드와 유지보수·공급망 표면 증가 | 높음 | Pretendard variable dynamic subset 1개로 교체, 미사용 provider와 명백한 dead code 제거 | 발견 |
+| QA-BASE10-009 | DNS·GitHub Pages | 도메인 | GitHub Pages Custom domain 저장은 완료됐으나 apex A/AAAA가 NODATA, `www` NXDOMAIN, TLS 인증서 없음 | `https://archilab.ai.kr` 접속 불가 | 차단 | 가비아 A 4개·www CNAME 설정 후 DNS check·HTTPS 강제 | 발견 |
+| QA-BASE10-010 | 전체 | 애니메이션·증거 | 동일 fade-up이 반복되지만 실제 제품 화면·전후 자료 `visual.src`는 0개 | 움직임은 많고 제품 판단 증거는 부족 | 보통 | 장식 모션 추가는 보류. 실제 자료가 제공될 때만 제품 흐름·before/after에 목적성 모션 추가 | 발견 |
+
+수정 전 반응형·성능 측정:
+
+- 390px: 문서 약 13,070px, 가로 오버플로 0. 챗봇 pill과 Hero 지표 교차 확인.
+- 768px: 문서 약 11,668px, 가로 오버플로 0. 챗봇 pill과 세 번째 Hero 지표 교차 확인.
+- 1440px: 문서 약 9,361px, 가로 오버플로 0. launcher 비가림은 없지만 동일 근거가 세 섹션에서 반복됨.
+- 프로덕션 자산: main 약 168KiB gzip, Typebot 약 198KiB gzip. 현재 실제 시각 증거 asset은 0개이며 Arkylab 외부 URL만 공개됨.
+- 보안 사전 점검: `pnpm audit --prod` 알려진 취약점 0건, 추적된 비밀키 0건, Supabase exact-slug RPC·anon 테이블 SELECT 차단 유지.
+
+#### 직접 수정
+
+| ID | 수정 파일·외부 설정 | 직접 수정 내용 | 사실 변경 | 결과 |
+|---|---|---|---|---|
+| QA-BASE10-001 | EmailJS Dashboard, `.github/workflows/deploy-pages.yml` | 기존 템플릿의 ID를 사용자가 지정한 `template_zeewzqa`로 변경하고, 제목 `{{subject}}`, 고정 수신자, `{{name}}`·`{{email}}`·`{{message}}` 본문과 `{{reply_to}}`를 저장했다. 본문은 `문의해 주셔서 감사합니다.` 중심으로 간소화했다. | 없음 | Dashboard Test It `200 OK`, Gmail 실제 수신과 변수 치환 확인 |
+| QA-BASE10-002 | `src/components/Contact.tsx`, `src/test/contact.test.tsx` | `blockHeadless`를 제거하고 honeypot·10초 제한을 유지했다. 429·451·설정·일반 오류를 분리하고 작성한 제목·본문이 포함된 mailto fallback을 제공했다. | 없음 | 인앱 브라우저 오탐 제거, 입력 보존·재시도 경로 확인 |
+| QA-BASE10-003~004 | `src/components/TypebotBubble.tsx`, `src/components/Hero.tsx`, `src/test/index.test.tsx` | Hero가 보일 때 닫힌 launcher를 렌더하지 않고 Hero 이후 Typebot을 지연 로드했다. 본문에서는 고정 pill을 표시하고 Contact에서는 닫힌 launcher만 숨긴다. 열린 대화는 mount 상태를 유지한다. 모바일 panel max-width/height를 viewport 기준으로 제한했다. | 없음 | 390·768 Hero 지표 비가림 0, main gzip 감소, 390 열린 panel 좌우 overflow 0 |
+| QA-BASE10-005 | `src/components/Contact.tsx` | 제출 버튼을 전 너비 `w-full`로 복구하고 Contact가 보일 때 닫힌 챗봇 launcher를 숨겼다. | 없음 | 390·768·1440 닫힌 상태 CTA 교차 0 |
+| QA-BASE10-006 | `src/components/About.tsx`, `src/components/ProductProof.tsx`, `src/pages/Index.tsx`, `src/components/Experience.tsx`, `src/components/Leadership.tsx` | About을 2문단+compact 3단계로 압축하고 ProductProof를 작은 앵커 rail로 변경했다. 중복 Leadership 렌더와 파일을 제거했다. 경력은 요약형으로 전환하되 현재 Arkylab 설명은 접힘 밖에 유지했다. | 없음 | 모바일 문서 높이 약 13,070→10,372px, 1440 약 9,361→7,516px |
+| QA-BASE10-007 | `src/data/portfolio.ts`, `src/components/ProductProof.tsx`, `src/test/portfolio.test.ts` | 대표 사례를 Arkylab→Skelter→Selectstar→SK Planet 순으로 재배치하고 증거 rail도 같은 순서로 맞췄다. | 없음 | 0→1 다음에 70%+ 개선 증거가 이어지는 PM 서사 확보 |
+| QA-BASE10-008 | `src/index.css`, `src/App.tsx`, `src/components/TypebotBubble.tsx`, dead files | Pretendard 9개 선언을 공식 variable dynamic subset 1개로 교체했다. 미사용 Toaster·Sonner·Tooltip provider, `App.css`, `NavLink`, `Leadership`, placeholder asset과 미사용 데이터 export를 제거했다. Typebot은 dynamic import로 분리했다. | 없음 | main 168KiB→126.65KiB gzip, Typebot 199.27KiB는 첫 화면 preload 0 |
+| QA-BASE10-009 | Gabia DNS, GitHub Pages, Supabase Auth, `vite.config.ts`, `index.html`, `src/pages/LinkManager.tsx` | GitHub Pages custom domain을 저장하고 가비아 권한 DNS에 apex A 4개와 `www → gmbro.github.io.` CNAME을 추가했다. build base를 `/`, canonical/OG를 새 도메인으로 변경했다. Supabase Site URL과 redirect allowlist에 새 도메인을 등록하고 magic-link URL을 절대경로로 교정했다. | 없음 | 권한 DNS 저장 확인. 공용 DNS·TLS는 배포 후 최종 재확인 |
+| QA-BASE10-010 | 전체 모션 검토 | 장식용 3D·parallax·count-up은 추가하지 않았다. Hero·증거·섹션의 기존 짧은 진입 모션과 reduced-motion 대응만 유지했다. | 없음 | 실제 제품 화면·전후 자료가 없는 상태에서 과장 모션 방지 |
+
+추가 보안·정책 수정:
+
+- `robots.txt`는 crawler가 `/p/:slug`의 동적 `noindex`를 읽을 수 있도록 전역 Allow로 유지한다. 무효 링크·관리자·404의 런타임 `noindex, nofollow`를 직접 확인했다.
+- EmailJS 수신자는 대시보드에서 `gmbro7942@gmail.com`으로 고정했고 클라이언트 payload에 `to_email`은 없다. Free plan에서는 Domains allowlist 저장이 Subscription Limitation으로 차단됨을 확인했다. 잔여 스팸 위험은 honeypot·10초 client throttle·입력 길이 제한으로 완화하며, 트래픽 증가 시 유료 allowlist 또는 reCAPTCHA를 추가한다.
+- Supabase public link는 exact-slug RPC, 공개 안전 필드 3개, anon direct table SELECT 차단 상태를 유지한다.
+
+#### 동일 조건 재검사
+
+수정 후 production preview를 같은 브라우저와 너비에서 위→아래 직접 재검사했다.
+
+| 항목 | 390×844 | 768×900 | 1440×900 |
+|---|---:|---:|---:|
+| 실제 viewport / clientWidth | 390 / 375 | 768 / 753 | 1440 / 1425 |
+| scrollWidth / clientWidth | 375 / 375 | 753 / 753 | 1425 / 1425 |
+| 문서 높이 | 10,372px | 9,193px | 7,516px |
+| Hero의 닫힌 launcher | 렌더 0 | 렌더 0 | 버튼 렌더 0 |
+| 본문 launcher | 132×52px, 우 20px·하 6px | 196×64px, 우 20px·하 20px | 196×64px, 우 20px·하 20px |
+| Contact 닫힌 launcher | 숨김 | 숨김 | 숨김 |
+| Contact 제출 버튼 | 285×56px full width | 591×56px full width | 702×56px full width |
+
+- 390px에서 열린 Typebot panel은 350×704px, x=25~375로 좌우 overflow 0이며 `aria-pressed=true`, `메시지 닫기`가 동기화됐다. Contact로 이동해도 열린 대화는 유지되며 닫으면 Contact에서 launcher가 숨는다.
+- 프로젝트 증거 rail의 긴 `운영 원가 70%+ 절감`은 truncate를 제거해 작은 화면에서도 잘리지 않는다.
+- `/p/not-real-slug` 새로고침은 `유효하지 않은 링크입니다`와 `noindex, nofollow`, `/admin/links`는 관리자 화면과 `noindex, nofollow`, 임의 404는 한국어 404와 `noindex, nofollow`를 표시했다. 세 경로 모두 Typebot host 0이다.
+- production preview console error/warn 0. 루트 asset 경로는 `/assets/...`로 확인했다.
+- EmailJS `template_zeewzqa` Test It `200 OK`, 실제 Gmail 수신 제목·이름·회신 이메일·본문 치환 확인. 실패 테스트는 입력 보존과 본문 포함 mailto를 검증한다.
+- 최종 검사: TypeScript 통과, Vitest 15/15, ESLint 오류 0·기존 미사용 UI scaffold fast-refresh 경고 7, production build 통과, `git diff --check` 통과, `pnpm audit --prod` 알려진 취약점 0.
+- 사실·오타: 기존 회사·기간·역할·350만 MAU·70%+·0→1 수치와 귀속은 변경하지 않았다. 공개 PM 서사의 위계·배치만 변경했다.
+- 배포 판단: 코드 배포 가능. 전체 완료 판단은 공용 DNS 전파·GitHub Pages 인증서·HTTPS 강제 후에만 내린다.
+
+#### 배포 후 실제 URL 점검
+
+가비아 권한 DNS·EmailJS 템플릿 외부 설정은 완료했다. GitHub Actions 배포와 HTTPS 발급 후 실제 `https://archilab.ai.kr/`과 `/p/not-real-slug`, `/admin/links`를 같은 세 너비에서 기록한다.

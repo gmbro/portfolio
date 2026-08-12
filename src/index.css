@@ -1,57 +1,4 @@
-@font-face {
-    font-family: 'Pretendard';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Thin.woff2') format('woff2');
-    font-weight: 100;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'Pretendard';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-ExtraLight.woff2') format('woff2');
-    font-weight: 200;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'Pretendard';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Light.woff2') format('woff2');
-    font-weight: 300;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'Pretendard';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Regular.woff2') format('woff2');
-    font-weight: 400;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'Pretendard';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Medium.woff2') format('woff2');
-    font-weight: 500;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'Pretendard';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-SemiBold.woff2') format('woff2');
-    font-weight: 600;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'Pretendard';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Bold.woff2') format('woff2');
-    font-weight: 700;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'Pretendard';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-ExtraBold.woff2') format('woff2');
-    font-weight: 800;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'Pretendard';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Black.woff2') format('woff2');
-    font-weight: 900;
-    font-display: swap;
-}
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css");
 
 @tailwind base;
 @tailwind components;
@@ -89,8 +36,8 @@
 
     --radius: 0.75rem;
 
-    --font-display: 'Pretendard', sans-serif;
-    --font-body: 'Pretendard', sans-serif;
+    --font-display: 'Pretendard Variable', Pretendard, sans-serif;
+    --font-body: 'Pretendard Variable', Pretendard, sans-serif;
 
     --gradient-accent: linear-gradient(135deg, hsl(8, 78%, 58%), hsl(20, 100%, 61%));
     --gradient-accent-hover: linear-gradient(135deg, hsl(8, 78%, 52%), hsl(20, 100%, 55%));
@@ -144,7 +91,7 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Pretendard', sans-serif;
+    font-family: 'Pretendard Variable', Pretendard, sans-serif;
     min-width: 320px;
   }
 
@@ -154,7 +101,7 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Pretendard', sans-serif;
+    font-family: 'Pretendard Variable', Pretendard, sans-serif;
   }
 
   ::selection {
@@ -235,7 +182,7 @@ typebot-bubble::part(button)::after {
   left: 58px;
   content: "메시지";
   color: #111111;
-  font-family: "Pretendard", sans-serif;
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 16px;
   font-weight: 700;
   line-height: 1;
