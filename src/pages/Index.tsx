@@ -7,6 +7,7 @@ import Leadership from "@/components/Leadership";
 import About from "@/components/About";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import TypebotBubble from "@/components/TypebotBubble";
 import type { HeroContent } from "@/types/portfolio";
 
 interface IndexProps {
@@ -25,14 +26,15 @@ const Index = ({ heroContent }: IndexProps) => {
       <Navbar />
       <main id="main-content" tabIndex={-1}>
         <Hero content={heroContent} />
+        <About />
         <ProductProof />
         <ImageCards />
         <Leadership />
         <Experience />
         <Contact />
-        <About />
       </main>
       <Footer />
+      <TypebotBubble />
     </div>
   );
 };

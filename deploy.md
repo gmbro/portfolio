@@ -950,3 +950,66 @@
 - 라이브 390px `375=375`, 768px `753=753`, 1440px `1425=1425`로 세 너비 모두 가로 오버플로 0이며 로컬 재검사와 문서 높이가 일치했다.
 - 라이브 `/portfolio/p/not-real-slug`는 한국어 무효 링크 화면과 `noindex, nofollow`, console error/warn 0건을 확인했다.
 - 배포 결과: `성공` — 기본 공개 포트폴리오 base revision 7.
+
+---
+
+### 2026-08-12 / 소개 우선 배치·상시 플로팅 챗봇 / base revision 8
+
+- 작업 대상 URL: `/`, `/p/:slug`
+- 제외 URL: `/admin/links`
+- 배포 예정 URL: `https://gmbro.github.io/portfolio/`
+- 대상 revision: 기본 포트폴리오 base revision 8
+- 검사 브라우저: Codex In-app Browser
+- 검사 담당: Codex
+
+#### 1~4단계 적용 기준
+
+- 기존 base revision 7의 PM 포지셔닝·검증 수치·대표 사례·Hero는 변경하지 않는다.
+- 정보 구조만 `Hero → 소개 → 제품으로 검증한 PM 역량 → 대표 PM 사례 → PM 역량 → 경력 → 문의`로 바꿔, 증거 보드 전에 문제 해결 방식과 경력 확장 맥락을 설명한다.
+- Typebot `gmbro`는 공개 포트폴리오의 우측 하단에 스크롤 위치와 무관하게 고정한다. 관리자 화면에는 노출하지 않는다.
+
+#### 1차 진단 — 수정 전
+
+| ID | 너비 | 섹션 | 발견한 문제 | 사용자 영향 | 심각도 | 수정 방향 | 상태 |
+|---|---:|---|---|---|---|---|---|
+| QA-BASE8-001 | 390·768·1440px | 정보 구조 | 소개가 문의 뒤, 본문 마지막에 위치하고 PM 증거 보드가 Hero 직후 시작 | 평가자가 증거를 보기 전에 이 사람이 어떤 방식으로 문제를 해결해 왔는지 맥락을 얻기 어려움 | 보통 | About을 Hero 직후, ProductProof 직전으로 이동 | 발견 |
+| QA-BASE8-002 | 390·768·1440px | Typebot | 초기 Hero·소개·증거 보드에서 버튼이 생성되지 않고, 프로젝트 이후에도 문의 접근 시 다시 숨김 | 챗봇이 있다는 사실을 대부분의 페이지 구간에서 발견할 수 없음 | 높음 | 공개 route에서는 스크롤 조건 없이 항상 fixed launcher 렌더링 | 발견 |
+| QA-BASE8-003 | 390px | Typebot | 기존 모바일 CSS `translate: 14px 0`은 상시 고정 시 우측 여백을 약 6px로 축소 | 버튼이 화면 끝에 붙어 보이고 안전 영역이 부족함 | 보통 | translate 제거, 56px 원형·기본 20px 우측/하단 여백 유지 | 발견 |
+
+수정 전 반응형 측정:
+
+- 390px: `375=375`, 문서 13,070px, 순서 `Hero→ProductProof→Projects→Skills→Experience→Contact→About`, Hero에서 Typebot 버튼 없음.
+- 768px: `753=753`, 문서 11,667px, 같은 순서, Hero에서 Typebot 버튼 없음.
+- 1440px: `1425=1425`, 문서 9,360px, 같은 순서, Hero에서 Typebot 버튼 없음.
+
+#### 직접 수정
+
+| 범위 | 실제 수정 | 사실 변경 여부 |
+|---|---|---|
+| 정보 구조 | `Index`를 `Hero → 소개 → 제품으로 검증한 PM 역량 → 대표 PM 사례 → PM 역량 → 경력 → 문의` 순으로 재배치하고, 내비게이션도 `소개`를 첫 항목으로 이동 | 콘텐츠·수치·경력 사실 변경 없음 |
+| Typebot 렌더 구조 | 전역 `App` 렌더를 제거하고 실제 공개 포트폴리오를 완성한 `Index`에서만 Typebot을 렌더해 기본 `/`와 유효한 `/p/:slug`에 노출 | Typebot id·아이콘·답변 데이터 변경 없음 |
+| 상시 플로팅 | 프로젝트·문의 위치를 감시하던 scroll/resize/MutationObserver와 `isHidden` 조건을 제거하고 `position: fixed`를 명시 | 사실 변경 없음 |
+| 모바일 안전 영역 | 390px 챗봇을 56px 원형·우측/하단 20px 기준으로 유지하고 기존 우측 `translate`를 제거. 문의 CTA는 모바일에서 우측 80px 레일을 비워 챗봇과 겹치지 않게 조정 | 사실 변경 없음 |
+| 접근성·회귀 테스트 | 챗봇의 `챗봇 열기/닫기`·`aria-pressed` 동기화와 원형 포커스 스타일 유지. 소개/증거 보드 DOM 순서, 내비게이션 순서, fixed Typebot 설정을 검사하는 테스트 추가 | 사실 변경 없음 |
+
+#### 동일 조건 재검사
+
+| 항목 | 390px | 768px | 1440px |
+|---|---:|---:|---:|
+| 실제 content width | `375 = 375`, 가로 오버플로 0 | `753 = 753`, 가로 오버플로 0 | `1425 = 1425`, 가로 오버플로 0 |
+| 문서 높이 | 13,070px | 11,667px | 9,360px |
+| 본문 순서 | Hero→소개→PM 증거→대표 사례→PM 역량→경력→문의 | 동일 | 동일 |
+| Typebot 버튼 | 56×56px, 우측 35px·하단 20px | 64×64px, 우측 35px·하단 20px | 64×64px, 우측 35px·하단 20px |
+
+- Hero·대표 사례·문의·Footer로 각각 스크롤한 뒤에도 버튼이 `display:flex`, `visibility:visible`, `챗봇 열기`로 고정되는 것을 확인했다.
+- 실제 열기·닫기 시 `aria-pressed false→true→false`, 접근성 이름 `챗봇 열기→챗봇 닫기→챗봇 열기`로 동기화됐다.
+- 390px 문의 구간에서 챗봇은 `x=299–355`, 제출 CTA는 `x=45–250`으로 교차 영역 0이며, CTA 높이 56px를 유지한다.
+- `/admin/links`, `/p/not-real-slug`, 404에는 Typebot host가 0개이고 기본 `/`에는 1개임을 확인했다. 무효 맞춤 링크는 한국어 무효 링크 화면을 유지한다.
+- 새 로컬 프로덕션 preview 세션의 console error/warn은 0건이다.
+- TypeScript 통과, Vitest 12/12, ESLint 오류 0·기존 UI fast-refresh 경고 7, production build 통과, `git diff --check` 통과.
+- `pnpm audit --prod`: 알려진 취약점 0건. 의존성·lockfile·Supabase·EmailJS 설정은 변경하지 않았다.
+- 배포 가능 여부: `가능`.
+
+#### 배포 후 실제 URL 점검
+
+GitHub Pages 배포 후 같은 세 너비에서 asset revision, 섹션 순서, 상시 fixed Typebot, 문의 비가림, 무효 맞춤 링크와 관리자 제외, 콘솔 상태를 기록한다.

@@ -237,7 +237,6 @@ typebot-bubble::part(button):focus-visible {
   typebot-bubble::part(button) {
     inline-size: 56px;
     block-size: 56px;
-    translate: 14px 0;
   }
 }
 

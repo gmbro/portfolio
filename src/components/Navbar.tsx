@@ -4,11 +4,11 @@ import { useState } from "react";
 import { profile } from "@/data/portfolio";
 
 const navItems = [
+  { label: "소개", id: "about" },
   { label: "대표 PM 사례", id: "case-studies" },
   { label: "PM 역량", id: "skills" },
   { label: "경력", id: "experience" },
   { label: "문의", id: "contact" },
-  { label: "소개", id: "about" },
 ];
 
 const Navbar = () => {
