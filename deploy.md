@@ -1206,3 +1206,78 @@ GitHub Pages 배포 후 같은 세 너비에서 asset revision, launcher 외형�
 - EmailJS 템플릿 `template_zeewzqa`는 고정 수신자와 한국어 간단 본문으로 저장·실수신 완료했다. Free plan의 도메인 allowlist 제한은 잔여 위험으로 유지하며 honeypot·10초 제한·입력 길이 제한을 적용한다.
 - 최종 publication: 기본 공개 포트폴리오 base revision 10. 회사별 publication 신규 생성 없음. 기본 `/`은 indexable, 관리자·무효/회사별 링크·404는 각 런타임 정책에 따라 noindex를 유지한다.
 - 배포 결과: `성공`.
+
+---
+
+### 2026-08-12 / 보안 헤더 보강·최종 전달 / base revision 11
+
+- 작업 대상 URL: `/`, 유효한 `/p/:slug`, `/admin/links`
+- 배포 URL: `https://archilab.ai.kr/`
+- 대상 revision: 기본 포트폴리오 base revision 11
+- 검사 브라우저: Codex In-app Browser
+- 검사 담당: Codex
+
+#### 1~4단계 적용 기준
+
+- 특정 회사 JD나 새로운 경력 자료가 제공되지 않았으므로 base revision 10의 PM 서사·경력·수치·프로젝트 내용은 변경하지 않는다.
+- 이번 revision은 공개 자원 공급망과 브라우저 보안 경계를 보강하고, 동일한 390·768·1440px 조건에서 UI·문의·챗봇·보호 경로를 다시 검사하는 배포 작업이다.
+- GitHub Pages가 커스텀 응답 헤더를 지원하지 않는 제약 안에서 적용 가능한 meta CSP·Referrer Policy와 외부 폰트 SRI를 사용한다.
+
+#### 1차 진단 — 수정 전
+
+| ID | 범위 | 발견한 문제 | 사용자 영향 | 심각도 | 수정 방향 | 상태 |
+|---|---|---|---|---|---|---|
+| QA-BASE11-001 | `index.html` | 외부 Pretendard CSS가 CSS `@import`로 로드되어 파일 버전은 고정됐지만 Subresource Integrity를 적용할 수 없음 | CDN 자원 변조 시 브라우저 무결성 검증 불가 | 보통 | HTML stylesheet 링크로 이동하고 실제 파일 SHA-384 SRI 적용 | 수정 완료 |
+| QA-BASE11-002 | 전체 공개 페이지 | Referrer Policy가 브라우저 기본값에만 의존 | 외부 링크·API 요청 시 출처 정보 정책이 명시적이지 않음 | 낮음 | `strict-origin-when-cross-origin` 명시 | 수정 완료 |
+| QA-BASE11-003 | GitHub Pages | 응답 CSP·HSTS·frame 보호 헤더를 저장소에서 직접 설정할 수 없음 | XSS·클릭재킹 방어가 호스팅 제약에 좌우됨 | 보통 | 기능 origin을 최소 허용한 meta CSP 적용, 응답 헤더 한계는 잔여 위험으로 기록 | 부분 완화 |
+
+수정 전 기준은 base revision 10 라이브와 동일하다: 390px `375=375`·10,372px, 768px `753=753`·9,193px, 1440px `1425=1425`·7,516px, 세 너비 가로 오버플로 0.
+
+#### 직접 수정
+
+| 범위 | 실제 수정 | 사실 변경 여부 | 결과 |
+|---|---|---|---|
+| 외부 폰트 공급망 | Pretendard variable dynamic subset CSS를 정확한 `1.3.9` URL의 HTML stylesheet로 이동하고, CDN 원본과 대조한 SHA-384 `integrity` 및 `crossorigin=anonymous` 적용 | 없음 | 변조·불일치 시 브라우저가 폰트 CSS 차단 |
+| 브라우저 보안 정책 | `default-src 'self'`, `object-src 'none'`, `base-uri 'self'`, `form-action 'self'`를 기본으로 EmailJS·Supabase·Typebot·Pretendard에 필요한 HTTPS/WSS/frame/image origin만 허용한 meta CSP 적용 | 없음 | 로컬 production preview에서 CSP 위반 0, Typebot 열기 정상 |
+| Referrer Policy | `strict-origin-when-cross-origin`을 명시 | 없음 | 동일 출처는 전체 URL, 교차 출처는 origin만 전송 |
+| 기존 CSS 정리 | SRI를 우회하던 `@import` 제거 | 없음 | 중복 네트워크 요청 없이 동일 Pretendard 렌더 유지 |
+
+#### 보안·사실 검증
+
+- `pnpm audit --prod`: 알려진 취약점 0건. 전체 dependency 감사도 0건이다.
+- Git 추적 파일·전체 이력에서 private key, Supabase service-role key, GitHub token 노출 0건이다. `.env.local`은 Git 제외 상태이고 파일 권한은 `0600`이다.
+- 빌드 결과에 source map과 비공개 키가 없다. EmailJS public/service/template 식별자와 Supabase publishable key는 브라우저 공개 전제의 식별자다.
+- 실제 Supabase anon 검사에서 `applications`와 `portfolio_publications` 직접 조회는 `401`, exact-slug RPC만 `200`이다. RPC는 `slug`, `noindex`, `published_content`만 반환한다.
+- 클라이언트 EmailJS payload에는 `to_email`이 없고 수신자는 템플릿의 `gmbro7942@gmail.com`으로 고정돼 있다. honeypot·10초 제한·입력 길이 제한·본문 보존 fallback을 유지한다.
+- `dangerouslySetInnerHTML`, `eval`, 직접 `innerHTML` 사용은 0건이며 DB 문자열은 React text rendering으로 출력한다.
+- 기존 회사·기간·역할·350만 MAU·70%+·0→1 성과와 프로젝트 귀속을 변경하지 않았다.
+
+#### 동일 조건 재검사
+
+| 항목 | 390×844 | 768×900 | 1440×900 |
+|---|---:|---:|---:|
+| clientWidth / scrollWidth | `375 / 375` | `753 / 753` | `1425 / 1425` |
+| 문서 높이 | 10,372px | 9,193px | 7,516px |
+| H1 client / scroll width | `327 / 327` | `657 / 657` | `1152 / 1152` |
+| Hero 닫힌 launcher | 없음 | 없음 | 없음 |
+| 본문 launcher | 132×52px | 196×64px | 196×64px |
+| Contact 닫힌 launcher | 없음 | 없음 | 없음 |
+| Contact 제출 CTA | 285×56px | 591×56px | 702×56px |
+
+- 세 너비 모두 텍스트·카드·CTA·섹션에서 가로 오버플로와 챗봇 교차가 0이다.
+- Typebot을 실제로 열어 `aria-pressed=true`, 대화 panel 렌더, CSP 위반 0을 확인했다. Contact에서는 닫힌 launcher가 사라져 CTA를 가리지 않는다.
+- `/p/not-real-slug`, `/admin/links`, 임의 404는 각각 한국어 화면과 `noindex, nofollow`, Typebot 0개, 가로 오버플로 0을 유지한다.
+- 최종 검사: TypeScript 통과, Vitest 15/15, ESLint 오류 0·기존 미사용 UI scaffold fast-refresh 경고 7, production build 통과, `git diff --check` 통과.
+- 번들: main 126.65KiB gzip, CSS 13.35KiB gzip. Typebot 199.27KiB gzip chunk는 lazy-load 상태이며 첫 HTML preload에 포함되지 않는다.
+- 배포 판단: `가능`.
+
+#### 잔여 비차단 위험
+
+- EmailJS 무료 플랜은 서버 측 도메인 허용 목록·reCAPTCHA를 지원하지 않아 클라이언트 제한을 우회한 스팸·쿼터 소진 위험이 남는다. 트래픽 증가 시 유료 allowlist 또는 서버 측 CAPTCHA를 적용한다.
+- GitHub Pages는 HSTS·`frame-ancestors`·Permissions-Policy 같은 응답 헤더를 직접 추가할 수 없다. 더 강한 헤더 정책이 필요하면 Cloudflare 같은 프록시 또는 커스텀 헤더 지원 호스팅으로 이전한다.
+- 회사별 slug와 `noindex`는 접근 통제가 아니다. 회사별 publication에는 계속 외부 공개 가능한 정보만 저장한다.
+- Typebot lazy chunk와 미사용 shadcn scaffold·다중 lockfile은 기능 차단이 아닌 후속 경량화·공급망 정리 항목이다.
+
+#### 배포 후 실제 URL 점검
+
+- 새 GitHub Actions 배포 성공 후 커밋·run·asset revision, 390·768·1440px 라이브 UI, CSP 위반, Typebot, 문의 실전송, 보호 경로를 같은 조건으로 기록한다.
