@@ -197,52 +197,112 @@
   }
 }
 
+typebot-bubble {
+  --portfolio-chat-bottom: 20px;
+}
+
 typebot-bubble::part(button) {
+  inline-size: 196px;
+  block-size: 64px;
   overflow: hidden;
+  padding: 0 64px 0 58px;
+  border: 1px solid rgb(17 17 17 / 0.12);
   border-radius: 9999px;
-  box-shadow:
-    0 0 0 2px rgb(255 255 255 / 0.85),
-    0 10px 30px rgb(0 0 0 / 0.3);
+  background: #ffffff;
+  color: #111111;
+  box-shadow: 0 10px 32px rgb(0 0 0 / 0.22);
+  scale: 1 !important;
+  transform: none !important;
+}
+
+typebot-bubble::part(button)::before {
+  position: absolute;
+  top: 50%;
+  left: 18px;
+  width: 28px;
+  height: 28px;
+  content: "";
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23111111' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m22 2-7 20-4-9-9-4Z'/%3E%3Cpath d='M22 2 11 13'/%3E%3C/svg%3E");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  transform: translateY(-50%);
 }
 
 typebot-bubble::part(button)::after {
   position: absolute;
-  right: 3px;
-  bottom: 3px;
-  width: 20px;
-  height: 20px;
-  content: "";
-  border: 2px solid #ffffff;
-  border-radius: 9999px;
-  background-color: #0042da;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z'/%3E%3C/svg%3E");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 12px;
+  top: 50%;
+  left: 58px;
+  content: "메시지";
+  color: #111111;
+  font-family: "Pretendard", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  transform: translateY(-50%);
 }
 
 typebot-bubble::part(button-icon) {
+  position: absolute;
+  right: 8px;
+  width: 46px;
+  height: 46px;
+  border: 1px solid rgb(17 17 17 / 0.1);
   border-radius: 9999px;
   object-fit: cover;
   object-position: center;
 }
 
 typebot-bubble::part(button):focus-visible {
-  outline: 3px solid #ffffff;
+  outline: 2px solid #111111;
   outline-offset: 3px;
-  box-shadow: 0 0 0 6px #0042da;
+  box-shadow:
+    0 0 0 6px rgb(255 255 255 / 0.95),
+    0 10px 32px rgb(0 0 0 / 0.22);
 }
 
 @media (max-width: 639px) {
+  typebot-bubble {
+    --portfolio-chat-bottom: max(6px, env(safe-area-inset-bottom));
+  }
+
   typebot-bubble::part(button) {
-    inline-size: 56px;
-    block-size: 56px;
+    inline-size: 132px;
+    block-size: 52px;
+    padding: 0 44px 0 40px;
+  }
+
+  typebot-bubble::part(button)::before {
+    left: 12px;
+    width: 20px;
+    height: 20px;
+  }
+
+  typebot-bubble::part(button)::after {
+    left: 40px;
+    font-size: 14px;
+  }
+
+  typebot-bubble::part(button-icon) {
+    right: 6px;
+    width: 38px;
+    height: 38px;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  typebot-bubble::part(button):hover:not(:focus-visible) {
+    box-shadow: 0 14px 38px rgb(0 0 0 / 0.26);
+    scale: 1 !important;
+    transform: translateY(-2px) !important;
   }
 }
 
 @media (hover: none), (pointer: coarse) {
   typebot-bubble::part(button):hover {
-    transform: none;
+    scale: 1 !important;
+    transform: none !important;
   }
 }
 

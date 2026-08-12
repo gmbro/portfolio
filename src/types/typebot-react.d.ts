@@ -4,6 +4,7 @@ declare module "@typebot.io/react" {
   interface BubbleProps {
     typebot: string;
     apiHost?: string;
+    inlineStyle?: Record<string, string>;
     onOpen?: () => void;
     onClose?: () => void;
     previewMessage?: {
@@ -16,6 +17,7 @@ declare module "@typebot.io/react" {
       button?: {
         backgroundColor?: string;
         customIconSrc?: string;
+        customCloseIconSrc?: string;
         iconColor?: string;
         isHidden?: boolean;
         size?: "medium" | "large" | `${number}px`;

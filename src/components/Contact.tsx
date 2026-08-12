@@ -253,7 +253,7 @@ const Contact = () => {
             type="submit"
             disabled={sending}
             aria-busy={sending}
-            className="mt-6 flex min-h-14 w-[calc(100%-5rem)] items-center justify-center rounded-full bg-[#ff6645] px-6 py-4 font-body text-sm font-bold text-white transition-colors hover:bg-[#ff7a5f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6645] focus-visible:ring-offset-4 focus-visible:ring-offset-[#111111] disabled:cursor-not-allowed disabled:opacity-50 sm:w-full"
+            className="mt-6 flex min-h-14 w-[calc(100%-7rem)] items-center justify-center rounded-full bg-[#ff6645] px-6 py-4 font-body text-sm font-bold text-white transition-colors hover:bg-[#ff7a5f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6645] focus-visible:ring-offset-4 focus-visible:ring-offset-[#111111] disabled:cursor-not-allowed disabled:opacity-50 sm:w-[calc(100%-9rem)] lg:w-full"
           >
             {sending && <LoaderCircle size={18} className="mr-2 animate-spin" aria-hidden="true" />}
             문의하기

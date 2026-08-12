@@ -45,9 +45,15 @@ describe("기본 포트폴리오 정보 구조", () => {
     expect(bubbleProps).toHaveBeenCalledWith(
       expect.objectContaining({
         typebot: "gmbro",
+        inlineStyle: { "--container-bottom": "var(--portfolio-chat-bottom)" },
         theme: expect.objectContaining({
           position: "fixed",
-          button: expect.not.objectContaining({ isHidden: expect.anything() }),
+          button: expect.objectContaining({
+            backgroundColor: "#FFFFFF",
+            iconColor: "#111111",
+            customIconSrc: expect.stringContaining("bubble-icon"),
+            customCloseIconSrc: expect.stringContaining("data:image/svg+xml"),
+          }),
         }),
       }),
     );

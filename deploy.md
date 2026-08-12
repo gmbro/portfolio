@@ -1022,3 +1022,72 @@
 - 라이브 390px 문의 CTA와 Typebot 교차 영역은 0이다. `/portfolio/p/not-real-slug`, `/portfolio/admin/links`, 404에는 Typebot이 노출되지 않는다.
 - 기본 공개 URL과 무효 맞춤 링크·관리자 화면의 console error/warn은 0건이다. 의도된 404 route는 기존 진단용 `console.error` 1건을 남기지만 UI·라우팅에는 영향이 없다.
 - 배포 결과: `성공` — 기본 공개 포트폴리오 base revision 8.
+
+---
+
+### 2026-08-12 / Instagram DM형 챗봇 런처 / base revision 9
+
+- 작업 대상 URL: `/`, 유효한 `/p/:slug`
+- 제외 URL: `/admin/links`, 무효 `/p/:slug`, 404
+- 배포 예정 URL: `https://gmbro.github.io/portfolio/`
+- 대상 revision: 기본 포트폴리오 base revision 9
+- 검사 브라우저: Codex In-app Browser
+- 검사 담당: Codex
+
+#### 1~4단계 적용 기준
+
+- 이번 작업은 JD·경력·Hero·프로젝트 사실을 바꾸지 않는 공통 UI 개선이다. 기존 base revision 8의 PM 포지셔닝, CAR 구조, 검증 수치와 섹션 순서를 그대로 유지한다.
+- 사용자가 제공한 Instagram 메시지 CTA 이미지는 시각 구조만 참고한다. 이미지 속 타인의 프로필·브랜드 자산은 복제하지 않는다.
+- Typebot `gmbro`의 기능과 고정 위치는 유지하면서 파란 원형·말풍선 장식을 제거하고, 흰색 캡슐·종이비행기·`메시지`·기존 챗봇 프로필 이미지로 기능을 명확히 한다.
+- 390px에서는 콘텐츠 비가림을 줄인 compact launcher, 768px·1440px에서는 텍스트가 있는 pill launcher를 사용한다.
+
+#### 1차 진단 — 수정 전
+
+| ID | 너비 | 발견한 문제 | 사용자 영향 | 심각도 | 수정 방향 | 상태 |
+|---|---:|---|---|---|---|---|
+| QA-BASE9-001 | 390·768·1440px | 버튼 배경이 `rgb(0, 66, 218)` 파란색이고 프로필 이미지가 원 전체를 채움 | 사이트의 검정·백색·오렌지 톤과 분리되어 보임 | 보통 | 흰색·검정 기반 launcher로 통일 | 발견 |
+| QA-BASE9-002 | 전체 | 버튼 우측 하단에 파란 말풍선 glyph 배지가 겹침 | 사용자가 삭제를 요청한 말풍선 장식이 노출됨 | 높음 | `::after` 말풍선 장식 완전 제거 | 발견 |
+| QA-BASE9-003 | 전체 | 원형 사진만 있고 가시적인 기능명 없음 | 프로필 이미지인지 문의 기능인지 즉시 구분하기 어려움 | 높음 | 종이비행기 아이콘과 `메시지` 라벨 추가 | 발견 |
+| QA-BASE9-004 | 390px | 56px 원형은 문의 CTA와 겹치지 않지만 그대로 pill로 확장하면 기존 80px 안전 레일을 침범 | 모바일 주요 행동 비가림 위험 | 높음 | 모바일은 132px compact pill, 640px 이상은 196px pill로 조정하고 문의 CTA 안전 레일 재설계 | 발견 |
+
+수정 전 반응형 측정:
+
+- 390px: 버튼 56×56px, 우측 35px·하단 20px, 파란 원형, 프로필 이미지 56×56px, 접근성 이름 `챗봇 열기`.
+- 768px: 버튼 64×64px, 우측 35px·하단 20px, 같은 파란 원형·말풍선 배지.
+- 1440px: 버튼 64×64px, 우측 35px·하단 20px, 같은 파란 원형·말풍선 배지.
+- 세 너비 모두 본문 가로 오버플로는 0이며 고정 위치와 열기·닫기 기능은 정상이다.
+
+#### 직접 수정
+
+| 범위 | 실제 수정 | 사실 변경 여부 |
+|---|---|---|
+| Typebot 테마 | 인라인 파란 배경을 흰색으로 교체하고, 검정 아이콘 색상·기존 프로필 이미지·중립적인 원형 X 닫기 아이콘을 설정 | Typebot id·대화 데이터·프로필 이미지 원본 변경 없음 |
+| Instagram DM형 런처 | 말풍선 glyph 배지를 완전히 제거하고, 흰색 캡슐 안에 검정 outline 종이비행기·`메시지`·원형 프로필을 배치 | 가시 문구만 기능명 `메시지`로 명확화, 경력·프로젝트 사실 변경 없음 |
+| 반응형·충돌 방지 | 390px 132×52px, 768·1440px 196×64px로 분기하고 문의 제출 CTA가 모바일·태블릿에서 우측 안전 레일을 비우도록 조정 | 사실 변경 없음 |
+| 상태·접근성 | 접근성 이름을 `메시지 열기/닫기`로 상태 동기화하고, 장식용 프로필 alt를 비워 중복 낭독을 제거. 검정 outline+백색 이중 focus ring, 최소 52px 터치 타깃 적용 | 사실 변경 없음 |
+| 상호작용 안정화 | Typebot 기본 hover/active 확대를 `scale: 1`로 고정하고, 열린 상태도 동일 크기를 유지. reduced-motion에서는 런처 animation·transition 제거 | 사실 변경 없음 |
+| 타입·회귀 테스트 | `inlineStyle`, `customCloseIconSrc` 타입을 보강하고 흰 배경·고정 위치·종이비행기/프로필 자산 설정을 테스트에 추가 | 사실 변경 없음 |
+
+#### 동일 조건 재검사
+
+| 항목 | 390px | 768px | 1440px |
+|---|---:|---:|---:|
+| 실제 content width | `375 = 375`, 가로 오버플로 0 | `753 = 753`, 가로 오버플로 0 | `1425 = 1425`, 가로 오버플로 0 |
+| 문서 높이 | 13,070px | 11,667px | 9,360px |
+| 런처 | 132×52px, 우측 35px·하단 6px | 196×64px, 우측 35px·하단 20px | 196×64px, 우측 35px·하단 20px |
+| 프로필 이미지 | 38×38px 원형 | 46×46px 원형 | 46×46px 원형 |
+| 종이비행기 | 20×20px | 28×28px | 28×28px |
+| 문의 요소 교차 | 제출·동의·메시지 모두 0 | 제출·동의·메시지 모두 0 | 제출·동의·메시지 모두 0 |
+
+- 세 너비 모두 `rgb(255, 255, 255)` 흰색 캡슐, `border-radius: 9999px`, 가시 문구 `메시지`, 접근성 이름 `메시지 열기`로 확인했다. 파란색과 기존 말풍선 SVG·말풍선 이모지는 공개 소스에서 0건이다.
+- 열기·닫기 시 `aria-pressed false→true→false`, 이름 `메시지 열기→메시지 닫기→메시지 열기`로 동기화됐다. 1280×720에서 열린 패널은 `400×624px`, viewport 안에 완전히 포함됐다.
+- closed/open 모두 런처 196×64px와 `scale: 1`을 유지해 Typebot 기본 hover 확대가 남지 않는다.
+- 키보드 포커스 시 2px 검정 outline·3px offset·6px 백색 이중 ring이 표시되고, 모바일 최소 높이는 52px다. `prefers-reduced-motion`에서는 런처와 아이콘의 animation·transition을 제거한다.
+- 기본 `/`의 Typebot host는 1개, `/admin/links`, `/p/not-real-slug`, 404는 각각 0개다. 새 로컬 production preview의 console error/warn은 0건이다.
+- TypeScript 통과, Vitest 12/12, ESLint 오류 0·기존 UI fast-refresh 경고 7, production build 통과, `git diff --check` 통과.
+- `pnpm audit --prod`: 알려진 취약점 0건. 의존성·lockfile·Supabase·EmailJS 설정은 변경하지 않았다.
+- 배포 가능 여부: `가능`.
+
+#### 배포 후 실제 URL 점검
+
+GitHub Pages 배포 후 같은 세 너비에서 asset revision, launcher 외형·상호작용, 문의 비가림, 제외 route, console 상태를 기록한다.
