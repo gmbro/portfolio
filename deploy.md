@@ -834,4 +834,11 @@
 
 #### 배포 후 실제 URL 점검
 
-GitHub Pages 배포 결과, asset revision, 실제 URL의 언어·반응형·오류 화면·콘솔 상태를 배포 완료 후 기록한다.
+- GitHub Actions `Deploy Portfolio to GitHub Pages` 실행 `31568266505`의 build 40초·deploy 11초가 모두 성공했다.
+- 배포 커밋: `9df3a56` (`feat: restore Korean portfolio experience`).
+- 실제 공개 URL: `https://gmbro.github.io/portfolio/`.
+- 라이브 main asset: `index-D2dmezsB.js`; `lang=ko`, title `이경민 | AI 프로덕트·프로젝트 매니저`.
+- 라이브 Hero에서 승인 헤드라인, `2억`·`350만`·`70%+` 지표와 최신순 프로젝트 6개를 확인했다.
+- 모바일 라이브 메뉴는 `대표 프로젝트·AI 역량·경력·문의·소개`로 노출되고, 경력 구간의 `챗봇 열기/닫기` 상호작용이 정상이며 console error/warn은 0건이다.
+- 라이브 `/portfolio/p/not-real-slug` 직접 새로고침은 한국어 무효 링크 화면, `lang=ko`, `noindex, nofollow`, console error/warn 0건으로 확인했다.
+- 배포 결과: `성공` — 기본 공개 포트폴리오 base revision 6.
