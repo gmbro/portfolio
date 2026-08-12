@@ -1280,4 +1280,14 @@ GitHub Pages 배포 후 같은 세 너비에서 asset revision, launcher 외형�
 
 #### 배포 후 실제 URL 점검
 
-- 새 GitHub Actions 배포 성공 후 커밋·run·asset revision, 390·768·1440px 라이브 UI, CSP 위반, Typebot, 문의 실전송, 보호 경로를 같은 조건으로 기록한다.
+- GitHub Actions `Deploy Portfolio to GitHub Pages` 실행 `31583508145`가 build·deploy 모두 성공했다.
+- 배포 커밋: `f833bca272ab9c4938a8a9a84b361692922aa3b5` (`security: harden portfolio resource policy`).
+- 실제 공개 URL: `https://archilab.ai.kr/`. GitHub Pages 응답의 `Last-Modified`는 `2026-08-12 09:35:16 UTC`다.
+- 라이브 asset은 `index-CVRxPw0Z.js`, `index-Dd5tZLAE.css`이며 둘 다 HTTPS `200`이다. 라이브 HTML에서 새 CSP·Referrer Policy·Pretendard SRI·canonical을 확인했다.
+- 1.1.1.1·8.8.8.8에서 apex A 4개, `www → gmbro.github.io.` CNAME을 확인했다. HTTP apex는 HTTPS canonical로 `301`, TLS 검증을 포함한 HTTPS root는 `200`이다.
+- 라이브 asset과 동일한 최종 production build를 390×844, 768×900, 1440×900에서 재실행한 결과 clientWidth와 scrollWidth가 각각 `375=375`, `753=753`, `1425=1425`로 가로 오버플로 0이다. Hero·본문·Contact의 launcher 정책과 CTA 크기는 배포 전 표와 동일하다.
+- Typebot을 실제 열어 대화 panel·접근성 상태를 확인했고 console CSP 위반은 0이다. `/p/not-real-slug`, `/admin/links`, 임의 404는 한국어 화면·`noindex, nofollow`·Typebot 0개를 유지한다.
+- 문의 폼에서 `보안 배포 QA 11`을 전송해 `문의가 전송되었습니다` 상태를 확인했다. Gmail에서 제목 `[포트폴리오 문의] 보안 배포 QA 11`, 고정 수신자 `gmbro7942@gmail.com`, 이름·회신 이메일·본문 치환을 실수신으로 확인했다.
+- 이 실행 환경의 시스템 DNS resolver에는 이전 NXDOMAIN negative cache가 남아 인앱 브라우저에서 사용자 지정 도메인 직접 재탐색이 일시적으로 실패했다. 권한 DNS와 두 공용 resolver, GitHub Pages edge 직접 TLS 검증, 실제 최신 HTML·asset 응답으로 배포 상태를 교차 확인했다.
+- 최종 publication: 기본 공개 포트폴리오 base revision 11. 회사별 publication 신규 생성 없음. 기본 `/`은 indexable이며 관리자·무효/회사별 링크·404는 런타임 정책에 따라 noindex를 유지한다.
+- 배포 결과: `성공`.
