@@ -27,34 +27,34 @@ describe("Contact", () => {
     vi.resetModules();
   });
 
-  it("sends the English form fields through EmailJS without a client-controlled recipient", async () => {
+  it("클라이언트가 수신자를 지정하지 않고 한국어 문의 폼을 EmailJS로 전송한다", async () => {
     const { default: Contact } = await import("@/components/Contact");
     render(<Contact />);
 
-    fireEvent.change(screen.getByLabelText("Name"), { target: { value: "Hiring Manager" } });
-    fireEvent.change(screen.getByLabelText("Reply email"), {
+    fireEvent.change(screen.getByLabelText("이름"), { target: { value: "채용 담당자" } });
+    fireEvent.change(screen.getByLabelText("회신 이메일"), {
       target: { value: "recruiter@example.com" },
     });
-    fireEvent.change(screen.getByLabelText("Message"), {
-      target: { value: "I would like to discuss an AI Product Manager opportunity." },
+    fireEvent.change(screen.getByLabelText("문의 내용"), {
+      target: { value: "AI 프로덕트 매니저 채용에 대해 이야기하고 싶습니다." },
     });
     fireEvent.click(
       screen.getByRole("checkbox", {
-        name: /I agree that my name, email, and message may be transmitted through EmailJS and Gmail/i,
+        name: /답변을 위해 이름, 이메일, 문의 내용이 EmailJS와 Gmail을 통해 전송되는 데 동의합니다/,
       }),
     );
-    fireEvent.click(screen.getByRole("button", { name: "Send inquiry" }));
+    fireEvent.click(screen.getByRole("button", { name: "문의하기" }));
 
     await waitFor(() => expect(sendMock).toHaveBeenCalledTimes(1));
     expect(sendMock).toHaveBeenCalledWith(
       "test-service",
       "test-template",
       expect.objectContaining({
-        name: "Hiring Manager",
+        name: "채용 담당자",
         email: "recruiter@example.com",
-        from_name: "Hiring Manager",
+        from_name: "채용 담당자",
         reply_to: "recruiter@example.com",
-        message: "I would like to discuss an AI Product Manager opportunity.",
+        message: "AI 프로덕트 매니저 채용에 대해 이야기하고 싶습니다.",
       }),
       expect.objectContaining({ publicKey: "test-public-key" }),
     );
@@ -62,7 +62,7 @@ describe("Contact", () => {
     const templateParams = sendMock.mock.calls[0][2] as Record<string, unknown>;
     expect(templateParams).not.toHaveProperty("to_email");
     expect(await screen.findByRole("status")).toHaveTextContent(
-      "Your inquiry has been sent. I will reply from gmbro7942@gmail.com.",
+      "문의가 전송되었습니다. gmbro7942@gmail.com을 통해 답변드리겠습니다.",
     );
   });
 });

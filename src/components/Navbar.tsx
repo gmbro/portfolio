@@ -4,11 +4,11 @@ import { useState } from "react";
 import { profile } from "@/data/portfolio";
 
 const navItems = [
-  { label: "Work", id: "case-studies" },
-  { label: "AI Capabilities", id: "skills" },
-  { label: "Experience", id: "experience" },
-  { label: "Contact", id: "contact" },
-  { label: "About", id: "about" },
+  { label: "대표 프로젝트", id: "case-studies" },
+  { label: "AI 역량", id: "skills" },
+  { label: "경력", id: "experience" },
+  { label: "문의", id: "contact" },
+  { label: "소개", id: "about" },
 ];
 
 const Navbar = () => {
@@ -26,13 +26,13 @@ const Navbar = () => {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
       className="fixed top-0 left-0 right-0 z-50 px-6 py-4 md:px-12 bg-background/70 backdrop-blur-xl border-b border-border"
-      aria-label="Primary navigation"
+      aria-label="주요 메뉴"
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center shrink-0">
           <span className="font-display text-base font-bold tracking-tight text-foreground">
-            {profile.englishName}
+            {profile.name}
           </span>
         </div>
 
@@ -57,13 +57,13 @@ const Navbar = () => {
             onClick={() => scrollTo("contact")}
             className="hidden min-h-11 sm:block px-5 py-2 text-xs font-body font-semibold uppercase tracking-wider bg-gradient-accent text-primary-foreground rounded-full hover:shadow-[var(--shadow-glow)] transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
-            Contact
+            문의하기
           </button>
           <button
             type="button"
             className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary lg:hidden"
             onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-label={mobileOpen ? "메뉴 닫기" : "메뉴 열기"}
             aria-expanded={mobileOpen}
             aria-controls="mobile-navigation"
           >

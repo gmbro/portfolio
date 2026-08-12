@@ -43,12 +43,12 @@ const ProjectVisual = ({ project }: { project: FeaturedProject }) => {
     <aside
       data-visual-slot={project.title}
       className="flex min-h-56 flex-col justify-between rounded-2xl border border-dashed border-[#ff6645]/35 bg-[#ff6645]/[0.045] p-5"
-      aria-label={`Local visual evidence slot for ${project.title}`}
+      aria-label={`${project.title} 시각 자료 영역`}
     >
       <div>
         <div className="flex items-center gap-2 text-[#ff8a70]">
           <ImageIcon size={17} aria-hidden="true" />
-          <span className="font-body text-[10px] font-bold uppercase tracking-[0.2em]">Local visual slot</span>
+          <span className="font-body text-[10px] font-bold uppercase tracking-[0.2em]">시각 자료 영역</span>
         </div>
         <p className="mt-4 font-display text-base font-bold text-white">{visual.title}</p>
       </div>
@@ -74,16 +74,16 @@ const ProjectCard = ({ project, index }: { project: FeaturedProject; index: numb
   const evidence = (
     <dl className={`grid gap-6 ${isPriority ? "md:grid-cols-3" : ""}`}>
       <div>
-        <dt className="mb-2 font-body text-[10px] font-bold uppercase tracking-[0.2em] text-white/50">Problem</dt>
-        <dd className="font-body text-sm leading-6 text-white/60">{project.challenge}</dd>
+        <dt className="mb-2 font-body text-[10px] font-bold uppercase tracking-[0.2em] text-white/50">문제</dt>
+        <dd className="break-keep font-body text-sm leading-6 text-white/60">{project.challenge}</dd>
       </div>
       <div>
-        <dt className="mb-2 font-body text-[10px] font-bold uppercase tracking-[0.2em] text-white/50">Action</dt>
-        <dd className="font-body text-sm leading-6 text-white/68">{project.action}</dd>
+        <dt className="mb-2 font-body text-[10px] font-bold uppercase tracking-[0.2em] text-white/50">실행</dt>
+        <dd className="break-keep font-body text-sm leading-6 text-white/68">{project.action}</dd>
       </div>
       <div>
-        <dt className="mb-2 font-body text-[10px] font-bold uppercase tracking-[0.2em] text-[#ff8a70]">Impact</dt>
-        <dd className="font-body text-sm font-medium leading-6 text-white/88">{project.result}</dd>
+        <dt className="mb-2 font-body text-[10px] font-bold uppercase tracking-[0.2em] text-[#ff8a70]">성과</dt>
+        <dd className="break-keep font-body text-sm font-medium leading-6 text-white/88">{project.result}</dd>
       </div>
     </dl>
   );
@@ -109,7 +109,7 @@ const ProjectCard = ({ project, index }: { project: FeaturedProject; index: numb
           </header>
 
           <h3
-            className={`mt-6 font-display font-bold leading-[1.25] tracking-[-0.025em] text-white ${
+            className={`mt-6 break-keep font-display font-bold leading-[1.25] tracking-[-0.025em] text-white ${
               isPriority ? "text-2xl md:text-4xl" : "text-xl md:text-2xl"
             }`}
           >
@@ -133,7 +133,7 @@ const ProjectCard = ({ project, index }: { project: FeaturedProject; index: numb
             </div>
           </dl>
 
-          <div className="mt-5 flex flex-wrap gap-2" aria-label="Verified outcomes">
+          <div className="mt-5 flex flex-wrap gap-2" aria-label="검증된 성과">
             {project.metrics.map((metric) => (
               <span
                 key={metric}
@@ -156,7 +156,7 @@ const ProjectCard = ({ project, index }: { project: FeaturedProject; index: numb
         <details className="group mt-6 rounded-2xl border border-white/[0.08] bg-black/20 px-4 py-3">
           <summary className="min-h-11 cursor-pointer list-none py-2 font-body text-xs font-bold uppercase tracking-[0.14em] text-white/65 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6645]">
             <span className="inline-flex items-center gap-2">
-              View problem, action, and impact
+              문제·실행·성과 보기
               <span className="text-[#ff6645] transition-transform group-open:rotate-45" aria-hidden="true">+</span>
             </span>
           </summary>
@@ -200,14 +200,14 @@ const ImageCards = () => {
           className="mb-12 max-w-4xl md:mb-16"
         >
           <span className="font-body text-xs font-semibold uppercase tracking-[0.3em] text-[#ff6645]">
-            SELECTED WORK
+            대표 프로젝트
           </span>
-          <h2 className="mt-4 font-display text-3xl font-bold leading-tight tracking-[-0.03em] text-white md:text-5xl">
-            Current AI products first. Verified outcomes next.
+          <h2 className="mt-4 break-keep font-display text-3xl font-bold leading-tight tracking-[-0.03em] text-white md:text-5xl">
+            최신 AI 프로젝트와 검증된 성과를 먼저 보여드립니다.
           </h2>
-          <p className="mt-6 max-w-3xl font-body text-base leading-7 text-white/55 md:text-lg">
-            Ordered by recency. Each case separates the organization, my ownership, the operating problem,
-            and the evidence-backed impact.
+          <p className="mt-6 max-w-3xl break-keep font-body text-base leading-7 text-white/55 md:text-lg">
+            최신순으로 정리했으며, 각 프로젝트의 수행 주체와 담당 범위, 해결한 문제, 근거가 있는 성과를
+            구분해 담았습니다.
           </p>
         </motion.div>
 

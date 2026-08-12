@@ -43,6 +43,49 @@ const TypebotBubble = () => {
     };
   }, [isPublicPortfolio, pathname]);
 
+  useEffect(() => {
+    if (!isPublicPortfolio) return;
+
+    let shadowObserver: MutationObserver | undefined;
+
+    const localizeTypebotLabels = () => {
+      const root = document.querySelector("typebot-bubble")?.shadowRoot;
+      if (!root) return;
+
+      const syncLabels = () => {
+        const button = root.querySelector<HTMLButtonElement>('button[part="button"]');
+        if (button) {
+          const label = button.getAttribute("aria-pressed") === "true" ? "챗봇 닫기" : "챗봇 열기";
+          if (button.getAttribute("aria-label") !== label) button.setAttribute("aria-label", label);
+        }
+
+        const previewClose = root.querySelector<HTMLButtonElement>('[part="preview-message-close-button"]');
+        if (previewClose?.getAttribute("aria-label") !== "미리보기 닫기") {
+          previewClose?.setAttribute("aria-label", "미리보기 닫기");
+        }
+
+        root.querySelectorAll<HTMLImageElement>('img[alt="Bot avatar"]').forEach((image) => {
+          if (image.alt !== "챗봇 프로필") image.alt = "챗봇 프로필";
+        });
+      };
+
+      if (!shadowObserver) {
+        shadowObserver = new MutationObserver(syncLabels);
+        shadowObserver.observe(root, { attributes: true, childList: true, subtree: true });
+      }
+      syncLabels();
+    };
+
+    const hostObserver = new MutationObserver(localizeTypebotLabels);
+    hostObserver.observe(document.body, { childList: true, subtree: true });
+    localizeTypebotLabels();
+
+    return () => {
+      hostObserver.disconnect();
+      shadowObserver?.disconnect();
+    };
+  }, [isPublicPortfolio, pathname]);
+
   if (!isPublicPortfolio) return null;
 
   return (

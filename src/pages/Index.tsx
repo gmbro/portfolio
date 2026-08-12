@@ -19,7 +19,7 @@ const Index = ({ heroContent }: IndexProps) => {
         href="#main-content"
         className="fixed left-4 top-3 z-[100] -translate-y-24 rounded-full bg-[#ff6645] px-5 py-3 font-body text-sm font-bold text-white shadow-lg transition-transform focus:translate-y-0 focus:outline-none focus:ring-2 focus:ring-white"
       >
-        Skip to main content
+        본문 바로가기
       </a>
       <Navbar />
       <main id="main-content" tabIndex={-1}>

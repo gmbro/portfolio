@@ -18,14 +18,14 @@ const Leadership = () => {
           className="mb-12 max-w-4xl md:mb-16"
         >
           <span className="font-body text-xs font-semibold uppercase tracking-[0.3em] text-[#ff6645]">
-            AI CAPABILITIES
+            AI 역량
           </span>
-          <h2 className="mt-4 font-display text-3xl font-bold leading-tight tracking-[-0.03em] text-white md:text-5xl">
-            AI becomes valuable when teams can ship it, operate it, and learn from it.
+          <h2 className="mt-4 break-keep font-display text-3xl font-bold leading-tight tracking-[-0.03em] text-white md:text-5xl">
+            AI 제품은 실제로 출시·운영하고 검증할 때 가치를 만듭니다.
           </h2>
-          <p className="mt-6 max-w-3xl font-body text-base leading-7 text-white/55 md:text-lg">
-            My role is to define where AI belongs in the product, structure the data and delivery workflow,
-            and create enough evidence to make the next business decision.
+          <p className="mt-6 max-w-3xl break-keep font-body text-base leading-7 text-white/55 md:text-lg">
+            제품 안에서 AI가 필요한 지점을 정의하고 데이터와 실행 흐름을 구조화하며, 다음 사업 결정을
+            내릴 수 있는 근거를 만듭니다.
           </p>
         </motion.div>
 
@@ -44,10 +44,10 @@ const Leadership = () => {
                 <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl border border-[#ff6645]/25 bg-[#ff6645]/10">
                   <Icon size={22} className="text-[#ff7a5f]" aria-hidden="true" />
                 </div>
-                <h3 className="font-display text-xl font-bold text-white">{capability.title}</h3>
-                <p className="mt-4 font-body text-sm leading-7 text-white/55">{capability.description}</p>
+                <h3 className="break-keep font-display text-xl font-bold text-white">{capability.title}</h3>
+                <p className="mt-4 break-keep font-body text-sm leading-7 text-white/55">{capability.description}</p>
                 <p className="mt-auto pt-8 font-body text-xs font-semibold leading-5 text-[#ff7a5f]">
-                  Evidence: {capability.evidence}
+                  근거: {capability.evidence}
                 </p>
               </motion.article>
             );
@@ -64,10 +64,10 @@ const Leadership = () => {
           <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
             <div className="max-w-sm">
               <span className="font-body text-xs font-semibold uppercase tracking-[0.25em] text-white/55">
-                VERIFIED TOOLKIT
+                검증된 도구와 방식
               </span>
-              <h3 className="mt-3 font-display text-2xl font-bold text-white">
-                Tools are shown in the context of what they helped validate.
+              <h3 className="mt-3 break-keep font-display text-2xl font-bold text-white">
+                도구는 실제 검증에 활용한 맥락과 함께 보여드립니다.
               </h3>
             </div>
 
@@ -92,9 +92,9 @@ const Leadership = () => {
             </div>
           </div>
 
-          <p className="mt-8 rounded-xl border border-[#ff6645]/15 bg-[#ff6645]/[0.06] px-4 py-3 font-body text-xs leading-5 text-white/45">
-            CSAP experience covers IaaS/SaaS review preparation and preliminary certification readiness;
-            it does not claim responsibility for the final certification decision.
+          <p className="mt-8 break-keep rounded-xl border border-[#ff6645]/15 bg-[#ff6645]/[0.06] px-4 py-3 font-body text-xs leading-5 text-white/45">
+            CSAP 경험은 IaaS·SaaS 심사 대응과 예비 인증 준비를 주도한 범위를 의미하며, 최종 인증 취득은
+            확인된 성과로 제시하지 않습니다.
           </p>
         </motion.div>
       </div>

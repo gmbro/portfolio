@@ -5,30 +5,30 @@ import { careerExperiences, featuredProjects, profile } from "@/data/portfolio";
 
 const validContent: Json = {
   meta: {
-    companyName: "Verified Company",
-    roleTitle: "Product Manager",
-    pageTitle: "Verified Company Product Manager Portfolio",
+    companyName: "검증된 회사",
+    roleTitle: "프로덕트 매니저",
+    pageTitle: "검증된 회사 프로덕트 매니저 포트폴리오",
   },
   hero: {
-    roleLabel: "Product Manager",
-    careerLabel: "Verified experience",
-    headline: "I connect verified problems\nto measurable outcomes.",
-    highlight: "measurable outcomes",
+    roleLabel: "프로덕트 매니저",
+    careerLabel: "검증된 경력",
+    headline: "검증된 문제를\n측정 가능한 성과로 연결합니다.",
+    highlight: "측정 가능한 성과",
     subcopy: [
-      "I use verified evidence to shape strategy.",
-      "I turn cross-functional execution into practical results.",
+      "검증된 근거로 전략을 설계합니다.",
+      "협업의 실행 과정을 실제 성과로 연결합니다.",
     ],
-    keywords: ["Problem Definition", "Data Analysis", "Delivery Management"],
-    ctaLabel: "View selected work",
+    keywords: ["문제 정의", "데이터 분석", "프로젝트 관리"],
+    ctaLabel: "대표 프로젝트 보기",
     ctaTarget: "case-studies",
-    stats: [{ value: "Verified", label: "Evidence-backed metric" }],
+    stats: [{ value: "검증", label: "근거 기반 지표" }],
   },
 };
 
 describe("parsePortfolioPageContent", () => {
-  it("accepts a public-safe Hero payload with exactly three keywords", () => {
+  it("키워드가 정확히 세 개인 공개용 Hero payload를 허용한다", () => {
     expect(parsePortfolioPageContent(validContent)).toMatchObject({
-      hero: { keywords: ["Problem Definition", "Data Analysis", "Delivery Management"] },
+      hero: { keywords: ["문제 정의", "데이터 분석", "프로젝트 관리"] },
     });
   });
 
@@ -55,30 +55,30 @@ describe("parsePortfolioPageContent", () => {
   });
 });
 
-describe("verified base portfolio content", () => {
-  it("uses the approved English AI PM Hero copy, keywords, CTA, and stats", () => {
+describe("검증된 기본 포트폴리오 콘텐츠", () => {
+  it("승인된 한국어 AI PM Hero 문구, 키워드, CTA와 지표를 사용한다", () => {
     expect(defaultHeroContent).toEqual({
-      roleLabel: "AI Product & Project Manager",
-      careerLabel: "· 9 years",
-      headline: "I turn AI into products, operating systems,\nand measurable outcomes.",
-      highlight: "measurable outcomes.",
+      roleLabel: "AI 프로덕트·프로젝트 매니저",
+      careerLabel: "· 9년차",
+      headline: "기술로 고객의 문제를 해결하고\n성과로 증명합니다.",
+      highlight: "성과로 증명합니다.",
       subcopy: [
-        "Nine years across AI product planning, data operations, and B2B/B2G commercialization.",
-        "From 0→1 PoCs to 3.5M-MAU operations and 70%+ cost reduction.",
+        "AI 서비스 기획, 데이터 프로젝트 운영과 B2B·B2G 사업화를 연결해 왔습니다.",
+        "0→1 PoC부터 350만 MAU 서비스 운영, 프로젝트 운영 원가 70%+ 절감까지 경험했습니다.",
       ],
-      keywords: ["AI Product Design", "Data & Operations", "Commercial Delivery"],
-      ctaLabel: "View selected work",
+      keywords: ["AI 서비스 기획", "데이터·운영 설계", "사업화·프로젝트 실행"],
+      ctaLabel: "대표 프로젝트 보기",
       ctaTarget: "case-studies",
       stats: [
-        { value: "₩200M", label: "AI Project Scope" },
-        { value: "3.5M", label: "MAU Service Operations" },
-        { value: "70%+", label: "Operating Cost Reduction" },
+        { value: "2억", label: "AI 프로젝트 규모" },
+        { value: "350만", label: "MAU 서비스 운영" },
+        { value: "70%+", label: "프로젝트 운영 원가 절감" },
       ],
     });
   });
 
   it("keeps the verified identity and career history in newest-first order", () => {
-    expect(profile.name).toBe("LEE GYEONGMIN");
+    expect(profile.name).toBe("이경민");
     expect(careerExperiences.map((experience) => experience.company)).toEqual([
       "Arkylab",
       "GenON",
@@ -89,13 +89,13 @@ describe("verified base portfolio content", () => {
       "Kakao Commerce",
     ]);
     expect(careerExperiences.map((experience) => experience.period)).toEqual([
-      "Jun 2026–Present",
-      "Jan 2025–May 2026",
-      "Jun 2024–Jan 2025",
-      "Apr–Jun 2023",
-      "Sep 2021–Apr 2023",
-      "Apr 2018–Apr 2020",
-      "May–Dec 2017",
+      "2026.06–진행 중",
+      "2025.01–2026.05",
+      "2024.06–2025.01",
+      "2023.04–2023.06",
+      "2021.09–2023.04",
+      "2018.04–2020.04",
+      "2017.05–2017.12",
     ]);
   });
 
@@ -104,52 +104,52 @@ describe("verified base portfolio content", () => {
 
     expect(arkylab).toMatchObject({
       company: "Arkylab",
-      period: "Jun 2026–Present",
+      period: "2026.06–진행 중",
       achievements: [
-        "Developing and operating an AI record-keeping solution for fitness instructors; currently in beta",
-        "Building and operating an AI solution for a Trevari-hosted reading community",
-        "Built and delivered a B2C legal-information and refund-support service for consumers challenging unfair policies",
+        "운동 강사를 위한 AI 기록 솔루션 개발 및 운영, 베타 서비스 진행 중",
+        "트레바리 독서 커뮤니티를 위한 AI 솔루션 제작 및 운영",
+        "부당한 정책에 대해 환불받을 수 있도록 지원하는 B2C 법률 서비스 제작 및 납품",
       ],
     });
   });
 
   it("orders selected projects newest-first", () => {
     expect(featuredProjects.map((project) => project.period)).toEqual([
-      "Jun 2026–Present",
-      "May 2026–Present",
-      "Jun–Dec 2025",
-      "Jun 2024–Jan 2025",
-      "Sep 2021–Apr 2023",
-      "Apr 2018–Apr 2020",
+      "2026.06–진행 중",
+      "2026.05–진행 중",
+      "2025.06–2025.12",
+      "2024.06–2025.01",
+      "2021.09–2023.04",
+      "2018.04–2020.04",
     ]);
   });
 
-  it("shows exact English organization and involvement labels without inventing percentages", () => {
+  it("수행 조직과 기여 정보를 과장 없이 한국어로 표시한다", () => {
     expect(
       featuredProjects.map((project) => `${project.organizationLabel}: ${project.organization}`),
     ).toEqual([
-      "Owner: Arkylab",
-      "Owner: Arkylab · Independent build",
-      "Program: NIPA-supported project",
-      "Company: Selectstar · Project Office",
-      "Company: Skelter Labs · Product",
-      "Company: SK Planet · Syrup Wallet",
+      "수행 주체: Arkylab",
+      "수행 주체: Arkylab · 독립 구축",
+      "지원 사업: NIPA 지원 사업",
+      "수행 회사: Selectstar · 프로젝트실",
+      "수행 회사: Skelter Labs · 제품",
+      "수행 회사: SK Planet · Syrup Wallet",
     ]);
     expect(
       featuredProjects.map((project) => `${project.involvement.label}: ${project.involvement.value}`),
     ).toEqual([
-      "Scope: Product strategy · MVP development",
-      "Contribution: 100%",
-      "Scope: Proposal-to-close delivery",
-      "Contribution: 100%",
-      "Contribution: 90%",
-      "Contribution: 100%",
+      "역할 범위: 제품 기획 · MVP 개발",
+      "기여도: 100%",
+      "역할 범위: 제안→종결 관리",
+      "기여도: 100%",
+      "기여도: 90%",
+      "기여도: 100%",
     ]);
   });
 
-  it("keeps public portfolio evidence free of Korean copy", () => {
+  it("공개 포트폴리오의 주요 설명을 한국어로 제공한다", () => {
     expect(
       JSON.stringify({ defaultHeroContent, profile, careerExperiences, featuredProjects }),
-    ).not.toMatch(/[가-힣]/);
+    ).toMatch(/[가-힣]/);
   });
 });

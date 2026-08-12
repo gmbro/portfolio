@@ -60,7 +60,7 @@ const Hero = ({ content = defaultHeroContent }: HeroProps) => {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.65, delay: 0.08, ease: "easeOut" }}
-          className="mt-7 max-w-6xl font-display text-[2.5rem] font-extrabold leading-[1.08] tracking-[-0.04em] text-white sm:text-5xl md:mt-9 md:text-6xl lg:text-[5rem]"
+          className="mt-7 max-w-6xl break-keep font-display text-[2.5rem] font-extrabold leading-[1.08] tracking-[-0.04em] text-white sm:text-5xl md:mt-9 md:text-6xl lg:text-[5rem]"
         >
           {headlineLines.map((line, index) => (
             <span key={`${line}-${index}`} className="block" aria-hidden="true">
@@ -73,7 +73,7 @@ const Hero = ({ content = defaultHeroContent }: HeroProps) => {
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, delay: 0.18 }}
-          className="mt-7 max-w-3xl space-y-1 font-body text-base leading-7 text-white/65 md:text-lg md:leading-8"
+          className="mt-7 max-w-3xl space-y-1 break-keep font-body text-base leading-7 text-white/65 md:text-lg md:leading-8"
         >
           {content.subcopy.map((line) => (
             <p key={line}>{line}</p>
@@ -85,7 +85,7 @@ const Hero = ({ content = defaultHeroContent }: HeroProps) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, delay: 0.25 }}
           className="mt-6 flex flex-wrap gap-2"
-          aria-label="Core capabilities"
+          aria-label="핵심 역량"
         >
           {content.keywords.map((keyword) => (
             <span
@@ -145,7 +145,7 @@ const Hero = ({ content = defaultHeroContent }: HeroProps) => {
       </div>
 
       <div className="absolute bottom-7 left-1/2 z-10 hidden -translate-x-1/2 items-center gap-2 text-white/55 md:flex">
-        <span className="font-body text-[10px] font-semibold uppercase tracking-[0.24em]">Selected work</span>
+        <span className="font-body text-[10px] font-semibold uppercase tracking-[0.24em]">대표 프로젝트</span>
         <ChevronDown size={14} aria-hidden="true" />
       </div>
     </section>

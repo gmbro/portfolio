@@ -28,8 +28,8 @@ type SubmitStatus = {
 const initialForm: FormState = { name: "", email: "", message: "", website: "" };
 
 const buildMailtoUrl = (form: FormState) => {
-  const subject = encodeURIComponent(`[Portfolio inquiry] ${form.name}`);
-  const body = encodeURIComponent(`From: ${form.name}\nReply-to: ${form.email}\n\n${form.message}`);
+  const subject = encodeURIComponent(`[포트폴리오 문의] ${form.name}`);
+  const body = encodeURIComponent(`보낸 사람: ${form.name}\n회신 이메일: ${form.email}\n\n${form.message}`);
   return `mailto:${profile.email}?subject=${subject}&body=${body}`;
 };
 
@@ -56,27 +56,27 @@ const Contact = () => {
     };
 
     if (cleaned.website) {
-      setStatus({ type: "success", message: "Your inquiry has been received." });
+      setStatus({ type: "success", message: "문의가 접수되었습니다." });
       return;
     }
 
     if (cleaned.name.length < 2 || cleaned.message.length < 10 || !cleaned.email) {
       setStatus({
         type: "error",
-        message: "Please check your name, reply email, and a message of at least 10 characters.",
+        message: "이름, 회신 이메일, 10자 이상의 문의 내용을 확인해 주세요.",
       });
       return;
     }
 
     if (!consented) {
-      setStatus({ type: "error", message: "Please agree to the data transfer notice before sending." });
+      setStatus({ type: "error", message: "전송 전에 개인정보 전송 안내에 동의해 주세요." });
       return;
     }
 
     if (!isEmailJsConfigured) {
       setStatus({
         type: "fallback",
-        message: "Email delivery is being configured. Your email app will open with the message you wrote.",
+        message: "이메일 전송 설정을 확인 중입니다. 작성한 내용으로 이메일 앱을 엽니다.",
       });
       window.location.href = buildMailtoUrl(cleaned);
       return;
@@ -95,7 +95,7 @@ const Contact = () => {
           from_name: cleaned.name,
           reply_to: cleaned.email,
           message: cleaned.message,
-          subject: `[Portfolio inquiry] ${cleaned.name}`,
+          subject: `[포트폴리오 문의] ${cleaned.name}`,
         },
         {
           publicKey: emailJsConfig.publicKey,
@@ -108,12 +108,12 @@ const Contact = () => {
       setConsented(false);
       setStatus({
         type: "success",
-        message: `Your inquiry has been sent. I will reply from ${profile.email}.`,
+        message: `문의가 전송되었습니다. ${profile.email}을 통해 답변드리겠습니다.`,
       });
     } catch {
       setStatus({
         type: "error",
-        message: "Automatic delivery failed. Your message is still here—please email me directly at",
+        message: "자동 전송에 실패했습니다. 작성한 내용은 유지됩니다. 아래 이메일로 직접 보내 주세요.",
         showEmailFallback: true,
       });
     } finally {
@@ -133,9 +133,9 @@ const Contact = () => {
           transition={{ duration: 0.5 }}
           className="mb-10"
         >
-          <p className="font-body text-xs font-semibold uppercase tracking-[0.3em] text-[#ff6645]">CONTACT</p>
+          <p className="font-body text-xs font-semibold tracking-[0.3em] text-[#ff6645]">문의</p>
           <h2 className="mt-4 font-display text-3xl font-bold tracking-[-0.03em] text-white md:text-5xl">
-            Send an inquiry.
+            문의하기
           </h2>
         </motion.div>
 
@@ -148,7 +148,7 @@ const Contact = () => {
           className="rounded-3xl border border-white/10 bg-[#111111] p-5 md:p-8"
         >
           <div className="absolute -left-[9999px]" aria-hidden="true">
-            <label htmlFor="contact-website">Website</label>
+            <label htmlFor="contact-website">웹사이트</label>
             <input
               id="contact-website"
               type="text"
@@ -162,7 +162,7 @@ const Contact = () => {
           <div className="grid gap-5 sm:grid-cols-2">
             <div>
               <label htmlFor="contact-name" className="mb-2 block font-body text-xs uppercase tracking-widest text-white/45">
-                Name
+                이름
               </label>
               <input
                 id="contact-name"
@@ -175,13 +175,13 @@ const Contact = () => {
                 value={form.name}
                 onChange={(event) => updateField("name", event.target.value)}
                 className="w-full rounded-xl border border-white/10 bg-black/25 px-5 py-4 font-body text-base text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-[#ff6645]/55"
-                placeholder="Your name"
+                placeholder="이름을 입력해 주세요"
               />
             </div>
 
             <div>
               <label htmlFor="contact-email" className="mb-2 block font-body text-xs uppercase tracking-widest text-white/45">
-                Reply email
+                회신 이메일
               </label>
               <input
                 id="contact-email"
@@ -200,7 +200,7 @@ const Contact = () => {
 
           <div className="mt-5">
             <label htmlFor="contact-message" className="mb-2 block font-body text-xs uppercase tracking-widest text-white/45">
-              Message
+              문의 내용
             </label>
             <textarea
               id="contact-message"
@@ -212,7 +212,7 @@ const Contact = () => {
               value={form.message}
               onChange={(event) => updateField("message", event.target.value)}
               className="w-full resize-y rounded-xl border border-white/10 bg-black/25 px-5 py-4 font-body text-base text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-[#ff6645]/55"
-              placeholder="Tell me about the role, project, or partnership."
+              placeholder="채용, 프로젝트 협업 또는 사업 제휴에 대해 알려주세요."
             />
             <p className="mt-2 text-right font-body text-xs text-white/55">{form.message.length} / 2000</p>
           </div>
@@ -226,8 +226,7 @@ const Contact = () => {
               className="mt-0.5 h-4 w-4 shrink-0 accent-[#ff6645]"
             />
             <span className="font-body text-xs leading-5 text-white/45">
-              I agree that my name, email, and message may be transmitted through EmailJS and Gmail for a
-              reply.
+              답변을 위해 이름, 이메일, 문의 내용이 EmailJS와 Gmail을 통해 전송되는 데 동의합니다.
             </span>
           </label>
 
@@ -257,7 +256,7 @@ const Contact = () => {
             className="mt-6 flex min-h-14 w-full items-center justify-center rounded-full bg-[#ff6645] px-6 py-4 font-body text-sm font-bold text-white transition-colors hover:bg-[#ff7a5f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6645] focus-visible:ring-offset-4 focus-visible:ring-offset-[#111111] disabled:cursor-not-allowed disabled:opacity-50"
           >
             {sending && <LoaderCircle size={18} className="mr-2 animate-spin" aria-hidden="true" />}
-            Send inquiry
+            문의하기
           </button>
         </motion.form>
       </div>

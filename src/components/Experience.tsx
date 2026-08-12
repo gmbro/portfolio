@@ -13,24 +13,26 @@ const Experience = () => {
           className="mb-12 max-w-4xl md:mb-16"
         >
           <span className="font-body text-xs font-semibold uppercase tracking-[0.3em] text-[#ff6645]">
-            EXPERIENCE
+            경력
           </span>
-          <h2 className="mt-4 font-display text-3xl font-bold leading-tight tracking-[-0.03em] text-white md:text-5xl">
-            A career built across AI products, data operations, and commercialization.
+          <h2 className="mt-4 break-keep font-display text-3xl font-bold leading-tight tracking-[-0.03em] text-white md:text-5xl">
+            AI 제품, 데이터 운영, 사업화를 아우르며 쌓아온 경력입니다.
           </h2>
-          <p className="mt-6 max-w-3xl font-body text-base leading-7 text-white/55 md:text-lg">
-            Most recent first. Each role shows the operating context, the work I owned, and the outcomes I
-            helped deliver.
+          <p className="mt-6 max-w-3xl break-keep font-body text-base leading-7 text-white/55 md:text-lg">
+            최신순으로 정리했으며, 각 경험의 업무 맥락과 주도한 역할, 함께 만든 성과를 보여드립니다.
           </p>
         </motion.div>
 
         <div className="space-y-5">
           {careerExperiences.map((experience, index) => {
-            const isCurrent = experience.period.includes("Present");
+            const isCurrent =
+              experience.period.includes("Present") ||
+              experience.period.includes("현재") ||
+              experience.period.includes("진행 중");
             const isPriority = index < 3;
             const roleDetails = (
               <>
-                <p className="mt-6 max-w-4xl font-body text-sm leading-7 text-white/60 md:text-base">
+                <p className="mt-6 max-w-4xl break-keep font-body text-sm leading-7 text-white/60 md:text-base">
                   {experience.description}
                 </p>
 
@@ -43,7 +45,7 @@ const Experience = () => {
                       <span className="mt-0.5 text-[#ff6645]" aria-hidden="true">
                         →
                       </span>
-                      <span className="font-body text-sm leading-6 text-white/72">{achievement}</span>
+                      <span className="break-keep font-body text-sm leading-6 text-white/72">{achievement}</span>
                     </li>
                   ))}
                 </ul>
@@ -85,7 +87,7 @@ const Experience = () => {
                       )}
                       {isCurrent && (
                         <span className="rounded-full bg-[#ff6645] px-3 py-1 font-body text-[10px] font-bold uppercase tracking-[0.12em] text-white">
-                          Current
+                          재직 중
                         </span>
                       )}
                     </div>
@@ -104,7 +106,7 @@ const Experience = () => {
                   <details className="group mt-6 rounded-2xl border border-white/[0.08] bg-black/20 px-4 py-3">
                     <summary className="min-h-11 cursor-pointer list-none py-2 font-body text-xs font-bold uppercase tracking-[0.14em] text-white/65 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6645]">
                       <span className="inline-flex items-center gap-2">
-                        View role details
+                        경력 상세 보기
                         <span
                           className="text-[#ff6645] transition-transform group-open:rotate-45"
                           aria-hidden="true"
