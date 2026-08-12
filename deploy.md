@@ -1178,4 +1178,31 @@ GitHub Pages 배포 후 같은 세 너비에서 asset revision, launcher 외형�
 
 #### 배포 후 실제 URL 점검
 
-가비아 권한 DNS·EmailJS 템플릿 외부 설정은 완료했다. GitHub Actions 배포와 HTTPS 발급 후 실제 `https://archilab.ai.kr/`과 `/p/not-real-slug`, `/admin/links`를 같은 세 너비에서 기록한다.
+배포 및 외부 설정 결과:
+
+- GitHub Actions `Deploy Portfolio to GitHub Pages` 실행 `31581316404`가 build·deploy 모두 성공했다.
+- 배포 커밋: `b6c0ef39eea62d78012ff88cf741cc94b521f5b3` (`Optimize portfolio UX and deploy custom domain`).
+- 실제 공개 URL: `https://archilab.ai.kr/`. 기존 `https://gmbro.github.io/portfolio/`와 `http://archilab.ai.kr/`은 새 HTTPS 주소로 이동한다.
+- 가비아 apex A 4개와 `www → gmbro.github.io.` CNAME이 권한 DNS와 1.1.1.1·8.8.8.8에 전파됐다. GitHub Pages `DNS check successful`, apex·www 인증서 발급, `Enforce HTTPS` 활성화를 확인했다.
+- 라이브 asset: `index-DWw_8JzB.js`, `index-CLBp8oXy.css`. 두 자산 모두 `/assets/...` 루트 경로이며 canonical·`og:url`은 `https://archilab.ai.kr/`이다.
+
+라이브를 같은 조건으로 재검사했다.
+
+| 항목 | 390×844 | 768×900 | 1440×900 |
+|---|---:|---:|---:|
+| 실제 viewport / clientWidth | 390 / 375 | 768 / 753 | 1440 / 1425 |
+| scrollWidth / clientWidth | 375 / 375 | 753 / 753 | 1425 / 1425 |
+| 문서 높이 | 10,372px | 9,193px | 7,516px |
+| Hero의 닫힌 launcher | host 0 | host 0 | host 0 |
+| 본문 launcher | 132×52px | 196×64px | 196×64px |
+| Contact 닫힌 launcher | 숨김 | 숨김 | 숨김 |
+| Contact 제출 버튼 | 285×56px full width | 591×56px full width | 702×56px full width |
+
+- 세 너비 모두 가로 오버플로 0이다. Hero 지표·문의 CTA와 챗봇 교차 영역도 0이다.
+- 라이브 문의 폼에서 이름 `포트폴리오 QA`, 회신 이메일, QA 메시지를 전송해 `문의가 전송되었습니다` 상태를 확인했다. Gmail에서 제목 `[포트폴리오 문의] 포트폴리오 QA`, `문의해 주셔서 감사합니다.`, 입력한 이름·이메일·메시지 치환을 확인했다.
+- `/p/not-real-slug`는 로딩 후 한국어 무효 링크 화면과 `noindex, nofollow`, `/admin/links`는 관리자 로그인 화면과 `noindex, nofollow`, 임의 404는 한국어 404와 `noindex, nofollow`를 표시한다. 세 경로 모두 Typebot host 0이다.
+- GitHub Pages의 SPA fallback 특성상 `/p/:slug`와 `/admin/links` 직접 요청의 HTTP 상태는 404이지만 동일한 최신 SPA shell이 실행되어 브라우저 화면·라우팅은 정상이다. 링크 미리보기·일부 보안 스캐너에는 한계가 있으므로, 향후 모든 동적 경로에 200 응답이 필요하면 rewrite를 지원하는 호스팅으로 이전한다.
+- 라이브 console error/warn 0, main·Contact·관리자·무효 링크의 새 도메인 새로고침 정상, 이전 GitHub Pages URL의 HTTPS 리다이렉트 정상이다.
+- EmailJS 템플릿 `template_zeewzqa`는 고정 수신자와 한국어 간단 본문으로 저장·실수신 완료했다. Free plan의 도메인 allowlist 제한은 잔여 위험으로 유지하며 honeypot·10초 제한·입력 길이 제한을 적용한다.
+- 최종 publication: 기본 공개 포트폴리오 base revision 10. 회사별 publication 신규 생성 없음. 기본 `/`은 indexable, 관리자·무효/회사별 링크·404는 각 런타임 정책에 따라 noindex를 유지한다.
+- 배포 결과: `성공`.
