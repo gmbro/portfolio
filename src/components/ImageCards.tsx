@@ -70,6 +70,7 @@ const ProjectVisual = ({ project }: { project: FeaturedProject }) => {
 
 const ProjectCard = ({ project, index }: { project: FeaturedProject; index: number }) => {
   const isPriority = index < 3;
+  const showsFullEvidence = index === 0;
   const showsVisual = Boolean(project.visual?.src) || (import.meta.env.DEV && Boolean(project.visual));
   const evidence = (
     <dl className={`grid gap-6 ${isPriority ? "md:grid-cols-3" : ""}`}>
@@ -90,12 +91,13 @@ const ProjectCard = ({ project, index }: { project: FeaturedProject; index: numb
 
   return (
     <motion.article
+      id={project.id}
       data-project-rank={index + 1}
       initial={{ opacity: 0, y: 18 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.08 }}
       transition={{ duration: 0.45, delay: Math.min(index * 0.05, 0.18) }}
-      className={`min-w-0 rounded-3xl border bg-[#111111] p-6 md:p-8 ${
+      className={`min-w-0 scroll-mt-24 rounded-3xl border bg-[#111111] p-6 md:p-8 ${
         isPriority ? "lg:col-span-2 lg:p-10 xl:col-span-6" : "border-white/10 xl:col-span-2"
       } ${index === 0 ? "border-[#ff6645]/45 shadow-[0_20px_80px_rgba(255,102,69,.08)]" : "border-white/10"}`}
     >
@@ -150,13 +152,13 @@ const ProjectCard = ({ project, index }: { project: FeaturedProject; index: numb
 
       {!isPriority && showsVisual && <div className="mt-6"><ProjectVisual project={project} /></div>}
 
-      {isPriority ? (
+      {showsFullEvidence ? (
         <div className="mt-8">{evidence}</div>
       ) : (
         <details className="group mt-6 rounded-2xl border border-white/[0.08] bg-black/20 px-4 py-3">
           <summary className="min-h-11 cursor-pointer list-none py-2 font-body text-xs font-bold uppercase tracking-[0.14em] text-white/65 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6645]">
             <span className="inline-flex items-center gap-2">
-              문제·실행·성과 보기
+              문제·판단·성과 보기
               <span className="text-[#ff6645] transition-transform group-open:rotate-45" aria-hidden="true">+</span>
             </span>
           </summary>
@@ -200,14 +202,14 @@ const ImageCards = () => {
           className="mb-12 max-w-4xl md:mb-16"
         >
           <span className="font-body text-xs font-semibold uppercase tracking-[0.3em] text-[#ff6645]">
-            대표 프로젝트
+            대표 PM 사례
           </span>
           <h2 className="mt-4 break-keep font-display text-3xl font-bold leading-tight tracking-[-0.03em] text-white md:text-5xl">
-            최신 AI 프로젝트와 검증된 성과를 먼저 보여드립니다.
+            고객의 문제를 발견하고, 제품으로 만들고, 결과로 검증했습니다.
           </h2>
           <p className="mt-6 max-w-3xl break-keep font-body text-base leading-7 text-white/55 md:text-lg">
-            최신순으로 정리했으며, 각 프로젝트의 수행 주체와 담당 범위, 해결한 문제, 근거가 있는 성과를
-            구분해 담았습니다.
+            대표 사례는 PM 역량이 가장 선명하게 드러나는 순서로 배치했습니다. 각 사례에서 해결한 문제,
+            제가 내린 제품 판단과 검증된 결과를 구분해 보여드립니다.
           </p>
         </motion.div>
 

@@ -56,23 +56,23 @@ describe("parsePortfolioPageContent", () => {
 });
 
 describe("검증된 기본 포트폴리오 콘텐츠", () => {
-  it("승인된 한국어 AI PM Hero 문구, 키워드, CTA와 지표를 사용한다", () => {
+  it("승인된 한국어 PM Hero 문구, 키워드, CTA와 지표를 사용한다", () => {
     expect(defaultHeroContent).toEqual({
-      roleLabel: "AI 프로덕트·프로젝트 매니저",
+      roleLabel: "프로덕트 매니저",
       careerLabel: "· 9년차",
-      headline: "기술로 고객의 문제를 해결하고\n성과로 증명합니다.",
-      highlight: "성과로 증명합니다.",
+      headline: "고객의 문제를 제품으로 해결하고\n실제 사용과 성과로 검증합니다.",
+      highlight: "실제 사용과 성과로 검증합니다.",
       subcopy: [
-        "AI 서비스 기획, 데이터 프로젝트 운영과 B2B·B2G 사업화를 연결해 왔습니다.",
-        "0→1 PoC부터 350만 MAU 서비스 운영, 프로젝트 운영 원가 70%+ 절감까지 경험했습니다.",
+        "350만 MAU 제품 운영과 AI 상담사 0→1 기획을 통해 고객 문제를 제품 구조와 실행 계획으로 전환해 왔습니다.",
+        "현재는 운동 강사용 AI 제품을 직접 기획·구축하고 실제 수업에서 베타 검증하며 개선하고 있습니다.",
       ],
-      keywords: ["AI 서비스 기획", "데이터·운영 설계", "사업화·프로젝트 실행"],
+      keywords: ["고객 문제 정의", "0→1 제품 설계", "데이터 기반 개선"],
       ctaLabel: "대표 프로젝트 보기",
       ctaTarget: "case-studies",
       stats: [
-        { value: "2억", label: "AI 프로젝트 규모" },
-        { value: "350만", label: "MAU 서비스 운영" },
-        { value: "70%+", label: "프로젝트 운영 원가 절감" },
+        { value: "0→1", label: "AI 제품 기획·구축" },
+        { value: "350만", label: "MAU 제품 운영" },
+        { value: "70%+", label: "운영 원가 절감" },
       ],
     });
   });
@@ -113,14 +113,22 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
     });
   });
 
-  it("orders selected projects newest-first", () => {
+  it("대표 프로젝트를 PM 서사 근거 순서로 배열한다", () => {
+    expect(featuredProjects.map((project) => project.id)).toEqual([
+      "arkylab-ai-coach",
+      "skelter-ai-counselor",
+      "sk-planet-syrup-wallet",
+      "selectstar-stt-operations",
+      "trevari-learning-record",
+      "nipa-vision-ai-poc",
+    ]);
     expect(featuredProjects.map((project) => project.period)).toEqual([
       "2026.06–진행 중",
-      "2026.05–진행 중",
-      "2025.06–2025.12",
-      "2024.06–2025.01",
       "2021.09–2023.04",
       "2018.04–2020.04",
+      "2024.06–2025.01",
+      "2026.05–진행 중",
+      "2025.06–2025.12",
     ]);
   });
 
@@ -129,21 +137,21 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
       featuredProjects.map((project) => `${project.organizationLabel}: ${project.organization}`),
     ).toEqual([
       "수행 주체: Arkylab",
-      "수행 주체: Arkylab · 독립 구축",
-      "지원 사업: NIPA 지원 사업",
-      "수행 회사: Selectstar · 프로젝트실",
       "수행 회사: Skelter Labs · 제품",
       "수행 회사: SK Planet · Syrup Wallet",
+      "수행 회사: Selectstar · 프로젝트실",
+      "수행 주체: Arkylab · 독립 구축",
+      "지원 사업: NIPA 지원 사업",
     ]);
     expect(
       featuredProjects.map((project) => `${project.involvement.label}: ${project.involvement.value}`),
     ).toEqual([
       "역할 범위: 제품 기획 · MVP 개발",
-      "기여도: 100%",
-      "역할 범위: 제안→종결 관리",
-      "기여도: 100%",
       "기여도: 90%",
       "기여도: 100%",
+      "기여도: 100%",
+      "기여도: 100%",
+      "역할 범위: 제안→종결 관리",
     ]);
   });
 

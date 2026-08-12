@@ -2,16 +2,16 @@ import { motion } from "framer-motion";
 
 const workingRange = [
   {
-    label: "제품·프로젝트",
-    copy: "0→1 제품 정의부터 제안, 실행, 품질 검증, 종결까지 담당합니다.",
+    label: "문제 정의",
+    copy: "사용자 반응과 운영 현장에서 반복되는 불편을 확인하고, 해결할 문제와 우선순위를 정의합니다.",
   },
   {
-    label: "AI·데이터",
-    copy: "STT, TTS, Retrieval, OCR, 데이터 워크플로를 팀이 운영할 수 있는 서비스로 전환합니다.",
+    label: "제품 설계",
+    copy: "기술과 운영 조건을 사용자 흐름, 요구사항, 데이터 기준과 실행 계획으로 구체화합니다.",
   },
   {
-    label: "사업화",
-    copy: "B2C, B2B, B2G, SaaS, 공공조달, 보안 심사 경험을 갖추고 있습니다.",
+    label: "성과 검증",
+    copy: "출시·운영 결과를 사용자 반응, 품질, 시간과 비용의 변화로 확인하고 다음 결정을 만듭니다.",
   },
 ];
 
@@ -29,19 +29,19 @@ const About = () => {
           <div>
             <p className="font-body text-xs font-semibold uppercase tracking-[0.3em] text-[#ff6645]">소개</p>
             <h2 className="mt-4 max-w-xl break-keep font-display text-3xl font-bold leading-tight tracking-[-0.03em] text-white md:text-5xl">
-              제품과 운영, 사업화를 연결합니다.
+              도메인은 달라도, 문제를 해결하는 방식은 일관됐습니다.
             </h2>
           </div>
 
           <div>
             <div className="max-w-3xl space-y-5 break-keep font-body text-base leading-8 text-white/60 md:text-lg">
               <p>
-                퍼포먼스 마케팅으로 커리어를 시작해 제품 운영, 0→1 AI 서비스, 데이터 구축,
-                B2B·B2G 사업화로 경험을 확장했습니다.
+                퍼포먼스 마케팅, 대규모 제품 운영, 0→1 AI 서비스, 데이터 프로젝트와 B2B·B2G
+                사업화까지 서로 다른 환경을 경험했습니다.
               </p>
               <p>
-                모호한 기술 기회를 요구사항과 운영 흐름으로 구체화하고, 팀이 다음 제품 결정을 내릴 수 있는
-                근거로 구조화하는 데 강점이 있습니다.
+                고객 문제를 정의하고, 기술과 운영 조건을 제품 결정으로 구체화한 뒤 출시·운영 결과로
+                검증하는 방식은 일관됐습니다.
               </p>
             </div>
 

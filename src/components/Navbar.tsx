@@ -4,8 +4,8 @@ import { useState } from "react";
 import { profile } from "@/data/portfolio";
 
 const navItems = [
-  { label: "대표 프로젝트", id: "case-studies" },
-  { label: "AI 역량", id: "skills" },
+  { label: "대표 PM 사례", id: "case-studies" },
+  { label: "PM 역량", id: "skills" },
   { label: "경력", id: "experience" },
   { label: "문의", id: "contact" },
   { label: "소개", id: "about" },

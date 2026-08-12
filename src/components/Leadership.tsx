@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { BrainCircuit, Database, Sparkles } from "lucide-react";
-import { aiCapabilities, verifiedSkillGroups } from "@/data/portfolio";
+import { aiCapabilities } from "@/data/portfolio";
 
 const capabilityIcons = [BrainCircuit, Database, Sparkles];
 
@@ -18,14 +18,14 @@ const Leadership = () => {
           className="mb-12 max-w-4xl md:mb-16"
         >
           <span className="font-body text-xs font-semibold uppercase tracking-[0.3em] text-[#ff6645]">
-            AI 역량
+            PM 역량
           </span>
           <h2 className="mt-4 break-keep font-display text-3xl font-bold leading-tight tracking-[-0.03em] text-white md:text-5xl">
-            AI 제품은 실제로 출시·운영하고 검증할 때 가치를 만듭니다.
+            고객 문제를 제품 결정과 성과로 연결하는 방식입니다.
           </h2>
           <p className="mt-6 max-w-3xl break-keep font-body text-base leading-7 text-white/55 md:text-lg">
-            제품 안에서 AI가 필요한 지점을 정의하고 데이터와 실행 흐름을 구조화하며, 다음 사업 결정을
-            내릴 수 있는 근거를 만듭니다.
+            AI가 필요한 지점을 정의하고 데이터와 실행 흐름을 구조화해, 출시·운영 결과를 다음 제품
+            결정의 근거로 만듭니다.
           </p>
         </motion.div>
 
@@ -53,50 +53,6 @@ const Leadership = () => {
             );
           })}
         </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 18 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="mt-6 rounded-3xl border border-white/10 bg-[#111111] p-6 md:mt-8 md:p-8"
-        >
-          <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
-            <div className="max-w-sm">
-              <span className="font-body text-xs font-semibold uppercase tracking-[0.25em] text-white/55">
-                검증된 도구와 방식
-              </span>
-              <h3 className="mt-3 break-keep font-display text-2xl font-bold text-white">
-                도구는 실제 검증에 활용한 맥락과 함께 보여드립니다.
-              </h3>
-            </div>
-
-            <div className="grid flex-1 gap-6 sm:grid-cols-2 lg:max-w-3xl lg:grid-cols-4">
-              {verifiedSkillGroups.map((group) => (
-                <div key={group.label}>
-                  <h4 className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.16em] text-[#ff7a5f]">
-                    {group.label}
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
-                    {group.items.map((item) => (
-                      <span
-                        key={item}
-                        className="rounded-lg border border-white/[0.08] bg-black/25 px-3 py-2 font-body text-xs text-white/60"
-                      >
-                        {item}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <p className="mt-8 break-keep rounded-xl border border-[#ff6645]/15 bg-[#ff6645]/[0.06] px-4 py-3 font-body text-xs leading-5 text-white/45">
-            CSAP 경험은 IaaS·SaaS 심사 대응과 예비 인증 준비를 주도한 범위를 의미하며, 최종 인증 취득은
-            확인된 성과로 제시하지 않습니다.
-          </p>
-        </motion.div>
       </div>
     </section>
   );

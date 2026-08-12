@@ -29,7 +29,7 @@ const Experience = () => {
               experience.period.includes("Present") ||
               experience.period.includes("현재") ||
               experience.period.includes("진행 중");
-            const isPriority = index < 3;
+            const isPriority = index === 0;
             const roleDetails = (
               <>
                 <p className="mt-6 max-w-4xl break-keep font-body text-sm leading-7 text-white/60 md:text-base">

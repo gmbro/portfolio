@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import ProductProof from "@/components/ProductProof";
 import ImageCards from "@/components/ImageCards";
 import Experience from "@/components/Experience";
 import Leadership from "@/components/Leadership";
@@ -24,6 +25,7 @@ const Index = ({ heroContent }: IndexProps) => {
       <Navbar />
       <main id="main-content" tabIndex={-1}>
         <Hero content={heroContent} />
+        <ProductProof />
         <ImageCards />
         <Leadership />
         <Experience />

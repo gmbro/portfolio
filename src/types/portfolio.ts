@@ -33,21 +33,21 @@ export interface PortfolioPublication {
 }
 
 export const defaultHeroContent: HeroContent = {
-  roleLabel: "AI 프로덕트·프로젝트 매니저",
+  roleLabel: "프로덕트 매니저",
   careerLabel: "· 9년차",
-  headline: "기술로 고객의 문제를 해결하고\n성과로 증명합니다.",
-  highlight: "성과로 증명합니다.",
+  headline: "고객의 문제를 제품으로 해결하고\n실제 사용과 성과로 검증합니다.",
+  highlight: "실제 사용과 성과로 검증합니다.",
   subcopy: [
-    "AI 서비스 기획, 데이터 프로젝트 운영과 B2B·B2G 사업화를 연결해 왔습니다.",
-    "0→1 PoC부터 350만 MAU 서비스 운영, 프로젝트 운영 원가 70%+ 절감까지 경험했습니다.",
+    "350만 MAU 제품 운영과 AI 상담사 0→1 기획을 통해 고객 문제를 제품 구조와 실행 계획으로 전환해 왔습니다.",
+    "현재는 운동 강사용 AI 제품을 직접 기획·구축하고 실제 수업에서 베타 검증하며 개선하고 있습니다.",
   ],
-  keywords: ["AI 서비스 기획", "데이터·운영 설계", "사업화·프로젝트 실행"],
+  keywords: ["고객 문제 정의", "0→1 제품 설계", "데이터 기반 개선"],
   ctaLabel: "대표 프로젝트 보기",
   ctaTarget: "case-studies",
   stats: [
-    { value: "2억", label: "AI 프로젝트 규모" },
-    { value: "350만", label: "MAU 서비스 운영" },
-    { value: "70%+", label: "프로젝트 운영 원가 절감" },
+    { value: "0→1", label: "AI 제품 기획·구축" },
+    { value: "350만", label: "MAU 제품 운영" },
+    { value: "70%+", label: "운영 원가 절감" },
   ],
 };
 
