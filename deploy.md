@@ -1326,7 +1326,17 @@ GitHub Pages 배포 후 같은 세 너비에서 asset revision, launcher 외형�
 
 #### 배포 후 실제 URL 점검
 
-[배포 후 기록]
+- 배포 커밋: `08de58d75c06dccb3aa84f6d2191e67ea376d279` (`Restore secure portfolio chatbot launcher`).
+- GitHub Actions: run `#26`, ID `31825029141`, build·deploy 모두 `success`, 완료 `2026-08-15 02:40:52 KST`. 실행 기록: `https://github.com/gmbro/portfolio/actions/runs/31825029141`.
+- 라이브 HTML은 main `index-C-Z442ya.js`, CSS `index-BKkcAryA.css`를 제공해 로컬 최종 production build와 일치한다.
+- `https://archilab.ai.kr/`을 390×844, 768×900, 1440×900에서 다시 열어 clientWidth/scrollWidth `375/375`, `753/753`, `1425/1425`, 문서 높이 `9,945`, `8,728`, `6,625px`를 확인했다.
+- 동의 선택 후 Hero의 로컬 launcher는 각 `148×52`, `176×52`, `196×64px`로 표시되고, 클릭 전 Typebot host는 `0`이다. 첫 방문·설정 재열기의 분석 동의 배너가 보일 때 launcher는 세 너비 모두 숨겨져 교차가 `0`이다.
+- 390px 라이브에서 `?qa=base18` URL로 클릭했을 때 query가 먼저 제거된 뒤 Typebot host가 `1`개 생성됐다. panel은 `350×704px`, 버튼은 `물어보기 닫기`, `aria-pressed=true`, shadow 닫기 버튼으로 포커스가 이동했고 가로 오버플로는 없다.
+- Archi 외부 CTA가 보일 때 닫힌 launcher는 숨고 링크는 `134×44px`로 클릭 가능하다. Contact에서는 launcher가 숨고 제출 CTA는 `285×56px`로 유지된다.
+- `/p/not-real-slug`, `/admin/links`, 임의 404는 Typebot local/host `0`, Google tag script `0`, `noindex, nofollow`, 가로 오버플로 `0`을 유지한다.
+- 라이브 console warning/error와 CSP 위반은 `0`이다. 기본 `/`은 indexable이고 회사별 publication 신규 생성은 없다.
+- 최종 URL: `https://archilab.ai.kr/`.
+- 배포 결과: `성공`.
 
 ---
 
