@@ -161,7 +161,7 @@ export const careerExperiences: CareerExperience[] = [
     companyDesc: "AI 제품 개발·운영",
     title: "대표",
     period: "2026.06–진행 중",
-    team: "제품",
+    team: "",
     description: "Archi(아키)를 운영하는 1인 사업자로 제품과 사업 전 과정을 맡고 있습니다.",
     achievements: [
       "운동 강사를 위한 AI 기록 서비스 Archi(아키), 2026.07부터 참여자 6명과 베타 진행 중",
@@ -173,9 +173,9 @@ export const careerExperiences: CareerExperience[] = [
   {
     company: "GenON",
     companyDesc: "클라우드 · AI 사업",
-    title: "사업개발",
+    title: "프로.사업개발",
     period: "2025.01–2026.05",
-    team: "사업개발",
+    team: "",
     description: "SaaS·클라우드 제품의 공공 시장 진입을 위한 B2B·B2G 사업 개발, 보안 인증 대응과 대외 마케팅을 담당했습니다.",
     achievements: [
       "CSAP IaaS·SaaS 심사 대응과 보안 문서 및 증적 자료 준비 주도",

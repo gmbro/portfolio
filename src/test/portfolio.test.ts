@@ -135,6 +135,16 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
       "2018.04–2020.04",
       "2017.05–2017.12",
     ]);
+    expect(careerExperiences[0]).toMatchObject({
+      company: "Arkylab",
+      title: "대표",
+      team: "",
+    });
+    expect(careerExperiences[1]).toMatchObject({
+      company: "GenON",
+      title: "프로.사업개발",
+      team: "",
+    });
   });
 
   it("Archi 제품과 Arkylab 운영 주체를 구분하고 실사용 학습을 보존한다", () => {

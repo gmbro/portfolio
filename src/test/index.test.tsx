@@ -75,6 +75,11 @@ describe("기본 포트폴리오 정보 구조", () => {
     expect(container.querySelectorAll("[data-project-rank]")).toHaveLength(5);
     expect(container.querySelector('[data-project-rank="1"][id="arkylab-ai-coach"]')).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "다음 선택에서는 조직의 목표를 중요한 기준으로 봅니다." })).toBeInTheDocument();
+    const experienceArticles = Array.from(container.querySelectorAll("#experience article"));
+    expect(experienceArticles[0]?.querySelector("p")?.textContent).toBe("대표");
+    expect(experienceArticles[1]?.querySelector("p")?.textContent).toBe("프로.사업개발");
+    expect(container.querySelector("#experience")?.textContent).not.toContain("대표 · 제품");
+    expect(container.querySelector("#experience")?.textContent).not.toContain("사업개발 · 사업개발");
     expect(observedSectionIds).toContain("contact");
 
     const localLauncher = screen.getByRole("button", { name: "물어보기 열기" });
