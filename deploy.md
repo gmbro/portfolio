@@ -1209,6 +1209,127 @@ GitHub Pages 배포 후 같은 세 너비에서 asset revision, launcher 외형�
 
 ---
 
+### 2026-08-15 / 첫 화면 챗봇 가시성 복구 / base revision 18
+
+- 작업 대상 URL: `/`, 유효한 `/p/:slug`
+- 제외 URL: `/admin/links`, 무효 `/p/:slug`, 임의 404
+- 수정 전 라이브 URL: `https://archilab.ai.kr/`
+- 배포 예정 URL: `https://archilab.ai.kr/`
+- 대상 revision: 기본 포트폴리오 base revision 18
+- 검사 브라우저: Codex In-app Browser
+- 검사 담당: Codex
+
+#### 1단계 — 요청·채용 신호 분석
+
+| 우선순위 | 평가자가 확인할 신호 | 이번 revision의 방향 |
+|---:|---|---|
+| 1 | 첫 화면에서 추가 질문 수단을 즉시 발견할 수 있는가 | Hero부터 `물어보기` 런처를 표시 |
+| 2 | 고정 UI가 핵심 성과·CTA를 가리지 않는가 | 390·768·1440px에서 실제 경계와 교차 면적을 측정 |
+| 3 | 문의 작성과 열린 대화가 서로 방해하지 않는가 | 문의 구간에서는 닫힌 런처만 숨기고 열린 대화는 유지 |
+| 4 | 보호 경로와 개인정보 경계가 유지되는가 | 관리자·무효·404에는 Typebot을 렌더하지 않고 GA·Supabase·EmailJS 경계를 재검사 |
+
+#### 2단계 — 기존 근거·기능 구조화
+
+| 항목 | 검증된 현재 상태 | 변경 원칙 |
+|---|---|---|
+| Typebot | 외부 bot `gmbro`, 가시 문구 `물어보기`, 한국어 열기·닫기 이름 | bot id·대화 지식·이벤트 이름 변경 없음 |
+| 공개 범위 | 기본 `/`와 유효한 회사별 `Index`에서만 렌더 | 관리자·무효·404 제외 유지 |
+| 문의 | EmailJS 고정 수신자, honeypot·10초 제한·동의·fallback | 폼 로직 변경 없이 닫힌 런처만 충돌 방지 |
+| 분석 | 공개 루트에서만 GA 허용, Typebot 최초 열기에 `chat_open` | slug·대화 본문·문의 입력을 분석에 보내지 않음 |
+
+#### 3단계 — Hero 콘텐츠 유지 판단
+
+| 안 | Hero 방향 | 판단 |
+|---:|---|---|
+| 1 (유지) | `고객의 문제를 제품으로 해결합니다.` | 사용자 승인 문구이며 이번 UI 수정과 무관 |
+| 2 | 챗봇 안내를 Hero 카피에 추가 | 첫 화면 메시지가 분산돼 제외 |
+| 3 | 챗봇 CTA를 Hero 본문 버튼으로 추가 | 프로젝트 CTA와 경쟁하므로 제외 |
+
+- base revision 17의 `AI Product Manager · 7년 경력`, Archi·350만 MAU·70%+ 사실과 프로젝트·경력 서사는 변경하지 않는다.
+- 챗봇은 Hero 본문의 새 문구가 아니라 고정 보조 인터페이스로 복원한다.
+
+#### 4단계 — 웹사이트 적용 계획
+
+- 분석 동의 배너가 없거나 선택을 마친 첫 화면에는 동일한 `물어보기` UI의 로컬 런처를 즉시 표시하고, 외부 Typebot 코드는 사용자가 클릭한 뒤에만 지연 로드한다.
+- Typebot 로드 직전에 URL query를 제거해 패키지의 자동 prefilled-variable 병합으로 민감한 query가 전달되지 않게 한다.
+- 문의 구간과 외부 프로젝트 CTA가 보일 때는 닫힌 런처만 숨기고, 이미 열린 대화는 스크롤 중 유지한다.
+- 태블릿 Hero 지표와 런처 사이의 2px 간격을 넓히고 프로젝트 외부 CTA와의 교차도 실제로 확인한다.
+- 구조 테스트와 Typebot 상태 전환 테스트를 보강하고, 동일한 세 너비·보호 경로·CSP·GA·EmailJS·Supabase 경계를 재검사한다.
+
+#### 1차 진단 — 수정 전
+
+실제 라이브 base revision 17을 같은 브라우저에서 직접 측정했다.
+
+| 항목 | 390×844 | 768×900 | 1440×900 |
+|---|---:|---:|---:|
+| clientWidth / scrollWidth | `375 / 375` | `753 / 753` | `1425 / 1425` |
+| 문서 높이 | 9,945px | 8,728px | 6,625px |
+| Hero Typebot host / button | `0 / 0` | `0 / 0` | `0 / 0` |
+| Hero 지표 하단 | 734px | 814px | 789px |
+| 기존 런처 예상 상단 | 786px | 816px | 816px |
+| 지표와 런처 사이 | 52px | 2px | 27px |
+
+| ID | 범위 | 발견한 문제 | 사용자 영향 | 심각도 | 수정 방향 | 상태 |
+|---|---|---|---|---|---|---|
+| QA-BASE18-001 | Hero·역량·Archi | Hero가 화면에서 사라져야 `hasLoaded=true`가 되고, Hero·역량·Archi가 보이면 닫힌 런처를 다시 숨김 | 첫 화면과 핵심 본문 대부분에서 챗봇이 삭제된 것처럼 보임 | 차단 | 첫 렌더에는 로컬 런처를 표시하고 실제 Bubble은 사용자 클릭 뒤에만 마운트 | 수정 완료 |
+| QA-BASE18-002 | 768px Hero | 복원된 196×64px 런처와 세 번째 지표는 겹치지는 않지만 수직 간격이 2px에 불과함 | 요소가 맞닿아 보이고 지표 스캔이 불편할 수 있음 | 높음 | 태블릿 런처를 176×52px·하단 4px로 조정 | 수정 완료 |
+| QA-BASE18-003 | 390·768·1440px Contact | 상시 표시만 적용하면 고정 pill이 제출·동의 UI를 가릴 수 있음 | 문의 전환 방해 | 높음 | Contact가 보이고 대화가 닫힌 경우에만 launcher 숨김 유지 | 수정 완료 |
+| QA-BASE18-004 | 프로젝트 CTA | Archi 외부 링크와 1440px 우하단 pill이 같은 영역을 사용할 가능성 | 제품 증거 링크 클릭 방해 가능 | 높음 | 외부 프로젝트 CTA를 관찰해 보이는 동안 닫힌 launcher 숨김 | 수정 완료 |
+| QA-BASE18-005 | 접근성·브라우저 호환 | 기존 테스트가 모든 관찰 대상을 즉시 out-of-view로 만들어 Hero 미노출 결함을 놓침 | 같은 회귀가 재발할 수 있음 | 높음 | 초기 렌더·클릭 로드·query 제거·Contact/CTA·열린 대화·미지원·실패 격리 테스트 추가 | 수정 완료 |
+| QA-BASE18-006 | 첫 방문 분석 동의 | 390px에서 동의 배너가 launcher의 88.5%, 768px에서 60.1%를 덮고 중심 클릭도 배너에 가로막힘 | 첫 방문에서 챗봇을 누를 수 없음 | 차단 | 동의 배너가 열린 동안 닫힌 launcher를 숨기고 선택 직후 복원 | 수정 완료 |
+
+1차 진단 요약:
+
+- Typebot 패키지나 bot 자체는 남아 있으나 현재 공개 첫 화면에서는 host조차 생성되지 않는다.
+- 390px 다른 프로젝트·경력 구간에서는 `148×52px`, `물어보기 열기`로 정상 표시되므로 통합 삭제가 아니라 가시성 상태 로직의 문제다.
+- 수정 전에 기록을 완료했으며, 다음 단계에서 가시성·충돌·테스트를 직접 수정한다.
+
+#### 직접 수정
+
+| 범위 | 실제 수정 | 보안·사실 영향 | 결과 |
+|---|---|---|---|
+| 첫 화면 발견성 | Hero부터 네이티브 DOM/CSS `물어보기` pill을 렌더하고 Hero·역량·Archi 숨김 조건을 제거 | 경력·프로젝트 사실 변경 없음 | 동의 배너가 없거나 선택 직후 세 너비 첫 화면에서 launcher 노출 |
+| 지연 로딩·개인정보 | 외부 Typebot은 사용자의 launcher 클릭 뒤에만 dynamic import하고, 로드 직전 현재 URL query를 제거 | query·이메일·회사 식별자가 Typebot prefilled variable로 자동 전달되는 경계 차단 | 클릭 전 Typebot host·S3 요청·`chat_open` 0, 클릭 후만 실행 |
+| 이벤트 정확성 | 로컬 launcher의 명시적 클릭 뒤 Typebot shadow button이 준비된 때만 `chat_open`을 1회 기록 | controlled 초기 open에서 호출되지 않는 `onOpen` 의존과 이전 세션 자동 복원·로드 실패 오집계를 함께 제거 | GA root-only·고정 page context 유지 |
+| 장애 격리 | Typebot lazy chunk를 별도 Error Boundary로 감싸고 실패 시 포트폴리오는 유지한 채 한국어 상태 문구 표시 | 외부 서비스 장애가 본문·CTA를 중단하지 않음 | 실패 회귀 테스트 통과 |
+| CTA 충돌 | Contact와 `data-chat-exclusion`이 붙은 외부 프로젝트 CTA가 보이고 대화가 닫혔을 때만 launcher 숨김 | 열린 대화는 강제로 닫지 않음 | Archi 링크·문의 제출과 교차 0 |
+| 분석 동의 충돌 | 분석 동의 배너를 식별하고, 열린 동안 닫힌 launcher를 숨기며 설정을 다시 열면 열린 chat도 닫음 | 동의 선택 뒤 launcher 즉시 복원, 분석·문의 동의 목적 분리 유지 | 390·768px 배너와 launcher 교차 0 |
+| 반응형 | 모바일 148×52px, 태블릿 176×52px, 데스크톱 196×64px으로 조정 | 없음 | 768px Hero 지표와 간격 `2px 수준 → 12px` |
+| 접근성 | 로컬 버튼에 `물어보기 열기`, `aria-expanded`, `aria-busy`, 44px 이상 터치 영역을 부여하고 Typebot 준비 뒤 shadow 닫기 버튼으로 포커스를 이동 | Label-in-Name 유지 | 키보드·포커스·reduced-motion 정책 유지 |
+| 테스트 | `typebot-bubble.test.tsx` 7개와 Index 구조 회귀를 추가·갱신 | 없음 | click-only 로드, query 제거, 동의·Contact·CTA 숨김, 열린 대화 유지, IO 미지원, 실패 격리 검증 |
+
+#### 동일 조건 재검사
+
+최종 production build를 수정 전과 동일한 Codex In-app Browser 조건으로 직접 재검사했다.
+
+| 항목 | 390×844 | 768×900 | 1440×900 |
+|---|---:|---:|---:|
+| clientWidth / scrollWidth | `375 / 375` | `753 / 753` | `1425 / 1425` |
+| 문서 높이 | 9,945px | 8,728px | 6,625px |
+| Hero 로컬 launcher | 148×52px | 176×52px | 196×64px |
+| Hero Typebot host | 0 | 0 | 0 |
+| Hero 지표와 launcher | 수직 34px 분리 | 수직 12px 분리 | 수평 113px 분리 |
+| Archi 외부 CTA가 보일 때 닫힌 launcher | 숨김 | 숨김 | 숨김 |
+| Contact 제출 CTA | 285×56px | 591×56px | 702×56px |
+| Contact 닫힌 launcher | 숨김 | 숨김 | 숨김 |
+
+- 390px 클릭 전에는 query가 있는 URL에서도 로컬 launcher만 있고 Typebot host는 `0`이다. 클릭 직후 URL의 `?email=private@example.com&company=secret`가 제거된 다음 host가 `1`개 생성됐다.
+- 실제 Typebot을 연 뒤 390px panel은 `350×704px`, x=`25–375`, y=`70–774`로 viewport 안에 있고, 버튼은 `물어보기 닫기`, `aria-pressed=true`다.
+- 768px 실제 panel은 `400×704px`, x=`333–733`, y=`128–832`로 viewport 안에 있으며 닫힌 launcher는 `176×52px`다.
+- Typebot을 실제 열고 닫아 `물어보기 열기 → 닫기 → 열기`, `aria-pressed false → true → false`를 확인했다. 열린 대화는 Contact 진입 시 유지되며 닫으면 launcher가 숨는다.
+- `/p/not-real-slug`, `/admin/links`, 임의 404는 모두 `noindex, nofollow`, Typebot local/host `0`, Google tag script `0`, 가로 오버플로 `0`이다.
+- console warning/error와 CSP 위반은 `0`이다. 기본 콘텐츠·경력·프로젝트·수치·Typebot 지식은 base revision 17에서 변경하지 않았다.
+- 분석 동의 배너가 열린 첫 방문에는 390·768·1440px 모두 닫힌 launcher가 숨겨져 교차 면적이 `0`이며, 거부 또는 허용 선택 직후 launcher가 다시 나타난다.
+- 최종 검사: TypeScript 통과, Vitest `31/31`, ESLint 오류 `0`·기존 미사용 UI scaffold fast-refresh 경고 `7`, production build 통과, `git diff --check` 통과, `pnpm audit --prod` 알려진 취약점 `0`.
+- 번들: main `128.90KiB gzip`, CSS `13.94KiB gzip`, Typebot `199.27KiB gzip`. Typebot chunk는 최초 HTML preload에 없고 사용자 클릭 뒤에만 로드된다.
+- 배포 판정: `가능`.
+
+#### 배포 후 실제 URL 점검
+
+[배포 후 기록]
+
+---
+
 ### 2026-08-15 / Archi 프로젝트 통합·경력 선택 서사 정리 / base revision 17
 
 - 작업 대상 URL: `/`, 유효한 `/p/:slug`

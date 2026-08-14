@@ -41,6 +41,7 @@ const AnalyticsConsentBanner = () => {
 
   return (
     <aside
+      data-analytics-consent-banner="true"
       role="dialog"
       aria-label="방문 분석 설정"
       aria-modal="false"

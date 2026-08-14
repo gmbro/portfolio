@@ -167,6 +167,7 @@ const ProjectCard = ({ project, index }: { project: FeaturedProject; index: numb
             href={project.link.href}
             target="_blank"
             rel="noreferrer"
+            data-chat-exclusion="true"
             onClick={() => {
               if (project.id === "arkylab-ai-coach") trackPortfolioEvent("select_content");
             }}

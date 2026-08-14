@@ -2,8 +2,10 @@ declare module "@typebot.io/react" {
   import type { ComponentType } from "react";
 
   interface BubbleProps {
+    id?: string;
     typebot: string;
     apiHost?: string;
+    isOpen?: boolean;
     inlineStyle?: Record<string, string>;
     onOpen?: () => void;
     onClose?: () => void;

@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { MemoryRouter } from "react-router-dom";
 
@@ -75,13 +75,19 @@ describe("기본 포트폴리오 정보 구조", () => {
     expect(container.querySelectorAll("[data-project-rank]")).toHaveLength(5);
     expect(container.querySelector('[data-project-rank="1"][id="arkylab-ai-coach"]')).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "다음 선택에서는 조직의 목표를 중요한 기준으로 봅니다." })).toBeInTheDocument();
-    expect(observedSectionIds).toContain("arkylab-ai-coach");
-    expect(observedSectionIds).not.toContain("product-proof");
+    expect(observedSectionIds).toContain("contact");
 
+    const localLauncher = screen.getByRole("button", { name: "물어보기 열기" });
+    expect(localLauncher).toHaveAttribute("aria-expanded", "false");
+    expect(screen.queryByTestId("typebot-bubble")).not.toBeInTheDocument();
+
+    fireEvent.click(localLauncher);
     expect(await screen.findByTestId("typebot-bubble")).toBeInTheDocument();
     await waitFor(() => expect(bubbleProps).toHaveBeenCalledWith(
       expect.objectContaining({
+        id: "portfolio-typebot",
         typebot: "gmbro",
+        isOpen: true,
         inlineStyle: {
           "--container-bottom": "var(--portfolio-chat-bottom)",
           "--bot-max-width": "min(400px, calc(100vw - 40px))",

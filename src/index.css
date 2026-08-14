@@ -150,6 +150,90 @@ typebot-bubble {
   --portfolio-chat-bottom: 20px;
 }
 
+.portfolio-chat-launcher {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 424242;
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) 46px;
+  column-gap: 10px;
+  align-items: center;
+  inline-size: 196px;
+  block-size: 64px;
+  padding: 8px;
+  border: 1px solid rgb(17 17 17 / 0.12);
+  border-radius: 9999px;
+  background: #ffffff;
+  color: #111111;
+  box-shadow: 0 10px 32px rgb(0 0 0 / 0.22);
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  cursor: pointer;
+}
+
+.portfolio-chat-launcher__plane {
+  width: 28px;
+  height: 28px;
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.portfolio-chat-launcher__label {
+  overflow: hidden;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.portfolio-chat-launcher__avatar {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  place-items: center;
+  border: 1px solid rgb(17 17 17 / 0.1);
+  border-radius: 9999px;
+  background: linear-gradient(135deg, #ff6645, #111111);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.portfolio-chat-launcher:focus-visible {
+  outline: 2px solid #111111;
+  outline-offset: 3px;
+  box-shadow:
+    0 0 0 6px rgb(255 255 255 / 0.95),
+    0 10px 32px rgb(0 0 0 / 0.22);
+}
+
+.portfolio-chat-launcher:disabled {
+  cursor: wait;
+  opacity: 0.82;
+}
+
+.portfolio-chat-status {
+  position: fixed;
+  right: 20px;
+  bottom: 96px;
+  z-index: 424242;
+  max-width: min(320px, calc(100vw - 40px));
+  padding: 10px 14px;
+  border: 1px solid rgb(255 102 69 / 0.45);
+  border-radius: 14px;
+  background: #17110f;
+  color: rgb(255 255 255 / 0.9);
+  box-shadow: 0 10px 32px rgb(0 0 0 / 0.26);
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
 typebot-bubble::part(button) {
   inline-size: 196px;
   block-size: 64px;
@@ -238,9 +322,97 @@ typebot-bubble::part(button):focus-visible {
     width: 38px;
     height: 38px;
   }
+
+  .portfolio-chat-launcher {
+    right: 20px;
+    bottom: max(6px, env(safe-area-inset-bottom));
+    grid-template-columns: 20px minmax(0, 1fr) 38px;
+    column-gap: 8px;
+    inline-size: 148px;
+    block-size: 52px;
+    padding: 6px;
+  }
+
+  .portfolio-chat-launcher__plane {
+    width: 20px;
+    height: 20px;
+  }
+
+  .portfolio-chat-launcher__label {
+    font-size: 14px;
+  }
+
+  .portfolio-chat-launcher__avatar {
+    width: 38px;
+    height: 38px;
+    font-size: 10px;
+  }
+
+  .portfolio-chat-status {
+    right: 20px;
+    bottom: max(70px, calc(env(safe-area-inset-bottom) + 64px));
+  }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  typebot-bubble {
+    --portfolio-chat-bottom: 4px;
+  }
+
+  typebot-bubble::part(button) {
+    inline-size: 176px;
+    block-size: 52px;
+    padding: 0 48px 0 44px;
+  }
+
+  typebot-bubble::part(button)::before {
+    left: 14px;
+    width: 22px;
+    height: 22px;
+  }
+
+  typebot-bubble::part(button)::after {
+    left: 44px;
+    font-size: 14px;
+  }
+
+  typebot-bubble::part(button-icon) {
+    right: 6px;
+    width: 38px;
+    height: 38px;
+  }
+
+  .portfolio-chat-launcher {
+    bottom: 4px;
+    grid-template-columns: 22px minmax(0, 1fr) 38px;
+    column-gap: 8px;
+    inline-size: 176px;
+    block-size: 52px;
+    padding: 6px;
+  }
+
+  .portfolio-chat-launcher__plane {
+    width: 22px;
+    height: 22px;
+  }
+
+  .portfolio-chat-launcher__label {
+    font-size: 14px;
+  }
+
+  .portfolio-chat-launcher__avatar {
+    width: 38px;
+    height: 38px;
+    font-size: 10px;
+  }
+
+  .portfolio-chat-status {
+    bottom: 68px;
+  }
 }
 
 @media (hover: hover) and (pointer: fine) {
+  .portfolio-chat-launcher:hover:not(:focus-visible),
   typebot-bubble::part(button):hover:not(:focus-visible) {
     box-shadow: 0 14px 38px rgb(0 0 0 / 0.26);
     scale: 1 !important;
@@ -249,6 +421,7 @@ typebot-bubble::part(button):focus-visible {
 }
 
 @media (hover: none), (pointer: coarse) {
+  .portfolio-chat-launcher:hover,
   typebot-bubble::part(button):hover {
     scale: 1 !important;
     transform: none !important;
@@ -256,6 +429,9 @@ typebot-bubble::part(button):focus-visible {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .portfolio-chat-launcher,
+  .portfolio-chat-launcher__plane,
+  .portfolio-chat-launcher__avatar,
   typebot-bubble::part(button),
   typebot-bubble::part(button-icon) {
     animation: none;
