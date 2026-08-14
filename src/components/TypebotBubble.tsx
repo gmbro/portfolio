@@ -1,4 +1,5 @@
 import { lazy, Suspense, useEffect, useState } from "react";
+import { trackPortfolioEvent } from "@/lib/analytics";
 
 const LazyBubble = lazy(async () => {
   const typebot = await import("@typebot.io/react");
@@ -13,12 +14,16 @@ const closeIcon =
 
 const TypebotBubble = () => {
   const [heroVisible, setHeroVisible] = useState(true);
+  const [aboutVisible, setAboutVisible] = useState(false);
+  const [productVisible, setProductVisible] = useState(false);
   const [contactVisible, setContactVisible] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [hasLoaded, setHasLoaded] = useState(false);
 
   useEffect(() => {
     const hero = document.getElementById("hero");
+    const about = document.getElementById("about");
+    const product = document.getElementById("product-proof");
     const contact = document.getElementById("contact");
 
     if (!("IntersectionObserver" in window)) {
@@ -30,6 +35,8 @@ const TypebotBubble = () => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.target.id === "hero") setHeroVisible(entry.isIntersecting);
+          if (entry.target.id === "about") setAboutVisible(entry.isIntersecting);
+          if (entry.target.id === "product-proof") setProductVisible(entry.isIntersecting);
           if (entry.target.id === "contact") setContactVisible(entry.isIntersecting);
         });
       },
@@ -37,6 +44,8 @@ const TypebotBubble = () => {
     );
 
     if (hero) observer.observe(hero);
+    if (about) observer.observe(about);
+    if (product) observer.observe(product);
     if (contact) observer.observe(contact);
 
     return () => observer.disconnect();
@@ -98,7 +107,8 @@ const TypebotBubble = () => {
     };
   }, [hasLoaded]);
 
-  const hideClosedLauncher = !isOpen && (heroVisible || contactVisible);
+  const hideClosedLauncher =
+    !isOpen && (heroVisible || aboutVisible || productVisible || contactVisible);
 
   if (!hasLoaded) return null;
 
@@ -112,7 +122,10 @@ const TypebotBubble = () => {
           "--bot-max-width": "min(400px, calc(100vw - 40px))",
           "--bot-max-height": "min(704px, calc(100vh - 120px))",
         }}
-        onOpen={() => setIsOpen(true)}
+        onOpen={() => {
+          setIsOpen(true);
+          trackPortfolioEvent("chat_open");
+        }}
         onClose={() => setIsOpen(false)}
         theme={{
           position: "fixed",

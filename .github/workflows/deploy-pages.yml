@@ -48,6 +48,8 @@ jobs:
           # EmailJS template IDs are public client identifiers and are included in the browser bundle.
           VITE_EMAILJS_TEMPLATE_ID: template_zeewzqa
           VITE_EMAILJS_PUBLIC_KEY: ${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}
+          # GA4 measurement IDs are public client identifiers and are included in the browser bundle.
+          VITE_GA_MEASUREMENT_ID: G-C8EPGBXDJE
         run: |
           pnpm build
           cp dist/index.html dist/404.html

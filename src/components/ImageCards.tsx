@@ -13,12 +13,12 @@ const ProjectVisual = ({ project }: { project: FeaturedProject }) => {
           controls
           preload="metadata"
           poster={visual.poster}
-          className="aspect-[16/10] w-full object-cover"
+          className="aspect-[16/10] w-full bg-black object-contain"
           aria-label={visual.alt}
         >
           <source src={visual.src} />
         </video>
-        {visual.caption && <figcaption className="px-4 py-3 text-xs leading-5 text-white/45">{visual.caption}</figcaption>}
+        {visual.caption && <figcaption className="px-4 py-3 text-xs leading-5 text-white/60">{visual.caption}</figcaption>}
       </figure>
     );
   }
@@ -32,7 +32,7 @@ const ProjectVisual = ({ project }: { project: FeaturedProject }) => {
           loading="lazy"
           className="aspect-[16/10] w-full object-cover"
         />
-        {visual.caption && <figcaption className="px-4 py-3 text-xs leading-5 text-white/45">{visual.caption}</figcaption>}
+        {visual.caption && <figcaption className="px-4 py-3 text-xs leading-5 text-white/60">{visual.caption}</figcaption>}
       </figure>
     );
   }
@@ -55,7 +55,7 @@ const ProjectVisual = ({ project }: { project: FeaturedProject }) => {
       {visual.placeholderItems && (
         <ul className="mt-6 space-y-2">
           {visual.placeholderItems.map((item) => (
-            <li key={item} className="flex items-start gap-2 font-body text-xs leading-5 text-white/45">
+            <li key={item} className="flex items-start gap-2 font-body text-xs leading-5 text-white/60">
               <span className="text-[#ff6645]" aria-hidden="true">
                 +
               </span>
@@ -69,18 +69,17 @@ const ProjectVisual = ({ project }: { project: FeaturedProject }) => {
 };
 
 const ProjectCard = ({ project, index }: { project: FeaturedProject; index: number }) => {
-  const isPriority = index < 3;
-  const showsFullEvidence = index === 0;
+  const isPriority = index < 2;
   const showsVisual = Boolean(project.visual?.src) || (import.meta.env.DEV && Boolean(project.visual));
   const evidence = (
-    <dl className={`grid gap-6 ${isPriority ? "md:grid-cols-3" : ""}`}>
+    <dl className={`grid gap-6 ${isPriority ? "lg:grid-cols-3" : ""}`}>
       <div>
         <dt className="mb-2 font-body text-[10px] font-bold uppercase tracking-[0.2em] text-white/50">문제</dt>
-        <dd className="break-words text-pretty [overflow-wrap:anywhere] font-body text-sm leading-6 text-white/60">{project.challenge}</dd>
+        <dd className="break-words text-pretty [overflow-wrap:anywhere] font-body text-sm leading-6 text-white/70">{project.challenge}</dd>
       </div>
       <div>
-        <dt className="mb-2 font-body text-[10px] font-bold uppercase tracking-[0.2em] text-white/50">실행</dt>
-        <dd className="break-words text-pretty [overflow-wrap:anywhere] font-body text-sm leading-6 text-white/68">{project.action}</dd>
+        <dt className="mb-2 font-body text-[10px] font-bold uppercase tracking-[0.2em] text-white/50">판단·실행</dt>
+        <dd className="break-words text-pretty [overflow-wrap:anywhere] font-body text-sm leading-6 text-white/72">{project.action}</dd>
       </div>
       <div>
         <dt className="mb-2 font-body text-[10px] font-bold uppercase tracking-[0.2em] text-[#ff8a70]">성과</dt>
@@ -98,7 +97,7 @@ const ProjectCard = ({ project, index }: { project: FeaturedProject; index: numb
       viewport={{ once: true, amount: 0.08 }}
       transition={{ duration: 0.45, delay: Math.min(index * 0.05, 0.18) }}
       className={`min-w-0 scroll-mt-24 rounded-3xl border bg-[#111111] p-6 md:p-8 ${
-        isPriority ? "lg:col-span-2 lg:p-10 xl:col-span-6" : "border-white/10 xl:col-span-2"
+        isPriority ? "lg:col-span-2 lg:p-10" : "border-white/10"
       } ${index === 0 ? "border-[#ff6645]/45 shadow-[0_20px_80px_rgba(255,102,69,.08)]" : "border-white/10"}`}
     >
       <div className={isPriority && showsVisual ? "grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:gap-10" : ""}>
@@ -152,19 +151,7 @@ const ProjectCard = ({ project, index }: { project: FeaturedProject; index: numb
 
       {!isPriority && showsVisual && <div className="mt-6"><ProjectVisual project={project} /></div>}
 
-      {showsFullEvidence ? (
-        <div className="mt-8">{evidence}</div>
-      ) : (
-        <details className="group mt-6 rounded-2xl border border-white/[0.08] bg-black/20 px-4 py-3">
-          <summary className="min-h-11 cursor-pointer list-none py-2 font-body text-xs font-bold uppercase tracking-[0.14em] text-white/65 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6645]">
-            <span className="inline-flex items-center gap-2">
-              문제·판단·성과 보기
-              <span className="text-[#ff6645] transition-transform group-open:rotate-45" aria-hidden="true">+</span>
-            </span>
-          </summary>
-          <div className="pb-3 pt-4">{evidence}</div>
-        </details>
-      )}
+      <div className="mt-8">{evidence}</div>
 
       <footer className="mt-8 flex flex-wrap items-end justify-between gap-5 border-t border-white/[0.07] pt-6">
         <div className="flex flex-wrap gap-x-3 gap-y-2">
@@ -205,17 +192,16 @@ const ImageCards = () => {
             프로젝트
           </span>
           <h2 className="mt-4 break-words text-balance font-display text-3xl font-bold leading-tight tracking-[-0.03em] text-white md:text-5xl">
-            고객의 문제를 발견하고, 제품으로 만들고, 결과로 검증했습니다.
+            각 프로젝트에서 내린 판단과 결과를 보여드립니다.
           </h2>
-          <p className="mt-6 max-w-3xl break-words text-balance font-body text-base leading-7 text-white/55 md:text-lg">
-            프로젝트는 PM 역량이 가장 선명하게 드러나는 순서로 배치했습니다. 각 사례에서 해결한 문제,
-            제가 내린 제품 판단과 검증된 결과를 구분해 보여드립니다.
+          <p className="mt-6 max-w-3xl break-words text-balance font-body text-base leading-7 text-white/65 md:text-lg">
+            최신 AI 프로젝트부터 대규모 제품 운영까지, 문제·판단·실행·성과 순서로 정리했습니다.
           </p>
         </motion.div>
 
-        <div className="grid gap-5 lg:grid-cols-2 lg:gap-6 xl:grid-cols-6">
+        <div className="grid gap-5 lg:grid-cols-2 lg:gap-6">
           {featuredProjects.map((project, index) => (
-            <ProjectCard key={`${project.period}-${project.title}`} project={project} index={index} />
+            <ProjectCard key={project.id} project={project} index={index} />
           ))}
         </div>
       </div>

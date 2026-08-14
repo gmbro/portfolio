@@ -84,7 +84,7 @@ const CompanyPortfolio = () => {
   );
 
   if (!isSupabaseConfigured) {
-    return <StateScreen title="연결 확인이 필요합니다" description="포트폴리오 데이터 연결을 확인해 주세요." />;
+    return <StateScreen title="포트폴리오를 불러올 수 없습니다" description="잠시 후 다시 시도해 주세요." />;
   }
 
   if (publicationQuery.isLoading) {
@@ -108,13 +108,13 @@ const CompanyPortfolio = () => {
   if (!pageContent) {
     return (
       <StateScreen
-        title="포트폴리오를 업데이트하고 있습니다"
-        description="이 포트폴리오 버전은 아직 공개되지 않았습니다."
+        title="아직 공개되지 않은 포트폴리오입니다"
+        description="이 버전은 현재 확인할 수 없습니다."
       />
     );
   }
 
-  return <Index heroContent={pageContent.hero} />;
+  return <Index heroContent={pageContent.hero} analyticsEnabled={false} />;
 };
 
 export default CompanyPortfolio;

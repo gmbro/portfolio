@@ -35,7 +35,7 @@ describe("기본 포트폴리오 정보 구조", () => {
 
   afterEach(() => vi.unstubAllGlobals());
 
-  it("소개를 PM 증거 보드보다 먼저 보여주고 핵심 콘텐츠 밖에서 챗봇을 고정한다", async () => {
+  it("역량 다음에 Archi 현재 제품과 핵심 프로젝트를 한 번씩 보여주고 챗봇을 고정한다", async () => {
     const { default: Index } = await import("@/pages/Index");
 
     const { container } = render(
@@ -49,14 +49,28 @@ describe("기본 포트폴리오 정보 구조", () => {
     expect(about).toBeTruthy();
     expect(productProof).toBeTruthy();
     expect(about?.compareDocumentPosition(productProof as Node) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    const caseStudies = container.querySelector("#case-studies");
+    expect(productProof?.compareDocumentPosition(caseStudies as Node) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
 
     const navigation = screen.getByRole("navigation", { name: "주요 메뉴" });
     const desktopNavigationLinks = Array.from(
       navigation.querySelectorAll<HTMLButtonElement>("div.hidden button"),
     ).map((button) => button.textContent?.trim());
-    expect(desktopNavigationLinks.indexOf("소개")).toBeLessThan(
+    expect(desktopNavigationLinks.indexOf("역량")).toBeLessThan(
       desktopNavigationLinks.indexOf("프로젝트"),
     );
+    expect(desktopNavigationLinks).toContain("현재 제품");
+
+    expect(screen.getByRole("heading", { name: "고객의 문제를 제품으로 해결합니다" })).toBeInTheDocument();
+    expect(screen.getByText("무엇을 만들지, 만들지 않을지까지 결정합니다.")).toBeInTheDocument();
+
+    expect(screen.getByText("현재 제품 · Archi(아키)")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Archi(아키) 베타 새 창에서 보기" })).toHaveAttribute(
+      "href",
+      "https://archi.best",
+    );
+    expect(container.querySelectorAll("[data-project-rank]")).toHaveLength(4);
+    expect(container.querySelector('[data-project-rank][id="arkylab-ai-coach"]')).not.toBeInTheDocument();
 
     expect(await screen.findByTestId("typebot-bubble")).toBeInTheDocument();
     await waitFor(() => expect(bubbleProps).toHaveBeenCalledWith(

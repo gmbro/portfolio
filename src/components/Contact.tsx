@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { LoaderCircle } from "lucide-react";
 import { useState } from "react";
 import { profile } from "@/data/portfolio";
+import { trackPortfolioEvent } from "@/lib/analytics";
 
 const emailJsConfig = {
   serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID?.trim() ?? "",
@@ -64,6 +65,7 @@ const Contact = () => {
 
   const updateField = (field: keyof FormState, value: string) => {
     setForm((current) => ({ ...current, [field]: value }));
+    if (field !== "website" && value.trim()) trackPortfolioEvent("contact_start");
     if (status.type !== "idle") setStatus({ type: "idle", message: "" });
   };
 
@@ -132,6 +134,7 @@ const Contact = () => {
         type: "success",
         message: `문의가 전송되었습니다. ${profile.email}을 통해 답변드리겠습니다.`,
       });
+      trackPortfolioEvent("generate_lead");
     } catch (error) {
       setStatus({
         type: "error",
@@ -155,7 +158,7 @@ const Contact = () => {
           transition={{ duration: 0.5 }}
           className="mb-10"
         >
-          <p className="font-body text-xs font-semibold tracking-[0.3em] text-[#ff6645]">문의</p>
+          <p className="font-body text-xs font-semibold tracking-[0.3em] text-[#ff6645]">채용·협업</p>
           <h2 className="mt-4 font-display text-3xl font-bold tracking-[-0.03em] text-white md:text-5xl">
             문의하기
           </h2>
@@ -234,7 +237,7 @@ const Contact = () => {
               value={form.message}
               onChange={(event) => updateField("message", event.target.value)}
               className="w-full resize-y rounded-xl border border-white/10 bg-black/25 px-5 py-4 font-body text-base text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-[#ff6645]/55"
-              placeholder="채용, 프로젝트 협업 또는 사업 제휴에 대해 알려주세요."
+              placeholder="채용, 프로젝트 협업 또는 사업 제휴 내용을 남겨주세요."
             />
             <p className="mt-2 text-right font-body text-xs text-white/55">{form.message.length} / 2000</p>
           </div>

@@ -1,19 +1,28 @@
+import { useLayoutEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import About from "@/components/About";
 import ProductProof from "@/components/ProductProof";
 import ImageCards from "@/components/ImageCards";
 import Experience from "@/components/Experience";
-import About from "@/components/About";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import TypebotBubble from "@/components/TypebotBubble";
+import AnalyticsConsentBanner from "@/components/AnalyticsConsent";
+import { setAnalyticsRouteEnabled } from "@/lib/analytics";
 import type { HeroContent } from "@/types/portfolio";
 
 interface IndexProps {
   heroContent?: HeroContent;
+  analyticsEnabled?: boolean;
 }
 
-const Index = ({ heroContent }: IndexProps) => {
+const Index = ({ heroContent, analyticsEnabled = true }: IndexProps) => {
+  useLayoutEffect(() => {
+    setAnalyticsRouteEnabled(analyticsEnabled);
+    return () => setAnalyticsRouteEnabled(false);
+  }, [analyticsEnabled]);
+
   return (
     <div className="min-h-screen bg-background">
       <a
@@ -31,8 +40,9 @@ const Index = ({ heroContent }: IndexProps) => {
         <Experience />
         <Contact />
       </main>
-      <Footer />
+      <Footer showAnalyticsSettings={analyticsEnabled} />
       <TypebotBubble />
+      {analyticsEnabled && <AnalyticsConsentBanner />}
     </div>
   );
 };

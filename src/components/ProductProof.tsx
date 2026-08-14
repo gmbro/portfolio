@@ -1,101 +1,90 @@
-import type { MouseEvent } from "react";
-import { ArrowDownRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
+import { trackPortfolioEvent } from "@/lib/analytics";
 
-interface ProofStep {
-  step: string;
-  capability: string;
-  project: string;
-  evidence: string;
-  targetId: string;
-}
-
-const proofSteps: ProofStep[] = [
+const productDecisions = [
   {
     step: "01",
-    capability: "고객 문제 발견",
-    project: "Arkylab",
-    evidence: "실사용 베타",
-    targetId: "arkylab-ai-coach",
+    label: "실사용 검증",
+    copy: "2026년 7월부터 6명과 베타를 진행하며 실제 수업에서 필요한 기록 방식을 확인하고 있습니다.",
   },
   {
     step: "02",
-    capability: "제품 정의·0→1",
-    project: "Skelter Labs",
-    evidence: "0→1 PoC",
-    targetId: "skelter-ai-counselor",
+    label: "기능 추가",
+    copy: "회원의 운동 전 체형을 분석하고 싶다는 요청을 반영해 그리드 배경 촬영 기능을 추가했습니다.",
   },
   {
     step: "03",
-    capability: "측정·개선",
-    project: "Selectstar",
-    evidence: "운영 원가 70%+ 절감",
-    targetId: "selectstar-stt-operations",
+    label: "기능 제외",
+    copy: "운동마다 기록 방식이 달라 시퀀스를 추가하면 복잡해진다는 피드백을 반영해 도입하지 않기로 했습니다.",
   },
   {
     step: "04",
-    capability: "운영·성장",
-    project: "SK Planet",
-    evidence: "350만 MAU",
-    targetId: "sk-planet-syrup-wallet",
+    label: "현재 집중",
+    copy: "현재는 실제 수업에서 바로 사용할 수 있는 영상 기록 경험에 집중하고 있습니다.",
   },
 ];
 
 const ProductProof = () => {
-  const moveToProject = (event: MouseEvent<HTMLAnchorElement>, targetId: string) => {
-    const target = document.getElementById(targetId);
-    if (!target) return;
-
-    event.preventDefault();
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    window.history.pushState(null, "", `#${targetId}`);
-    target.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
-  };
-
   return (
-    <section id="product-proof" className="scroll-mt-20 bg-[#0b0b0b] px-6 py-16 text-white md:px-12 md:py-20">
-      <div className="mx-auto max-w-7xl">
-        <header className="grid gap-5 lg:grid-cols-[1.05fr_0.95fr] lg:items-end lg:gap-16">
+    <section id="product-proof" className="scroll-mt-20 bg-[#0b0b0b] px-6 py-20 text-white md:px-12 md:py-28">
+      <div id="arkylab-ai-coach" className="mx-auto max-w-7xl scroll-mt-24">
+        <header className="grid gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:items-end lg:gap-16">
           <div>
             <span className="font-body text-xs font-semibold uppercase tracking-[0.3em] text-[#ff6645]">
-              제품으로 검증한 PM 역량
+              현재 제품 · Archi(아키)
             </span>
-            <h2 className="mt-4 break-words text-balance font-display text-3xl font-bold leading-tight tracking-[-0.03em] md:text-4xl">
-              고객 문제 발견부터 측정과 개선까지,
-              <span className="block text-white/55">제품을 만드는 전체 흐름으로 증명합니다.</span>
+            <h2 className="mt-4 max-w-4xl break-words text-balance font-display text-3xl font-bold leading-tight tracking-[-0.03em] md:text-5xl">
+              더 많이 만들기보다,
+              <span className="block text-white/65">실제로 쓰이는 기능만 남깁니다.</span>
             </h2>
           </div>
-          <p className="max-w-3xl break-words text-balance font-body text-base leading-7 text-white/65 md:text-lg">
-            기술 이름보다 어떤 고객 문제를 발견했고, 제품으로 정의해 운영 성과까지 연결했는지를 대표 경험으로
-            보여드립니다.
-          </p>
+
+          <div className="max-w-2xl">
+            <p className="break-words text-pretty font-body text-base leading-7 text-white/65 md:text-lg md:leading-8">
+              운동 강사의 기록 업무를 돕는 AI 제품 Archi(아키)를 만들고 있습니다. 제품 기획부터
+              개발·사업·운영까지 1인으로 맡아, 베타 피드백을 기능의 추가와 제외 결정으로 연결합니다.
+            </p>
+            <a
+              href="https://archi.best"
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => trackPortfolioEvent("select_content")}
+              aria-label="Archi(아키) 베타 새 창에서 보기"
+              className="mt-6 inline-flex min-h-12 items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-5 py-3 font-body text-sm font-bold text-white transition-colors hover:border-[#ff6645]/60 hover:text-[#ff8a70] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6645] focus-visible:ring-offset-4 focus-visible:ring-offset-[#0b0b0b]"
+            >
+              Archi 베타 보기
+              <ArrowUpRight size={17} aria-hidden="true" />
+            </a>
+          </div>
         </header>
 
-        <ol className="mt-8 grid grid-cols-1 gap-3 md:mt-10 md:grid-cols-2 xl:grid-cols-4">
-          {proofSteps.map((proof) => (
-            <li key={proof.targetId} className="min-w-0">
-              <a
-                href={`#${proof.targetId}`}
-                onClick={(event) => moveToProject(event, proof.targetId)}
-                aria-label={`${proof.capability}: ${proof.project} ${proof.evidence} 프로젝트로 이동`}
-                className="group flex h-full min-h-20 items-center gap-4 rounded-2xl border border-white/10 bg-[#111111] p-4 transition-colors hover:border-[#ff6645]/55 hover:bg-[#151210] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6645] focus-visible:ring-offset-4 focus-visible:ring-offset-[#0b0b0b] motion-reduce:transition-none md:p-5"
-              >
-                <span className="shrink-0 font-display text-sm font-extrabold tracking-[0.12em] text-[#ff6645]">
-                  {proof.step}
+        <dl className="mt-10 grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-3">
+          <div className="bg-[#111111] p-5 md:p-6">
+            <dt className="font-body text-[10px] font-bold uppercase tracking-[0.16em] text-white/60">베타 참여</dt>
+            <dd className="mt-2 font-display text-2xl font-extrabold text-white md:text-3xl">6명</dd>
+          </div>
+          <div className="bg-[#111111] p-5 md:p-6">
+            <dt className="font-body text-[10px] font-bold uppercase tracking-[0.16em] text-white/60">검증 기간</dt>
+            <dd className="mt-2 break-words font-display text-xl font-extrabold text-white md:text-2xl">2026.07–진행 중</dd>
+          </div>
+          <div className="bg-[#111111] p-5 md:p-6">
+            <dt className="font-body text-[10px] font-bold uppercase tracking-[0.16em] text-white/60">담당 범위</dt>
+            <dd className="mt-2 break-words text-pretty font-display text-base font-bold leading-6 text-white md:text-lg">
+              1인 제품 기획·개발·사업·운영 전담
+            </dd>
+          </div>
+        </dl>
+
+        <ol className="mt-5 grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4">
+          {productDecisions.map((decision) => (
+            <li key={decision.step} className="min-w-0 rounded-2xl border border-white/10 bg-[#111111] p-5 md:p-6">
+              <div className="flex items-center gap-3">
+                <span className="shrink-0 whitespace-nowrap font-display text-xs font-extrabold tracking-[0.12em] text-[#ff6645]" aria-hidden="true">
+                  {decision.step}
                 </span>
-                <div className="min-w-0 flex-1">
-                  <h3 className="break-words text-balance font-display text-base font-bold leading-snug text-white md:text-lg">
-                    {proof.capability}
-                  </h3>
-                  <p className="mt-1 break-words text-pretty font-body text-xs font-semibold leading-5 text-white/60">
-                    {proof.project} · {proof.evidence}
-                  </p>
-                </div>
-                <ArrowDownRight
-                  size={18}
-                  className="shrink-0 text-white/40 transition-colors group-hover:text-[#ff8a70] motion-reduce:transition-none"
-                  aria-hidden="true"
-                />
-              </a>
+                <h3 className="font-display text-base font-bold text-white md:text-lg">{decision.label}</h3>
+              </div>
+              <p className="mt-4 break-words text-pretty font-body text-sm leading-6 text-white/70">{decision.copy}</p>
             </li>
           ))}
         </ol>

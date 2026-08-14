@@ -1,7 +1,13 @@
 import { describe, expect, it } from "vitest";
 import type { Json } from "@/lib/database.types";
 import { defaultHeroContent, parsePortfolioPageContent } from "@/types/portfolio";
-import { careerExperiences, featuredProjects, profile } from "@/data/portfolio";
+import {
+  careerExperiences,
+  featuredProjects,
+  flagshipProject,
+  portfolioProjects,
+  profile,
+} from "@/data/portfolio";
 
 const validContent: Json = {
   meta: {
@@ -53,24 +59,55 @@ describe("parsePortfolioPageContent", () => {
 
     expect(parsePortfolioPageContent(invalidMeta as Json)).toBeNull();
   });
+
+  it("회사별 Hero의 줄 수, 길이, stat 개수와 CTA target을 제한한다", () => {
+    const tooManyHeadlineLines = structuredClone(validContent) as Record<string, unknown>;
+    (tooManyHeadlineLines.hero as Record<string, unknown>).headline = "첫 줄\n둘째 줄\n셋째 줄";
+
+    const tooManyStats = structuredClone(validContent) as Record<string, unknown>;
+    (tooManyStats.hero as Record<string, unknown>).stats = [
+      { value: "1", label: "하나" },
+      { value: "2", label: "둘" },
+      { value: "3", label: "셋" },
+      { value: "4", label: "넷" },
+    ];
+
+    const unsafeTarget = structuredClone(validContent) as Record<string, unknown>;
+    (unsafeTarget.hero as Record<string, unknown>).ctaTarget = "#case-studies<script>";
+
+    const longToken = structuredClone(validContent) as Record<string, unknown>;
+    (longToken.hero as Record<string, unknown>).roleLabel = "A".repeat(41);
+
+    expect(parsePortfolioPageContent(tooManyHeadlineLines as Json)).toBeNull();
+    expect(parsePortfolioPageContent(tooManyStats as Json)).toBeNull();
+    expect(parsePortfolioPageContent(unsafeTarget as Json)).toBeNull();
+    expect(parsePortfolioPageContent(longToken as Json)).toBeNull();
+  });
+
+  it("회사별 Hero 문자열의 앞뒤 공백을 제거해 반환한다", () => {
+    const padded = structuredClone(validContent) as Record<string, unknown>;
+    (padded.hero as Record<string, unknown>).roleLabel = "  프로덕트 매니저  ";
+
+    expect(parsePortfolioPageContent(padded as Json)?.hero.roleLabel).toBe("프로덕트 매니저");
+  });
 });
 
 describe("검증된 기본 포트폴리오 콘텐츠", () => {
-  it("승인된 한국어 PM Hero 문구, 키워드, CTA와 지표를 사용한다", () => {
+  it("AI Product Manager 포지셔닝과 Archi 중심 Hero를 사용한다", () => {
     expect(defaultHeroContent).toEqual({
-      roleLabel: "프로덕트 매니저",
-      careerLabel: "· 9년차",
-      headline: "고객의 문제를 제품으로 해결하고\n실제 사용과 성과로 검증합니다.",
-      highlight: "실제 사용과 성과로 검증합니다.",
+      roleLabel: "AI Product Manager",
+      careerLabel: "· 7년 경력",
+      headline: "고객의 문제를 제품으로 해결합니다",
+      highlight: "제품으로 해결합니다",
       subcopy: [
-        "350만 MAU 제품 운영과 AI 상담사 0→1 기획을 통해 고객 문제를 제품 구조와 실행 계획으로 전환해 왔습니다.",
-        "현재는 운동 강사용 AI 제품을 직접 기획·구축하고 실제 수업에서 베타 검증하며 개선하고 있습니다.",
+        "350만 MAU 제품 운영, AI 제품 0→1, STT 운영 원가 70%+ 절감으로 문제 정의와 실행 역량을 검증했습니다.",
+        "현재는 Archi(아키)를 1인으로 기획·개발·사업·운영하며, 6명의 베타 참여자에게서 얻은 피드백으로 다음 제품 결정을 내리고 있습니다.",
       ],
-      keywords: ["고객 문제 정의", "0→1 제품 설계", "데이터 기반 개선"],
-      ctaLabel: "대표 프로젝트 보기",
-      ctaTarget: "case-studies",
+      keywords: ["문제 정의", "제품 우선순위", "실사용 검증"],
+      ctaLabel: "Archi 사례 보기",
+      ctaTarget: "product-proof",
       stats: [
-        { value: "0→1", label: "AI 제품 기획·구축" },
+        { value: "6명", label: "Archi 베타" },
         { value: "350만", label: "MAU 제품 운영" },
         { value: "70%+", label: "운영 원가 절감" },
       ],
@@ -79,6 +116,7 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
 
   it("keeps the verified identity and career history in newest-first order", () => {
     expect(profile.name).toBe("이경민");
+    expect(profile.role).toBe("AI Product Manager");
     expect(careerExperiences.map((experience) => experience.company)).toEqual([
       "Arkylab",
       "GenON",
@@ -99,65 +137,77 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
     ]);
   });
 
-  it("keeps the three verified Arkylab achievements at the top of Experience", () => {
+  it("Archi 제품과 Arkylab 운영 주체를 구분하고 실사용 학습을 보존한다", () => {
     const [arkylab] = careerExperiences;
 
     expect(arkylab).toMatchObject({
       company: "Arkylab",
       period: "2026.06–진행 중",
-      achievements: [
-        "운동 강사를 위한 AI 기록 솔루션 개발 및 운영, 베타 서비스 진행 중",
-        "트레바리 독서 커뮤니티를 위한 AI 솔루션 제작 및 운영",
-        "부당한 정책에 대해 환불받을 수 있도록 지원하는 B2C 법률 서비스 제작 및 납품",
-      ],
+      description: "Archi(아키)를 운영하는 1인 사업자로 제품과 사업 전 과정을 맡고 있습니다.",
     });
+    expect(flagshipProject).toMatchObject({
+      organization: "Arkylab",
+      category: "Archi · 실사용 베타",
+      involvement: { label: "담당 책임", value: "제품 기획·개발·사업·운영 전담" },
+      link: { label: "Archi 베타 보기", href: "https://archi.best" },
+      metrics: ["베타 참여자 6명", "2026.07–진행 중", "제품 전 과정 1인 전담"],
+      visual: { alt: expect.stringContaining("Archi(아키)") },
+    });
+    expect(flagshipProject.action).toContain("그리드 배경 촬영 기능");
+    expect(flagshipProject.result).toContain("시퀀스");
+    expect(flagshipProject.result).toContain("영상 기록");
   });
 
-  it("대표 프로젝트를 PM 서사 근거 순서로 배열한다", () => {
-    expect(featuredProjects.map((project) => project.id)).toEqual([
+  it("Archi 다음에 핵심 프로젝트를 사용자 지정 서사 순서로 배열한다", () => {
+    expect(portfolioProjects.map((project) => project.id)).toEqual([
       "arkylab-ai-coach",
-      "skelter-ai-counselor",
-      "selectstar-stt-operations",
-      "sk-planet-syrup-wallet",
-      "trevari-learning-record",
       "nipa-vision-ai-poc",
+      "selectstar-stt-operations",
+      "skelter-ai-counselor",
+      "sk-planet-syrup-wallet",
     ]);
     expect(featuredProjects.map((project) => project.period)).toEqual([
-      "2026.06–진행 중",
-      "2021.09–2023.04",
-      "2024.06–2025.01",
-      "2018.04–2020.04",
-      "2026.05–진행 중",
       "2025.06–2025.12",
+      "2024.06–2025.01",
+      "2021.09–2023.04",
+      "2018.04–2020.04",
     ]);
   });
 
-  it("수행 조직과 기여 정보를 과장 없이 한국어로 표시한다", () => {
+  it("수행 조직과 담당 책임을 퍼센트 없이 구체적으로 표시한다", () => {
     expect(
-      featuredProjects.map((project) => `${project.organizationLabel}: ${project.organization}`),
+      portfolioProjects.map((project) => `${project.organizationLabel}: ${project.organization}`),
     ).toEqual([
       "수행 주체: Arkylab",
-      "수행 회사: Skelter Labs · 제품",
+      "수행 회사: GenON · NIPA 지원 사업",
       "수행 회사: Selectstar · 프로젝트실",
+      "수행 회사: Skelter Labs · 제품",
       "수행 회사: SK Planet · Syrup Wallet",
-      "수행 주체: Arkylab · 독립 구축",
-      "지원 사업: NIPA 지원 사업",
     ]);
     expect(
-      featuredProjects.map((project) => `${project.involvement.label}: ${project.involvement.value}`),
+      portfolioProjects.map((project) => `${project.involvement.label}: ${project.involvement.value}`),
     ).toEqual([
-      "역할 범위: 제품 기획 · MVP 개발",
-      "기여도: 90%",
-      "기여도: 100%",
-      "기여도: 100%",
-      "기여도: 100%",
-      "역할 범위: 제안→종결 관리",
+      "담당 책임: 제품 기획·개발·사업·운영 전담",
+      "담당 책임: 제안·산출물·이해관계자 관리",
+      "담당 책임: STT 전환 기획·운영 품질 관리",
+      "담당 책임: 제품·대화 설계 및 제휴 주도",
+      "담당 책임: 푸시 기능 기획·운영 개선",
     ]);
+    expect(JSON.stringify(portfolioProjects)).not.toMatch(/기여도|90%|100%/);
   });
 
-  it("공개 포트폴리오의 주요 설명을 한국어로 제공한다", () => {
-    expect(
-      JSON.stringify({ defaultHeroContent, profile, careerExperiences, featuredProjects }),
-    ).toMatch(/[가-힣]/);
+  it("공식 제품명과 7년 경력을 사용하고 이전 표기를 남기지 않는다", () => {
+    const serialized = JSON.stringify({
+      defaultHeroContent,
+      profile,
+      careerExperiences,
+      portfolioProjects,
+    });
+
+    expect(serialized).toContain("Archi(아키)");
+    expect(serialized).toContain("7년 경력");
+    expect(serialized).not.toMatch(/(^|[^A-Za-z])Arky([^A-Za-z]|$)/);
+    expect(serialized).not.toContain("9년차");
+    expect(serialized).toMatch(/[가-힣]/);
   });
 });

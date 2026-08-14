@@ -91,6 +91,8 @@
     @apply bg-background text-foreground antialiased;
     font-family: 'Pretendard Variable', Pretendard, sans-serif;
     min-width: 320px;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
   }
 
   img,
