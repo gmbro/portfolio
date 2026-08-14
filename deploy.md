@@ -1319,7 +1319,29 @@ production build를 같은 브라우저와 폭으로 다시 열어 전체 화면
 
 #### 배포 후 실제 URL 점검
 
-[배포 후 기록]
+- 배포 커밋: `14a13c47cab79081038eb86a40e5d5d0f9f196f9` (`Integrate Archi into portfolio project narrative`).
+- GitHub Actions `Deploy Portfolio to GitHub Pages` run #25, ID `31821660087`가 build·deploy 모두 성공했다: `https://github.com/gmbro/portfolio/actions/runs/31821660087`.
+- 실제 공개 URL: `https://archilab.ai.kr/`. HTTPS는 `200`, HTTP는 `https://archilab.ai.kr/`로 `301` 이동한다.
+- 라이브 asset: main `index-ChOb2zBu.js`, CSS `index-Dze_BbEg.css`. HTML `Last-Modified`는 2026-08-15 01:58 KST 이후이며 새 revision 문구·DOM과 일치한다.
+
+라이브를 동일한 조건으로 다시 검사했다.
+
+| 항목 | 390×844 | 768×900 | 1440×900 |
+|---|---:|---:|---:|
+| clientWidth / scrollWidth | `375 / 375` | `753 / 753` | `1425 / 1425` |
+| 문서 높이 | 9,945px | 8,728px | 6,625px |
+| Hero H1 client / scroll | `327 / 327` | `657 / 657` | `1,152 / 1,152` |
+| 프로젝트 | Archi 1번 포함 5개 | Archi 1번 포함 5개 | Archi 전폭+나머지 2×2 |
+| 텍스트 오버플로 | 0건 | 0건 | 0건 |
+
+- Hero `AI Product Manager · 7년 경력`, `고객의 문제를 제품으로 해결합니다.`, Archi 첫 프로젝트, `조직의 목표를 중요한 기준`으로 보는 커리어 방향이 새 라이브에서 확인됐다. `현재 제품`·Classting 가시 문구는 0건이다.
+- 계산 폰트는 세 너비 모두 `Pretendard Variable, Pretendard, sans-serif`이며 한글 어절 중간 잘림이 없다.
+- 390px에서 Archi 카드가 보이면 닫힌 Typebot launcher가 숨고, 다른 프로젝트에서는 `물어보기`가 `148×52px`, 우측 20px·하단 safe-area 6px로 노출된다. `aria-pressed false → true → false`, `물어보기 열기 → 닫기 → 열기`를 확인했다. Contact에서는 launcher가 숨고 제출 버튼은 `285×56px` full width다.
+- `/p/not-real-slug`는 한국어 무효 링크와 `noindex, nofollow`, `/admin/links`는 관리자 화면과 `noindex, nofollow`, 임의 404는 한국어 404와 `noindex, nofollow`를 표시한다. 세 경로 모두 Typebot 0, Google tag script 0이다.
+- 공개 루트에서만 GA script가 활성화될 수 있고, 쿼리를 포함해 접근해도 앱은 고정 공개 루트 page context만 사용한다. 회사별 slug·문의 입력값을 이벤트로 전달하는 코드 경로는 없다.
+- 라이브 console error/warn 0. Archi 외부 CTA `https://archi.best`는 HTTPS `200`으로 응답한다.
+- 최종 publication: 기본 공개 포트폴리오 base revision 17. 회사별 publication 신규 생성 없음. 기본 `/`만 indexable이며 회사별·관리자·무효·404는 기존 noindex 정책을 유지한다.
+- 배포 결과: `성공`.
 
 ---
 
