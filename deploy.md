@@ -1286,6 +1286,7 @@ GitHub Pages 배포 후 같은 세 너비에서 asset revision, launcher 외형�
 | QA-BASE15-006 | `src/index.css`, `About.tsx`, `ImageCards.tsx`, `Hero.tsx` | 한글 `word-break: keep-all`과 긴 토큰 fallback을 적용하고, 768px의 역량·증거 카드를 1열로 유지한 뒤 1440px에서만 3열로 전환했다. UI 캡처는 `object-contain`으로 바꿨다. | 없음 | 단어 중간 분리·태블릿 세로 토막·향후 이미지 잘림 방지 |
 | QA-BASE15-007 | `src/lib/analytics.ts`, `src/pages/Index.tsx`, `src/test/analytics.test.tsx`, GA4 관리 화면 | 분석 허용 후에도 `/`을 벗어나면 즉시 GA를 비활성화하고, 모든 config·event의 URL·title·referrer를 공개 루트 고정값으로 제한했다. Enhanced Measurement는 관리 화면에서 전체 비활성화했다. | 개인정보 경계 강화 | `/p/*`·관리자·404의 slug·referrer 전송 차단 |
 | 회사별 Hero | `src/types/portfolio.ts`, `src/test/portfolio.test.ts` | role·career·headline·subcopy·keyword·CTA·stat의 길이, 줄 수, 개수와 안전한 target ID를 검증하고 trim한 값만 반환하도록 parser를 강화했다. | 없음 | DB 변형의 긴 문장·4개 이상 지표로 인한 레이아웃 붕괴 차단 |
+| 라이브 Typebot CSP | `index.html` | 첫 배포 후 Typebot 내부 Inter 폰트의 `fonts.bunny.net` CSS가 CSP에 차단되는 것을 발견했다. 실제 CSS의 font URL도 같은 host임을 확인하고 `style-src`·`font-src`에 해당 origin만 추가했다. | 없음 | 챗봇 열기 시 CSP console 오류 제거 |
 
 #### 동일 조건 재검사
 
@@ -1312,7 +1313,30 @@ GitHub Pages 배포 후 같은 세 너비에서 asset revision, launcher 외형�
 
 #### 배포 후 실제 URL 점검
 
-_배포 후 commit·Actions run·라이브 asset·390/768/1440px·GA4·Typebot을 기록한다._
+- 1차 배포 커밋 `d5ff15448b3725af49e1b66122d358bbe86288af`의 GitHub Actions run `31817367335`는 build·deploy 모두 성공했다.
+- 1차 라이브에서 Typebot 내부 Inter 폰트 CSS가 CSP에 차단되는 console 오류를 발견했다. `fonts.bunny.net`의 CSS와 실제 font URL을 확인한 뒤 해당 host만 `style-src`·`font-src`에 추가했다.
+- 보완 커밋 `4d7589292fd2fd36bfd7103693b26af2ccc4634c`의 GitHub Actions run `31817820173`도 build·deploy 모두 성공했다. 최종 Actions: `https://github.com/gmbro/portfolio/actions/runs/31817820173`.
+- 실제 공개 URL `https://archilab.ai.kr/`은 HTTPS `200`, 최종 `Last-Modified`는 `2026-08-14 16:08:13 UTC`다. 라이브 asset은 `index-Cclp52x5.js`, `index-Sxg2FYZJ.css`이며 HTML title은 `이경민 | AI Product Manager`다.
+
+최종 라이브를 같은 조건으로 다시 검사했다.
+
+| 항목 | 390×844 | 768×900 | 1440×900 |
+|---|---:|---:|---:|
+| clientWidth / scrollWidth | `390 / 390` | `768 / 768` | `1440 / 1440` |
+| 문서 높이 | 9,782px | 8,663px | 6,921px |
+| 실제 텍스트 잘림 | 0건 | 0건 | 0건 |
+| Hero H1 client / scroll | `342 / 342` | `672 / 672` | `1152 / 1152` |
+| 역량 카드 열 | 1열 | 1열 | 3열 |
+| 우선 프로젝트 증거 열 | 1열 | 1열 | 3열 |
+| Contact 제출 버튼 | `300×56px` | `606×56px` | `702×56px` |
+
+- 세 너비 모두 `고객의 문제를 제품으로 해결합니다`, `AI Product Manager · 7년 경력`, `무엇을 만들지, 만들지 않을지까지 결정합니다.`와 Archi·프로젝트·경력을 최신 revision으로 표시한다. `9년차`, standalone `Arky`, 기존 소개문구는 라이브 JavaScript에서 0건이다.
+- GA 분석 허용 상태에서 외부 script는 1개, `page_view`는 1건이다. 실제 collect 요청에는 고정 `https://archilab.ai.kr/`, 고정 title, 빈 referrer만 있으며 Google Signals·광고 개인화는 비활성 상태다. `/`에서 `/p/not-real-slug`로 SPA 전환한 뒤 신규 Google 요청은 0건이고 `ga-disable`과 consent denied가 적용된다.
+- Enhanced Measurement는 GA4 관리 화면에서 전체 비활성화했다. 직접 진입한 `/p/not-real-slug`, `/admin/links`, 404에도 분석 UI·script·Google 요청이 0건이다.
+- 390px Typebot launcher는 `148×52px`, 가시 문구 `물어보기`, 접근성 이름 `물어보기 열기`다. 열기 후 `aria-pressed=true`, 이름 `물어보기 닫기`, bot panel 1개를 확인했고 최종 console CSP 오류는 0건이다.
+- `/p/not-real-slug`, `/admin/links`, 임의 404는 `noindex, nofollow`, Typebot 0개, GA 0건을 유지한다. GitHub Pages의 SPA fallback 특성상 직접 요청 HTTP status는 `404`지만 최신 shell이 실행되어 의도한 화면을 표시한다.
+- 최종 publication: 기본 공개 포트폴리오 base revision 15. 활성 회사별 publication은 0건이며 기본 `/`만 indexable이다.
+- 배포 결과: `성공`.
 
 ---
 
