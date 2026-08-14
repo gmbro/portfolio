@@ -13,7 +13,7 @@ const highlightHeadline = (line: string, highlight?: string) => {
   return (
     <>
       {before}
-      <span className="text-[#ff6645]">{highlight}</span>
+      <span className="text-[#ff6645] [overflow-wrap:normal] [word-break:keep-all]">{highlight}</span>
       {afterParts.join(highlight)}
     </>
   );
@@ -49,7 +49,7 @@ const Hero = ({ content = defaultHeroContent }: HeroProps) => {
           transition={{ duration: 0.45 }}
           className="flex max-w-full flex-wrap items-center gap-2"
         >
-          <span className="max-w-full break-words [overflow-wrap:anywhere] rounded-full border border-[#ff6645]/35 bg-[#ff6645]/10 px-4 py-2 font-body text-[10px] font-bold uppercase tracking-[0.12em] text-[#ff8a70] sm:text-xs md:text-sm">
+          <span className="max-w-full break-words rounded-full border border-[#ff6645]/35 bg-[#ff6645]/10 px-4 py-2 font-body text-[10px] font-bold uppercase tracking-[0.12em] text-[#ff8a70] sm:text-xs md:text-sm">
             {content.roleLabel}
             {content.careerLabel && <span className="ml-2 text-white/45">{content.careerLabel}</span>}
           </span>
@@ -60,7 +60,7 @@ const Hero = ({ content = defaultHeroContent }: HeroProps) => {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.65, delay: 0.08, ease: "easeOut" }}
-          className="mt-7 max-w-6xl break-words text-balance font-display text-[2.5rem] font-extrabold leading-[1.08] tracking-[-0.04em] text-white sm:text-5xl md:mt-9 md:text-6xl lg:text-[5rem]"
+          className="mt-7 max-w-6xl break-words text-balance font-display text-[2.25rem] font-extrabold leading-[1.08] tracking-[-0.04em] text-white sm:text-5xl md:mt-9 md:text-6xl lg:text-[5rem]"
         >
           {headlineLines.map((line, index) => (
             <span key={`${line}-${index}`} className="block" aria-hidden="true">
@@ -90,7 +90,7 @@ const Hero = ({ content = defaultHeroContent }: HeroProps) => {
           {content.keywords.map((keyword) => (
             <span
               key={keyword}
-              className="max-w-full break-words [overflow-wrap:anywhere] rounded-full border border-white/12 bg-white/[0.04] px-4 py-2 font-body text-xs font-semibold text-white/80 md:text-sm"
+              className="max-w-full break-words rounded-full border border-white/12 bg-white/[0.04] px-4 py-2 font-body text-xs font-semibold text-white/80 md:text-sm"
             >
               {keyword}
             </span>
@@ -111,7 +111,7 @@ const Hero = ({ content = defaultHeroContent }: HeroProps) => {
                 .getElementById(content.ctaTarget)
                 ?.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
             }}
-            className="group inline-flex min-h-12 max-w-full items-center gap-2 break-words [overflow-wrap:anywhere] rounded-full bg-[#ff6645] px-6 py-3 text-left font-body text-sm font-bold text-white transition-colors hover:bg-[#ff7a5f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6645] focus-visible:ring-offset-4 focus-visible:ring-offset-[#070707] md:min-h-14 md:px-8"
+            className="group inline-flex min-h-12 max-w-full items-center gap-2 break-words rounded-full bg-[#ff6645] px-6 py-3 text-left font-body text-sm font-bold text-white transition-colors hover:bg-[#ff7a5f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6645] focus-visible:ring-offset-4 focus-visible:ring-offset-[#070707] md:min-h-14 md:px-8"
           >
             {content.ctaLabel}
             <span className="transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">
@@ -138,10 +138,10 @@ const Hero = ({ content = defaultHeroContent }: HeroProps) => {
                 key={`${stat.value}-${stat.label}`}
                 className="min-w-0 rounded-2xl border border-white/10 bg-[#111111]/90 px-2 py-4 shadow-[0_16px_60px_rgba(0,0,0,.25)] md:rounded-3xl md:px-6 md:py-6"
               >
-                <dd className="break-words [overflow-wrap:anywhere] font-display text-[1.35rem] font-extrabold leading-none tracking-[-0.03em] text-white sm:text-3xl md:text-5xl">
+                <dd className="break-words font-display text-[1.35rem] font-extrabold leading-none tracking-[-0.03em] text-white sm:text-3xl md:text-5xl">
                   {stat.value}
                 </dd>
-                <dt className="mt-1 break-words [overflow-wrap:anywhere] font-body text-[10px] font-medium leading-4 text-white/50 sm:text-xs md:mt-2 md:text-sm md:leading-5">
+                <dt className="mt-1 break-words font-body text-[10px] font-medium leading-4 text-white/50 sm:text-xs md:mt-2 md:text-sm md:leading-5">
                   {stat.label}
                 </dt>
               </div>
@@ -151,7 +151,7 @@ const Hero = ({ content = defaultHeroContent }: HeroProps) => {
       </div>
 
       <div className="absolute bottom-7 left-1/2 z-10 hidden -translate-x-1/2 items-center gap-2 text-white/55 md:flex">
-        <span className="font-body text-[10px] font-semibold uppercase tracking-[0.24em]">현재 제품</span>
+        <span className="font-body text-[10px] font-semibold uppercase tracking-[0.24em]">프로젝트</span>
         <ChevronDown size={14} aria-hidden="true" />
       </div>
     </section>

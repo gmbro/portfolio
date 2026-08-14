@@ -1209,6 +1209,169 @@ GitHub Pages 배포 후 같은 세 너비에서 asset revision, launcher 외형�
 
 ---
 
+### 2026-08-15 / Archi 프로젝트 통합·경력 선택 서사 정리 / base revision 17
+
+- 작업 대상 URL: `/`, 유효한 `/p/:slug`
+- 제외 URL: `/admin/links`, 무효 `/p/:slug`, 임의 404
+- 배포 예정 URL: `https://archilab.ai.kr/`
+- 대상 revision: 기본 포트폴리오 base revision 17
+- 검사 브라우저: Codex In-app Browser
+- 검사 담당: Codex
+- 평가 프로필: 특정 JD 없이 사용자 지정 목표 직무 `AI Product Manager`와 채용 담당자의 5초·30초 검토 기준
+
+#### 1단계 — 요청·채용 신호 분석
+
+| 우선순위 | 평가자가 확인할 질문 | 이번 revision의 답변 방향 |
+|---:|---|---|
+| 1 | 현재 만드는 제품과 과거 프로젝트가 하나의 PM 서사로 연결되는가? | Archi를 별도 `현재 제품`이 아닌 프로젝트 1번으로 통합 |
+| 2 | 잦은 이동이 단순 이직인지, 의도적인 역량 확장인지? | 개인 성장·역량 향상을 위한 선택이었다는 사실을 한 번만 설명 |
+| 3 | 짧은 재직의 배경이 무엇인지? | Adler는 정규직으로 근무했으나 회사 사정상 휴업하며 3개월 근무했다고 사실 범위 안에서 명시 |
+| 4 | 다음 조직에서 무엇을 오래 책임지고 싶은가? | 조직의 목표를 우선하고, 향후 2~3년간 고객 문제를 확실히 해결하는 완성도 높은 제품에 기여 |
+
+#### 2단계 — 검증 사실 구조화
+
+| 항목 | 확인된 사실 | 공개 표현 원칙 |
+|---|---|---|
+| Archi | 제품 `Archi(아키)`, 운영 주체 `Arkylab`, 1인 제품·개발·사업·운영 전담, 6명 베타 | 완료·출시 성과로 확대하지 않고 `베타 검증 중`으로 표현 |
+| 경력 이동 | 개인 성장과 역량 향상을 위한 선택 | 개별 회사의 문제로 귀속하거나 방어적으로 회사마다 반복하지 않음 |
+| Adler | 정규직, 회사 사정상 휴업, 3개월 근무 | 폐업·해고·경영난으로 확대하지 않음 |
+| Kakao Commerce | 인턴 | `모든 경력은 정규직`이라고 쓰지 않고 `2018년 이후 경력`으로 범위 한정 |
+| 향후 방향 | 조직의 목표가 중요, 완성도 높은 문제 해결 제품을 만들고 싶음 | 재직 기간 보장이나 달성한 성과처럼 표현하지 않음 |
+| Classting | 이번 공개 범위에서 제외 | 추정 기간·직함·성과를 만들지 않음 |
+
+#### 3단계 — Hero 콘텐츠 3안
+
+| 안 | 헤드라인 | 판단 |
+|---:|---|---|
+| 1 (유지) | `고객의 문제를 제품으로 해결합니다.` | 가장 간결하고 현재 AI Product Manager 포지셔닝과 일치 |
+| 2 | `조직의 목표를 고객이 쓰는 제품으로 구체화합니다.` | 향후 선택 기준은 드러나지만 현재 성과 신호가 약함 |
+| 3 | `문제를 정의하고, 완성도 높은 제품으로 답합니다.` | 지향점은 분명하지만 기존 승인 문구보다 추상적 |
+
+- Hero는 1안을 유지하고 CTA만 통합된 `프로젝트` 섹션으로 연결한다.
+- Archi의 현재 판단과 베타 사실은 프로젝트 첫 카드에서 보여 주며 Hero·역량·경력에서 반복하지 않는다.
+
+#### 4단계 — 웹사이트 적용 계획
+
+- 정보 구조: `Hero → 역량 → 프로젝트(Archi 1번) → 경력·커리어 방향 → 문의`.
+- 독립 `현재 제품` 섹션과 내비게이션을 제거하고, Archi의 문제·실행·결과·베타·외부 URL을 첫 프로젝트 카드에 통합한다.
+- 기존 회사별 publication의 `ctaTarget: product-proof` 호환을 위해 비가시 legacy anchor는 유지하되 새 기본 CTA는 `case-studies`를 사용한다.
+- 경력 타임라인은 회사·직함·기간·한 줄 맥락만 유지하고, 이동 이유와 향후 목표는 타임라인 뒤 `커리어 방향` 블록에 한 번만 배치한다.
+- Pretendard Variable 실제 family를 Tailwind에 연결하고 390·768·1440px에서 폰트 메트릭 변화와 줄바꿈을 다시 검사한다.
+
+#### 1차 진단 — 수정 전
+
+| ID | 범위 | 발견한 문제 | 사용자 영향 | 심각도 | 수정 방향 | 상태 |
+|---|---|---|---|---|---|---|
+| QA-BASE17-001 | 정보 구조 | Archi가 독립 `현재 제품`과 프로젝트 데이터에 이중으로 존재 | 현재 제품과 과거 프로젝트가 분리돼 하나의 PM 사례 흐름이 끊김 | 차단 | Archi를 프로젝트 1번 전폭 카드로 통합 | 수정 완료 |
+| QA-BASE17-002 | 내비게이션·CTA | `현재 제품` 메뉴와 `product-proof` 기본 CTA가 별도 분류를 강화 | 사용자가 같은 사례를 두 경로로 탐색 | 높음 | 메뉴 제거, 기본 CTA를 프로젝트로 변경, legacy anchor만 호환 유지 | 수정 완료 |
+| QA-BASE17-003 | 경력 | 이직 이유·짧은 Adler 재직 배경·향후 목표가 화면에 없음 | 잦은 이동을 평가자가 추측해야 함 | 높음 | 검증 사실만 사용한 커리어 방향 블록과 Adler 한 줄 설명 추가 | 수정 완료 |
+| QA-BASE17-004 | 프로젝트 그리드 | Archi를 단순 추가하면 1440px에서 5개 중 마지막 카드가 반쪽 orphan으로 남음 | 데스크톱 카드 균형 저하 | 보통 | Archi만 전폭, 나머지 4개를 2×2 배치 | 수정 완료 |
+| QA-BASE17-005 | Typebot·분석 | Archi 독립 섹션 제거 후 가시성 관찰·Archi 데모 이벤트가 유실될 수 있음 | 프로젝트 CTA 비가림·GA 채용 퍼널 누락 | 높음 | 실제 Archi 카드 교차 관찰과 Archi 링크 `select_content` 유지 | 수정 완료 |
+| QA-BASE17-006 | 폰트 | 공식 CSS는 `Pretendard Variable`인데 Tailwind는 `Pretendard`만 지정 | 대부분의 텍스트가 환경별 generic sans-serif로 fallback 가능 | 차단 | variable family를 우선 지정한 뒤 동일 폭 재검사 | 수정 완료 |
+| QA-BASE17-007 | 기존 publication | 과거 저장 Hero가 `product-proof`를 가리킬 수 있음 | 맞춤 링크의 CTA가 무반응이 될 수 있음 | 차단 | legacy anchor 유지 및 parser·맞춤 route 회귀 검사 | 수정 완료 |
+
+수정 전 production preview 기준:
+
+| 항목 | 390×844 | 768×900 | 1440×900 |
+|---|---:|---:|---:|
+| clientWidth / scrollWidth | `375 / 375` | `753 / 753` | `1425 / 1425` |
+| 문서 높이 | 9,786px | 8,574px | 6,808px |
+| 본문 순서 | Hero→역량→현재 제품→프로젝트→경력→문의 | 동일 | 동일 |
+| 프로젝트 카드 | 4개, Archi 제외 | 4개, Archi 제외 | 4개, Archi 제외 |
+| 실제 텍스트 오버플로 | 0건 | 0건 | 0건 |
+
+#### 직접 수정
+
+- `Index`에서 독립 `ProductProof` 렌더를 제거하고 `portfolioProjects`의 Archi를 프로젝트 1번으로 렌더했다. 실제 카드 ID `arkylab-ai-coach`와 구 publication CTA 호환용 `product-proof` alias를 함께 유지했다.
+- 내비게이션의 `현재 제품`을 제거하고 기본 Hero CTA를 `프로젝트 보기 → case-studies`로 바꿨다. Archi 링크는 `select_content` 분석 이벤트와 외부 링크 접근성 이름을 유지한다.
+- 프로젝트 그리드는 Archi만 전폭으로 강조하고 GenON·Selectstar·Skelter Labs·SK Planet을 2×2로 배치했다. 모든 카드에서 문제·판단·실행·성과와 담당 책임을 기본 노출한다.
+- Typebot의 닫힌 launcher는 Hero·역량·Archi·문의 구간에서 숨기고, 실제 Archi 카드 교차 여부를 기준으로 전환한다. `물어보기` 가시 문구와 열기·닫기 접근성 이름은 유지했다.
+- 경력에는 `2018년 이후 회사 경력은 정규직`, `2017년 Kakao Commerce 인턴`, `현재 Archi 1인 사업`을 구분해 표시했다. Adler는 확인된 사실인 `정규직·회사 사정상 휴업·3개월`까지만 설명했다.
+- 경력 뒤에 `커리어 방향`을 한 번만 추가해 이직 이유를 개인 성장·역량 향상으로 설명하고, 다음 선택에서는 조직 목표를 중요한 기준으로 보며 향후 2~3년간 고객 문제를 확실히 해결하는 완성도 높은 제품을 만들고 싶다는 방향을 반영했다.
+- Classting은 공개 데이터·화면에서 제외하고 회귀 테스트로 재유입을 막았다. 기존 회사·기간·역할·6명·350만 MAU·70%+ 수치는 변경하지 않았다.
+- 한글 자연어의 `overflow-wrap:anywhere`를 `break-word`로 낮추고 제목은 어절 단위 줄바꿈을 유지했다. 서비스 화면은 `object-contain`으로 바꾸고 Tailwind의 실제 폰트를 `Pretendard Variable → Pretendard → sans-serif` 순서로 연결했다.
+- base revision 16에서 시작한 줄바꿈·문장 중복 수정은 이번 구조 통합에 포함해 한 후보로 검증했다. base revision 16은 독립 배포하지 않고 base revision 17로 대체한다.
+
+#### 동일 조건 재검사
+
+production build를 같은 브라우저와 폭으로 다시 열어 전체 화면을 위에서 아래까지 검사했다.
+
+| 항목 | 390×844 | 768×900 | 1440×900 |
+|---|---:|---:|---:|
+| 실제 viewport / clientWidth | `390 / 375` | `768 / 753` | `1440 / 1425` |
+| clientWidth / scrollWidth | `375 / 375` | `753 / 753` | `1425 / 1425` |
+| 문서 높이 | 9,945px | 8,728px | 6,625px |
+| 본문 순서 | Hero→역량→프로젝트→경력→문의 | 동일 | 동일 |
+| 프로젝트 카드 | 5개, Archi 1번 | 5개, Archi 1번 | 5개, Archi 전폭+나머지 2×2 |
+| 실제 텍스트 오버플로 | 0건 | 0건 | 0건 |
+| H1 client / scroll | `327 / 327` | `657 / 657` | `1,152 / 1,152` |
+| 본문 launcher | `148×52px` | `196×64px` | `196×64px` |
+
+- 세 너비에서 H1 `고객의 문제를 제품으로 해결합니다.`, 역량 문단, Archi 카드, 담당 책임, 경력과 커리어 방향이 어절 중간에서 잘리지 않았다. 768px의 Contact section 내부 장식 광원만 자체 overflow 영역을 가지며 `overflow-hidden` 안에서 잘리고 문서 가로 폭에는 영향을 주지 않았다.
+- 실제 계산 폰트는 세 너비 모두 `Pretendard Variable, Pretendard, sans-serif`였다. 이미지 자료 영역은 `object-contain`이고, 자료가 없는 production 카드에는 빈 placeholder를 노출하지 않는다.
+- Hero CTA는 `case-studies` 상단으로 이동하고, legacy `product-proof` anchor와 실제 `arkylab-ai-coach` 카드 ID가 모두 존재한다. `현재 제품` 가시 문구는 0건이다.
+- Typebot은 Archi 카드와 Contact가 보일 때 닫힌 launcher를 렌더하지 않는다. 다른 프로젝트 구간에서는 390px `148×52`, 768·1440px `196×64`, 우측·하단 20px(390px 하단 safe-area 적용)로 노출된다. `물어보기 열기 → 닫기 → 열기`, `aria-pressed false → true → false`를 확인했다.
+- `/p/not-real-slug`는 로딩 후 한국어 무효 화면과 `noindex, nofollow`, `/admin/links`는 관리자 화면과 `noindex, nofollow`, 임의 404는 한국어 404와 `noindex, nofollow`를 표시했다. 세 경로 모두 Typebot 0, Google tag script 0이다.
+- production preview console error/warn 0, `dist` source map 0, 클라이언트 `to_email` 0, Supabase 공개 페이지는 exact-slug RPC만 사용한다. 비밀키·service-role key·raw HTML/eval을 새로 추가하지 않았다.
+- 최종 검사: TypeScript 통과, Vitest 5파일 24/24, ESLint 오류 0·기존 미사용 UI scaffold fast-refresh 경고 7, production build 통과, `git diff --check` 통과, `pnpm audit --prod` 알려진 취약점 0.
+- build 크기: main `128.09KiB gzip`, CSS `13.53KiB gzip`, Typebot lazy chunk `199.27KiB gzip`. Typebot은 초기 HTML preload에 포함되지 않는다.
+- 재검사 판단: 미해결 배포 차단 없음. 배포 가능.
+
+#### 배포 후 실제 URL 점검
+
+[배포 후 기록]
+
+---
+
+### 2026-08-15 / 한글 줄바꿈·문장 중복·반응형 재점검 / base revision 16
+
+- 작업 대상 URL: `/`, 유효한 `/p/:slug`
+- 제외 URL: `/admin/links`, 임의 404
+- 배포 예정 URL: `https://archilab.ai.kr/`
+- 대상 revision: 기본 포트폴리오 base revision 16
+- 검사 브라우저: Codex In-app Browser
+- 검사 담당: Codex
+- 평가 기준: base revision 15의 `AI Product Manager · 7년 경력` 포지셔닝과 검증 사실은 유지하고, 한글 어절 단위 줄바꿈·문장 중복·보안 경계를 다시 검사한다.
+
+#### 1차 진단 — 수정 전
+
+- 현재 라이브와 `main`은 base revision 15로 일치한다. 직전 배포에서 직접 검사한 390·768·1440px 기준값은 각각 `clientWidth=scrollWidth`, 실제 텍스트 잘림 0건이었다.
+- 이번 요청에서 사용자가 제공한 현재 화면은 중간 폭의 프로젝트 제목에서 `제품으 / 로`처럼 한 어절이 음절 단위로 분리되는 문제를 보여 준다. 같은 라이브를 현재 브라우저 1280×720에서도 다시 열어 프로젝트 제목·카드·문의 CTA와 DOM을 교차 확인했다.
+
+| ID | 범위 | 발견한 문제 | 사용자 영향 | 심각도 | 수정 방향 | 상태 |
+|---|---|---|---|---|---|---|
+| QA-BASE16-001 | 전역 타이포·Hero·H2 | `body`의 `word-break: keep-all`과 `overflow-wrap:anywhere`, 제목의 `text-balance`가 함께 적용되어 정상 한글 어절에도 음절 단위 break 기회를 제공 | `제품으 / 로`처럼 조사가 아닌 단어 일부가 다음 줄로 밀려 문장이 잘린 듯 보임 | 차단 | 전역은 `break-word` fallback으로 낮추고 제목·highlight는 어절 단위 줄바꿈을 명시 | 발견 |
+| QA-BASE16-002 | Hero·역량 | Hero의 `350만 MAU·AI 제품 0→1·70%+`와 Archi 현재 검증을 바로 다음 역량 문단이 거의 그대로 반복 | 첫 30초에 새 근거보다 같은 자기소개가 반복되어 정보 밀도 저하 | 높음 | 역량은 수치 대신 문제 정의·범위·검증 방식만 설명 | 발견 |
+| QA-BASE16-003 | 역량 | `만들지 않을 기능`, `결과로 판단`, `결과를 결정으로 연결`이 제목·카드에서 연속 반복 | 표현이 기계적이고 천편일률적으로 읽힘 | 보통 | 카드 동사를 `문제 구체화 / 우선순위 / 결과 검증`으로 분리 | 발견 |
+| QA-BASE16-004 | Archi | `기능의 추가와 제외 결정으로 연결합니다`가 명사와 조사가 겹치고, 네 번째 카드가 앞선 결정을 다시 설명 | 현재 제품의 핵심 판단이 장문에 묻힘 | 보통 | 베타 피드백으로 범위·우선순위를 조정한다는 문장과 구체 라벨로 단순화 | 발견 |
+| QA-BASE16-005 | 프로젝트·경력 | 프로젝트 H2와 설명이 모두 `판단·결과`를 반복하고, 경력 H2의 `확장해 온`은 좁은 화면에서 한 음절 `온`이 고립될 수 있음 | 섹션 간 역할 구분과 줄 호흡이 약함 | 보통 | 프로젝트는 결정과 변화, 경력은 책임 범위의 확장으로 짧게 재작성 | 발견 |
+| QA-BASE16-006 | 프로젝트 이미지 | 배포 기록은 UI 캡처를 `object-contain`으로 표시하지만 실제 image는 `object-cover` | 추후 제공할 서비스 캡처의 가장자리·텍스트가 잘릴 수 있음 | 보통 | 실제 이미지도 `object-contain`으로 통일 | 발견 |
+| QA-BASE16-007 | 보안·개인정보 | GA·Supabase·EmailJS·Typebot 경계는 base revision 15에서 통과했으나 이번 타이포 변경 뒤 CSP·비밀값·민감 route 추적을 재확인해야 함 | UI 수정 과정의 보안 회귀 가능성 | 높음 | audit·CSP·GA root-only·exact slug·EmailJS payload를 변경 후 재검사 | 발견 |
+
+수정 전 기준값(base revision 15 최종 라이브):
+
+| 항목 | 390×844 | 768×900 | 1440×900 |
+|---|---:|---:|---:|
+| clientWidth / scrollWidth | `390 / 390` | `768 / 768` | `1440 / 1440` |
+| 문서 높이 | 9,782px | 8,663px | 6,921px |
+| 실제 텍스트 잘림 | 0건 | 0건 | 0건 |
+| Hero H1 client / scroll | `342 / 342` | `672 / 672` | `1152 / 1152` |
+| Contact 제출 버튼 | `300×56px` | `606×56px` | `702×56px` |
+
+#### 직접 수정
+
+[base revision 17에 통합] 이 기록의 줄바꿈·문장 중복·이미지 contain 수정은 Archi 프로젝트 통합과 함께 base revision 17 후보로 검증했다. base revision 16은 독립 배포하지 않는다.
+
+#### 동일 조건 재검사
+
+[base revision 17에 통합] 최종 동일 폭 재검사와 보안 결과는 base revision 17 기록을 따른다.
+
+#### 배포 후 실제 URL 점검
+
+[base revision 17에 통합] base revision 16의 독립 배포 없음.
+
+---
+
 ### 2026-08-15 / 7년 경력·간결한 Hero·역량 소개 재작성 / base revision 15
 
 - 작업 대상 URL: `/`, 유효한 `/p/:slug`

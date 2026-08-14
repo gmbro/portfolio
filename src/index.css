@@ -92,7 +92,7 @@
     font-family: 'Pretendard Variable', Pretendard, sans-serif;
     min-width: 320px;
     word-break: keep-all;
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
   }
 
   img,
@@ -102,6 +102,8 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Pretendard Variable', Pretendard, sans-serif;
+    word-break: keep-all;
+    overflow-wrap: break-word;
   }
 
   ::selection {

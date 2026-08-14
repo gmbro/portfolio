@@ -6,6 +6,8 @@ const { bubbleProps } = vi.hoisted(() => ({
   bubbleProps: vi.fn(),
 }));
 
+const observedSectionIds: string[] = [];
+
 vi.mock("@typebot.io/react", () => ({
   Bubble: (props: unknown) => {
     bubbleProps(props);
@@ -16,6 +18,7 @@ vi.mock("@typebot.io/react", () => ({
 describe("기본 포트폴리오 정보 구조", () => {
   beforeEach(() => {
     bubbleProps.mockClear();
+    observedSectionIds.length = 0;
     class OutOfViewObserver implements IntersectionObserver {
       readonly root = null;
       readonly rootMargin = "0px";
@@ -23,6 +26,7 @@ describe("기본 포트폴리오 정보 구조", () => {
       constructor(private readonly callback: IntersectionObserverCallback) {}
       disconnect() {}
       observe(target: Element) {
+        observedSectionIds.push(target.id);
         this.callback([{ target, isIntersecting: false } as IntersectionObserverEntry], this);
       }
       takeRecords(): IntersectionObserverEntry[] {
@@ -35,7 +39,7 @@ describe("기본 포트폴리오 정보 구조", () => {
 
   afterEach(() => vi.unstubAllGlobals());
 
-  it("역량 다음에 Archi 현재 제품과 핵심 프로젝트를 한 번씩 보여주고 챗봇을 고정한다", async () => {
+  it("Archi를 첫 프로젝트로 통합하고 경력 방향까지 한 흐름으로 보여준다", async () => {
     const { default: Index } = await import("@/pages/Index");
 
     const { container } = render(
@@ -45,12 +49,11 @@ describe("기본 포트폴리오 정보 구조", () => {
     );
 
     const about = container.querySelector("#about");
-    const productProof = container.querySelector("#product-proof");
     expect(about).toBeTruthy();
-    expect(productProof).toBeTruthy();
-    expect(about?.compareDocumentPosition(productProof as Node) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     const caseStudies = container.querySelector("#case-studies");
-    expect(productProof?.compareDocumentPosition(caseStudies as Node) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(caseStudies).toBeTruthy();
+    expect(about?.compareDocumentPosition(caseStudies as Node) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(container.querySelector("#product-proof")).toBeInTheDocument();
 
     const navigation = screen.getByRole("navigation", { name: "주요 메뉴" });
     const desktopNavigationLinks = Array.from(
@@ -59,18 +62,21 @@ describe("기본 포트폴리오 정보 구조", () => {
     expect(desktopNavigationLinks.indexOf("역량")).toBeLessThan(
       desktopNavigationLinks.indexOf("프로젝트"),
     );
-    expect(desktopNavigationLinks).toContain("현재 제품");
+    expect(desktopNavigationLinks).not.toContain("현재 제품");
 
-    expect(screen.getByRole("heading", { name: "고객의 문제를 제품으로 해결합니다" })).toBeInTheDocument();
-    expect(screen.getByText("무엇을 만들지, 만들지 않을지까지 결정합니다.")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "고객의 문제를 제품으로 해결합니다." })).toBeInTheDocument();
+    expect(screen.getByText("제품의 시작부터 운영과 사업화까지, 서로 다른 문제를 맡아 왔습니다.")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "무엇을 결정했고, 무엇이 달라졌는지 보여드립니다." })).toBeInTheDocument();
 
-    expect(screen.getByText("현재 제품 · Archi(아키)")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Archi(아키) 베타 새 창에서 보기" })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: "Archi 베타 보기, 새 창에서 열기" })).toHaveAttribute(
       "href",
       "https://archi.best",
     );
-    expect(container.querySelectorAll("[data-project-rank]")).toHaveLength(4);
-    expect(container.querySelector('[data-project-rank][id="arkylab-ai-coach"]')).not.toBeInTheDocument();
+    expect(container.querySelectorAll("[data-project-rank]")).toHaveLength(5);
+    expect(container.querySelector('[data-project-rank="1"][id="arkylab-ai-coach"]')).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "다음 선택에서는 조직의 목표를 중요한 기준으로 봅니다." })).toBeInTheDocument();
+    expect(observedSectionIds).toContain("arkylab-ai-coach");
+    expect(observedSectionIds).not.toContain("product-proof");
 
     expect(await screen.findByTestId("typebot-bubble")).toBeInTheDocument();
     await waitFor(() => expect(bubbleProps).toHaveBeenCalledWith(

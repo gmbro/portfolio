@@ -15,7 +15,7 @@ const closeIcon =
 const TypebotBubble = () => {
   const [heroVisible, setHeroVisible] = useState(true);
   const [aboutVisible, setAboutVisible] = useState(false);
-  const [productVisible, setProductVisible] = useState(false);
+  const [archiVisible, setArchiVisible] = useState(false);
   const [contactVisible, setContactVisible] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [hasLoaded, setHasLoaded] = useState(false);
@@ -23,7 +23,7 @@ const TypebotBubble = () => {
   useEffect(() => {
     const hero = document.getElementById("hero");
     const about = document.getElementById("about");
-    const product = document.getElementById("product-proof");
+    const archi = document.getElementById("arkylab-ai-coach");
     const contact = document.getElementById("contact");
 
     if (!("IntersectionObserver" in window)) {
@@ -36,7 +36,7 @@ const TypebotBubble = () => {
         entries.forEach((entry) => {
           if (entry.target.id === "hero") setHeroVisible(entry.isIntersecting);
           if (entry.target.id === "about") setAboutVisible(entry.isIntersecting);
-          if (entry.target.id === "product-proof") setProductVisible(entry.isIntersecting);
+          if (entry.target.id === "arkylab-ai-coach") setArchiVisible(entry.isIntersecting);
           if (entry.target.id === "contact") setContactVisible(entry.isIntersecting);
         });
       },
@@ -45,7 +45,7 @@ const TypebotBubble = () => {
 
     if (hero) observer.observe(hero);
     if (about) observer.observe(about);
-    if (product) observer.observe(product);
+    if (archi) observer.observe(archi);
     if (contact) observer.observe(contact);
 
     return () => observer.disconnect();
@@ -108,7 +108,7 @@ const TypebotBubble = () => {
   }, [hasLoaded]);
 
   const hideClosedLauncher =
-    !isOpen && (heroVisible || aboutVisible || productVisible || contactVisible);
+    !isOpen && (heroVisible || aboutVisible || archiVisible || contactVisible);
 
   if (!hasLoaded) return null;
 

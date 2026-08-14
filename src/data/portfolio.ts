@@ -48,7 +48,7 @@ export const flagshipProject: FeaturedProject = {
   organizationLabel: "수행 주체",
   organization: "Arkylab",
   involvement: { label: "담당 책임", value: "제품 기획·개발·사업·운영 전담" },
-  title: "운동 강사의 반복 기록 문제를 해결하는 AI 제품 Archi(아키)를 기획하고 실사용 베타로 검증하고 있습니다.",
+  title: "운동 강사의 반복 기록 문제를 해결하는 AI 제품 Archi(아키)를 베타로 검증하고 있습니다.",
   challenge: "운동 강사가 수업 기록과 회원 상태를 지속적으로 관리하기 어려운 문제를 확인했습니다.",
   action:
     "제품 기획·개발·사업·운영을 1인으로 전담했습니다. 회원의 운동 전 체형을 분석하고 싶다는 요청을 반영해 그리드 배경 촬영 기능을 추가했습니다.",
@@ -118,7 +118,7 @@ export const featuredProjects: FeaturedProject[] = [
     organizationLabel: "수행 회사",
     organization: "Skelter Labs · 제품",
     involvement: { label: "담당 책임", value: "제품·대화 설계 및 제휴 주도" },
-    title: "B2B AI 기술을 사용자가 경험할 수 있는 B2C 상담사 PoC로 구체화했습니다.",
+    title: "B2B AI 기술을 B2C 상담사 PoC로 구체화했습니다.",
     challenge: "사내 B2B 챗봇 엔진을 사용자가 직접 경험할 수 있는 B2C 상담 서비스로 확장해야 했습니다.",
     action:
       "STT·TTS·Retrieval을 연결하고 서비스 범위, 대화 흐름, PRD, 와이어프레임과 대화 데이터를 설계했습니다. 디지털 휴먼·TTS 제휴와 대학 산학협력도 주도했습니다.",
@@ -204,7 +204,8 @@ export const careerExperiences: CareerExperience[] = [
     title: "프로덕트 매니저",
     period: "2023.04–2023.06",
     team: "제품",
-    description: "3D 소셜 MVP의 출시 전 기획과 QA, 개발 일정을 관리하고 차기 버전의 UX·UI 개선을 준비했습니다.",
+    description:
+      "정규직으로 3D 소셜 MVP의 출시 전 기획·QA·개발 일정을 맡았으며, 회사 사정에 따른 휴업으로 근무 기간은 3개월이었습니다.",
     achievements: [
       "CS 어드민·신고·차단 기능과 운영 프로세스 설계",
       "기능 명세서·요구사항 정의서·와이어프레임 작성",

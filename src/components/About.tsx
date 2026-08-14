@@ -2,16 +2,16 @@ import { motion } from "framer-motion";
 
 const productCapabilities = [
   {
-    label: "문제를 발견합니다",
-    copy: "사용자 행동과 현장 피드백에서 반복되는 불편을 찾고, 해결할 문제를 구체화합니다.",
+    label: "문제를 구체화합니다",
+    copy: "사용자 행동과 현장 피드백에서 반복되는 불편을 찾아, 해결할 문제와 검증 기준으로 바꿉니다.",
   },
   {
-    label: "범위를 결정합니다",
-    copy: "만들 기능만큼 만들지 않을 기능도 정하며 제품의 복잡도를 관리합니다.",
+    label: "우선순위를 정합니다",
+    copy: "사용자 가치와 운영 조건을 함께 보고, 지금 검증할 범위와 뒤로 미룰 기능을 구분합니다.",
   },
   {
-    label: "결과로 다시 판단합니다",
-    copy: "사용자 반응과 운영 지표를 확인하고, 그 결과를 다음 기능과 운영 방식의 결정으로 연결합니다.",
+    label: "결과를 검증합니다",
+    copy: "사용자 반응과 운영 지표의 변화를 확인해 다음 우선순위를 정합니다.",
   },
 ];
 
@@ -29,17 +29,23 @@ const About = () => {
           <div>
             <p className="font-body text-xs font-semibold uppercase tracking-[0.3em] text-[#ff6645]">역량</p>
             <h2 className="mt-4 max-w-xl break-words text-balance font-display text-3xl font-bold leading-tight tracking-[-0.03em] text-white md:text-4xl">
-              무엇을 만들지, 만들지 않을지까지 결정합니다.
+              제품의 시작부터 운영과 사업화까지, 서로 다른 문제를 맡아 왔습니다.
             </h2>
           </div>
 
           <div>
-            <p className="max-w-2xl break-words text-pretty font-body text-base leading-7 text-white/70 md:text-lg md:leading-8">
-              7년 동안 AI 제품 0→1, 350만 MAU 운영, STT 운영 원가 70%+ 절감으로 제품 판단을
-              실행과 결과에 연결해 왔습니다. 현재는 Archi 베타의 피드백을 기능 추가와 제외 결정으로 바꾸고 있습니다.
-            </p>
+            <div className="max-w-3xl space-y-4 break-words text-pretty font-body text-base leading-7 text-white/70 md:text-lg md:leading-8">
+              <p>
+                퍼포먼스 마케팅, 대규모 제품 운영, 0→1 AI 서비스, 데이터 프로젝트와 B2B·B2G 사업화까지
+                서로 다른 환경을 경험했습니다.
+              </p>
+              <p>
+                고객 문제를 정의하고, 기술과 운영 조건을 제품 결정으로 구체화한 뒤 출시·운영 결과로 검증하는
+                방식은 일관됐습니다.
+              </p>
+            </div>
 
-            <dl className="mt-8 grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 lg:grid-cols-3">
+            <dl className="mt-8 grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 xl:grid-cols-3">
               {productCapabilities.map((item, index) => (
                 <div key={item.label} className="flex gap-4 bg-[#111111] p-5 md:p-6">
                   <span className="shrink-0 whitespace-nowrap font-display text-xs font-extrabold tracking-[0.12em] text-[#ff6645]" aria-hidden="true">

@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { ArrowUpRight, Image as ImageIcon } from "lucide-react";
-import { featuredProjects, type FeaturedProject } from "@/data/portfolio";
+import { portfolioProjects, type FeaturedProject } from "@/data/portfolio";
+import { trackPortfolioEvent } from "@/lib/analytics";
 
 const ProjectVisual = ({ project }: { project: FeaturedProject }) => {
   const visual = project.visual;
@@ -30,7 +31,7 @@ const ProjectVisual = ({ project }: { project: FeaturedProject }) => {
           src={visual.src}
           alt={visual.alt}
           loading="lazy"
-          className="aspect-[16/10] w-full object-cover"
+          className="aspect-[16/10] w-full bg-black object-contain"
         />
         {visual.caption && <figcaption className="px-4 py-3 text-xs leading-5 text-white/60">{visual.caption}</figcaption>}
       </figure>
@@ -69,21 +70,21 @@ const ProjectVisual = ({ project }: { project: FeaturedProject }) => {
 };
 
 const ProjectCard = ({ project, index }: { project: FeaturedProject; index: number }) => {
-  const isPriority = index < 2;
+  const isPriority = index === 0;
   const showsVisual = Boolean(project.visual?.src) || (import.meta.env.DEV && Boolean(project.visual));
   const evidence = (
     <dl className={`grid gap-6 ${isPriority ? "lg:grid-cols-3" : ""}`}>
       <div>
         <dt className="mb-2 font-body text-[10px] font-bold uppercase tracking-[0.2em] text-white/50">문제</dt>
-        <dd className="break-words text-pretty [overflow-wrap:anywhere] font-body text-sm leading-6 text-white/70">{project.challenge}</dd>
+        <dd className="break-words text-pretty font-body text-sm leading-6 text-white/70">{project.challenge}</dd>
       </div>
       <div>
         <dt className="mb-2 font-body text-[10px] font-bold uppercase tracking-[0.2em] text-white/50">판단·실행</dt>
-        <dd className="break-words text-pretty [overflow-wrap:anywhere] font-body text-sm leading-6 text-white/72">{project.action}</dd>
+        <dd className="break-words text-pretty font-body text-sm leading-6 text-white/72">{project.action}</dd>
       </div>
       <div>
         <dt className="mb-2 font-body text-[10px] font-bold uppercase tracking-[0.2em] text-[#ff8a70]">성과</dt>
-        <dd className="break-words text-pretty [overflow-wrap:anywhere] font-body text-sm font-medium leading-6 text-white/88">{project.result}</dd>
+        <dd className="break-words text-pretty font-body text-sm font-medium leading-6 text-white/88">{project.result}</dd>
       </div>
     </dl>
   );
@@ -122,13 +123,13 @@ const ProjectCard = ({ project, index }: { project: FeaturedProject; index: numb
               <dt className="font-body text-[10px] font-bold uppercase tracking-[0.16em] text-white/50">
                 {project.organizationLabel}
               </dt>
-              <dd className="mt-1 break-words [overflow-wrap:anywhere] font-body text-sm font-semibold leading-5 text-white/85">{project.organization}</dd>
+              <dd className="mt-1 break-words font-body text-sm font-semibold leading-5 text-white/85">{project.organization}</dd>
             </div>
             <div className="w-fit max-w-full shrink-0 rounded-xl border border-[#ff6645]/25 bg-[#ff6645]/10 px-3 py-2 sm:max-w-[48%] sm:text-right">
               <dt className="font-body text-[10px] font-bold uppercase tracking-[0.14em] text-[#ff9a83]">
                 {project.involvement.label}
               </dt>
-              <dd className="mt-0.5 break-words [overflow-wrap:anywhere] font-display text-sm font-bold leading-5 text-white">
+              <dd className="mt-0.5 break-words font-display text-sm font-bold leading-5 text-white">
                 {project.involvement.value}
               </dd>
             </div>
@@ -138,7 +139,7 @@ const ProjectCard = ({ project, index }: { project: FeaturedProject; index: numb
             {project.metrics.map((metric) => (
               <span
                 key={metric}
-                className="max-w-full break-words text-pretty [overflow-wrap:anywhere] rounded-xl border border-[#ff6645]/20 bg-[#ff6645]/[0.08] px-3 py-2 font-display text-xs font-bold text-[#ff9a83]"
+                className="max-w-full break-words text-pretty rounded-xl border border-[#ff6645]/20 bg-[#ff6645]/[0.08] px-3 py-2 font-display text-xs font-bold text-[#ff9a83]"
               >
                 {metric}
               </span>
@@ -156,7 +157,7 @@ const ProjectCard = ({ project, index }: { project: FeaturedProject; index: numb
       <footer className="mt-8 flex flex-wrap items-end justify-between gap-5 border-t border-white/[0.07] pt-6">
         <div className="flex flex-wrap gap-x-3 gap-y-2">
           {project.tags.map((tag) => (
-            <span key={tag} className="break-words [overflow-wrap:anywhere] font-body text-[11px] text-white/50">
+            <span key={tag} className="break-words font-body text-[11px] text-white/50">
               #{tag}
             </span>
           ))}
@@ -166,6 +167,10 @@ const ProjectCard = ({ project, index }: { project: FeaturedProject; index: numb
             href={project.link.href}
             target="_blank"
             rel="noreferrer"
+            onClick={() => {
+              if (project.id === "arkylab-ai-coach") trackPortfolioEvent("select_content");
+            }}
+            aria-label={project.id === "arkylab-ai-coach" ? "Archi 베타 보기, 새 창에서 열기" : undefined}
             className="inline-flex min-h-11 items-center gap-2 rounded-full border border-white/15 px-4 py-2 font-body text-xs font-bold text-white transition-colors hover:border-[#ff6645]/60 hover:text-[#ff8a70] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6645]"
           >
             {project.link.label}
@@ -181,6 +186,7 @@ const ImageCards = () => {
   return (
     <section id="case-studies" className="scroll-mt-20 bg-[#070707] px-6 py-24 text-white md:px-12 md:py-32">
       <div className="mx-auto max-w-7xl">
+        <div id="product-proof" className="scroll-mt-24" aria-hidden="true" />
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -192,15 +198,15 @@ const ImageCards = () => {
             프로젝트
           </span>
           <h2 className="mt-4 break-words text-balance font-display text-3xl font-bold leading-tight tracking-[-0.03em] text-white md:text-5xl">
-            각 프로젝트에서 내린 판단과 결과를 보여드립니다.
+            무엇을 결정했고, 무엇이 달라졌는지 보여드립니다.
           </h2>
           <p className="mt-6 max-w-3xl break-words text-balance font-body text-base leading-7 text-white/65 md:text-lg">
-            최신 AI 프로젝트부터 대규모 제품 운영까지, 문제·판단·실행·성과 순서로 정리했습니다.
+            최신 AI 프로젝트부터 대규모 제품 운영까지, 문제·판단·실행·성과 순서로 확인할 수 있습니다.
           </p>
         </motion.div>
 
         <div className="grid gap-5 lg:grid-cols-2 lg:gap-6">
-          {featuredProjects.map((project, index) => (
+          {portfolioProjects.map((project, index) => (
             <ProjectCard key={project.id} project={project} index={index} />
           ))}
         </div>

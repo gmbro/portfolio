@@ -35,15 +35,15 @@ export interface PortfolioPublication {
 export const defaultHeroContent: HeroContent = {
   roleLabel: "AI Product Manager",
   careerLabel: "· 7년 경력",
-  headline: "고객의 문제를 제품으로 해결합니다",
+  headline: "고객의 문제를 제품으로 해결합니다.",
   highlight: "제품으로 해결합니다",
   subcopy: [
     "350만 MAU 제품 운영, AI 제품 0→1, STT 운영 원가 70%+ 절감으로 문제 정의와 실행 역량을 검증했습니다.",
     "현재는 Archi(아키)를 1인으로 기획·개발·사업·운영하며, 6명의 베타 참여자에게서 얻은 피드백으로 다음 제품 결정을 내리고 있습니다.",
   ],
   keywords: ["문제 정의", "제품 우선순위", "실사용 검증"],
-  ctaLabel: "Archi 사례 보기",
-  ctaTarget: "product-proof",
+  ctaLabel: "프로젝트 보기",
+  ctaTarget: "case-studies",
   stats: [
     { value: "6명", label: "Archi 베타" },
     { value: "350만", label: "MAU 제품 운영" },

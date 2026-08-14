@@ -2,7 +2,6 @@ import { useLayoutEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
-import ProductProof from "@/components/ProductProof";
 import ImageCards from "@/components/ImageCards";
 import Experience from "@/components/Experience";
 import Contact from "@/components/Contact";
@@ -35,7 +34,6 @@ const Index = ({ heroContent, analyticsEnabled = true }: IndexProps) => {
       <main id="main-content" tabIndex={-1}>
         <Hero content={heroContent} />
         <About />
-        <ProductProof />
         <ImageCards />
         <Experience />
         <Contact />
