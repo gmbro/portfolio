@@ -1299,7 +1299,16 @@ GitHub Pages 배포 후 같은 세 너비에서 asset revision, launcher 외형�
 
 #### 배포 후 실제 URL 점검
 
-- 커밋·GitHub Actions·라이브 asset·실제 URL 기록 예정.
+- 배포 커밋: `69ff312996d2103119fb200fe831d2d35311eed1` (`Correct Arkylab and GenON role labels`).
+- GitHub Actions: run `#27`, ID `31826110647`, build·deploy 모두 `success`, 완료 `2026-08-15 02:54:39 KST`. 실행 기록: `https://github.com/gmbro/portfolio/actions/runs/31826110647`.
+- 라이브 HTML은 main `index-CEezMC6F.js`, CSS `index-BKkcAryA.css`를 제공해 로컬 최종 production build와 일치한다.
+- `https://archilab.ai.kr/`을 390×844, 768×900, 1440×900에서 다시 열어 clientWidth/scrollWidth `375/375`, `753/753`, `1425/1425`, 문서 높이 `9,945`, `8,728`, `6,625px`를 확인했다.
+- Arkylab은 세 너비 모두 `대표`, GenON은 `프로.사업개발`로 표시되고 역할 행은 24px 한 줄이다. `대표 · 제품`, `사업개발 · 사업개발`, 가로 오버플로는 0건이다.
+- 동의 선택 뒤 라이브 `물어보기 열기`를 눌러 Typebot host 1개, `물어보기 닫기`, `aria-pressed=true`, 가로 오버플로 0을 확인했다. console warning/error는 0이다.
+- `/p/not-real-slug`, `/admin/links`, 임의 404는 모두 `noindex, nofollow`, Typebot local/host 0, Google tag script 0, 가로 오버플로 0을 유지한다.
+- 기본 `/`은 indexable이며 회사별 publication 신규 생성은 없다.
+- 최종 URL: `https://archilab.ai.kr/`.
+- 배포 결과: `성공`.
 
 ---
 
