@@ -131,4 +131,22 @@ describe("Contact", () => {
     expect(await screen.findByRole("status")).toHaveTextContent("문의가 접수되었습니다.");
     expect(sendMock).not.toHaveBeenCalled();
   });
+
+  it("문의 내용은 5자부터 전송하고 4자 이하는 안내한다", async () => {
+    await renderContact();
+    fillValidForm();
+
+    const message = screen.getByLabelText("문의 내용");
+    expect(message).toHaveAttribute("minLength", "5");
+
+    fireEvent.change(message, { target: { value: "문의해요" } });
+    fireEvent.submit(message.closest("form") as HTMLFormElement);
+    expect(await screen.findByRole("alert")).toHaveTextContent("5자 이상의 문의 내용");
+    expect(sendMock).not.toHaveBeenCalled();
+
+    fireEvent.change(message, { target: { value: "문의드려요" } });
+    fireEvent.submit(message.closest("form") as HTMLFormElement);
+    await waitFor(() => expect(sendMock).toHaveBeenCalledTimes(1));
+    expect(sendMock.mock.calls[0][2]).toEqual(expect.objectContaining({ message: "문의드려요" }));
+  });
 });

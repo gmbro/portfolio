@@ -15,10 +15,10 @@ const Experience = () => {
           <span className="font-body text-xs font-semibold uppercase tracking-[0.3em] text-[#ff6645]">
             경력
           </span>
-          <h2 className="mt-4 break-keep font-display text-3xl font-bold leading-tight tracking-[-0.03em] text-white md:text-4xl">
+          <h2 className="mt-4 break-words text-balance font-display text-3xl font-bold leading-tight tracking-[-0.03em] text-white md:text-4xl">
             AI 제품, 데이터 운영, 사업화를 아우르며 쌓아온 경력입니다.
           </h2>
-          <p className="mt-5 max-w-3xl break-keep font-body text-base leading-7 text-white/65 md:text-lg">
+          <p className="mt-5 max-w-3xl break-words text-balance font-body text-base leading-7 text-white/65 md:text-lg">
             최신순으로 정리했으며, 각 경험의 업무 맥락과 주도한 역할, 함께 만든 성과를 보여드립니다.
           </p>
         </motion.div>
@@ -32,7 +32,7 @@ const Experience = () => {
             const roleDetails = (
               <>
                 {!isCurrent && (
-                  <p className="mt-3 max-w-4xl break-keep font-body text-sm leading-7 text-white/70 md:text-base">
+                  <p className="mt-3 max-w-4xl break-words text-pretty font-body text-sm leading-7 text-white/70 md:text-base">
                     {experience.description}
                   </p>
                 )}
@@ -46,7 +46,7 @@ const Experience = () => {
                       <span className="mt-0.5 text-[#ff6645]" aria-hidden="true">
                         →
                       </span>
-                      <span className="break-keep font-body text-sm leading-6 text-white/72">{achievement}</span>
+                      <span className="break-words text-pretty [overflow-wrap:anywhere] font-body text-sm leading-6 text-white/72">{achievement}</span>
                     </li>
                   ))}
                 </ul>
@@ -83,7 +83,7 @@ const Experience = () => {
                       </h3>
                       {experience.companyDesc && (
                         <span className="rounded-full border border-white/10 px-3 py-1 font-body text-[11px] font-medium text-white/55">
-                          {experience.companyDesc}
+                          <span className="break-words [overflow-wrap:anywhere]">{experience.companyDesc}</span>
                         </span>
                       )}
                       {isCurrent && (
@@ -102,7 +102,7 @@ const Experience = () => {
                 </header>
 
                 {isCurrent && (
-                  <p className="mt-4 max-w-4xl break-keep font-body text-sm leading-7 text-white/70 md:text-base">
+                  <p className="mt-4 max-w-4xl break-words text-pretty font-body text-sm leading-7 text-white/70 md:text-base">
                     {experience.description}
                   </p>
                 )}

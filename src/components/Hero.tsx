@@ -60,7 +60,7 @@ const Hero = ({ content = defaultHeroContent }: HeroProps) => {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.65, delay: 0.08, ease: "easeOut" }}
-          className="mt-7 max-w-6xl break-keep font-display text-[2.5rem] font-extrabold leading-[1.08] tracking-[-0.04em] text-white sm:text-5xl md:mt-9 md:text-6xl lg:text-[5rem]"
+          className="mt-7 max-w-6xl break-words text-balance font-display text-[2.5rem] font-extrabold leading-[1.08] tracking-[-0.04em] text-white sm:text-5xl md:mt-9 md:text-6xl lg:text-[5rem]"
         >
           {headlineLines.map((line, index) => (
             <span key={`${line}-${index}`} className="block" aria-hidden="true">
@@ -73,7 +73,7 @@ const Hero = ({ content = defaultHeroContent }: HeroProps) => {
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, delay: 0.18 }}
-          className="mt-7 max-w-3xl space-y-1 break-keep font-body text-base leading-7 text-white/65 md:text-lg md:leading-8"
+          className="mt-7 max-w-3xl space-y-1 break-words text-pretty font-body text-base leading-7 text-white/65 md:text-lg md:leading-8"
         >
           {content.subcopy.map((line) => (
             <p key={line}>{line}</p>
@@ -132,7 +132,7 @@ const Hero = ({ content = defaultHeroContent }: HeroProps) => {
                 key={`${stat.value}-${stat.label}`}
                 className="min-w-0 rounded-2xl border border-white/10 bg-[#111111]/90 px-2 py-4 shadow-[0_16px_60px_rgba(0,0,0,.25)] md:rounded-3xl md:px-6 md:py-6"
               >
-                <dd className="whitespace-nowrap font-display text-[1.35rem] font-extrabold tracking-[-0.03em] text-white sm:text-3xl md:text-5xl">
+                <dd className="break-words [overflow-wrap:anywhere] font-display text-[1.35rem] font-extrabold leading-none tracking-[-0.03em] text-white sm:text-3xl md:text-5xl">
                   {stat.value}
                 </dd>
                 <dt className="mt-1 font-body text-[10px] font-medium leading-4 text-white/50 sm:text-xs md:mt-2 md:text-sm md:leading-5">

@@ -59,12 +59,12 @@ const ProductProof = () => {
             <span className="font-body text-xs font-semibold uppercase tracking-[0.3em] text-[#ff6645]">
               제품으로 검증한 PM 역량
             </span>
-            <h2 className="mt-4 break-keep font-display text-3xl font-bold leading-tight tracking-[-0.03em] md:text-4xl">
+            <h2 className="mt-4 break-words text-balance font-display text-3xl font-bold leading-tight tracking-[-0.03em] md:text-4xl">
               고객 문제 발견부터 측정과 개선까지,
               <span className="block text-white/55">제품을 만드는 전체 흐름으로 증명합니다.</span>
             </h2>
           </div>
-          <p className="max-w-3xl break-keep font-body text-base leading-7 text-white/65 md:text-lg">
+          <p className="max-w-3xl break-words text-balance font-body text-base leading-7 text-white/65 md:text-lg">
             기술 이름보다 어떤 고객 문제를 발견했고, 제품으로 정의해 운영 성과까지 연결했는지를 대표 경험으로
             보여드립니다.
           </p>
@@ -83,10 +83,10 @@ const ProductProof = () => {
                   {proof.step}
                 </span>
                 <div className="min-w-0 flex-1">
-                  <h3 className="break-keep font-display text-base font-bold leading-snug text-white md:text-lg">
+                  <h3 className="break-words text-balance font-display text-base font-bold leading-snug text-white md:text-lg">
                     {proof.capability}
                   </h3>
-                  <p className="mt-1 break-keep font-body text-xs font-semibold leading-5 text-white/60">
+                  <p className="mt-1 break-words text-pretty font-body text-xs font-semibold leading-5 text-white/60">
                     {proof.project} · {proof.evidence}
                   </p>
                 </div>

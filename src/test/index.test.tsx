@@ -55,7 +55,7 @@ describe("기본 포트폴리오 정보 구조", () => {
       navigation.querySelectorAll<HTMLButtonElement>("div.hidden button"),
     ).map((button) => button.textContent?.trim());
     expect(desktopNavigationLinks.indexOf("소개")).toBeLessThan(
-      desktopNavigationLinks.indexOf("대표 PM 사례"),
+      desktopNavigationLinks.indexOf("프로젝트"),
     );
 
     expect(await screen.findByTestId("typebot-bubble")).toBeInTheDocument();

@@ -83,10 +83,10 @@ const Contact = () => {
       return;
     }
 
-    if (cleaned.name.length < 2 || cleaned.message.length < 10 || !cleaned.email) {
+    if (cleaned.name.length < 2 || cleaned.message.length < 5 || !cleaned.email) {
       setStatus({
         type: "error",
-        message: "이름, 회신 이메일, 10자 이상의 문의 내용을 확인해 주세요.",
+        message: "이름, 회신 이메일, 5자 이상의 문의 내용을 확인해 주세요.",
       });
       return;
     }
@@ -228,7 +228,7 @@ const Contact = () => {
               id="contact-message"
               name="message"
               required
-              minLength={10}
+              minLength={5}
               maxLength={2000}
               rows={6}
               value={form.message}
@@ -256,7 +256,7 @@ const Contact = () => {
             <div
               role={status.type === "success" ? "status" : "alert"}
               aria-live="polite"
-              className={`mt-5 rounded-xl border px-4 py-3 font-body text-sm leading-6 ${
+              className={`mt-5 break-words [overflow-wrap:anywhere] rounded-xl border px-4 py-3 font-body text-sm leading-6 ${
                 status.type === "success"
                   ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-300"
                   : "border-[#ff6645]/30 bg-[#ff6645]/10 text-white/80"
@@ -267,7 +267,7 @@ const Contact = () => {
                 <a
                   href={status.fallbackHref}
                   aria-label={`작성한 내용으로 ${profile.email}에 이메일 보내기`}
-                  className="ml-1 font-semibold text-[#ff8a70] underline underline-offset-4"
+                  className="ml-1 break-words [overflow-wrap:anywhere] font-semibold text-[#ff8a70] underline underline-offset-4"
                 >
                   {profile.email}
                 </a>

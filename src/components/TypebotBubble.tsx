@@ -59,7 +59,7 @@ const TypebotBubble = () => {
       const syncLabels = () => {
         const button = root.querySelector<HTMLButtonElement>('button[part="button"]');
         if (button) {
-          const label = button.getAttribute("aria-pressed") === "true" ? "메시지 닫기" : "메시지 열기";
+          const label = button.getAttribute("aria-pressed") === "true" ? "물어보기 닫기" : "물어보기 열기";
           if (button.getAttribute("aria-label") !== label) button.setAttribute("aria-label", label);
         }
 

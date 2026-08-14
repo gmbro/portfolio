@@ -76,15 +76,15 @@ const ProjectCard = ({ project, index }: { project: FeaturedProject; index: numb
     <dl className={`grid gap-6 ${isPriority ? "md:grid-cols-3" : ""}`}>
       <div>
         <dt className="mb-2 font-body text-[10px] font-bold uppercase tracking-[0.2em] text-white/50">문제</dt>
-        <dd className="break-keep font-body text-sm leading-6 text-white/60">{project.challenge}</dd>
+        <dd className="break-words text-pretty [overflow-wrap:anywhere] font-body text-sm leading-6 text-white/60">{project.challenge}</dd>
       </div>
       <div>
         <dt className="mb-2 font-body text-[10px] font-bold uppercase tracking-[0.2em] text-white/50">실행</dt>
-        <dd className="break-keep font-body text-sm leading-6 text-white/68">{project.action}</dd>
+        <dd className="break-words text-pretty [overflow-wrap:anywhere] font-body text-sm leading-6 text-white/68">{project.action}</dd>
       </div>
       <div>
         <dt className="mb-2 font-body text-[10px] font-bold uppercase tracking-[0.2em] text-[#ff8a70]">성과</dt>
-        <dd className="break-keep font-body text-sm font-medium leading-6 text-white/88">{project.result}</dd>
+        <dd className="break-words text-pretty [overflow-wrap:anywhere] font-body text-sm font-medium leading-6 text-white/88">{project.result}</dd>
       </div>
     </dl>
   );
@@ -111,7 +111,7 @@ const ProjectCard = ({ project, index }: { project: FeaturedProject; index: numb
           </header>
 
           <h3
-            className={`mt-6 break-keep font-display font-bold leading-[1.25] tracking-[-0.025em] text-white ${
+            className={`mt-6 break-words text-balance font-display font-bold leading-[1.25] tracking-[-0.025em] text-white ${
               isPriority ? "text-2xl md:text-4xl" : "text-xl md:text-2xl"
             }`}
           >
@@ -123,13 +123,13 @@ const ProjectCard = ({ project, index }: { project: FeaturedProject; index: numb
               <dt className="font-body text-[10px] font-bold uppercase tracking-[0.16em] text-white/50">
                 {project.organizationLabel}
               </dt>
-              <dd className="mt-1 font-body text-sm font-semibold leading-5 text-white/85">{project.organization}</dd>
+              <dd className="mt-1 break-words [overflow-wrap:anywhere] font-body text-sm font-semibold leading-5 text-white/85">{project.organization}</dd>
             </div>
-            <div className="w-fit shrink-0 rounded-xl border border-[#ff6645]/25 bg-[#ff6645]/10 px-3 py-2 sm:text-right">
+            <div className="w-fit max-w-full shrink-0 rounded-xl border border-[#ff6645]/25 bg-[#ff6645]/10 px-3 py-2 sm:max-w-[48%] sm:text-right">
               <dt className="font-body text-[10px] font-bold uppercase tracking-[0.14em] text-[#ff9a83]">
                 {project.involvement.label}
               </dt>
-              <dd className="mt-0.5 whitespace-nowrap font-display text-sm font-bold text-white">
+              <dd className="mt-0.5 break-words [overflow-wrap:anywhere] font-display text-sm font-bold leading-5 text-white">
                 {project.involvement.value}
               </dd>
             </div>
@@ -139,7 +139,7 @@ const ProjectCard = ({ project, index }: { project: FeaturedProject; index: numb
             {project.metrics.map((metric) => (
               <span
                 key={metric}
-                className="rounded-xl border border-[#ff6645]/20 bg-[#ff6645]/[0.08] px-3 py-2 font-display text-xs font-bold text-[#ff9a83]"
+                className="max-w-full break-words text-pretty [overflow-wrap:anywhere] rounded-xl border border-[#ff6645]/20 bg-[#ff6645]/[0.08] px-3 py-2 font-display text-xs font-bold text-[#ff9a83]"
               >
                 {metric}
               </span>
@@ -169,7 +169,7 @@ const ProjectCard = ({ project, index }: { project: FeaturedProject; index: numb
       <footer className="mt-8 flex flex-wrap items-end justify-between gap-5 border-t border-white/[0.07] pt-6">
         <div className="flex flex-wrap gap-x-3 gap-y-2">
           {project.tags.map((tag) => (
-            <span key={tag} className="font-body text-[11px] text-white/50">
+            <span key={tag} className="break-words [overflow-wrap:anywhere] font-body text-[11px] text-white/50">
               #{tag}
             </span>
           ))}
@@ -202,13 +202,13 @@ const ImageCards = () => {
           className="mb-12 max-w-4xl md:mb-16"
         >
           <span className="font-body text-xs font-semibold uppercase tracking-[0.3em] text-[#ff6645]">
-            대표 PM 사례
+            프로젝트
           </span>
-          <h2 className="mt-4 break-keep font-display text-3xl font-bold leading-tight tracking-[-0.03em] text-white md:text-5xl">
+          <h2 className="mt-4 break-words text-balance font-display text-3xl font-bold leading-tight tracking-[-0.03em] text-white md:text-5xl">
             고객의 문제를 발견하고, 제품으로 만들고, 결과로 검증했습니다.
           </h2>
-          <p className="mt-6 max-w-3xl break-keep font-body text-base leading-7 text-white/55 md:text-lg">
-            대표 사례는 PM 역량이 가장 선명하게 드러나는 순서로 배치했습니다. 각 사례에서 해결한 문제,
+          <p className="mt-6 max-w-3xl break-words text-balance font-body text-base leading-7 text-white/55 md:text-lg">
+            프로젝트는 PM 역량이 가장 선명하게 드러나는 순서로 배치했습니다. 각 사례에서 해결한 문제,
             제가 내린 제품 판단과 검증된 결과를 구분해 보여드립니다.
           </p>
         </motion.div>

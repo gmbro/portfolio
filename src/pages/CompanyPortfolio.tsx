@@ -35,10 +35,10 @@ const StateScreen = ({ title, description, showHomeLink = false }: StateScreenPr
   <main className="flex min-h-screen items-center justify-center bg-black px-6 py-20 text-center text-white">
     <div className="w-full max-w-[760px] rounded-[2.5rem] border border-white/10 bg-[#0b0b0b] px-7 py-14 shadow-2xl shadow-black/50 md:rounded-[3rem] md:px-14 md:py-20">
       <p className="text-sm font-semibold tracking-[0.08em] text-[#ff6645] md:text-lg">포트폴리오</p>
-      <h1 className="mt-6 break-keep text-[2rem] font-extrabold leading-[1.2] tracking-tight text-white md:mt-7 md:text-5xl">
+      <h1 className="mt-6 break-words text-balance text-[2rem] font-extrabold leading-[1.2] tracking-tight text-white md:mt-7 md:text-5xl">
         {title}
       </h1>
-      <p className="mx-auto mt-5 max-w-2xl break-keep text-base leading-relaxed text-white/55 md:mt-7 md:text-2xl">
+      <p className="mx-auto mt-5 max-w-2xl break-words text-pretty text-base leading-relaxed text-white/55 md:mt-7 md:text-2xl">
         {description}
       </p>
       {showHomeLink && (

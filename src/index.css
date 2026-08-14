@@ -178,7 +178,7 @@ typebot-bubble::part(button)::after {
   position: absolute;
   top: 50%;
   left: 58px;
-  content: "메시지";
+  content: "물어보기";
   color: #111111;
   font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 16px;
@@ -213,7 +213,7 @@ typebot-bubble::part(button):focus-visible {
   }
 
   typebot-bubble::part(button) {
-    inline-size: 132px;
+    inline-size: 148px;
     block-size: 52px;
     padding: 0 44px 0 40px;
   }
