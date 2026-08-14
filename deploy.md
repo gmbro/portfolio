@@ -1291,7 +1291,18 @@ GitHub Pages 배포 후 같은 세 너비에서 asset revision, launcher 외형�
 
 #### 배포 후 실제 URL 점검
 
-- 배포 후 실제 URL에서 asset revision, 줄바꿈·오버플로, CTA, Typebot, 콘솔·네트워크 상태를 기록한다.
+- GitHub Actions `Deploy Portfolio to GitHub Pages` 실행 `31801644660`이 커밋 `a2b092129d5c3922022befba67f9ecda1b65c3a7`에서 build·deploy 모두 성공했다.
+- 실제 공개 URL: `https://archilab.ai.kr/`. HTML과 새 JavaScript asset의 `Last-Modified`는 `2026-08-14 12:45:48 UTC`, HTTPS 응답은 모두 `200`이다.
+- 라이브 asset은 `index-O1vRDCh_.js`, `index-BfbNT63E.css`이며, 배포 전 production build와 일치한다.
+- 실제 라이브를 390×844, 768×900, 1440×900에서 재검사한 결과 clientWidth/scrollWidth는 `375/375`, `753/753`, `1425/1425`, 텍스트 노드 가로 잘림은 모두 0건이다.
+- 라이브 소개 문단 마지막 줄 비율은 390px `78%/78%`, 768px `77%/71%`, 1440px `77%/71%`로 수정 전의 13~40% 고립 줄을 해소했다. 프로젝트 소개는 `98%/82%/70%`다.
+- 프로젝트 섹션과 내비게이션에 `프로젝트`가 반영됐고 `대표 PM 사례`는 라이브 본문 0건이다. `case-studies` anchor와 Hero CTA 이동은 유지된다.
+- 문의 textarea의 live `minLength=5`, 버튼명 `문의하기`, 390px 제출 CTA `285×56px`를 확인했다. Vitest에서 4자 거부·5자 전송을 검증했으며 EmailJS payload·보안 구조는 변경하지 않았다.
+- 390px Typebot은 `148×52px`, 가시 문구 `물어보기`, 접근성 이름 `물어보기 열기`로 표시된다. 실제 열기·닫기에서 `aria-pressed false→true`, 이름 `물어보기 열기→닫기`와 panel 렌더를 확인했다. Contact에서는 닫힌 launcher가 사라져 제출 CTA를 가리지 않는다.
+- `/p/not-real-slug`는 최종적으로 `유효하지 않은 링크입니다`, `noindex, nofollow`, Typebot 0개를 표시한다. `/admin/links`와 임의 404도 `noindex, nofollow`, Typebot 0개, 가로 오버플로 0을 유지한다.
+- 실제 루트 로드 후 브라우저 dev log는 경고·오류 0건이다. 새 CSS·JS·Pretendard 자원도 정상 로드됐다.
+- 최종 publication: 기본 공개 포트폴리오 base revision 12. 회사별 신규 publication 생성 없음. 기본 `/`은 indexable이며 무효 링크·관리자·404는 noindex를 유지한다.
+- 배포 결과: `성공`.
 
 ---
 
