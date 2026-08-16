@@ -2289,4 +2289,22 @@ Hero 후보:
 
 #### 배포 후 실제 URL 점검
 
-배포 후 기록한다.
+- 배포 커밋: `215532a18440726d5afee7bd25ac0fdbca86dd96` (`Prioritize verified product growth metric`).
+- GitHub Actions: `Deploy Portfolio to GitHub Pages` run `#28`, ID `31925638110`의 `build`·`deploy` job이 모두 성공했다 — `https://github.com/gmbro/portfolio/actions/runs/31925638110`.
+- 라이브 asset: `index-Bku4G9Rk.js`, `index-BKkcAryA.css`. 공개 Hero에서 `2배 / 푸시 수신율 개선`을 확인했고 `6명 / Archi 베타` 지표 문구는 제거됐다. Hero 설명과 Archi 프로젝트의 `베타 참여자 6명`은 유지됐다.
+
+| 항목 | 390×844 | 768×900 | 1440×900 |
+|---|---:|---:|---:|
+| clientWidth / scrollWidth | `375 / 375` | `753 / 753` | `1425 / 1425` |
+| 문서 높이 | `9,945px` | `8,728px` | `6,625px` |
+| 첫 지표 카드 | `2배 / 푸시 수신율 개선`, 104×76px | `2배 / 푸시 수신율 개선`, 208×126px | `2배 / 푸시 수신율 개선`, 331×126px |
+| 첫 지표 label client / scroll | `86 / 86px` | `158 / 158px` | `281 / 281px` |
+| 실제 텍스트·가로 오버플로 | `0 / 0` | `0 / 0` | `0 / 0` |
+
+- 세 너비에서 전체 페이지를 위에서 아래까지 스크롤해 새 지표의 표시·카드 높이·라벨 폭을 확인했다. 브라우저의 15px 세로 스크롤바를 제외한 실제 콘텐츠 폭에서 `scrollWidth === clientWidth`다.
+- 390px에서 Hero `프로젝트 보기` CTA를 실행한 뒤 `#case-studies` 상단이 80px에 정렬됐다.
+- `/p/not-real-slug` 직접 로드·새로고침은 `유효하지 않은 링크입니다`, `noindex, nofollow`, Typebot host 0, Google script 0, `390 / 390`으로 통과했다.
+- `/admin/links`는 관리자 로그인 화면, `noindex, nofollow`, Typebot host 0, Google script 0, `390 / 390`으로 통과했다.
+- 실제 URL의 console warning/error는 0건이다.
+- 최종 publication: 기본 공개 포트폴리오 base revision 20. 회사별 publication 신규 생성 없음. 기본 `/`은 indexable이고 관리자·무효 맞춤 링크는 noindex를 유지한다.
+- 배포 결과: `성공`.
