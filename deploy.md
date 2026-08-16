@@ -2457,4 +2457,24 @@ Hero 후보:
 
 #### 배포 후 실제 URL 점검
 
-배포 후 기록한다.
+- 배포 커밋: `8a33030b00b17e9f8cf998d14b25757a77d8a558` (`Show PM project breadth and disable analytics prompt`).
+- GitHub Actions: `Deploy Portfolio to GitHub Pages` run `#29`, ID `31927080053`의 품질 검사·build·deploy가 모두 성공했다 — `https://github.com/gmbro/portfolio/actions/runs/31927080053`.
+- 실제 공개 URL: `https://archilab.ai.kr/`.
+- 라이브 asset: `index-CL2WLLPN.js`, `index-BKkcAryA.css`.
+
+| 항목 | 390×844 | 768×900 | 1440×900 |
+|---|---:|---:|---:|
+| clientWidth / scrollWidth | `375 / 375` | `753 / 753` | `1425 / 1425` |
+| 문서 높이 | `9,917px` | `8,700px` | `6,597px` |
+| 첫 지표 카드 | `5개 / 대표 프로젝트`, 104×76px | `5개 / 대표 프로젝트`, 208×126px | `5개 / 대표 프로젝트`, 331×126px |
+| 첫 지표 label client / scroll | `86 / 86px` | `158 / 158px` | `281 / 281px` |
+| 분석 배너 / Footer 설정 / Google script | `0 / 0 / 0` | `0 / 0 / 0` | `0 / 0 / 0` |
+| 공개 프로젝트 / GenON 근거 | `5개 / 표시` | `5개 / 표시` | `5개 / 표시` |
+
+- 세 너비 모두 Hero의 AI 제품 0→1·350만 MAU·데이터 프로젝트·B2B·B2G 사업화 문장과 `제품 0→1 · 프로젝트 실행 · 운영·사업화` 키워드를 표시하고, 가로 오버플로는 0건이다.
+- 390px에서 `프로젝트 보기` CTA 실행 후 `#case-studies` 상단은 80px에 정렬됐다.
+- `/p/not-real-slug` 직접 로드·새로고침은 `유효하지 않은 링크입니다`, `noindex, nofollow`, Typebot 0, 분석 배너 0, Google script 0, `390 / 390`으로 통과했다.
+- `/admin/links`는 관리자 로그인 화면, `noindex, nofollow`, Typebot 0, 분석 배너 0, Google script 0, `390 / 390`으로 통과했다.
+- 라이브 기본·보호 경로의 console warning/error는 0건이다.
+- 최종 publication: 기본 공개 포트폴리오 base revision 21. 회사별 publication 신규 생성 없음. 기본 `/`은 indexable이고 관리자·무효 맞춤 링크는 noindex를 유지한다.
+- 배포 결과: `성공`.
