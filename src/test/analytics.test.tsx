@@ -172,4 +172,20 @@ describe("Google Analytics 동의 기반 연동", () => {
     expect(screen.queryByRole("button", { name: "방문 분석 설정" })).not.toBeInTheDocument();
     expect(document.querySelector('script[src*="googletagmanager.com/gtag/js"]')).not.toBeInTheDocument();
   });
+
+  it("공개 기본 포트폴리오도 분석 UI와 Google 태그를 기본 비활성화한다", async () => {
+    await loadAnalyticsModules();
+    const { default: Index } = await import("@/pages/Index");
+
+    render(
+      <MemoryRouter initialEntries={["/"]}>
+        <Index />
+      </MemoryRouter>,
+    );
+
+    expect(screen.queryByRole("dialog", { name: "방문 분석 설정" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "방문 분석 설정" })).not.toBeInTheDocument();
+    expect(document.querySelector('script[src*="googletagmanager.com/gtag/js"]')).not.toBeInTheDocument();
+    expect((window as unknown as Record<string, unknown>)[`ga-disable-${measurementId}`]).toBe(true);
+  });
 });

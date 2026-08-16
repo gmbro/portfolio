@@ -100,14 +100,14 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
       headline: "고객의 문제를 제품으로 해결합니다.",
       highlight: "제품으로 해결합니다",
       subcopy: [
-        "350만 MAU 제품 운영, AI 제품 0→1, STT 운영 원가 70%+ 절감으로 문제 정의와 실행 역량을 검증했습니다.",
-        "현재는 Archi(아키)를 1인으로 기획·개발·사업·운영하며, 6명의 베타 참여자에게서 얻은 피드백으로 다음 제품 결정을 내리고 있습니다.",
+        "AI 제품 0→1, 350만 MAU 운영, 데이터 프로젝트와 B2B·B2G 사업화까지 제품과 프로젝트 전 과정을 경험했습니다.",
+        "현재는 Archi(아키)를 1인으로 기획·개발·사업·운영하며, 6명의 베타 참여자 피드백으로 다음 제품 결정을 내립니다.",
       ],
-      keywords: ["문제 정의", "제품 우선순위", "실사용 검증"],
+      keywords: ["제품 0→1", "프로젝트 실행", "운영·사업화"],
       ctaLabel: "프로젝트 보기",
       ctaTarget: "case-studies",
       stats: [
-        { value: "2배", label: "푸시 수신율 개선" },
+        { value: "5개", label: "대표 프로젝트" },
         { value: "350만", label: "MAU 제품 운영" },
         { value: "70%+", label: "운영 원가 절감" },
       ],
@@ -168,20 +168,13 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
     expect(flagshipProject.result).toContain("영상 기록");
   });
 
-  it("Hero의 비-Archi 성장 지표를 SK Planet의 검증 결과와 연결한다", () => {
-    const skPlanetProject = portfolioProjects.find(
-      (project) => project.id === "sk-planet-syrup-wallet",
-    );
-    const skPlanetCareer = careerExperiences.find(
-      (experience) => experience.company === "SK Planet",
-    );
-
+  it("Hero의 대표 프로젝트 수를 공개 CAR 프로젝트와 연결한다", () => {
     expect(defaultHeroContent.stats?.[0]).toEqual({
-      value: "2배",
-      label: "푸시 수신율 개선",
+      value: "5개",
+      label: "대표 프로젝트",
     });
-    expect(skPlanetProject?.metrics).toContain("수신율 2배");
-    expect(skPlanetCareer?.achievements).toContain("유효 토큰 타기팅으로 푸시 수신율 2배 향상");
+    expect(portfolioProjects).toHaveLength(5);
+    expect(portfolioProjects.some((project) => project.organization.includes("GenON"))).toBe(true);
   });
 
   it("Archi 다음에 핵심 프로젝트를 사용자 지정 서사 순서로 배열한다", () => {

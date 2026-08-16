@@ -16,7 +16,7 @@ interface IndexProps {
   analyticsEnabled?: boolean;
 }
 
-const Index = ({ heroContent, analyticsEnabled = true }: IndexProps) => {
+const Index = ({ heroContent, analyticsEnabled = false }: IndexProps) => {
   useLayoutEffect(() => {
     setAnalyticsRouteEnabled(analyticsEnabled);
     return () => setAnalyticsRouteEnabled(false);
