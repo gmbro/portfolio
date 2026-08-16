@@ -45,7 +45,7 @@ export const defaultHeroContent: HeroContent = {
   ctaLabel: "프로젝트 보기",
   ctaTarget: "case-studies",
   stats: [
-    { value: "6명", label: "Archi 베타" },
+    { value: "2배", label: "푸시 수신율 개선" },
     { value: "350만", label: "MAU 제품 운영" },
     { value: "70%+", label: "운영 원가 절감" },
   ],

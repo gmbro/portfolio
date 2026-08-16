@@ -107,7 +107,7 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
       ctaLabel: "프로젝트 보기",
       ctaTarget: "case-studies",
       stats: [
-        { value: "6명", label: "Archi 베타" },
+        { value: "2배", label: "푸시 수신율 개선" },
         { value: "350만", label: "MAU 제품 운영" },
         { value: "70%+", label: "운영 원가 절감" },
       ],
@@ -166,6 +166,22 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
     expect(flagshipProject.action).toContain("그리드 배경 촬영 기능");
     expect(flagshipProject.result).toContain("시퀀스");
     expect(flagshipProject.result).toContain("영상 기록");
+  });
+
+  it("Hero의 비-Archi 성장 지표를 SK Planet의 검증 결과와 연결한다", () => {
+    const skPlanetProject = portfolioProjects.find(
+      (project) => project.id === "sk-planet-syrup-wallet",
+    );
+    const skPlanetCareer = careerExperiences.find(
+      (experience) => experience.company === "SK Planet",
+    );
+
+    expect(defaultHeroContent.stats?.[0]).toEqual({
+      value: "2배",
+      label: "푸시 수신율 개선",
+    });
+    expect(skPlanetProject?.metrics).toContain("수신율 2배");
+    expect(skPlanetCareer?.achievements).toContain("유효 토큰 타기팅으로 푸시 수신율 2배 향상");
   });
 
   it("Archi 다음에 핵심 프로젝트를 사용자 지정 서사 순서로 배열한다", () => {
