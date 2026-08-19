@@ -1285,7 +1285,24 @@ GitHub Pages 배포 후 같은 세 너비에서 asset revision, launcher 외형�
 
 #### 배포 후 실제 URL 점검
 
-[배포 후 기록]
+- 커밋 `4b79043944141d7bc54bd3bd705c6cab30886274`를 `origin/main`에 push했다. GitHub Actions `Deploy Portfolio to GitHub Pages` run #30(ID `32236793857`)은 2026-08-19 18:17 KST에 `completed / success`로 종료됐다. `build` job `96018463169`의 의존성 설치·품질 검사·Pages artifact build/upload와 `deploy` job `96018673472`의 `Deploy to GitHub Pages`가 모두 성공했다.
+- 공개 `https://archilab.ai.kr/`가 새 initial asset `index-BidM7iqP.js`, `index-yqQhG0_A.css`를 제공하는 것을 확인했다. initial HTML에는 Typebot preload가 없고, 분석 배너와 Google Analytics script도 생성되지 않는다.
+
+| 라이브 항목 | 390×844 | 768×900 | 1440×900 |
+|---|---:|---:|---:|
+| clientWidth / scrollWidth | `375 / 375` | `753 / 753` | `1425 / 1425` |
+| 로컬 guide panel | `335×538px` | `399×552px` | `399×552px` |
+| 직접 입력 / 전송 버튼 | `301×52 / 301×52px` | `361×52 / 361×52px` | `361×52 / 361×52px` |
+| 추천 질문 1개 | `147×62px` | `177×62px` | `177×62px` |
+| 입력 폰트 / 초기 focus | `Pretendard 16px / 입력` | 동일 | 동일 |
+| 초기 Typebot host / 분석 배너 / Google script | `0 / 0 / 0` | `0 / 0 / 0` | `0 / 0 / 0` |
+| H1 첫 프레임 opacity / 가로 오버플로 | `1 / 0` | `1 / 0` | `1 / 0` |
+
+- 세 너비 모두 `경력·프로젝트 가이드` dialog, 추천 질문 4개, 개인정보 안내, 직접 입력과 전송 버튼이 viewport 안에 표시됐다. 390px 빈 질문 제출은 `질문을 2자 이상 입력해 주세요.`를 표시하고 입력으로 focus를 되돌렸으며, Esc는 guide를 닫고 `물어보기 열기` launcher로 focus를 복귀했다.
+- 외부 Typebot에 실제 질문을 보내지는 않았다. 질문 제출 전까지 Typebot host는 0이었고, SDK 전달 계약은 배포 전 Vitest 37/37에서 `setInputValue`→`submitInput` 순서와 1회 전송으로 검증했다.
+- `/p/not-real-slug`는 비동기 유효성 확인 뒤 한국어 무효 링크 화면과 `noindex, nofollow`, `/admin/links`는 관리자 화면과 `noindex, nofollow`, 임의 404는 한국어 404와 `noindex, nofollow`를 표시했다. 세 경로 모두 Typebot host·로컬 launcher·분석 배너·Google script 0, 390px 가로 오버플로 0이다.
+- 전체 라이브 재검사 동안 browser console warning/error와 CSP 오류는 0이었다. 최종 publication은 기본 공개 포트폴리오 base revision 22이며 회사별 publication 신규 생성은 없다.
+- 배포 결과: `성공`. 실행 기록: `https://github.com/gmbro/portfolio/actions/runs/32236793857`.
 
 ---
 
