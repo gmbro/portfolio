@@ -13,6 +13,8 @@ vi.mock("@typebot.io/react", () => ({
     bubbleProps(props);
     return <div data-testid="typebot-bubble" />;
   },
+  setInputValue: vi.fn(),
+  submitInput: vi.fn(),
 }));
 
 describe("기본 포트폴리오 정보 구조", () => {
@@ -87,17 +89,21 @@ describe("기본 포트폴리오 정보 구조", () => {
     expect(screen.queryByTestId("typebot-bubble")).not.toBeInTheDocument();
 
     fireEvent.click(localLauncher);
+    expect(screen.getByRole("dialog", { name: "경력·프로젝트 가이드" })).toBeInTheDocument();
+    expect(screen.queryByTestId("typebot-bubble")).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: /AI 제품 0→1 경험/ }));
     expect(await screen.findByTestId("typebot-bubble")).toBeInTheDocument();
     await waitFor(() => expect(bubbleProps).toHaveBeenCalledWith(
       expect.objectContaining({
         id: "portfolio-typebot",
         typebot: "gmbro",
         isOpen: true,
-        inlineStyle: {
+        inlineStyle: expect.objectContaining({
           "--container-bottom": "var(--portfolio-chat-bottom)",
           "--bot-max-width": "min(400px, calc(100vw - 40px))",
           "--bot-max-height": "min(704px, calc(100vh - 120px))",
-        },
+          "--typebot-container-font-family": '"Pretendard Variable", Pretendard',
+        }),
         theme: expect.objectContaining({
           position: "fixed",
           button: expect.objectContaining({

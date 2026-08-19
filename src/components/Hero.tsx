@@ -55,11 +55,8 @@ const Hero = ({ content = defaultHeroContent }: HeroProps) => {
           </span>
         </motion.div>
 
-        <motion.h1
+        <h1
           aria-label={headlineLines.join(" ")}
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.65, delay: 0.08, ease: "easeOut" }}
           className="mt-7 max-w-6xl break-words text-balance font-display text-[2.25rem] font-extrabold leading-[1.08] tracking-[-0.04em] text-white sm:text-5xl md:mt-9 md:text-6xl lg:text-[5rem]"
         >
           {headlineLines.map((line, index) => (
@@ -67,7 +64,7 @@ const Hero = ({ content = defaultHeroContent }: HeroProps) => {
               {highlightHeadline(line, content.highlight)}
             </span>
           ))}
-        </motion.h1>
+        </h1>
 
         <motion.div
           initial={{ opacity: 0, y: 18 }}

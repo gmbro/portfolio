@@ -1207,6 +1207,86 @@ GitHub Pages 배포 후 같은 세 너비에서 asset revision, launcher 외형�
 - 최종 publication: 기본 공개 포트폴리오 base revision 10. 회사별 publication 신규 생성 없음. 기본 `/`은 indexable, 관리자·무효/회사별 링크·404는 각 런타임 정책에 따라 noindex를 유지한다.
 - 배포 결과: `성공`.
 
+### 2026-08-19 / 근거 탐색형 챗봇 입력 가이드·체감 속도 개선 / base revision 22
+
+#### 범위·제품 판단
+
+- 대상 revision: 기본 공개 포트폴리오 base revision 22.
+- 새 JD·경력·성과 수치가 제공되지 않았으므로 JD 분석, 역량 매칭, Hero 카피와 대표 프로젝트 5개의 사실은 base revision 21을 그대로 유지한다.
+- 이번 변경의 사용자 과업은 채용 담당자가 빈 입력창 앞에서 질문을 고민하지 않고 `AI 제품 0→1`, `대규모 제품 운영`, `데이터·운영 개선`, `B2B·B2G 사업화` 중 필요한 검증 근거를 빠르게 찾는 것이다.
+- 첨부 레퍼런스에서는 흰색 패널, 짧은 가이드, 추천 질문, 큰 입력 액션만 채택한다. 대학 장학금 내용, 블루 브랜드, 큰 영문 제목, 과도한 캐릭터와 화면을 잠식하는 거대한 입력 영역은 사용하지 않는다.
+- 새 외부 폰트·이미지·분석 수집은 추가하지 않는다. 사이트의 Pretendard와 CSS `AI` 모노그램을 사용하고, 공개 `/`의 분석 비활성·배너 비노출을 회귀 조건으로 고정한다.
+
+#### 1차 진단 — 수정 전 라이브
+
+실제 `https://archilab.ai.kr/`의 Typebot을 열고 같은 브라우저에서 390·768·1440px을 직접 검사했다.
+
+| 항목 | 390×844 | 768×900 | 1440×900 |
+|---|---:|---:|---:|
+| clientWidth / scrollWidth | `375 / 375` | `753 / 753` | `1425 / 1425` |
+| Typebot panel | `350×704px` | `400×704px` | `400×704px` |
+| launcher | `148×52px` | `176×52px` | `196×64px` |
+| Typebot 입력 | `214×56px` | `264×56px` | `264×56px` |
+| 입력 폰트 | `Inter` | `Inter` | `Inter` |
+| placeholder / 전송 접근성 이름 | `질문을 입력해주세요! / Send` | 동일 | 동일 |
+| 분석 배너·가로 오버플로 | `0 / 0` | `0 / 0` | `0 / 0` |
+
+| ID | 범위 | 발견한 문제 | 사용자 영향 | 심각도 | 수정 방향 | 상태 |
+|---|---|---|---|---|---|---|
+| QA-BASE22-001 | 첫 열기 | launcher 클릭 뒤 약 199KiB gzip Typebot web runtime이 준비될 때까지 보이는 로딩·가이드가 없음 | 클릭이 먹지 않았거나 느리다고 인식 | 높음 | 클릭 즉시 로컬 가이드 패널을 표시하고 hover·focus·click에는 1.27KiB gzip React wrapper만 준비; web runtime은 질문 제출 뒤 로드 | 발견 |
+| QA-BASE22-002 | 질문 시작 | 첫 인사가 짧고 추천 질문·입력 범위 안내가 없음 | 채용 담당자가 무엇을 물을지 결정하는 비용이 큼 | 높음 | 검증 근거 4개와 1:1로 연결한 추천 질문, 직접 입력, 개인정보 안내 제공 | 발견 |
+| QA-BASE22-003 | 시각 일관성 | 실제 대화 입력은 사이트 Pretendard가 아닌 Inter이고 레퍼런스 대비 위계·브랜드 연결이 약함 | 별도 외부 위젯처럼 보여 신뢰·완성도 저하 | 보통 | 로컬 가이드에 사이트 폰트·코랄 그라디언트·AI 모노그램 적용, Typebot shadow의 안정적 의미 클래스만 최소 보정 | 발견 |
+| QA-BASE22-004 | 접근성·현지화 | 실제 입력 placeholder는 일반적이고 전송 버튼 이름은 `Send` | 한국어 사용자·스크린리더 경험 불일치 | 높음 | 구체적 한국어 placeholder·label·전송 이름, 2~500자 오류, 키보드·focus·reduced-motion 보장 | 발견 |
+| QA-BASE22-005 | 개인정보·분석 | query 제거와 대화 본문 미수집은 유지되지만 질문 전 경고가 없음 | 비공개 회사 정보를 외부 Typebot에 넣을 위험 | 높음 | 제출 전에 Typebot 처리·개인정보/기밀 입력 금지 문구 노출; 자유 질문은 GA에 전달하지 않음 | 발견 |
+| QA-BASE22-006 | 실패 복구 | 외부 로드 실패 시 짧은 상태만 있고 프로젝트 직접 탐색 경로가 없음 | 챗봇 장애가 핵심 증거 탐색을 막을 수 있음 | 보통 | 다시 시도와 `프로젝트 직접 보기` 정적 fallback 제공 | 발견 |
+| QA-BASE22-007 | 첫 화면 체감 속도 | LCP 후보인 Hero H1이 초기 `opacity: 0`에서 80ms 지연 뒤 650ms 애니메이션으로 표시됨 | 네트워크가 빠른 환경에서도 핵심 메시지가 늦게 보일 수 있음 | 높음 | H1만 첫 프레임부터 정적으로 렌더하고 나머지 단계적 모션은 유지 | 발견 |
+
+- 현재 장점인 클릭 후 lazy-load, URL query 제거, 외부 장애 격리, 문의·외부 CTA 구간의 닫힌 launcher 숨김, 분석 비활성, 기본 콘텐츠 접근 가능성은 유지한다.
+- 수정 방향을 기록했으며 이제 `TypebotBubble`, 관련 스타일·타입·테스트만 최소 범위로 변경한다.
+
+#### 직접 수정
+
+| 파일 | 직접 수정 | 이유 |
+|---|---|---|
+| `src/data/chatbot.ts` | 헤더·안내·개인정보·상태 문구, 검증 근거와 연결된 추천 질문 4개, 2~500자 검증을 단일 데이터 소스로 추가 | 화면·테스트·외부 전달 질문이 서로 어긋나지 않게 함 |
+| `src/components/TypebotBubble.tsx` | launcher 클릭 즉시 여는 로컬 guide dialog, 공식 `setInputValue`→`submitInput` bridge, 10초 timeout·실제 재시도·정적 프로젝트 fallback, query 제거, focus 복귀·Esc 취소를 구현 | 외부 runtime 대기 공백을 가리고 실패 시에도 포트폴리오 탐색을 유지 |
+| `src/components/TypebotBubble.tsx`, `src/pages/Index.tsx` | 분석이 비활성인 기본 `/`에서는 consent DOM query·`MutationObserver`를 만들지 않도록 명시 prop으로 분기 | 비노출 분석 UI를 감시하던 상시 작업 제거 |
+| `src/index.css` | 흰 패널, 포트폴리오 코랄 그라디언트, 기존 avatar+CSS `AI` fallback, Pretendard, 2×2 질문, 16px 입력·52px 액션, safe-area·reduced-motion 스타일 추가 | 레퍼런스의 명료한 입력 구조를 브랜드·모바일 제약에 맞게 적용 |
+| `src/components/Hero.tsx` | LCP 후보 H1을 `motion.h1`에서 정적 `h1`으로 변경 | 첫 프레임 `opacity: 0`, 80ms delay, 650ms 진입 애니메이션 제거 |
+| `src/types/typebot-react.d.ts` | 설치된 Typebot 0.10.7의 `BubbleProps`, `setInputValue`, `submitInput` 선언 추가 | 직접 API 우회 없이 SDK의 정상 입력·검증 경로를 타입 안전하게 사용 |
+| `src/test/*` | guide·입력 검증·공식 bridge 순서·timeout·재시도·focus·분석 observer 조건·4개 추천 질문의 경력 근거 연결 테스트 추가 | 공개 근거 밖 질문, 중복 전송, 실패 복구·개인정보 회귀 방지 |
+
+- 질문 원문·답변·이름·이메일·회사명은 GA, URL, `prefilledVariables`, console에 전달하지 않는다. `chat_open`의 고정 이벤트만 기존 정책 범위에서 유지한다.
+- 실제 Typebot 내부 DOM에는 구조 주입을 하지 않고 placeholder·접근성 이름·공식 CSS 변수만 보정한다. Typebot 장애나 미실행 상태에서도 본문·프로젝트·문의 경로는 계속 작동한다.
+- 기존 Typebot avatar를 재사용하되 48×48 크기를 고정하고 CSS `AI` fallback을 먼저 렌더한다. 새 이미지 공급자·새 웹폰트는 추가하지 않았다.
+
+#### 동일 조건 재검사
+
+최종 production build를 수정 전과 같은 Codex In-app Browser와 390·768·1440px 조건에서 재검사했다.
+
+| 항목 | 390×844 | 768×900 | 1440×900 |
+|---|---:|---:|---:|
+| clientWidth / scrollWidth | `375 / 375` | `753 / 753` | `1425 / 1425` |
+| 로컬 guide panel | `335×539px` | `400×554px` | `400×554px` |
+| 직접 입력 / 전송 버튼 | `301×52 / 301×52px` | `362×52 / 362×52px` | `362×52 / 362×52px` |
+| 추천 질문 1개 | `147×62px` | `177×62px` | `177×62px` |
+| 입력 폰트 / 초기 focus | `Pretendard / 입력` | 동일 | 동일 |
+| 초기 Typebot host / 분석 배너 / Google script | `0 / 0 / 0` | `0 / 0 / 0` | `0 / 0 / 0` |
+| H1 첫 프레임 opacity / 가로 오버플로 | `1 / 0` | `1 / 0` | `1 / 0` |
+
+- guide는 세 너비 모두 viewport 안에 있고 자체 `clientHeight === scrollHeight`로 불필요한 내부 스크롤이 없다. 390px에서도 좌우 20px 안전 여백을 유지한다.
+- 빈 질문 제출은 `질문을 2자 이상 입력해 주세요.`를 표시하고 입력으로 focus를 돌려보낸다. Esc와 닫기 버튼은 guide를 닫고 launcher로 focus를 복귀하며 Typebot host를 생성하지 않는다.
+- 실제 질문을 외부 Typebot에 보내는 브라우저 동작은 수행하지 않았다. 대신 37개 자동 테스트에서 추천·자유 질문이 trim·검증을 거쳐 동일 ID에 `setInputValue`→`submitInput` 순으로 정확히 1회 전달되는 계약을 검증했다.
+- `/p/not-real-slug`, `/admin/links`, 임의 404는 모두 `noindex, nofollow`, Typebot·로컬 launcher·분석 배너·Google script 0, 390px 가로 오버플로 0으로 통과했다.
+- 클린 내부 virtual store의 pnpm 11.16.0·TypeScript 5.9.3에서 `tsc --noEmit -p tsconfig.app.json` 오류 0, Vitest `37/37`, 변경 파일 ESLint 오류·경고 0, 전체 tracked `src` ESLint 오류 0·기존 Fast Refresh 경고 7, `git diff --check`, Vite 6.4.3 production build가 통과했다. 로컬 `eslint .`은 사용자 소유 untracked `node_modules 2/`까지 검사해 제3자 번들 규칙 오류가 나므로 배포 판단에서 제외했으며 CI checkout에는 해당 폴더가 없다.
+- 최종 build는 main `130.86kB gzip`, CSS `15.00kB gzip`, Typebot React wrapper `1.27kB gzip`, web runtime `199.27kB gzip`이다. 초기 HTML+main+CSS는 `147.01kB gzip`으로 base 21 대비 `+3.07kB(+2.14%)`; Typebot wrapper+web 합계는 `200.54kB gzip`으로 동일하다.
+- 초기 HTML의 Typebot preload는 0이다. launcher hover·focus·click에는 작은 wrapper만 준비하고, 실제 199.27kB web runtime은 질문 제출 후 Bubble mount 시 로드한다. 따라서 이번 변경은 총 런타임 경량화가 아니라 `즉시 guide + 명확한 loading + H1 정적 렌더 + 불필요 observer 제거`로 체감 공백을 줄인 개선이다.
+- production preview console warning/error 0. 현재 배포 가능 여부: `가능` — 콘텐츠·privacy·접근성·반응형·품질 검사 차단 없음.
+
+#### 배포 후 실제 URL 점검
+
+[배포 후 기록]
+
 ---
 
 ### 2026-08-15 / Arkylab·GenON 경력 직함 교정 / base revision 19

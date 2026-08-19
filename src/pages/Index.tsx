@@ -39,7 +39,7 @@ const Index = ({ heroContent, analyticsEnabled = false }: IndexProps) => {
         <Contact />
       </main>
       <Footer showAnalyticsSettings={analyticsEnabled} />
-      <TypebotBubble />
+      <TypebotBubble observeAnalyticsConsent={analyticsEnabled} />
       {analyticsEnabled && <AnalyticsConsentBanner />}
     </div>
   );

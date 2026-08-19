@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { Json } from "@/lib/database.types";
 import { defaultHeroContent, parsePortfolioPageContent } from "@/types/portfolio";
+import { chatbotStarterQuestions } from "@/data/chatbot";
 import {
   careerExperiences,
   featuredProjects,
@@ -175,6 +176,27 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
     });
     expect(portfolioProjects).toHaveLength(5);
     expect(portfolioProjects.some((project) => project.organization.includes("GenON"))).toBe(true);
+  });
+
+  it("챗봇 추천 질문 4개를 공개된 프로젝트·경력 근거와 연결한다", () => {
+    expect(chatbotStarterQuestions.map(({ id }) => id)).toEqual([
+      "zero-to-one",
+      "large-scale-operations",
+      "data-operations",
+      "b2b-b2g",
+    ]);
+    expect(portfolioProjects.find(({ id }) => id === "skelter-ai-counselor")?.metrics).toContain(
+      "0→1 PoC",
+    );
+    expect(portfolioProjects.find(({ id }) => id === "sk-planet-syrup-wallet")?.metrics).toContain(
+      "약 350만 MAU",
+    );
+    expect(portfolioProjects.find(({ id }) => id === "selectstar-stt-operations")?.metrics).toContain(
+      "운영 원가 70%+ 절감",
+    );
+    expect(careerExperiences.find(({ company }) => company === "GenON")?.tags).toContain(
+      "B2B · B2G",
+    );
   });
 
   it("Archi 다음에 핵심 프로젝트를 사용자 지정 서사 순서로 배열한다", () => {

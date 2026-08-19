@@ -1,7 +1,7 @@
 declare module "@typebot.io/react" {
   import type { ComponentType } from "react";
 
-  interface BubbleProps {
+  export interface BubbleProps {
     id?: string;
     typebot: string;
     apiHost?: string;
@@ -32,6 +32,8 @@ declare module "@typebot.io/react" {
   }
 
   export const Bubble: ComponentType<BubbleProps>;
+  export const setInputValue: (value: string, options?: { id?: string }) => void;
+  export const submitInput: (options?: { id?: string }) => void;
   export const open: () => void;
   export const hidePreviewMessage: () => void;
   export const showPreviewMessage: () => void;
