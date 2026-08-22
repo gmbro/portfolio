@@ -1327,6 +1327,29 @@ Hero 헤드라인과 검증 수치는 이번 범위가 아니므로 기존 승�
 - 브라우저 console error/warn `0`이다.
 - Vitest 전체 `55/55`, TypeScript `tsc --noEmit`, ESLint 오류 `0`(기존 Fast Refresh 경고 7건), Vite production build를 통과했다. 배포 후 같은 세 너비와 운영 URL을 다시 검사한다.
 
+#### 배포 후 운영 재검사
+
+- 기능 커밋: `7b330d3` (`Add AI project evidence and improve readability`)
+- GitHub Pages workflow: `Deploy Portfolio to GitHub Pages` run `#41`, run id `32605914881`, `completed / success`
+- 운영 URL: `https://archilab.ai.kr/?qa=7b330d3-*`
+- 배포 자산: `assets/index-CCt02_sJ.js`
+
+| 항목 | 390×844 | 768×900 | 1440×900 |
+|---|---:|---:|---:|
+| 실제 viewport / clientWidth | `390 / 375` | `768 / 753` | `1440 / 1425` |
+| scrollWidth / clientWidth | `375 / 375` | `753 / 753` | `1425 / 1425` |
+| 프로젝트 메타·CAR label / value | `12 / 15px` | `14 / 17px` | `14 / 17px` |
+| 협업사 로고 | `4×2`, 셀 `48px` | `4×2`, 셀 `64px` | `4×2`, 셀 `64px` |
+| AI 상담사 / STT 갤러리 | 실제 `3 / 3장` | 실제 `3 / 3장` | 실제 `3 / 3장` |
+| 페이지 전체 개념 목업 배지 | `1` | `1` | `1` |
+| 가로 오버플로 | `0` | `0` | `0` |
+
+- 운영 화면에서 두 프로젝트의 여섯 이미지를 모두 직접 선택해 `complete=true`, 원본 `1600×1200px`을 다시 확인했다.
+- 셀렉트스타 갤러리는 약 4초 뒤 `1번째 → 2번째`로 자동 이동했고 일시정지·재생 상태 문구가 정상이다.
+- 확대 dialog는 `1600×1200px` 원본을 표시하고 닫기 후 호출 버튼으로 포커스를 복원한다.
+- 수행 회사 `셀렉트스타 · LG유플러스`, 커리어 제목·단일 본문, 8개 협업사 로고 2행과 `#about → #case-studies → #experience → #contact` 순서를 확인했다.
+- 운영 console error/warn `0`, 배포 결과 `성공`이다.
+
 ### 2026-08-23 / 시럽월렛 실제 증거 이미지 등록·프로젝트 카드 정리 배포 / base revision 39
 
 - 작업 대상 URL: 기본 `/`의 `#sk-planet-syrup-wallet`
