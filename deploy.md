@@ -1320,7 +1320,27 @@ GitHub Pages 배포 후 같은 세 너비에서 asset revision, launcher 외형�
 
 #### 배포 후 실제 URL 점검
 
-배포 후 같은 조건에서 기록한다.
+- 배포 커밋: `176dca85455a6b3d2f40c905144bb8a00c96116d` (`feat: refine portfolio navigation and partner logos`).
+- GitHub Actions: `Deploy Portfolio to GitHub Pages` run `#34` / `32551813309`, 결론 `success`.
+- 실제 공개 URL: `https://archilab.ai.kr/`.
+- 라이브 자산: `/assets/index-5gkHURKR.js`, `/assets/index-BbTJDWrR.css`.
+
+| 라이브 항목 | 390×844 | 768×900 | 1440×900 | 판정 |
+|---|---:|---:|---:|---|
+| clientWidth / scrollWidth | `375 / 375` | `753 / 753` | `1425 / 1425` | 통과 |
+| Navbar 요소 충돌 | 없음 | 없음 | 없음 | 통과 |
+| Hero 설명·태그 | 설명 `0`, 태그 `4` | 동일 | 동일 | 통과 |
+| 협업사 로고 | 8개 로드·2열·gap `32px` | 8개 로드·4열·gap `40px 48px` | 8개 로드·4열·gap `40px 48px` | 통과 |
+| 로고 슬롯 | `147.5×48` | `128.25×64` | `220×64` | 통과 |
+| 로고 순서·형식 | 지정 순서·로컬 투명 WebP | 동일 | 동일 | 통과 |
+| 영문 섹션·Contact 위계 | `About / Projects / Experience / Contact`, `Contact / 채용·협업` | 동일 | 동일 | 통과 |
+| 공개 `Arkylab`·`Archi` 잔존 | 없음 | 없음 | 없음 | 통과 |
+| 콘솔 warning·error | `0` | `0` | `0` | 통과 |
+
+- 모바일 390px 실제 화면에서 Hero 태그 4개가 2행으로 정리되고, 협업사 로고는 2×4로 카드 배경 없이 직접 노출된다. 웹 1440px에서는 4×2 배열과 넓은 간격을 유지한다.
+- 무효 `/p/not-real-slug`는 로딩 후 `유효하지 않은 링크입니다`를 표시하고 `noindex, nofollow`를 유지한다.
+- `/admin/links`는 로그인 화면, `noindex, nofollow`, Typebot 미포함 상태를 유지한다.
+- 배포 blocker와 미해결 회귀는 없다. base revision 30 배포 완료.
 
 ---
 
