@@ -1,5 +1,8 @@
 import { motion, useReducedMotion } from "framer-motion";
 
+const aboutPortraitUrl =
+  "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/me.png";
+
 const productCapabilities = [
   {
     label: "문제를 구체화합니다",
@@ -29,14 +32,30 @@ const About = () => {
           transition={{ duration: 0.5 }}
           className="grid gap-8 lg:grid-cols-[0.72fr_1.28fr] lg:gap-16"
         >
-          <div>
+          <div className="min-w-0">
             <p className="font-body text-xs font-semibold uppercase tracking-[0.3em] text-[#ff6645]">About</p>
             <h2 className="mt-4 max-w-xl break-words text-balance font-display text-[1.75rem] font-bold leading-tight tracking-[-0.03em] text-white sm:text-3xl md:text-4xl">
               저는 제너럴리스트이자 AI 스페셜리스트입니다.
             </h2>
+            <figure
+              data-about-portrait
+              className="mt-8 flex justify-center sm:mt-9 lg:justify-start"
+            >
+              <div className="relative aspect-square w-44 shrink-0 overflow-hidden rounded-full border border-white/20 bg-[radial-gradient(circle_at_42%_38%,rgba(255,255,255,0.14),rgba(255,255,255,0.045)_62%,rgba(255,255,255,0.02))] shadow-[0_20px_52px_rgba(0,0,0,0.38)] sm:w-52 lg:w-[17rem]">
+                <img
+                  src={aboutPortraitUrl}
+                  alt="발표 중인 이경민"
+                  width={548}
+                  height={548}
+                  loading="lazy"
+                  decoding="async"
+                  className="h-full w-full rounded-full object-cover object-center grayscale contrast-[1.06] brightness-[0.96]"
+                />
+              </div>
+            </figure>
           </div>
 
-          <div>
+          <div className="min-w-0">
             <div className="max-w-3xl space-y-4 break-words text-pretty font-body text-base leading-7 text-white/70 md:text-lg md:leading-8">
               <p>
                 제품과 기술은 수단입니다. 중요한 것은 고객의 문제를 얼마나 효과적으로 푸는가입니다.

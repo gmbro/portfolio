@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import CountUpValue from "@/components/CountUpValue";
+import { portfolioExperienceLogos } from "@/data/heroLogos";
 import { defaultHeroContent, type HeroContent } from "@/types/portfolio";
 
 export const portfolioHeroBackground =
@@ -8,6 +9,7 @@ export const portfolioHeroBackground =
 
 interface HeroProps {
   content?: HeroContent;
+  showExperienceLogos?: boolean;
 }
 
 const highlightHeadline = (line: string, highlight?: string | string[]) => {
@@ -33,12 +35,15 @@ const highlightHeadline = (line: string, highlight?: string | string[]) => {
   );
 };
 
-const Hero = ({ content = defaultHeroContent }: HeroProps) => {
+const Hero = ({ content = defaultHeroContent, showExperienceLogos = false }: HeroProps) => {
   const headlineLines = content.headline.split("\n").filter(Boolean);
   const stats = content.stats ?? [];
+  const summaryLabels = ["Portfolio", content.roleLabel, content.careerLabel].filter(
+    (label): label is string => Boolean(label),
+  );
 
   return (
-    <section id="hero" className="relative flex min-h-[100svh] overflow-hidden bg-[#070707] px-6 pb-20 pt-28 text-white md:px-12 md:pb-24 md:pt-32">
+    <section id="hero" className="portfolio-hero relative flex overflow-hidden bg-[#070707] px-6 pb-20 pt-28 text-white md:px-12 md:pb-24 md:pt-32">
       <img
         className="portfolio-hero__media pointer-events-none absolute inset-0 h-full w-full"
         src={portfolioHeroBackground}
@@ -60,17 +65,22 @@ const Hero = ({ content = defaultHeroContent }: HeroProps) => {
       />
 
       <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col justify-center">
-        <motion.div
+        <motion.ul
+          aria-label="포트폴리오 요약"
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45 }}
           className="flex max-w-full flex-wrap items-center gap-2"
         >
-          <span className="max-w-full break-words rounded-full border border-[#ff6645]/35 bg-[#ff6645]/10 px-3.5 py-2 font-body text-[10px] font-bold tracking-[0.06em] text-[#ff8a70] sm:px-4 sm:text-xs sm:tracking-[0.1em] md:text-sm">
-            {content.roleLabel}
-            {content.careerLabel && <span className="ml-2 text-white/45">{content.careerLabel}</span>}
-          </span>
-        </motion.div>
+          {summaryLabels.map((label) => (
+            <li
+              key={label}
+              className="max-w-full break-words rounded-full border border-[#ff6645]/35 bg-[#ff6645]/10 px-3.5 py-2 font-body text-[10px] font-bold tracking-[0.06em] text-[#ff8a70] sm:px-4 sm:text-xs sm:tracking-[0.1em] md:text-sm"
+            >
+              {label}
+            </li>
+          ))}
+        </motion.ul>
 
         <h1
           aria-label={headlineLines.join(" ")}
@@ -143,6 +153,31 @@ const Hero = ({ content = defaultHeroContent }: HeroProps) => {
               </div>
             ))}
           </motion.dl>
+        )}
+
+        {showExperienceLogos && (
+          <motion.ul
+            aria-label="수행 프로젝트 협업사 로고"
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.5 }}
+            className="mt-6 grid w-full max-w-5xl grid-cols-4 items-center gap-x-4 gap-y-5 lg:grid-cols-8 lg:gap-x-6"
+          >
+            {portfolioExperienceLogos.map((logo) => (
+              <li key={logo.id} className="flex h-9 min-w-0 items-center justify-center md:h-11">
+                <img
+                  data-hero-logo={logo.id}
+                  src={logo.src}
+                  alt={logo.alt}
+                  width={logo.width}
+                  height={logo.height}
+                  loading="lazy"
+                  decoding="async"
+                  className="max-h-full w-full object-contain brightness-0 invert opacity-75"
+                />
+              </li>
+            ))}
+          </motion.ul>
         )}
       </div>
 

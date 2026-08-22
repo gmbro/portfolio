@@ -207,15 +207,23 @@ const guideStyles = `
   }
 
   .portfolio-chat-window-guide__message-avatar {
+    position: relative;
     display: grid;
     width: 32px;
     height: 32px;
+    overflow: hidden;
     place-items: center;
+    border: 1px solid #e4e4e7;
     border-radius: 11px;
-    background: #111111;
-    color: #ffffff;
-    font-size: 9px;
-    font-weight: 800;
+    background: #ffffff;
+  }
+
+  .portfolio-chat-window-guide__message-avatar img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .portfolio-chat-window-guide__intro {
@@ -945,7 +953,6 @@ const TypebotBubble = ({ observeAnalyticsConsent = false }: TypebotBubbleProps) 
         >
           <header className="portfolio-chat-window-guide__header">
             <span className="portfolio-chat-window-guide__avatar" aria-hidden="true">
-              <span>AI</span>
               <img src={chatbotAvatar} alt="" width="40" height="40" decoding="async" />
             </span>
             <span className="portfolio-chat-window-guide__heading">
@@ -958,7 +965,9 @@ const TypebotBubble = ({ observeAnalyticsConsent = false }: TypebotBubbleProps) 
 
           {guideVisible ? <div className="portfolio-chat-window-guide__body">
             <div className="portfolio-chat-window-guide__message">
-              <span className="portfolio-chat-window-guide__message-avatar" aria-hidden="true">AI</span>
+              <span className="portfolio-chat-window-guide__message-avatar" aria-hidden="true">
+                <img src={chatbotAvatar} alt="" width="32" height="32" decoding="async" />
+              </span>
               <p id="portfolio-chat-window-guide-description" className="portfolio-chat-window-guide__intro">{chatbotGuide.intro}</p>
             </div>
 

@@ -201,6 +201,10 @@
   background: linear-gradient(180deg, rgb(7 7 7 / 0.84), rgb(7 7 7 / 0.74));
 }
 
+.portfolio-hero {
+  min-height: min(100svh, 52rem);
+}
+
 .portfolio-hero__media {
   object-fit: cover;
   object-position: center;

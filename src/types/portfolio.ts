@@ -33,7 +33,8 @@ export interface PortfolioPublication {
 }
 
 export const defaultHeroContent: HeroContent = {
-  roleLabel: "AI Product Manager with 7 years of experience",
+  roleLabel: "AI Product Manager",
+  careerLabel: "7 years of experience",
   headline: "고객의 문제를 제품으로 해결합니다.",
   highlight: ["고객", "제품"],
   subcopy: [],

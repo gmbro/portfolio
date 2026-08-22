@@ -173,7 +173,7 @@ const Contact = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.08 }}
-          className="w-full max-w-3xl rounded-3xl border border-white/10 bg-[#111111] p-5 md:p-8"
+          className="w-full max-w-3xl rounded-3xl border border-white/10 bg-[#111111] p-5 md:p-8 lg:max-w-none"
         >
           <div className="absolute -left-[9999px]" aria-hidden="true">
             <label htmlFor="contact-website">웹사이트</label>

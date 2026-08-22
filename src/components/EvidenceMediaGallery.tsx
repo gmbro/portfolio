@@ -375,8 +375,12 @@ const EvidenceMediaGallery = ({
           </p>
         </div>
       ) : (
-        <div className="min-w-0 p-3 sm:p-4">
-          <div className="relative aspect-[16/10] min-w-0 overflow-hidden rounded-2xl bg-black/40" aria-live="off">
+        <div className="min-w-0" data-evidence-media-state="ready">
+          <div
+            className="relative aspect-[4/3] min-w-0 overflow-hidden bg-black/40"
+            data-evidence-media-frame="4:3"
+            aria-live="off"
+          >
             <motion.figure
               key={activeItem.id ?? activeItem.src}
               className="absolute inset-0 min-w-0"
@@ -392,41 +396,47 @@ const EvidenceMediaGallery = ({
                 ease: [0.22, 1, 0.36, 1],
               }}
             >
-                <button
-                  ref={activeImageButtonRef}
-                  type="button"
-                  className="group relative block h-full w-full min-w-0 overflow-hidden rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6645] focus-visible:ring-inset"
-                  aria-label={`${activeItem.alt} 확대해서 보기`}
-                  aria-haspopup="dialog"
-                  onClick={openLightbox}
+              <button
+                ref={activeImageButtonRef}
+                type="button"
+                className="group relative block h-full w-full min-w-0 overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6645] focus-visible:ring-inset"
+                aria-label={`${activeItem.alt} 확대해서 보기`}
+                aria-haspopup="dialog"
+                onClick={openLightbox}
+              >
+                <img
+                  src={activeItem.src}
+                  alt={activeItem.alt}
+                  width={activeItem.width}
+                  height={activeItem.height}
+                  loading="lazy"
+                  decoding="async"
+                  className="h-full w-full object-contain"
+                />
+                <span
+                  className="pointer-events-none absolute inset-x-3 bottom-3 rounded-full bg-black/75 px-3 py-2 text-center font-body text-xs font-semibold text-white opacity-100 motion-safe:transition-opacity motion-reduce:transition-none sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-visible:opacity-100"
+                  aria-hidden="true"
                 >
-                  <img
-                    src={activeItem.src}
-                    alt={activeItem.alt}
-                    width={activeItem.width}
-                    height={activeItem.height}
-                    loading="lazy"
-                    decoding="async"
-                    className="h-full w-full object-contain"
-                  />
-                  <span
-                    className="pointer-events-none absolute inset-x-3 bottom-3 rounded-full bg-black/75 px-3 py-2 text-center font-body text-xs font-semibold text-white opacity-100 motion-safe:transition-opacity motion-reduce:transition-none sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-visible:opacity-100"
-                    aria-hidden="true"
-                  >
-                    클릭하여 확대
-                  </span>
-                </button>
+                  클릭하여 확대
+                </span>
+              </button>
             </motion.figure>
+
+            {hasMultipleItems && !prefersReducedMotion && (
+              <button
+                type="button"
+                className="absolute right-3 top-3 z-10 inline-flex min-h-11 items-center justify-center rounded-full border border-white/20 bg-black/75 px-4 font-body text-[11px] font-bold text-white backdrop-blur-sm motion-safe:transition-colors motion-reduce:transition-none hover:border-[#ff6645]/60 hover:text-[#ff8a70] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6645]"
+                aria-label={userPaused ? "자동 넘김 재생" : "자동 넘김 일시정지"}
+                aria-pressed={userPaused}
+                onClick={toggleUserPaused}
+              >
+                {userPaused ? "재생" : "일시정지"}
+              </button>
+            )}
           </div>
 
-          {activeItem.caption && (
-            <p className="break-words px-1 pt-3 font-body text-xs leading-5 text-white/65 sm:text-sm">
-              {activeItem.caption}
-            </p>
-          )}
-
           {hasMultipleItems && (
-            <div className="mt-3 flex min-w-0 items-center justify-between gap-2" aria-label="슬라이드 제어">
+            <div className="flex min-w-0 items-center justify-between gap-2 px-3 py-3 sm:px-4" aria-label="슬라이드 제어">
               <button
                 type="button"
                 className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-full border border-white/15 px-3 text-lg text-white motion-safe:transition-colors motion-reduce:transition-none hover:border-[#ff6645]/60 hover:text-[#ff8a70] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6645]"
@@ -467,24 +477,7 @@ const EvidenceMediaGallery = ({
             </div>
           )}
 
-          {hasMultipleItems && (
-            <div className="mt-2 flex min-w-0 flex-wrap items-center justify-between gap-2 rounded-xl border border-white/10 bg-white/[0.025] px-3 py-2">
-              <span className="min-w-0 break-words font-body text-[11px] leading-5 text-white/55 sm:text-xs">
-                {autoplayStatus}
-              </span>
-              {!prefersReducedMotion && (
-                <button
-                  type="button"
-                  className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-full border border-white/15 px-4 font-body text-xs font-bold text-white motion-safe:transition-colors motion-reduce:transition-none hover:border-[#ff6645]/60 hover:text-[#ff8a70] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6645]"
-                  aria-label={userPaused ? "자동 넘김 재생" : "자동 넘김 일시정지"}
-                  aria-pressed={userPaused}
-                  onClick={toggleUserPaused}
-                >
-                  {userPaused ? "자동 재생" : "일시정지"}
-                </button>
-              )}
-            </div>
-          )}
+          {hasMultipleItems && <p className="sr-only">{autoplayStatus}</p>}
 
           <p className="sr-only" aria-live="polite" aria-atomic="true">
             {announcement}
@@ -548,11 +541,6 @@ const EvidenceMediaGallery = ({
                     className="max-h-[calc(100dvh-13rem)] max-w-full object-contain motion-safe:transition-opacity motion-safe:duration-200 motion-reduce:transition-none"
                   />
                 </div>
-                {activeItem.caption && (
-                  <figcaption className="break-words px-1 pt-3 font-body text-xs leading-5 text-white/70 sm:text-sm">
-                    {activeItem.caption}
-                  </figcaption>
-                )}
               </figure>
 
               {hasMultipleItems && (

@@ -108,7 +108,7 @@ describe("EvidenceMediaGallery", () => {
     expect(screen.queryByRole("img")).not.toBeInTheDocument();
   });
 
-  it("URL·PNG 데이터를 lazy 이미지, caption, 이전·다음·점과 키보드로 탐색한다", () => {
+  it("URL·PNG 데이터를 설명 행 없이 lazy 이미지, 이전·다음·점과 키보드로 탐색한다", () => {
     const { container } = render(
       <EvidenceMediaGallery projectTitle="Archi" items={projectMedia} />,
     );
@@ -118,7 +118,8 @@ describe("EvidenceMediaGallery", () => {
     expect(firstImage).toHaveAttribute("loading", "lazy");
     expect(firstImage).toHaveAttribute("decoding", "async");
     expect(firstImage).toHaveAttribute("width", "1600");
-    expect(screen.getByText("문제 정의 과정")).toBeInTheDocument();
+    expect(container.querySelector('[data-evidence-media-frame="4:3"]')).toHaveClass("aspect-[4/3]");
+    expect(screen.queryByText("문제 정의 과정")).not.toBeInTheDocument();
     expect(screen.getByRole("button", { name: "1번째 이미지 보기" })).toHaveAttribute("aria-current", "true");
     const liveRegion = container.querySelector('[aria-live="polite"]');
     expect(liveRegion).toBeEmptyDOMElement();
@@ -129,7 +130,7 @@ describe("EvidenceMediaGallery", () => {
       "https://example.com/evidence/decision.png",
     );
     expect(screen.queryByRole("img", { name: "문제 정의 화면" })).not.toBeInTheDocument();
-    expect(screen.getByText("우선순위 결정 과정")).toBeInTheDocument();
+    expect(screen.queryByText("우선순위 결정 과정")).not.toBeInTheDocument();
     expect(liveRegion).toHaveTextContent("2 / 3: 우선순위 결정 화면");
 
     fireEvent.click(screen.getByRole("button", { name: "3번째 이미지 보기" }));
@@ -277,7 +278,10 @@ describe("EvidenceMediaGallery", () => {
     nextButton.focus();
     fireEvent.click(nextButton);
     expect(within(dialog).getByRole("img", { name: "우선순위 결정 화면" })).toBeInTheDocument();
-    expect(within(dialog).getByText("우선순위 결정 과정")).toBeInTheDocument();
+    expect(within(dialog).queryByText("우선순위 결정 과정")).not.toBeInTheDocument();
+    expect(dialog.querySelector('[id^="evidence-media-dialog-description-"]')).toHaveTextContent(
+      "우선순위 결정 과정",
+    );
     expect(nextButton).toHaveFocus();
 
     fireEvent.keyDown(document, { key: "Escape" });

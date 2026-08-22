@@ -20,7 +20,6 @@ const ProjectVisual = ({ project }: { project: FeaturedProject }) => {
         >
           <source src={visual.src} />
         </video>
-        {visual.caption && <figcaption className="px-4 py-3 text-xs leading-5 text-white/60">{visual.caption}</figcaption>}
       </figure>
     );
   }
@@ -34,16 +33,6 @@ const ProjectVisual = ({ project }: { project: FeaturedProject }) => {
   return (
     <div data-visual-slot={project.title}>
       <EvidenceMediaGallery projectTitle={visual.title} items={items} />
-      {items.length === 0 && visual.placeholderItems.length > 0 && (
-        <ul className="mt-3 grid gap-2 rounded-2xl border border-white/[0.08] bg-black/20 p-4">
-          {visual.placeholderItems.map((item) => (
-            <li key={item} className="flex items-start gap-2 font-body text-xs leading-5 text-white/55">
-              <span className="text-[#ff6645]" aria-hidden="true">+</span>
-              <span>{item}</span>
-            </li>
-          ))}
-        </ul>
-      )}
     </div>
   );
 };
@@ -53,7 +42,7 @@ const ProjectCard = ({ project, index }: { project: FeaturedProject; index: numb
   const isPriority = index === 0;
   const showsVisual = Boolean(project.visual);
   const evidence = (
-    <dl className={`grid gap-6 ${isPriority ? "xl:grid-cols-[0.85fr_1.55fr_1fr]" : ""}`}>
+    <dl className="grid gap-6 xl:grid-cols-[0.85fr_1.55fr_1fr]">
       <div>
         <dt className="mb-2 font-body text-[10px] font-bold uppercase tracking-[0.2em] text-white/50">문제</dt>
         <dd className="break-words text-pretty font-body text-sm leading-6 text-white/70">{project.challenge}</dd>
@@ -79,10 +68,10 @@ const ProjectCard = ({ project, index }: { project: FeaturedProject; index: numb
       viewport={{ once: true, amount: 0.08 }}
       transition={{ duration: 0.45, delay: Math.min(index * 0.05, 0.18) }}
       className={`min-w-0 scroll-mt-24 rounded-3xl border bg-[#111111] p-6 md:p-8 ${
-        isPriority ? "lg:col-span-2 lg:p-10" : "border-white/10"
+        isPriority ? "lg:p-10" : "border-white/10"
       } ${index === 0 ? "border-[#ff6645]/45 shadow-[0_20px_80px_rgba(255,102,69,.08)]" : "border-white/10"}`}
     >
-      <div className={isPriority && showsVisual ? "grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:gap-10" : ""}>
+      <div>
         <div className="min-w-0">
           <header className="flex flex-wrap items-center justify-between gap-3">
             <span className="rounded-full border border-[#ff6645]/30 bg-[#ff6645]/10 px-3 py-1.5 font-body text-[10px] font-bold uppercase tracking-[0.1em] text-[#ff8a70]">
@@ -127,11 +116,9 @@ const ProjectCard = ({ project, index }: { project: FeaturedProject; index: numb
             ))}
           </div>
         </div>
-
-        {isPriority && showsVisual && <ProjectVisual project={project} />}
       </div>
 
-      {!isPriority && showsVisual && <div className="mt-6"><ProjectVisual project={project} /></div>}
+      {showsVisual && <div className="mt-8"><ProjectVisual project={project} /></div>}
 
       <div className="mt-8">{evidence}</div>
 
@@ -189,7 +176,7 @@ const ImageCards = () => {
           </p>
         </motion.div>
 
-        <div className="grid gap-5 lg:grid-cols-2 lg:gap-6">
+        <div className="grid gap-5 lg:gap-6">
           {portfolioProjects.map((project, index) => (
             <ProjectCard key={project.id} project={project} index={index} />
           ))}

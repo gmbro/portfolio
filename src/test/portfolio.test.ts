@@ -128,7 +128,8 @@ describe("parsePortfolioPageContent", () => {
 describe("검증된 기본 포트폴리오 콘텐츠", () => {
   it("7년 경력 AI Product Manager Hero를 사용한다", () => {
     expect(defaultHeroContent).toEqual({
-      roleLabel: "AI Product Manager with 7 years of experience",
+      roleLabel: "AI Product Manager",
+      careerLabel: "7 years of experience",
       headline: "고객의 문제를 제품으로 해결합니다.",
       highlight: ["고객", "제품"],
       subcopy: [],
@@ -206,7 +207,31 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
       metrics: ["베타 참여자 15명", "2026.06–진행 중", "제품 전 과정 1인 전담"],
       visual: { alt: expect.stringContaining("아키") },
     });
-    expect(flagshipProject.visual?.placeholderItems).toEqual(["랜딩 페이지", "기록 화면", "아키텍처"]);
+    expect(flagshipProject.visual?.placeholderItems).toEqual([]);
+    expect(flagshipProject.visual?.items).toEqual([
+      expect.objectContaining({
+        id: "arky-product-flow",
+        src: expect.stringContaining("/arky/arky1.png"),
+        alt: expect.stringContaining("수업 캘린더"),
+        width: 1809,
+        height: 1311,
+      }),
+      expect.objectContaining({
+        id: "arky-recording-proof",
+        src: expect.stringContaining("/arky/arky2.png"),
+        alt: expect.stringContaining("수업 기록 영상"),
+        width: 1355,
+        height: 1311,
+      }),
+      expect.objectContaining({
+        id: "arky-user-manual",
+        src: expect.stringContaining("/arky/arky3.png"),
+        alt: expect.stringContaining("이용 매뉴얼"),
+        width: 1784,
+        height: 1311,
+      }),
+    ]);
+    expect(flagshipProject.visual?.items?.every((item) => item.caption === undefined)).toBe(true);
     expect(flagshipProject.action).toContain("Gemini API");
     expect(flagshipProject.action).toContain("MediaPipe");
     expect(flagshipProject.action).toContain("33개 관절");

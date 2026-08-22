@@ -13,7 +13,7 @@
 |---:|---|---|---|---|---|
 | 1 | `page_view` | 공개 포트폴리오 방문 | 분석 허용 후 공개 `/`에서 세션당 1회 | `page_location=https://archilab.ai.kr/`, `page_title=이경민 \| AI Product Manager`, `page_referrer=""` | 포트폴리오의 실제 도달 규모. 새로고침·SPA 이중 집계를 만들지 않는다. |
 | 2 | `select_content` | 아키 제품 데모에 관심을 보인 행동 | `아키 베타 보기`를 클릭할 때 세션당 1회 | `content_type=product_demo`, `content_id=archi` | 텍스트를 읽는 데서 실제 제품 확인으로 넘어간 비율을 본다. |
-| 3 | `chat_open` | 경력·제품에 추가 질문하려는 행동 | Navbar의 얼굴 이미지가 있는 `AI에게 묻기`를 처음 열 때 세션당 1회 | `surface=navbar` | 포트폴리오만으로 해소되지 않은 질문 의도와 고관심 방문을 본다. 대화 본문은 수집하지 않는다. |
+| 3 | `chat_open` | 경력·제품에 추가 질문하려는 행동 | Navbar의 얼굴 이미지가 있는 `이경민 AI`를 처음 열 때 세션당 1회 | `surface=navbar` | 포트폴리오만으로 해소되지 않은 질문 의도와 고관심 방문을 본다. 대화 본문은 수집하지 않는다. |
 | 4 | `contact_start` | 문의 의사가 발생한 행동 | 문의 폼의 이름·이메일·문의 중 첫 유효 입력 시 세션당 1회 | `form_id=portfolio_contact` | 문의를 시작했지만 제출하지 않은 이탈을 `generate_lead`와 비교한다. 입력값은 보내지 않는다. |
 | 5 | `generate_lead` | 실제 문의 전환 | EmailJS가 성공 응답한 직후 세션당 1회 | `lead_source=portfolio_contact` | 최종 채용·협업 문의 전환. GA4에서 핵심 이벤트로 지정한다. |
 

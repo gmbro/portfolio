@@ -2,7 +2,7 @@ export const chatbotAvatar =
   "https://s3.typebotstorage.com/public/workspaces/cmsodqtlt00000ajdy01a2oa5/typebots/cmsodrpss000004ji0579oaia/bubble-icon?v=1786441335928";
 
 export const chatbotGuide = {
-  title: "AI PM 이경민",
+  title: "이경민 AI",
   intro:
     "궁금한 역량을 선택하거나 직접 질문해 주세요. 확인된 경력·프로젝트를 기준으로 답합니다.",
   privacy:

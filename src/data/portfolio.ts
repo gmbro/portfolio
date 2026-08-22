@@ -75,7 +75,30 @@ export const flagshipProject: FeaturedProject = {
     title: "아키 제품 자료",
     type: "image",
     alt: "아키 AI 기록 제품의 사용 흐름과 베타 검증 자료",
-    placeholderItems: ["랜딩 페이지", "기록 화면", "아키텍처"],
+    items: [
+      {
+        id: "arky-product-flow",
+        src: "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/arky/arky1.png",
+        alt: "아키 로그인, 수업 캘린더와 AI 수업 기록 상세 화면",
+        width: 1809,
+        height: 1311,
+      },
+      {
+        id: "arky-recording-proof",
+        src: "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/arky/arky2.png",
+        alt: "모바일에서 아키 수업 기록 영상을 확인하는 사용 장면과 기록 시간·공유·보관 안내",
+        width: 1355,
+        height: 1311,
+      },
+      {
+        id: "arky-user-manual",
+        src: "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/arky/arky3.png",
+        alt: "회원가입부터 수업 기록·공유·설정까지 정리한 아키 이용 매뉴얼",
+        width: 1784,
+        height: 1311,
+      },
+    ],
+    placeholderItems: [],
   },
 };
 

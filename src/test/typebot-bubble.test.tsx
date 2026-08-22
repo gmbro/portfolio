@@ -50,7 +50,7 @@ const renderTypebot = async (observeAnalyticsConsent = false) => {
   ]);
   return render(
     <>
-      <button type="button" onClick={(event) => openPortfolioChat(event.currentTarget)}>AI에게 묻기</button>
+      <button type="button" onClick={(event) => openPortfolioChat(event.currentTarget)}>이경민 AI</button>
       <TypebotBubble observeAnalyticsConsent={observeAnalyticsConsent} />
     </>,
   );
@@ -79,7 +79,7 @@ const attachTypebotHost = () => {
 };
 
 const openChatWithHost = async () => {
-  fireEvent.click(screen.getByRole("button", { name: "AI에게 묻기" }));
+  fireEvent.click(screen.getByRole("button", { name: "이경민 AI" }));
   await screen.findByTestId("typebot-bubble");
   const attached = attachTypebotHost();
   await waitFor(() => {
@@ -125,7 +125,15 @@ describe("상단 CTA와 채팅창 내부 가이드", () => {
 
     expect(document.querySelector(".portfolio-chat-guide")).not.toBeInTheDocument();
     expect(root.querySelector('[part="button"]')).not.toBeInTheDocument();
-    expect(root.textContent).toContain("AI PM 이경민");
+    expect(root.textContent).toContain("이경민 AI");
+    expect(root.querySelector(".portfolio-chat-window-guide__avatar")?.textContent).toBe("");
+    expect(root.querySelector(".portfolio-chat-window-guide__message-avatar")?.textContent).toBe("");
+    expect(Array.from(root.querySelectorAll<HTMLImageElement>(
+      ".portfolio-chat-window-guide__avatar img, .portfolio-chat-window-guide__message-avatar img",
+    )).map((image) => image.src)).toEqual([
+      expect.stringContaining("bubble-icon"),
+      expect.stringContaining("bubble-icon"),
+    ]);
     expect(root.textContent).toContain("확인된 경력·프로젝트를 기준으로 답합니다");
     expect(root.textContent).toContain("AI 제품 0→1 경험");
     expect(root.textContent).toContain("대규모 제품 운영 성과");
@@ -168,7 +176,7 @@ describe("상단 CTA와 채팅창 내부 가이드", () => {
     expect(trackPortfolioEvent).toHaveBeenCalledWith("chat_open");
     const conversation = root.querySelector(".portfolio-chat-window-guide--conversation");
     expect(conversation).not.toBeNull();
-    expect(conversation).toHaveTextContent("AI PM 이경민");
+    expect(conversation).toHaveTextContent("이경민 AI");
     expect(conversation).toHaveTextContent("이어서 이런 질문을 해보세요");
     expect(conversation).toHaveTextContent("AI 제품 0→1 경험을 더 보여줘.");
     expect(conversation).toHaveTextContent("데이터·운영 개선 성과를 알려줘.");
@@ -249,7 +257,7 @@ describe("상단 CTA와 채팅창 내부 가이드", () => {
 
   it("Escape로 실제 채팅창을 닫고 상단 CTA에 포커스를 돌려준다", async () => {
     await renderTypebot();
-    const trigger = screen.getByRole("button", { name: "AI에게 묻기" });
+    const trigger = screen.getByRole("button", { name: "이경민 AI" });
     const { root } = await openChatWithHost();
     expect(root.querySelector(".portfolio-chat-window-guide")).toBeTruthy();
 
@@ -270,7 +278,7 @@ describe("상단 CTA와 채팅창 내부 가이드", () => {
       await new Promise((resolve) => window.setTimeout(resolve, 0));
     });
     await waitFor(() => expect(latestBubbleProps().isOpen).toBe(false));
-    expect(screen.getByRole("button", { name: "AI에게 묻기" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "이경민 AI" })).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "물어보기 열기" })).not.toBeInTheDocument();
     await act(async () => {
       banner.remove();
@@ -283,7 +291,7 @@ describe("상단 CTA와 채팅창 내부 가이드", () => {
     const consoleError = vi.spyOn(console, "error").mockImplementation(() => undefined);
     await renderTypebot();
 
-    fireEvent.click(screen.getByRole("button", { name: "AI에게 묻기" }));
+    fireEvent.click(screen.getByRole("button", { name: "이경민 AI" }));
 
     expect(await screen.findByRole("alert")).toHaveTextContent("챗봇을 연결하지 못했습니다");
     expect(screen.getByRole("link", { name: "프로젝트 직접 보기" })).toHaveAttribute("href", "#case-studies");
@@ -294,7 +302,7 @@ describe("상단 CTA와 채팅창 내부 가이드", () => {
   it("Typebot host가 10초 안에 준비되지 않으면 무한 로딩 대신 복구 경로를 보여준다", async () => {
     vi.useFakeTimers();
     await renderTypebot();
-    fireEvent.click(screen.getByRole("button", { name: "AI에게 묻기" }));
+    fireEvent.click(screen.getByRole("button", { name: "이경민 AI" }));
     await act(async () => {
       await Promise.resolve();
       await Promise.resolve();

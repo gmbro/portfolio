@@ -52,8 +52,16 @@ describe("기본 포트폴리오 정보 구조", () => {
 
     const hero = container.querySelector<HTMLElement>("#hero");
     expect(hero).toBeInTheDocument();
+    expect(hero).toHaveClass("portfolio-hero");
     expect(screen.getByRole("heading", { name: "고객의 문제를 제품으로 해결합니다." })).toBeInTheDocument();
-    expect(within(hero as HTMLElement).getByText("AI Product Manager with 7 years of experience")).toBeInTheDocument();
+    const heroSummary = within(hero as HTMLElement).getByRole("list", {
+      name: "포트폴리오 요약",
+    });
+    expect(Array.from(heroSummary.querySelectorAll("li")).map((item) => item.textContent)).toEqual([
+      "Portfolio",
+      "AI Product Manager",
+      "7 years of experience",
+    ]);
     expect(
       Array.from(hero?.querySelectorAll("h1 > span > span") ?? []).map((part) => part.textContent),
     ).toEqual(["고객", "제품"]);
@@ -86,7 +94,11 @@ describe("기본 포트폴리오 정보 구조", () => {
       "Kyoungmin Lee",
     );
     expect(screen.queryByRole("heading", { name: "Project partner company" })).not.toBeInTheDocument();
-    expect(hero?.querySelectorAll("[data-hero-logo]")).toHaveLength(0);
+    expect(
+      Array.from(hero?.querySelectorAll<HTMLElement>("[data-hero-logo]") ?? []).map(
+        (logo) => logo.dataset.heroLogo,
+      ),
+    ).toEqual(["nipa", "busan", "lg", "kisa", "neo", "nhn", "syrup", "fixness"]);
     expect(screen.queryByRole("heading", { name: "역량을 선택해 연결된 프로젝트 증거를 확인하세요." })).not.toBeInTheDocument();
     expect(container.querySelector(".portfolio-ambient")).toBeInTheDocument();
     expect(container.querySelector<HTMLImageElement>("#hero .portfolio-hero__media")?.src).toBe(
@@ -97,6 +109,19 @@ describe("기본 포트폴리오 정보 구조", () => {
         name: "저는 제너럴리스트이자 AI 스페셜리스트입니다.",
       }),
     ).toBeInTheDocument();
+    const aboutPortrait = within(about as HTMLElement).getByRole("img", {
+      name: "발표 중인 이경민",
+    });
+    expect(aboutPortrait).toHaveAttribute(
+      "src",
+      "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/me.png",
+    );
+    expect(aboutPortrait).toHaveAttribute("width", "548");
+    expect(aboutPortrait).toHaveAttribute("height", "548");
+    expect(aboutPortrait).toHaveAttribute("loading", "lazy");
+    expect(aboutPortrait).toHaveAttribute("decoding", "async");
+    expect(aboutPortrait).toHaveClass("object-cover", "grayscale");
+    expect(aboutPortrait.closest("[data-about-portrait]")).toBeInTheDocument();
     expect(screen.getByText("제품과 기술은 수단입니다. 중요한 것은 고객의 문제를 얼마나 효과적으로 푸는가입니다.")).toBeInTheDocument();
     expect(screen.getByText("현장 피드백과 인터뷰를 통해 문제를 탐색하고, 우리 조직이 해결할 수 있는 문제에 집중합니다.")).toBeInTheDocument();
     expect(screen.getByText("비즈니스 임팩트와 지속 가능성을 고려해 수행할 태스크를 구분합니다.")).toBeInTheDocument();
@@ -110,8 +135,20 @@ describe("기본 포트폴리오 정보 구조", () => {
       "https://archi.best",
     );
     expect(container.querySelectorAll("[data-project-rank]")).toHaveLength(5);
-    expect(container.querySelectorAll('[data-evidence-media-state="empty"]')).toHaveLength(5);
-    expect(container.querySelector('[data-project-rank="1"][id="arkylab-ai-coach"]')).toBeInTheDocument();
+    expect(container.querySelectorAll('[data-evidence-media-state="empty"]')).toHaveLength(4);
+    expect(container.querySelectorAll('[data-evidence-media-state="ready"]')).toHaveLength(1);
+    const flagship = container.querySelector<HTMLElement>('[data-project-rank="1"][id="arkylab-ai-coach"]');
+    expect(flagship).toBeInTheDocument();
+    expect(within(flagship as HTMLElement).getByRole("img", {
+      name: "아키 로그인, 수업 캘린더와 AI 수업 기록 상세 화면",
+    })).toHaveAttribute(
+      "src",
+      "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/arky/arky1.png",
+    );
+    expect(within(flagship as HTMLElement).getAllByRole("button", { name: /번째 이미지 보기/ })).toHaveLength(3);
+    expect(within(flagship as HTMLElement).queryByText("랜딩 페이지")).not.toBeInTheDocument();
+    expect(within(flagship as HTMLElement).queryByText("기록 화면")).not.toBeInTheDocument();
+    expect(within(flagship as HTMLElement).queryByText("아키텍처")).not.toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "완벽한 조직이 아니어도 됩니다. 매출 규모가 크지 않아도 됩니다." })).toBeInTheDocument();
     expect(screen.getByText("이런 조직을 선호합니다.")).toBeInTheDocument();
     expect(screen.getByText("지금까지의 이직은 잦았습니다. 이전에는 개인의 성장과 역량 향상을 위한 선택에 집중했다면, 다음에는 고객의 문제를 정확히 이해하고 빠르게 검증할 수 있으며, 차별화된 기술 해자를 구축해 시장을 바꾸려는 의지가 있는 조직을 원합니다.")).toBeInTheDocument();
@@ -149,11 +186,11 @@ describe("기본 포트폴리오 정보 구조", () => {
       "contact-form",
     ]));
     expect(container.querySelector("#contact > div.relative.z-10")).toHaveClass("max-w-7xl");
-    expect(container.querySelector("#contact form")).toHaveClass("max-w-3xl");
+    expect(container.querySelector("#contact form")).toHaveClass("max-w-3xl", "lg:max-w-none");
     expect(container.textContent).not.toContain("Arkylab");
     expect(container.textContent).not.toContain("Archi");
     expect(container.textContent).not.toContain("2026 이경민");
-    const chatButtons = screen.getAllByRole("button", { name: "AI에게 묻기" });
+    const chatButtons = screen.getAllByRole("button", { name: "이경민 AI" });
     expect(chatButtons).toHaveLength(1);
     expect(chatButtons[0]).toHaveAttribute("aria-haspopup", "dialog");
     expect(chatButtons[0].querySelector("img")?.src).toContain("bubble-icon");
@@ -186,5 +223,31 @@ describe("기본 포트폴리오 정보 구조", () => {
         }),
       }),
     ));
+  });
+
+  it("회사별 맞춤 Hero에는 맞춤 역할 배지만 표시하고 기본 협업사 로고를 섞지 않는다", async () => {
+    const { default: Index } = await import("@/pages/Index");
+    const { container } = render(
+      <MemoryRouter initialEntries={["/"]}>
+        <Index
+          heroContent={{
+            roleLabel: "맞춤형 Product Manager",
+            careerLabel: "검증 경력",
+            headline: "검증된 문제를 해결합니다.",
+            subcopy: ["회사별 근거를 확인합니다."],
+            keywords: ["문제 정의", "제품 실행", "성과 검증"],
+          }}
+        />
+      </MemoryRouter>,
+    );
+
+    const hero = container.querySelector<HTMLElement>("#hero");
+    const summary = within(hero as HTMLElement).getByRole("list", { name: "포트폴리오 요약" });
+    expect(Array.from(summary.querySelectorAll("li")).map((item) => item.textContent)).toEqual([
+      "Portfolio",
+      "맞춤형 Product Manager",
+      "검증 경력",
+    ]);
+    expect(hero?.querySelectorAll("[data-hero-logo]")).toHaveLength(0);
   });
 });
