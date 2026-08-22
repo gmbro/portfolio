@@ -1329,7 +1329,24 @@ base revision 31 로컬 후보를 390×844, 768×900, 1440×900에서 확인했�
 
 #### 배포 후 실제 URL 점검
 
-_GitHub Actions와 실제 URL 검사 후 기록 예정._
+- 배포 커밋: `a215712eacb0dcff131bac2e8fd686eeb28fb377` (`Refine portfolio metrics careers and motion`)
+- GitHub Actions: [Run #36](https://github.com/gmbro/portfolio/actions/runs/32559925249) `success`
+  - `build` job `96999844287`: clean frozen install, `tsc --noEmit`, test, production build 모두 통과
+  - `deploy` job `96999932233`: GitHub Pages 배포 통과
+- 실제 URL: `https://archilab.ai.kr/` → `HTTP/2 200`, `server: GitHub.com`
+- 배포 asset: `/assets/index-D_U9-hyG.js`, `/assets/index-t5MseBJA.css`
+
+| 실제 배포본 | clientWidth / scrollWidth | 문서 높이 | Contact H2 / form 왼쪽 |
+|---|---:|---:|---:|
+| 390×844 | `375 / 375` | `11,513px` | `24 / 24px` |
+| 768×900 | `753 / 753` | `9,880px` | `48 / 48px` |
+| 1440×900 | `1425 / 1425` | `6,839px` | `72.5 / 72.5px` |
+
+- 실제 배포본에서 `5+·3+·28억`, partner 제목·로고 0, 경력 6개·Adler 0, 새 About·Projects 문구를 재확인했다.
+- 라이브 새로고침 직후 카운트업은 진행 중 값에서 시작해 650ms에 `4+·2+·23억`, 약 1.9초 뒤 `5+·3+·28억`으로 종료됐다.
+- About·Projects·Experience·Contact는 각각 진입 전 `opacity:0 / translateY(18px)`, 진입 뒤 `opacity:1 / transform:none`으로 전환됐다.
+- 실제 `/p/not-real-slug`, `/admin/links`, `/not-a-real-page`는 390px에서 오버플로 0, `noindex, nofollow`, Typebot·ambient 0을 유지했다.
+- 실제 공개 URL의 브라우저 warning/error는 0이다. QA-BASE32-001~006 배포 후 재검사까지 모두 통과했다.
 
 ---
 
