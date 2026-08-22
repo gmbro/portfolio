@@ -1287,7 +1287,13 @@ GitHub Pages 배포 후 같은 세 너비에서 asset revision, launcher 외형�
 
 #### 배포 후 실제 URL 점검
 
-- commit·`origin/main` push·GitHub Pages 완료 후 새 asset revision과 동일 세 너비 실서비스 결과를 기록한다.
+- 배포 commit: `b5d9d5e940f1d5cd0ffe4b9ae50bd679f86dd205` (`Build evidence-first portfolio and persistent chatbot composer`). 기존 문서 전용 commit `75a43b1`과 함께 `origin/main`에 push했다.
+- GitHub Actions `Deploy Portfolio to GitHub Pages` Run #31, ID `32540872617`은 `completed / success`다. `build` job `96950504917`의 의존성 설치·품질 검사·Pages artifact build/upload와 `deploy` job `96950586362`의 Pages 배포가 모두 성공했다. 실행 URL: `https://github.com/gmbro/portfolio/actions/runs/32540872617`.
+- 실제 URL은 새 main asset `/assets/index-CQ8xIF29.js`를 응답했다. 390×844, 768×900, 1440×900에서 clientWidth / scrollWidth는 각각 `375/375`, `753/753`, `1425/1425`로 가로 오버플로 0이며 문서 높이는 `13,836px`, `12,475px`, `8,882px`다.
+- 라이브 Typebot에 고정 공개 질문 `AI 제품 0→1 경험을 보여줘.`를 제출했다. 답변 이후에도 예상 질문 3개, 같은 코럴 header와 Pretendard, 넓은 custom input이 유지됐다. panel은 `350×704px / 400×704px / 400×704px`, input은 `324×50px / 370×50px / 370×50px`, 전송 버튼과 `Made with Typebot` 배지 교차는 세 너비 모두 0px다.
+- 실제 페이지에는 Hero·ambient 배경, Evidence Product 역량 탐색, 대표 프로젝트 5개의 `증거 이미지 준비 중` 영역이 표시되고 분석 배너는 0이다. 초기 Typebot host도 0이며 사용자 진입 뒤에만 mount된다.
+- 라이브 `/admin/links`, `/p/not-real-slug`, `/not-a-real-page`를 390px에서 직접 검사했다. 세 경로 모두 `noindex, nofollow`, clientWidth / scrollWidth `390/390`, Typebot·ambient·분석 UI 0이다.
+- 라이브 브라우저 console warning/error 0. 배포 차단 및 롤백 사유 없음. 최종 배포 상태: `완료`.
 
 ### 2026-08-19 / 전체 미디어 배경·Hero 증거 이미지·인윈도우 챗 가이드 / base revision 23
 
