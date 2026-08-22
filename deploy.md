@@ -1209,7 +1209,7 @@ GitHub Pages 배포 후 같은 세 너비에서 asset revision, launcher 외형�
 
 ---
 
-### 2026-08-22 / 채용 증거 서사·프로젝트 CAR·4초 목업 갤러리 / base revision 37 진행 중
+### 2026-08-22 / 채용 증거 서사·프로젝트 CAR·4초 목업 갤러리 / base revision 37
 
 - 작업 대상 URL: 기본 `/`의 `#hero`, `#about`, `#case-studies`, `#experience`, `#contact`
 - 수정 전 라이브 URL: `https://archilab.ai.kr/?qa=base37-before`
@@ -1367,7 +1367,29 @@ Hero 헤드라인은 사용자가 변경을 요청하지 않았으므로 `고객
 
 #### 배포 후 실제 URL 점검
 
-배포 후 기록한다.
+Git commit `fbe0942`를 `origin/main`에 push했고 GitHub Actions `Deploy Portfolio to GitHub Pages` run `32571175158`이 동일 SHA로 `success` 완료했다. CDN 캐시와 이전 자산 혼동을 피하기 위해 각 검사 URL에 `?qa=fbe0942-<width>-<timestamp>`를 붙였다.
+
+| 항목 | 390×844 | 768×900 | 1023×900 | 1440×900 |
+|---|---|---|---|---|
+| 실제 URL 로드 | 통과 | 통과 | 통과 | 통과 |
+| 올바른 Hero·About | `AI PM`, `13억`, 역량 5개 통과 | 통과 | 통과 | 통과 |
+| Projects·Experience·Contact 최신 문구 | 통과 | 통과 | 통과 | 통과 |
+| Contact 내부 / 폼 폭 | `327 / 327px` | `657 / 657px` | `912 / 912px` | `1280 / 1280px` |
+| ready gallery / concept badge | `5 / 4` | `5 / 4` | `5 / 4` | `5 / 4` |
+| 가로 스크롤 | 없음 | 없음 | 없음 | 없음 |
+
+- 운영 이미지: 전체 `16/16` load 성공, 생성 목업 `4/4`의 `naturalWidth/naturalHeight`가 모두 `1600/1200`이며 실패 자산 0.
+- 운영 자동 전환: 아키 첫 이미지가 3.6초까지 유지되고 4.4초에 두 번째 이미지로 전환, SR 안내 `4초마다 다음 증거 이미지로 자동 이동합니다.` 확인.
+- 운영 확대 dialog: Vision AI 목업의 `1 / 1 · 개념 목업`, 1600×1200 원본, body scroll lock·닫기 후 해제 확인.
+- 운영 route: 390px에서 `/p/not-real-slug`, `/admin/links`, 임의 404의 한국어 안전 상태·`noindex, nofollow`·가로 오버플로 0·Typebot host 0 확인.
+- 운영 브라우저 console error/warn 0.
+- 최종 공개 URL: `https://archilab.ai.kr/`
+- 발행 revision: 기본 포트폴리오 base revision 37 / Git commit `fbe0942`
+- GitHub Actions: run `32571175158`, conclusion `success`, head SHA `fbe094222dc28519364abbb0a58dd9663ec1c622`
+- publication 상태: 기본 공개 포트폴리오 갱신, 회사별 publication 신규 생성 없음.
+- `noindex, nofollow`: 기본 `/`은 indexable; 관리자·무효 회사별 링크·404는 `noindex, nofollow` 유지.
+- 배포 결과: `성공`.
+- 남은 낮은 우선순위 항목: 개념 목업 4개 용량 최적화와 공개 가능한 실제 증거 이미지 교체.
 
 ---
 
