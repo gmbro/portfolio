@@ -41,6 +41,7 @@ const ProjectCard = ({ project, index }: { project: FeaturedProject; index: numb
   const prefersReducedMotion = useReducedMotion();
   const isPriority = index === 0;
   const showsVisual = Boolean(project.visual);
+  const headingId = `${project.id}-title`;
   const evidence = (
     <dl className="grid gap-6 xl:grid-cols-[0.85fr_1.55fr_1fr]">
       <div>
@@ -61,6 +62,7 @@ const ProjectCard = ({ project, index }: { project: FeaturedProject; index: numb
   return (
     <motion.article
       id={project.id}
+      aria-labelledby={headingId}
       data-section-reveal="project-card"
       data-project-rank={index + 1}
       initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
@@ -73,48 +75,45 @@ const ProjectCard = ({ project, index }: { project: FeaturedProject; index: numb
     >
       <div>
         <div className="min-w-0">
-          <header className="flex flex-wrap items-center justify-between gap-3">
-            <span className="rounded-full border border-[#ff6645]/30 bg-[#ff6645]/10 px-3 py-1.5 font-body text-[10px] font-bold uppercase tracking-[0.1em] text-[#ff8a70]">
-              {project.category}
-            </span>
-            <span className="font-body text-xs font-medium text-white/55">{project.period}</span>
+          <header className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
+            <h3
+              id={headingId}
+              className={`min-w-0 break-words text-balance font-display font-bold leading-[1.25] tracking-[-0.025em] text-white ${
+                isPriority ? "text-2xl md:text-4xl" : "text-xl md:text-2xl"
+              }`}
+            >
+              {project.title}
+            </h3>
+            <p className="shrink-0 whitespace-nowrap font-body text-xs font-medium tracking-[0.01em] text-white/55">
+              <span className="sr-only">프로젝트 기간 </span>
+              {project.period}
+            </p>
           </header>
 
-          <h3
-            className={`mt-6 break-words text-balance font-display font-bold leading-[1.25] tracking-[-0.025em] text-white ${
-              isPriority ? "text-2xl md:text-4xl" : "text-xl md:text-2xl"
-            }`}
+          <dl
+            data-project-meta="true"
+            className="mt-6 grid overflow-hidden rounded-2xl border border-white/[0.08] bg-black/25 md:grid-cols-2"
           >
-            {project.title}
-          </h3>
-
-          <dl className="mt-6 flex flex-col gap-3 rounded-2xl border border-white/[0.08] bg-black/25 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
-            <div className="min-w-0">
+            <div data-project-meta-field="organization" className="min-w-0 px-4 py-4 md:px-5 md:py-5">
               <dt className="font-body text-[10px] font-bold uppercase tracking-[0.16em] text-white/50">
                 {project.organizationLabel}
               </dt>
-              <dd className="mt-1 break-words font-body text-sm font-semibold leading-5 text-white/85">{project.organization}</dd>
+              <dd className="mt-2 break-words text-pretty font-body text-sm font-semibold leading-6 text-white/90 md:text-base">
+                {project.organization}
+              </dd>
             </div>
-            <div className="w-fit max-w-full shrink-0 rounded-xl border border-[#ff6645]/25 bg-[#ff6645]/10 px-3 py-2 sm:max-w-[48%] sm:text-right">
-              <dt className="font-body text-[10px] font-bold uppercase tracking-[0.14em] text-[#ff9a83]">
+            <div
+              data-project-meta-field="responsibility"
+              className="min-w-0 border-t border-white/[0.08] px-4 py-4 md:border-l md:border-t-0 md:px-5 md:py-5"
+            >
+              <dt className="font-body text-[10px] font-bold uppercase tracking-[0.16em] text-white/50">
                 {project.involvement.label}
               </dt>
-              <dd className="mt-0.5 break-words font-display text-sm font-bold leading-5 text-white">
+              <dd className="mt-2 break-words text-pretty font-body text-sm font-semibold leading-6 text-white/90 md:text-base">
                 {project.involvement.value}
               </dd>
             </div>
           </dl>
-
-          <div className="mt-5 flex flex-wrap gap-2" aria-label="검증된 성과">
-            {project.metrics.map((metric) => (
-              <span
-                key={metric}
-                className="max-w-full break-words text-pretty rounded-xl border border-[#ff6645]/20 bg-[#ff6645]/[0.08] px-3 py-2 font-display text-xs font-bold text-[#ff9a83]"
-              >
-                {metric}
-              </span>
-            ))}
-          </div>
         </div>
       </div>
 
@@ -122,33 +121,22 @@ const ProjectCard = ({ project, index }: { project: FeaturedProject; index: numb
 
       <div className="mt-8">{evidence}</div>
 
-      {(project.tags.length > 0 || project.link) && (
-        <footer className="mt-8 flex flex-wrap items-end justify-between gap-5 border-t border-white/[0.07] pt-6">
-          {project.tags.length > 0 && (
-            <div className="flex flex-wrap gap-x-3 gap-y-2">
-              {project.tags.map((tag) => (
-                <span key={tag} className="break-words font-body text-[11px] text-white/50">
-                  #{tag}
-                </span>
-              ))}
-            </div>
-          )}
-          {project.link && (
-            <a
-              href={project.link.href}
-              target="_blank"
-              rel="noreferrer"
-              data-chat-exclusion="true"
-              onClick={() => {
-                if (project.id === "arkylab-ai-coach") trackPortfolioEvent("select_content");
-              }}
-              aria-label={project.id === "arkylab-ai-coach" ? "베타서비스 보기, 새 창에서 열기" : undefined}
-              className="inline-flex min-h-11 items-center gap-2 rounded-full border border-white/15 px-4 py-2 font-body text-xs font-bold text-white transition-colors hover:border-[#ff6645]/60 hover:text-[#ff8a70] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6645]"
-            >
-              {project.link.label}
-              <ArrowUpRight size={15} aria-hidden="true" />
-            </a>
-          )}
+      {project.link && (
+        <footer className="mt-8 flex justify-end border-t border-white/[0.07] pt-6">
+          <a
+            href={project.link.href}
+            target="_blank"
+            rel="noreferrer"
+            data-chat-exclusion="true"
+            onClick={() => {
+              if (project.id === "arkylab-ai-coach") trackPortfolioEvent("select_content");
+            }}
+            aria-label={project.id === "arkylab-ai-coach" ? "베타서비스 보기, 새 창에서 열기" : undefined}
+            className="inline-flex min-h-11 items-center gap-2 rounded-full border border-white/15 px-4 py-2 font-body text-xs font-bold text-white transition-colors hover:border-[#ff6645]/60 hover:text-[#ff8a70] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6645]"
+          >
+            {project.link.label}
+            <ArrowUpRight size={15} aria-hidden="true" />
+          </a>
         </footer>
       )}
     </motion.article>

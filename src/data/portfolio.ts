@@ -36,7 +36,7 @@ export interface FeaturedProject {
   organizationLabel: "수행 회사" | "수행 주체" | "지원 사업";
   organization: string;
   involvement: {
-    label: "담당 책임";
+    label: "담당 업무";
     value: string;
   };
   title: string;
@@ -58,7 +58,7 @@ export const flagshipProject: FeaturedProject = {
   period: "2026.06–진행 중",
   organizationLabel: "수행 주체",
   organization: "아키랩, FIXNESS",
-  involvement: { label: "담당 책임", value: "제품 기획·개발·사업·운영 전담" },
+  involvement: { label: "담당 업무", value: "제품 기획·개발·사업·운영 전담" },
   title: "운동 강사를 위한 AI 기록 솔루션",
   challenge:
     "운동 강사의 수업 기록은 대부분 메모, 영상, 기억에 의존해 파편화됩니다. 이로 인해 회원의 자세 변화와 운동 처방 내용을 체계적으로 관리하기 어렵고, 강사의 전문성을 데이터로 증명하는 데 한계가 있었습니다.",
@@ -110,7 +110,7 @@ export const featuredProjects: FeaturedProject[] = [
     period: "2025.06–2025.12",
     organizationLabel: "수행 회사",
     organization: "GenON · NIPA 지원사업 AI 바우처",
-    involvement: { label: "담당 책임", value: "제안서·산출물·프로젝트 관리" },
+    involvement: { label: "담당 업무", value: "제안서·산출물·프로젝트 관리" },
     title: "AI Vision 기반 신발 아웃솔 품질검사 효율화 프로젝트",
     challenge:
       "신발 아웃솔 품질검사는 수작업 의존도가 높아 검수 시간과 작업자 편차를 줄이는 데 한계가 있었습니다. 따라서 주관사의 AI Vision을 활용해 불량 여부를 더 빠르고 일관되게 검토할 수 있는 구조가 필요했습니다.",
@@ -143,7 +143,7 @@ export const featuredProjects: FeaturedProject[] = [
     period: "2024.06–2025.01",
     organizationLabel: "수행 회사",
     organization: "셀렉터스타 · LG유플러스",
-    involvement: { label: "담당 책임", value: "프로젝트 수행·STT 제품 기획" },
+    involvement: { label: "담당 업무", value: "프로젝트 수행·STT 제품 기획" },
     title: "음성 전사 데이터셋 구축 프로젝트",
     challenge:
       "약 1000시간 정도의 음성 전사 데이터셋 구축 과정은 수작업 비중이 높아 많은 인력과 반복 작업이 필요합니다. 따라서 프로젝트 운영 비용을 줄이면서도 데이터 품질을 안정적으로 관리할 수 있는 프로세스가 필요했습니다.",
@@ -176,7 +176,7 @@ export const featuredProjects: FeaturedProject[] = [
     period: "2021.09–2023.04",
     organizationLabel: "수행 회사",
     organization: "스켈터랩스 · 네오사피엔스",
-    involvement: { label: "담당 책임", value: "제품·대화 설계 및 제휴 주도" },
+    involvement: { label: "담당 업무", value: "제품·대화 설계 및 제휴 주도" },
     title: "Retrieval 기술을 활용한 AI 상담사 PoC",
     challenge:
       "사내 B2B 챗봇 엔진을 사용자가 직접 경험할 수 있는 B2C 상담 서비스로 확장해야 했습니다. 기술 데모를 넘어 실제 고객 경험으로 보여줄 수 있는 AI 상담사 PoC가 필요했습니다.",
@@ -209,7 +209,7 @@ export const featuredProjects: FeaturedProject[] = [
     period: "2018.04–2020.04",
     organizationLabel: "수행 회사",
     organization: "SK Planet · Syrup Wallet",
-    involvement: { label: "담당 책임", value: "푸시 기능 기획·운영 개선" },
+    involvement: { label: "담당 업무", value: "푸시 기능 기획·운영 개선" },
     title: "시럽월렛 광고 운영 효율화",
     challenge:
       "광고 푸시 운영 과정에서 낮은 수신 효율, 서버 과부하, 반복적인 수작업 문제가 발생했습니다. 안정적인 푸시 서비스를 제공하고 광고 성과를 높이면서도 운영자가 더 적은 시간으로 안정적으로 캠페인을 관리할 수 있는 구조가 필요했습니다.",
@@ -225,12 +225,28 @@ export const featuredProjects: FeaturedProject[] = [
       alt: "대규모 제품의 푸시 운영 전후 흐름과 타기팅 및 분산 발송 구조 자료",
       items: [
         {
-          id: "sk-planet-syrup-concept-mockup",
-          src: "/evidence/sk-planet-syrup-wallet/mockup-overview.png",
-          alt: "개념 목업: 푸시 타겟팅·분산 발송과 광고 소재 운영 어드민 화면",
+          id: "sk-planet-syrup-push-format",
+          src: "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/syrup/1.png",
+          alt: "시럽월렛 쿠폰 목록과 이미지형·텍스트형 푸시 알림 화면 비교",
           width: 1600,
           height: 1200,
-          kind: "concept-mockup",
+          kind: "evidence",
+        },
+        {
+          id: "sk-planet-syrup-push-campaigns",
+          src: "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/syrup/2.png",
+          alt: "교육·생활 및 뷰티·화장품 분야 시럽월렛 푸시 메시지와 연결 페이지 집행 사례",
+          width: 1600,
+          height: 1200,
+          kind: "evidence",
+        },
+        {
+          id: "sk-planet-syrup-top-banner-campaigns",
+          src: "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/syrup/3.png",
+          alt: "주방가전·생활가전·화장품 분야 시럽월렛 TOP 배너와 연결 페이지 집행 사례",
+          width: 1600,
+          height: 1200,
+          kind: "evidence",
         },
       ],
       placeholderItems: [],

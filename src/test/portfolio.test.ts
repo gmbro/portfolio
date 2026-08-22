@@ -197,7 +197,7 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
     expect(flagshipProject).toMatchObject({
       organization: "아키랩, FIXNESS",
       category: "제품, 베타서비스",
-      involvement: { label: "담당 책임", value: "제품 기획·개발·사업·운영 전담" },
+      involvement: { label: "담당 업무", value: "제품 기획·개발·사업·운영 전담" },
       link: { label: "베타서비스 보기", href: "https://archi.best" },
       metrics: ["제품 개발", "사업 제휴", "베타서비스 운영"],
       visual: { alt: expect.stringContaining("아키") },
@@ -296,7 +296,7 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
     ]);
   });
 
-  it("수행 조직과 담당 책임을 퍼센트 없이 구체적으로 표시한다", () => {
+  it("수행 조직과 담당 업무를 퍼센트 없이 구체적으로 표시한다", () => {
     expect(
       portfolioProjects.map((project) => `${project.organizationLabel}: ${project.organization}`),
     ).toEqual([
@@ -309,11 +309,11 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
     expect(
       portfolioProjects.map((project) => `${project.involvement.label}: ${project.involvement.value}`),
     ).toEqual([
-      "담당 책임: 제품 기획·개발·사업·운영 전담",
-      "담당 책임: 제안서·산출물·프로젝트 관리",
-      "담당 책임: 프로젝트 수행·STT 제품 기획",
-      "담당 책임: 제품·대화 설계 및 제휴 주도",
-      "담당 책임: 푸시 기능 기획·운영 개선",
+      "담당 업무: 제품 기획·개발·사업·운영 전담",
+      "담당 업무: 제안서·산출물·프로젝트 관리",
+      "담당 업무: 프로젝트 수행·STT 제품 기획",
+      "담당 업무: 제품·대화 설계 및 제휴 주도",
+      "담당 업무: 푸시 기능 기획·운영 개선",
     ]);
     expect(JSON.stringify(portfolioProjects)).not.toMatch(/기여도|90%|100%/);
   });
@@ -394,7 +394,9 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
       },
     ]);
 
-    const conceptMockupProjects = featuredProjects;
+    const conceptMockupProjects = featuredProjects.filter(
+      ({ id }) => id !== "sk-planet-syrup-wallet",
+    );
     for (const project of conceptMockupProjects) {
       expect(project.visual?.placeholderItems).toEqual([]);
       expect(project.visual?.items).toHaveLength(1);
@@ -428,6 +430,33 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
     expect(syrup?.result).toContain("수신율을 2배");
     expect(syrup?.result).toContain("열람률을 1.5배");
     expect(syrup?.result).toContain("1/10");
+    expect(syrup?.visual?.placeholderItems).toEqual([]);
+    expect(syrup?.visual?.items).toEqual([
+      {
+        id: "sk-planet-syrup-push-format",
+        src: "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/syrup/1.png",
+        alt: "시럽월렛 쿠폰 목록과 이미지형·텍스트형 푸시 알림 화면 비교",
+        width: 1600,
+        height: 1200,
+        kind: "evidence",
+      },
+      {
+        id: "sk-planet-syrup-push-campaigns",
+        src: "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/syrup/2.png",
+        alt: "교육·생활 및 뷰티·화장품 분야 시럽월렛 푸시 메시지와 연결 페이지 집행 사례",
+        width: 1600,
+        height: 1200,
+        kind: "evidence",
+      },
+      {
+        id: "sk-planet-syrup-top-banner-campaigns",
+        src: "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/syrup/3.png",
+        alt: "주방가전·생활가전·화장품 분야 시럽월렛 TOP 배너와 연결 페이지 집행 사례",
+        width: 1600,
+        height: 1200,
+        kind: "evidence",
+      },
+    ]);
     expect(syrup?.tags).toEqual([
       "어드민운영",
       "내외부 커뮤니케이션",

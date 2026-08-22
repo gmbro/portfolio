@@ -158,9 +158,26 @@ describe("기본 포트폴리오 정보 구조", () => {
     expect(container.querySelectorAll("[data-project-rank]")).toHaveLength(5);
     expect(container.querySelectorAll('[data-evidence-media-state="empty"]')).toHaveLength(0);
     expect(container.querySelectorAll('[data-evidence-media-state="ready"]')).toHaveLength(5);
-    expect(screen.getAllByText("개념 목업")).toHaveLength(4);
+    expect(screen.getAllByText("개념 목업")).toHaveLength(3);
     const flagship = container.querySelector<HTMLElement>('[data-project-rank="1"][id="arkylab-ai-coach"]');
     expect(flagship).toBeInTheDocument();
+    expect(caseStudies?.querySelectorAll("[data-project-meta]")).toHaveLength(5);
+    expect(
+      Array.from(flagship?.querySelectorAll("[data-project-meta] dt") ?? []).map((label) =>
+        label.textContent?.trim(),
+      ),
+    ).toEqual(["수행 주체", "담당 업무"]);
+    expect(
+      Array.from(flagship?.querySelectorAll("[data-project-meta] dd") ?? []).map((value) =>
+        value.textContent?.trim(),
+      ),
+    ).toEqual(["아키랩, FIXNESS", "제품 기획·개발·사업·운영 전담"]);
+    expect(within(flagship as HTMLElement).queryByText("제품, 베타서비스")).not.toBeInTheDocument();
+    expect(within(flagship as HTMLElement).queryByText("제품 개발")).not.toBeInTheDocument();
+    expect(within(flagship as HTMLElement).queryByText("#Codex")).not.toBeInTheDocument();
+    expect(caseStudies?.querySelectorAll('[aria-label="검증된 성과"]')).toHaveLength(0);
+    expect(caseStudies?.querySelectorAll("article footer span")).toHaveLength(0);
+    expect(caseStudies?.querySelectorAll("article footer")).toHaveLength(1);
     expect(within(flagship as HTMLElement).getByRole("img", {
       name: "아키 로그인, 수업 캘린더와 AI 수업 기록 상세 화면",
     })).toHaveAttribute(
