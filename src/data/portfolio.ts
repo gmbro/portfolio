@@ -15,6 +15,7 @@ export interface FeaturedProjectVisualItem {
   caption?: string;
   width?: number;
   height?: number;
+  kind?: "evidence" | "concept-mockup";
 }
 
 export interface FeaturedProjectVisual {
@@ -53,22 +54,22 @@ export interface FeaturedProject {
 
 export const flagshipProject: FeaturedProject = {
   id: "arkylab-ai-coach",
-  category: "아키 · 실사용 베타",
+  category: "제품, 베타서비스",
   period: "2026.06–진행 중",
   organizationLabel: "수행 주체",
   organization: "아키랩, FIXNESS",
   involvement: { label: "담당 책임", value: "제품 기획·개발·사업·운영 전담" },
   title: "운동 강사를 위한 AI 기록 솔루션",
   challenge:
-    "운동 강사의 수업 기록이 파편화되고 휘발되며, 수업 내용이 회원에게 공유되지 않아 강사의 전문성을 입증하는 데 한계가 발생합니다.",
+    "운동 강사의 수업 기록은 대부분 메모, 영상, 기억에 의존해 파편화됩니다. 이로 인해 회원의 자세 변화와 운동 처방 내용을 체계적으로 관리하기 어렵고, 강사의 전문성을 데이터로 증명하는 데 한계가 있었습니다.",
   action:
-    "Gemini API와 MediaPipe의 33개 관절 추적 기술을 결합해 수업 기록 환경을 구축했습니다. 강사의 음성 큐잉(Voice)을 텍스트로 변환한 데이터와 회원의 동작 변화(Vision)를 실시간으로 동기화하고, AI 기반 요약·분석 기능을 구현해 복잡한 운동 현장에서도 빠르게 기록하고 공유할 수 있도록 했습니다.",
+    "이 문제를 해결하기 위해 운동 수업을 자동으로 기록하고 분석하는 AI SaaS를 기획·개발했습니다. 수업 중 발생하는 자세 변화, 교정 포인트, 운동 처방 내용을 하나의 기록으로 정리해 강사와 회원이 함께 확인할 수 있도록 했습니다.",
   result:
-    "2026년 6월부터 개발을 시작해 2026년 8월 기준 운동 강사 15명의 피드백으로 기능을 고도화하고 있습니다. 교정 운동 전후 비교 기능에 대한 수요를 확인했으며, 상용화 단계의 수익 가능성을 검증하고 있습니다.",
-  metrics: ["베타 참여자 15명", "2026.06–진행 중", "제품 전 과정 1인 전담"],
-  tags: ["Codex", "Supabase", "바이브코딩", "베타 검증"],
+    "2026년 6월부터 1인 개발을 시작해, 2026년 8월 기준 운동 강사 15명의 피드백을 바탕으로 기능을 고도화하고 있습니다. 특히 교정운동 전후 비교, 수업 기록 자동화, 회원 공유 기능에 대한 수요를 확인했으며, 운동 강사의 전문성 기록과 회원 관리에 활용 가능한 SaaS로 상용화를 검증하고 있습니다.",
+  metrics: ["제품 개발", "사업 제휴", "베타서비스 운영"],
+  tags: ["Codex", "Supabase", "Gemini", "React"],
   link: {
-    label: "아키 베타 보기",
+    label: "베타서비스 보기",
     href: "https://archi.best",
   },
   visual: {
@@ -110,81 +111,129 @@ export const featuredProjects: FeaturedProject[] = [
     organizationLabel: "수행 회사",
     organization: "GenON · NIPA 지원사업 AI 바우처",
     involvement: { label: "담당 책임", value: "제안서·산출물·프로젝트 관리" },
-    title: "Vision AI를 활용한 신발 아웃솔 품질 검사 효율화 프로젝트",
-    challenge: "신발 아웃솔의 수작업 품질 검사 공정을 Vision AI로 개선해야 했습니다.",
+    title: "AI Vision 기반 신발 아웃솔 품질검사 효율화 프로젝트",
+    challenge:
+      "신발 아웃솔 품질검사는 수작업 의존도가 높아 검수 시간과 작업자 편차를 줄이는 데 한계가 있었습니다. 따라서 주관사의 AI Vision을 활용해 불량 여부를 더 빠르고 일관되게 검토할 수 있는 구조가 필요했습니다.",
     action:
-      "제안서를 작성하고 7개월간 중간 보고, PoC 결과, 고객 피드백과 주요 산출물을 관리했습니다. 수요 기업·내부 개발팀·NIPA 사이의 커뮤니케이션을 조율했습니다.",
-    result: "PoC 결과와 고객 피드백을 문서화하고 프로젝트 종결과 사업 정산을 지원했습니다.",
-    metrics: ["7개월 수행", "PoC·산출물 관리"],
-    tags: ["Vision AI", "PoC", "산출물 관리", "이해관계자 조율"],
+      "문제를 효과적으로 해결하기 위해 NIPA AI 바우처 사업에 지원하였습니다. 아웃솔 품질검사 공정에 AI Vision 솔루션을 적용하는 PoC 프로젝트를 수행하였고 제안서와 발표자료 작성 및 7개월간 중간보고서, PoC 결과서, 고객 피드백, 주요 산출물을 관리했습니다.",
+    result:
+      "PoC 결과와 고객 피드백을 문서화해 프로젝트 검증, 최종보고, 사업비 정산을 지원했습니다. 최종적으로 주관사의 AI Vision 기반 품질검사의 적용 가능성을 확인하고, 수작업 검사 공정 개선을 위한 사업 수행 경험을 확보했습니다.",
+    metrics: ["제안서 작성", "PoC·산출물 관리"],
+    tags: ["Vision AI", "PoC", "산출물 관리", "사업 수행"],
     visual: {
       title: "Vision AI 수행 자료",
       type: "image",
       alt: "Vision AI 검사 흐름과 PoC 산출물 및 이해관계자 조율 자료",
-      placeholderItems: ["검사 프로세스", "PoC 산출물", "이해관계자 흐름"],
+      items: [
+        {
+          id: "nipa-vision-ai-concept-mockup",
+          src: "/evidence/nipa-vision-ai-poc/mockup-overview.png",
+          alt: "개념 목업: AI Vision 기반 신발 아웃솔 품질검사 대시보드",
+          width: 1600,
+          height: 1200,
+          kind: "concept-mockup",
+        },
+      ],
+      placeholderItems: [],
     },
   },
   {
     id: "selectstar-stt-operations",
-    category: "AI 데이터 가공",
+    category: "AI 데이터 가공, 프로젝트 관리",
     period: "2024.06–2025.01",
     organizationLabel: "수행 회사",
     organization: "셀렉터스타 · LG유플러스",
     involvement: { label: "담당 책임", value: "프로젝트 수행·STT 제품 기획" },
     title: "음성 전사 데이터셋 구축 프로젝트",
-    challenge: "수작업 중심의 음성 전사 과정에는 많은 인력과 반복 작업이 필요했습니다.",
+    challenge:
+      "약 1000시간 정도의 음성 전사 데이터셋 구축 과정은 수작업 비중이 높아 많은 인력과 반복 작업이 필요합니다. 따라서 프로젝트 운영 비용을 줄이면서도 데이터 품질을 안정적으로 관리할 수 있는 프로세스가 필요했습니다.",
     action:
-      "STT 전사 제품과 전처리·후처리 기준을 기획하고 Python 기반 작업을 추가했습니다. 약 200명의 어노테이터 운영 및 품질 관리 체계도 구축했습니다.",
-    result: "필요 맨먼스를 기존의 약 1/10로 줄이고 운영 원가를 70% 이상 절감했습니다.",
-    metrics: ["맨먼스 약 1/10", "운영 원가 70%+ 절감", "수행사 커뮤니케이션"],
-    tags: ["STT", "Python", "데이터 구축", "운영 설계"],
+      "STT 전사 제품의 전처리·후처리 기준을 기획하고, Python 기반 데이터 처리 작업을 추가했습니다. 작업 기준과 프로젝트 구조를 문서화하고, 약 200명의 어노테이터 운영 및 품질 관리 체계를 구축했습니다. 내부 개발팀, 데이터 가공 인력, 고객사 사이의 커뮤니케이션을 조율하며 데이터 구축의 전과정을 주도했습니다.",
+    result:
+      "폐쇄망 환경에서의 STT제품 기획을 하여 필요 맨먼스를 기존 대비 약 1/10 수준으로 줄이고 운영 원가를 70% 이상 절감했습니다. STT 데이터셋 구축 프로세스를 표준화해 대규모 음성 전사 작업의 생산성과 운영 효율을 높였습니다.",
+    metrics: ["프로젝트 수행", "STT 제품 기획", "작업자 관리"],
+    tags: ["STT", "Python", "폐쇄망작업", "프로젝트 설계"],
     visual: {
       title: "STT 운영 개선 자료",
       type: "image",
       alt: "STT 운영 전후 흐름과 검증된 비용 및 시간 개선 자료",
-      placeholderItems: ["개선 전후 프로세스", "운영 화면", "비용·시간 개선 자료"],
+      items: [
+        {
+          id: "selectstar-stt-concept-mockup",
+          src: "/evidence/selectstar-stt-operations/mockup-overview.png",
+          alt: "개념 목업: STT 데이터 전처리·후처리와 품질관리 운영 화면",
+          width: 1600,
+          height: 1200,
+          kind: "concept-mockup",
+        },
+      ],
+      placeholderItems: [],
     },
   },
   {
     id: "skelter-ai-counselor",
-    category: "Product 0 to 1",
+    category: "제품 기획, PoC, 사업 제휴",
     period: "2021.09–2023.04",
     organizationLabel: "수행 회사",
     organization: "스켈터랩스 · 네오사피엔스",
     involvement: { label: "담당 책임", value: "제품·대화 설계 및 제휴 주도" },
     title: "Retrieval 기술을 활용한 AI 상담사 PoC",
-    challenge: "사내 B2B 챗봇 엔진을 사용자가 직접 경험할 수 있는 B2C 상담 서비스로 확장해야 했습니다.",
+    challenge:
+      "사내 B2B 챗봇 엔진을 사용자가 직접 경험할 수 있는 B2C 상담 서비스로 확장해야 했습니다. 기술 데모를 넘어 실제 고객 경험으로 보여줄 수 있는 AI 상담사 PoC가 필요했습니다.",
     action:
-      "STT·TTS·Retrieval을 연결하고 서비스 범위, 대화 흐름, PRD, 와이어프레임과 대화 데이터를 설계했습니다. 디지털 휴먼·TTS 제휴와 대학 산학협력도 주도했습니다.",
-    result: "B2C AI 상담사 PoC를 0에서 1까지 구축해 고객사와의 사업 제휴를 이끌어냈습니다.",
-    metrics: ["제품 기획", "사업 제휴", "PoC", "챗봇"],
-    tags: ["STT · TTS", "Retrieval", "대화 데이터", "사업 제휴"],
+      "당시 LLM이라는 개념이 보편화되지 않았습니다. 직접 제로베이스에서 데이터가공, STT, TTS, Retrieval 기술을 연결해 사용자가 음성으로 질문하고 AI 상담사가 답변하는 서비스 구조를 기획했습니다. 서비스 범위, 대화 흐름, PRD, 와이어프레임, 페르소나·심리테스트 기반 대화 데이터를 설계했습니다. 내부 개발 부서와 요구사항을 조율하고 대화데이터 검증에 필요한 대학 산학협력 기관과의 커뮤니케이션을 주도했습니다.",
+    result:
+      "B2C AI 상담사 PoC를 0에서 1까지 구축하고, 기술을 고객이 직접 경험할 수 있는 서비스 형태로 구체화했습니다. 제품 PoC와 성공적으로 시연하여 외부 파트너와의 후속 사업 진행 가능성을 만들었습니다.",
+    metrics: ["제품 기획", "사업 제휴", "PoC", "대화 데이터 제작"],
+    tags: [],
     visual: {
       title: "AI 상담사 PoC 자료",
       type: "image",
       alt: "B2C AI 상담사 PoC의 PRD와 대화 흐름 및 제휴 범위 자료",
-      placeholderItems: ["PRD", "대화 흐름", "PoC"],
+      items: [
+        {
+          id: "skelter-ai-counselor-concept-mockup",
+          src: "/evidence/skelter-ai-counselor/mockup-overview.png",
+          alt: "개념 목업: 음성 질의와 Retrieval 흐름을 연결한 AI 상담사 PoC 화면",
+          width: 1600,
+          height: 1200,
+          kind: "concept-mockup",
+        },
+      ],
+      placeholderItems: [],
     },
   },
   {
     id: "sk-planet-syrup-wallet",
-    category: "350만 MAU 제품 광고 운영",
+    category: "서비스 운영, 푸시 광고, 운영 효율화",
     period: "2018.04–2020.04",
     organizationLabel: "수행 회사",
     organization: "SK Planet · Syrup Wallet",
     involvement: { label: "담당 책임", value: "푸시 기능 기획·운영 개선" },
-    title: "시럽월렛 광고 운영",
-    challenge: "광고 푸시의 낮은 수신 효율과 서버 과부하, 반복적인 수작업 운영을 함께 개선해야 했습니다.",
+    title: "시럽월렛 광고 운영 효율화",
+    challenge:
+      "광고 푸시 운영 과정에서 낮은 수신 효율, 서버 과부하, 반복적인 수작업 문제가 발생했습니다. 안정적인 푸시 서비스를 제공하고 광고 성과를 높이면서도 운영자가 더 적은 시간으로 안정적으로 캠페인을 관리할 수 있는 구조가 필요했습니다.",
     action:
-      "낮은 수신 효율을 개선하기 위해 유효 토큰 타기팅과 서버 과부하를 예방하는 분산 발송 기능을 기획했습니다. 반복적인 수작업을 없애기 위해 광고팀이 직접 에셋을 등록할 수 있는 어드민 기능을 추가해 운영 프로세스 개선을 주도했습니다.",
-    result: "수신율을 2배, 열람률을 1.5배 높이고 운영 시간을 기존의 1/10 수준으로 단축했습니다.",
+      "낮은 수신 효율을 개선하기 위해 유효 토큰 기반 타겟팅 방식을 기획했고 서버 과부하를 줄이기 위해 푸시 분산 발송 기능을 적용했습니다. 또한 반복적인 수작업을 줄이기 위해 광고팀이 직접 광고 소재를 등록할 수 있는 어드민 기능을 추가했습니다. 즉, 운영 과정에서 발생하는 병목을 정리하고, 광고 발송·소재 등록·운영 관리 프로세스를 개선했습니다.",
+    result:
+      "광고 푸시 수신율을 2배, 열람률을 1.5배 높였습니다. 반복 운영 시간을 기존 대비 약 1/10 수준으로 단축해 광고 운영 효율을 크게 개선했습니다.",
     metrics: ["제품 운영", "타겟팅 기획", "운영 효율화"],
-    tags: ["B2C", "서비스 운영", "푸시 기능 개선", "프로세스 운영 개선"],
+    tags: ["어드민운영", "내외부 커뮤니케이션", "푸시 기능 고도화", "운영 프로세스 개선"],
     visual: {
       title: "대규모 제품 운영 자료",
       type: "image",
       alt: "대규모 제품의 푸시 운영 전후 흐름과 타기팅 및 분산 발송 구조 자료",
-      placeholderItems: ["푸시 운영 전후 흐름", "타기팅·분산 발송 구조", "성과 지표 산식"],
+      items: [
+        {
+          id: "sk-planet-syrup-concept-mockup",
+          src: "/evidence/sk-planet-syrup-wallet/mockup-overview.png",
+          alt: "개념 목업: 푸시 타겟팅·분산 발송과 광고 소재 운영 어드민 화면",
+          width: 1600,
+          height: 1200,
+          kind: "concept-mockup",
+        },
+      ],
+      placeholderItems: [],
     },
   },
 ];

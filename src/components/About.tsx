@@ -39,7 +39,7 @@ const About = ({ keywords = [] }: AboutProps) => {
           <div className="min-w-0">
             <p className="font-body text-xs font-semibold uppercase tracking-[0.3em] text-[#ff6645]">About</p>
             <h2 className="mt-4 max-w-xl break-words text-balance font-display text-[1.75rem] font-bold leading-tight tracking-[-0.03em] text-white sm:text-3xl md:text-4xl">
-              저는 제너럴리스트이자 AI 스페셜리스트입니다.
+              넓게 이해하고, 뾰족하게 실행합니다.
             </h2>
             {keywords.length > 0 && (
               <div aria-label="핵심 역량" className="mt-5 flex max-w-2xl flex-wrap gap-2 md:mt-6">
@@ -74,14 +74,20 @@ const About = ({ keywords = [] }: AboutProps) => {
           <div className="min-w-0">
             <div className="max-w-3xl space-y-4 break-words text-pretty font-body text-base leading-7 text-white/70 md:text-lg md:leading-8">
               <p>
-                제품과 기술은 수단입니다. 중요한 것은 고객의 문제를 얼마나 효과적으로 푸는가입니다.
+                저는 B2B·B2G·B2C 고객과 금융·공공·IT·커머스 등 다양한 도메인을 경험하며, 산업마다 다른
+                문제의 맥락과 의사결정 구조를 이해해왔습니다.
               </p>
               <p>
-                B2B·B2G·B2C 고객과 금융·공공·IT·커머스 등 여러 도메인을 경험하며 각 환경의 특수성을
-                이해했습니다. 결국 시간과 비용을 줄이는 것이 사업의 핵심이라고 느꼈습니다.
+                그 안에서 제가 집중해온 일은 명확합니다. AI와 데이터 등 기술을 활용해 고객의 시간과 비용을
+                줄이고, 실제 사업 성과로 연결하는 것입니다.
               </p>
               <p>
-                직무에 국한되지 않고 우리 팀이 풀어야 할 문제와 목표에 집중해 일하는 것을 좋아합니다.
+                사업기획, 제품기획, 프로젝트 관리, 데이터 가공, 고객 커뮤니케이션, 제안과 인증 대응까지
+                직무의 경계에 갇히지 않고 팀의 목표를 기준으로 움직여왔습니다.
+              </p>
+              <p>
+                저는 문제를 넓게 이해하는 제너럴리스트이자, AI를 업무와 제품에 적용해 성과를 만드는 AI
+                스페셜리스트입니다.
               </p>
             </div>
 

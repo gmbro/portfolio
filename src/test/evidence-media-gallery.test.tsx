@@ -12,7 +12,7 @@ const projectMedia: EvidenceMediaItem[] = [
     alt: "문제 정의 화면",
     caption: "문제 정의 과정",
     width: 1600,
-    height: 1000,
+    height: 1200,
   },
   {
     id: "decision",
@@ -118,6 +118,7 @@ describe("EvidenceMediaGallery", () => {
     expect(firstImage).toHaveAttribute("loading", "lazy");
     expect(firstImage).toHaveAttribute("decoding", "async");
     expect(firstImage).toHaveAttribute("width", "1600");
+    expect(firstImage).toHaveAttribute("height", "1200");
     expect(container.querySelector('[data-evidence-media-frame="4:3"]')).toHaveClass("aspect-[4/3]");
     expect(screen.queryByText("문제 정의 과정")).not.toBeInTheDocument();
     expect(screen.getByRole("button", { name: "1번째 이미지 보기" })).toHaveAttribute("aria-current", "true");
@@ -147,9 +148,10 @@ describe("EvidenceMediaGallery", () => {
     expect(screen.getByRole("img", { name: "결과 확인 화면" })).toBeInTheDocument();
   });
 
-  it("화면 안에 있을 때 2초마다 옆 슬라이드로 자동 이동하고 자동 변경은 읽어주지 않는다", () => {
+  it("화면 안에 있을 때 4초마다 옆 슬라이드로 자동 이동하고 자동 변경은 읽어주지 않는다", () => {
     vi.useFakeTimers();
     vi.stubGlobal("IntersectionObserver", VisibleIntersectionObserver);
+    expect(EVIDENCE_AUTOPLAY_INTERVAL_MS).toBe(4_000);
 
     const { container } = render(
       <EvidenceMediaGallery projectTitle="Archi" items={projectMedia} />,
@@ -290,6 +292,27 @@ describe("EvidenceMediaGallery", () => {
       screen.getByRole("button", { name: "우선순위 결정 화면 확대해서 보기" }),
     ).toHaveFocus());
     expect(document.body).not.toHaveStyle({ overflow: "hidden" });
+  });
+
+  it("개념 목업은 실제 증거와 혼동되지 않도록 카드와 확대 화면에 상태를 표시한다", () => {
+    render(
+      <EvidenceMediaGallery
+        projectTitle="Vision AI 프로젝트"
+        items={[
+          {
+            src: "/evidence/nipa-vision-ai-poc/mockup-overview.png",
+            alt: "개념 목업: AI Vision 기반 품질검사 대시보드",
+            width: 1600,
+            height: 1200,
+            kind: "concept-mockup",
+          },
+        ]}
+      />,
+    );
+
+    expect(screen.getByText("개념 목업")).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "개념 목업: AI Vision 기반 품질검사 대시보드 확대해서 보기" }));
+    expect(within(screen.getByRole("dialog")).getByText("1 / 1 · 개념 목업")).toBeInTheDocument();
   });
 
   it("비어 있는 src나 alt 항목은 노출하지 않고 유효한 증거만 렌더한다", () => {

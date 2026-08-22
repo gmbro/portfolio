@@ -11,7 +11,10 @@ export interface HeroContent {
   headline: string;
   highlight?: string | string[];
   subcopy: string[];
-  keywords: [string, string, string] | [string, string, string, string];
+  keywords:
+    | [string, string, string]
+    | [string, string, string, string]
+    | [string, string, string, string, string];
   ctaLabel?: string;
   ctaTarget?: string;
   stats?: HeroStat[];
@@ -33,21 +36,22 @@ export interface PortfolioPublication {
 }
 
 export const defaultHeroContent: HeroContent = {
-  roleLabel: "AI Product Manager",
+  roleLabel: "AI PM",
   careerLabel: "7 years of experience",
   headline: "고객의 문제를 제품으로 해결합니다.",
   highlight: ["고객", "제품"],
   subcopy: [],
   keywords: [
-    "프로덕트의 제로투원 경험",
-    "350만 MAU 제품 운영",
-    "B2B&B2G 프로젝트",
-    "B2C Product 기획·개발",
+    "AI",
+    "Product",
+    "Project",
+    "B2B",
+    "B2C",
   ],
   stats: [
     { value: "5+", label: "수행 프로젝트" },
     { value: "3+", label: "제품 기획.운영" },
-    { value: "28억", label: "매출 기여" },
+    { value: "13억", label: "매출 기여" },
   ],
 };
 

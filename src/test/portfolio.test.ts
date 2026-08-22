@@ -126,23 +126,18 @@ describe("parsePortfolioPageContent", () => {
 });
 
 describe("검증된 기본 포트폴리오 콘텐츠", () => {
-  it("7년 경력 AI Product Manager Hero를 사용한다", () => {
+  it("7년 경력 AI PM Hero를 사용한다", () => {
     expect(defaultHeroContent).toEqual({
-      roleLabel: "AI Product Manager",
+      roleLabel: "AI PM",
       careerLabel: "7 years of experience",
       headline: "고객의 문제를 제품으로 해결합니다.",
       highlight: ["고객", "제품"],
       subcopy: [],
-      keywords: [
-        "프로덕트의 제로투원 경험",
-        "350만 MAU 제품 운영",
-        "B2B&B2G 프로젝트",
-        "B2C Product 기획·개발",
-      ],
+      keywords: ["AI", "Product", "Project", "B2B", "B2C"],
       stats: [
         { value: "5+", label: "수행 프로젝트" },
         { value: "3+", label: "제품 기획.운영" },
-        { value: "28억", label: "매출 기여" },
+        { value: "13억", label: "매출 기여" },
       ],
     });
     expect(defaultHeroContent.highlight).toEqual(["고객", "제품"]);
@@ -201,10 +196,10 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
     });
     expect(flagshipProject).toMatchObject({
       organization: "아키랩, FIXNESS",
-      category: "아키 · 실사용 베타",
+      category: "제품, 베타서비스",
       involvement: { label: "담당 책임", value: "제품 기획·개발·사업·운영 전담" },
-      link: { label: "아키 베타 보기", href: "https://archi.best" },
-      metrics: ["베타 참여자 15명", "2026.06–진행 중", "제품 전 과정 1인 전담"],
+      link: { label: "베타서비스 보기", href: "https://archi.best" },
+      metrics: ["제품 개발", "사업 제휴", "베타서비스 운영"],
       visual: { alt: expect.stringContaining("아키") },
     });
     expect(flagshipProject.visual?.placeholderItems).toEqual([]);
@@ -232,11 +227,15 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
       }),
     ]);
     expect(flagshipProject.visual?.items?.every((item) => item.caption === undefined)).toBe(true);
-    expect(flagshipProject.action).toContain("Gemini API");
-    expect(flagshipProject.action).toContain("MediaPipe");
-    expect(flagshipProject.action).toContain("33개 관절");
+    expect(flagshipProject.action).toContain("AI SaaS");
+    expect(flagshipProject.action).toContain("자세 변화");
+    expect(flagshipProject.action).toContain("강사와 회원");
     expect(flagshipProject.result).toContain("15명");
-    expect(flagshipProject.result).toContain("교정 운동 전후 비교");
+    expect(flagshipProject.result).toContain("교정운동 전후 비교");
+    expect(flagshipProject.result).toContain("1인 개발");
+    expect(flagshipProject.result).toContain("회원 공유");
+    expect(flagshipProject.result).toContain("SaaS");
+    expect(flagshipProject.tags).toEqual(["Codex", "Supabase", "Gemini", "React"]);
     expect(JSON.stringify({ arkylab, flagshipProject })).not.toMatch(/6명|2026\.07|1인 제품/);
   });
 
@@ -253,7 +252,7 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
     expect(defaultHeroContent.stats?.map(({ value }) => parseCountUpValue(value))).toEqual([
       { target: 5, suffix: "+" },
       { target: 3, suffix: "+" },
-      { target: 28, suffix: "억" },
+      { target: 13, suffix: "억" },
     ]);
     expect(parseCountUpValue("검증")).toBeNull();
   });
@@ -266,15 +265,15 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
       "b2b-b2g",
     ]);
     expect(portfolioProjects.find(({ id }) => id === "skelter-ai-counselor")).toMatchObject({
-      category: "Product 0 to 1",
+      category: "제품 기획, PoC, 사업 제휴",
       metrics: expect.arrayContaining(["PoC"]),
     });
     expect(portfolioProjects.find(({ id }) => id === "sk-planet-syrup-wallet")).toMatchObject({
-      category: "350만 MAU 제품 광고 운영",
+      category: "서비스 운영, 푸시 광고, 운영 효율화",
       metrics: expect.arrayContaining(["제품 운영"]),
     });
-    expect(portfolioProjects.find(({ id }) => id === "selectstar-stt-operations")?.metrics).toContain(
-      "운영 원가 70%+ 절감",
+    expect(portfolioProjects.find(({ id }) => id === "selectstar-stt-operations")?.result).toContain(
+      "70% 이상 절감",
     );
     expect(careerExperiences.find(({ company }) => company === "GenON")?.tags).toContain(
       "B2B · B2G",
@@ -355,54 +354,86 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
     ).toEqual([
       {
         id: "arkylab-ai-coach",
-        category: "아키 · 실사용 베타",
+        category: "제품, 베타서비스",
         title: "운동 강사를 위한 AI 기록 솔루션",
         organization: "아키랩, FIXNESS",
         involvement: "제품 기획·개발·사업·운영 전담",
-        metrics: ["베타 참여자 15명", "2026.06–진행 중", "제품 전 과정 1인 전담"],
+        metrics: ["제품 개발", "사업 제휴", "베타서비스 운영"],
       },
       {
         id: "nipa-vision-ai-poc",
         category: "Vision AI · 프로젝트 관리",
-        title: "Vision AI를 활용한 신발 아웃솔 품질 검사 효율화 프로젝트",
+        title: "AI Vision 기반 신발 아웃솔 품질검사 효율화 프로젝트",
         organization: "GenON · NIPA 지원사업 AI 바우처",
         involvement: "제안서·산출물·프로젝트 관리",
-        metrics: ["7개월 수행", "PoC·산출물 관리"],
+        metrics: ["제안서 작성", "PoC·산출물 관리"],
       },
       {
         id: "selectstar-stt-operations",
-        category: "AI 데이터 가공",
+        category: "AI 데이터 가공, 프로젝트 관리",
         title: "음성 전사 데이터셋 구축 프로젝트",
         organization: "셀렉터스타 · LG유플러스",
         involvement: "프로젝트 수행·STT 제품 기획",
-        metrics: ["맨먼스 약 1/10", "운영 원가 70%+ 절감", "수행사 커뮤니케이션"],
+        metrics: ["프로젝트 수행", "STT 제품 기획", "작업자 관리"],
       },
       {
         id: "skelter-ai-counselor",
-        category: "Product 0 to 1",
+        category: "제품 기획, PoC, 사업 제휴",
         title: "Retrieval 기술을 활용한 AI 상담사 PoC",
         organization: "스켈터랩스 · 네오사피엔스",
         involvement: "제품·대화 설계 및 제휴 주도",
-        metrics: ["제품 기획", "사업 제휴", "PoC", "챗봇"],
+        metrics: ["제품 기획", "사업 제휴", "PoC", "대화 데이터 제작"],
       },
       {
         id: "sk-planet-syrup-wallet",
-        category: "350만 MAU 제품 광고 운영",
-        title: "시럽월렛 광고 운영",
+        category: "서비스 운영, 푸시 광고, 운영 효율화",
+        title: "시럽월렛 광고 운영 효율화",
         organization: "SK Planet · Syrup Wallet",
         involvement: "푸시 기능 기획·운영 개선",
         metrics: ["제품 운영", "타겟팅 기획", "운영 효율화"],
       },
     ]);
 
+    const conceptMockupProjects = featuredProjects;
+    for (const project of conceptMockupProjects) {
+      expect(project.visual?.placeholderItems).toEqual([]);
+      expect(project.visual?.items).toHaveLength(1);
+      expect(project.visual?.items?.[0]).toMatchObject({
+        src: `/evidence/${project.id}/mockup-overview.png`,
+        alt: expect.stringContaining("개념 목업"),
+        width: 1600,
+        height: 1200,
+        kind: "concept-mockup",
+      });
+    }
+
+    const nipa = portfolioProjects.find(({ id }) => id === "nipa-vision-ai-poc");
+    const selectstar = portfolioProjects.find(({ id }) => id === "selectstar-stt-operations");
     const skelter = portfolioProjects.find(({ id }) => id === "skelter-ai-counselor");
     const syrup = portfolioProjects.find(({ id }) => id === "sk-planet-syrup-wallet");
-    expect(skelter?.visual?.placeholderItems).toEqual(["PRD", "대화 흐름", "PoC"]);
-    expect(skelter?.result).toContain("사업 제휴");
+    expect(nipa?.challenge).toContain("작업자 편차");
+    expect(nipa?.action).toContain("NIPA AI 바우처");
+    expect(nipa?.result).toContain("사업비 정산");
+    expect(selectstar?.challenge).toContain("1000시간");
+    expect(selectstar?.action).toContain("약 200명");
+    expect(selectstar?.result).toContain("폐쇄망");
+    expect(selectstar?.result).toContain("1/10");
+    expect(selectstar?.result).toContain("70% 이상");
+    expect(skelter?.visual?.placeholderItems).toEqual([]);
+    expect(skelter?.result).toContain("후속 사업 진행 가능성");
+    expect(skelter?.tags).toEqual([]);
     expect(syrup?.action).toContain("유효 토큰");
     expect(syrup?.action).toContain("분산 발송");
     expect(syrup?.action).toContain("어드민");
-    expect(syrup?.tags).toEqual(["B2C", "서비스 운영", "푸시 기능 개선", "프로세스 운영 개선"]);
+    expect(syrup?.result).toContain("수신율을 2배");
+    expect(syrup?.result).toContain("열람률을 1.5배");
+    expect(syrup?.result).toContain("1/10");
+    expect(syrup?.tags).toEqual([
+      "어드민운영",
+      "내외부 커뮤니케이션",
+      "푸시 기능 고도화",
+      "운영 프로세스 개선",
+    ]);
   });
 
   it("주석에서 확정한 회사 설명·직무·팀·경력 설명을 보존한다", () => {

@@ -13,7 +13,7 @@ import {
 import { createPortal } from "react-dom";
 import { motion } from "framer-motion";
 
-export const EVIDENCE_AUTOPLAY_INTERVAL_MS = 2_000;
+export const EVIDENCE_AUTOPLAY_INTERVAL_MS = 4_000;
 const SLIDE_TRANSITION_SECONDS = 0.65;
 
 export interface EvidenceMediaItem {
@@ -23,6 +23,7 @@ export interface EvidenceMediaItem {
   caption?: string;
   width?: number;
   height?: number;
+  kind?: "evidence" | "concept-mockup";
 }
 
 export interface EvidenceMediaGalleryProps {
@@ -346,7 +347,7 @@ const EvidenceMediaGallery = ({
       ? "자동 넘김이 일시정지되었습니다."
       : pointerPaused || focusPaused || lightboxOpen
         ? "이미지를 살펴보는 동안 자동 넘김이 멈춥니다."
-        : "2초마다 다음 증거 이미지로 자동 이동합니다.";
+        : "4초마다 다음 증거 이미지로 자동 이동합니다.";
 
   return (
     <section
@@ -404,6 +405,11 @@ const EvidenceMediaGallery = ({
                 aria-haspopup="dialog"
                 onClick={openLightbox}
               >
+                {activeItem.kind === "concept-mockup" && (
+                  <span className="pointer-events-none absolute left-3 top-3 z-10 rounded-full border border-[#ff8a70]/45 bg-black/80 px-3 py-2 font-body text-[10px] font-bold uppercase tracking-[0.14em] text-[#ffb09e] backdrop-blur-sm">
+                    개념 목업
+                  </span>
+                )}
                 <img
                   src={activeItem.src}
                   alt={activeItem.alt}
@@ -504,7 +510,10 @@ const EvidenceMediaGallery = ({
                 <h4 id={dialogTitleId} className="truncate font-display text-sm font-bold text-white sm:text-base">
                   {projectTitle} 증거 이미지 확대
                 </h4>
-                <p className="mt-1 font-body text-xs text-white/55">{activeIndex + 1} / {itemCount}</p>
+                <p className="mt-1 font-body text-xs text-white/55">
+                  {activeIndex + 1} / {itemCount}
+                  {activeItem.kind === "concept-mockup" ? " · 개념 목업" : ""}
+                </p>
               </div>
               <button
                 ref={closeButtonRef}

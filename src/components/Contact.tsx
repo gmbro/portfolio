@@ -164,6 +164,10 @@ const Contact = () => {
           <h2 className="mt-4 break-words text-balance font-display text-3xl font-bold leading-tight tracking-[-0.03em] text-white md:text-5xl">
             채용·협업
           </h2>
+          <p className="mt-5 max-w-3xl break-words text-pretty font-body text-base leading-7 text-white/65 md:text-lg">
+            AI 제품기획·프로젝트 수행에 강점이 있습니다. 고객 문제를 뾰족하게 정의하고, AI 기술을 활용해 실제
+            성과로 연결하는 일에 기여할 수 있습니다.
+          </p>
         </motion.div>
 
         <motion.form
@@ -173,7 +177,7 @@ const Contact = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.08 }}
-          className="w-full max-w-3xl rounded-3xl border border-white/10 bg-[#111111] p-5 md:p-8 lg:max-w-none"
+          className="w-full rounded-3xl border border-white/10 bg-[#111111] p-5 md:p-8"
         >
           <div className="absolute -left-[9999px]" aria-hidden="true">
             <label htmlFor="contact-website">웹사이트</label>

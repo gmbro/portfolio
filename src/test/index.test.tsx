@@ -59,7 +59,7 @@ describe("기본 포트폴리오 정보 구조", () => {
     });
     expect(Array.from(heroSummary.querySelectorAll("li")).map((item) => item.textContent)).toEqual([
       "Portfolio",
-      "AI Product Manager",
+      "AI PM",
       "7 years of experience",
     ]);
     expect(
@@ -72,10 +72,11 @@ describe("기본 포트폴리오 정보 구조", () => {
         (keyword) => keyword.textContent,
       ),
     ).toEqual([
-      "프로덕트의 제로투원 경험",
-      "350만 MAU 제품 운영",
-      "B2B&B2G 프로젝트",
-      "B2C Product 기획·개발",
+      "AI",
+      "Product",
+      "Project",
+      "B2B",
+      "B2C",
     ]);
     expect(within(hero as HTMLElement).queryByText("대표 프로젝트를 직접 살펴보거나, AI에게 필요한 경력 근거를 물어보세요.")).not.toBeInTheDocument();
     expect(within(hero as HTMLElement).queryAllByRole("button")).toHaveLength(0);
@@ -87,7 +88,7 @@ describe("기본 포트폴리오 정보 구조", () => {
     }))).toEqual([
       { value: "5+", label: "수행 프로젝트" },
       { value: "3+", label: "제품 기획.운영" },
-      { value: "28억", label: "매출 기여" },
+      { value: "13억", label: "매출 기여" },
     ]);
     statCards.forEach((card) => {
       expect(card.firstElementChild?.tagName).toBe("DT");
@@ -99,7 +100,7 @@ describe("기본 포트폴리오 정보 구조", () => {
       Array.from(hero?.querySelectorAll<HTMLElement>("[data-count-up-target]") ?? []).map(
         (value) => value.dataset.countUpTarget,
       ),
-    ).toEqual(["5", "3", "28"]);
+    ).toEqual(["5", "3", "13"]);
     expect(screen.getByRole("button", { name: "Kyoungmin Lee, 처음으로" })).toHaveTextContent(
       "Kyoungmin Lee",
     );
@@ -116,7 +117,7 @@ describe("기본 포트폴리오 정보 구조", () => {
     );
     expect(
       screen.getByRole("heading", {
-        name: "저는 제너럴리스트이자 AI 스페셜리스트입니다.",
+        name: "넓게 이해하고, 뾰족하게 실행합니다.",
       }),
     ).toBeInTheDocument();
     const aboutPortrait = within(about as HTMLElement).getByRole("img", {
@@ -133,21 +134,31 @@ describe("기본 포트폴리오 정보 구조", () => {
     expect(aboutPortrait).toHaveClass("object-cover");
     expect(aboutPortrait).not.toHaveClass("grayscale", "contrast-[1.06]", "brightness-[0.96]");
     expect(aboutPortrait.closest("[data-about-portrait]")).toBeInTheDocument();
-    expect(screen.getByText("제품과 기술은 수단입니다. 중요한 것은 고객의 문제를 얼마나 효과적으로 푸는가입니다.")).toBeInTheDocument();
+    expect(container.textContent).toContain(
+      "저는 B2B·B2G·B2C 고객과 금융·공공·IT·커머스 등 다양한 도메인을 경험하며, 산업마다 다른 문제의 맥락과 의사결정 구조를 이해해왔습니다.",
+    );
+    expect(container.textContent).toContain(
+      "AI와 데이터 등 기술을 활용해 고객의 시간과 비용을 줄이고, 실제 사업 성과로 연결하는 것입니다.",
+    );
+    expect(container.textContent).toContain(
+      "저는 문제를 넓게 이해하는 제너럴리스트이자, AI를 업무와 제품에 적용해 성과를 만드는 AI 스페셜리스트입니다.",
+    );
     expect(screen.getByText("현장 피드백과 인터뷰를 통해 문제를 탐색하고, 우리 조직이 해결할 수 있는 문제에 집중합니다.")).toBeInTheDocument();
     expect(screen.getByText("비즈니스 임팩트와 지속 가능성을 고려해 수행할 태스크를 구분합니다.")).toBeInTheDocument();
     expect(screen.getByText("목적과 지표를 설정한 뒤 결과를 빠르게 검증하고 다음 액션을 고민합니다.")).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "기여도가 높은 프로젝트를 소개합니다." })).toBeInTheDocument();
-    expect(screen.getByText("최신순으로 나열했으며, 문제·판단·실행·성과 순서로 정리했습니다.")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "문제를 성과로 바꾼 프로젝트를 소개합니다." })).toBeInTheDocument();
+    expect(screen.getByText("기술을 활용해 고객의 시간과 비용을 줄인 과정을 문제·판단·실행·성과 순서로 정리했습니다.")).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "채용·협업" })).toBeInTheDocument();
+    expect(screen.getByText("AI 제품기획·프로젝트 수행에 강점이 있습니다. 고객 문제를 뾰족하게 정의하고, AI 기술을 활용해 실제 성과로 연결하는 일에 기여할 수 있습니다.")).toBeInTheDocument();
 
-    expect(screen.getByRole("link", { name: "아키 베타 보기, 새 창에서 열기" })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: "베타서비스 보기, 새 창에서 열기" })).toHaveAttribute(
       "href",
       "https://archi.best",
     );
     expect(container.querySelectorAll("[data-project-rank]")).toHaveLength(5);
-    expect(container.querySelectorAll('[data-evidence-media-state="empty"]')).toHaveLength(4);
-    expect(container.querySelectorAll('[data-evidence-media-state="ready"]')).toHaveLength(1);
+    expect(container.querySelectorAll('[data-evidence-media-state="empty"]')).toHaveLength(0);
+    expect(container.querySelectorAll('[data-evidence-media-state="ready"]')).toHaveLength(5);
+    expect(screen.getAllByText("개념 목업")).toHaveLength(4);
     const flagship = container.querySelector<HTMLElement>('[data-project-rank="1"][id="arkylab-ai-coach"]');
     expect(flagship).toBeInTheDocument();
     expect(within(flagship as HTMLElement).getByRole("img", {
@@ -160,9 +171,15 @@ describe("기본 포트폴리오 정보 구조", () => {
     expect(within(flagship as HTMLElement).queryByText("랜딩 페이지")).not.toBeInTheDocument();
     expect(within(flagship as HTMLElement).queryByText("기록 화면")).not.toBeInTheDocument();
     expect(within(flagship as HTMLElement).queryByText("아키텍처")).not.toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "완벽한 조직이 아니어도 됩니다. 매출 규모가 크지 않아도 됩니다." })).toBeInTheDocument();
-    expect(screen.getByText("이런 조직을 선호합니다.")).toBeInTheDocument();
-    expect(screen.getByText("지금까지의 이직은 잦았습니다. 이전에는 개인의 성장과 역량 향상을 위한 선택에 집중했다면, 다음에는 고객의 문제를 정확히 이해하고 빠르게 검증할 수 있으며, 차별화된 기술 해자를 구축해 시장을 바꾸려는 의지가 있는 조직을 원합니다.")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "다양한 환경에서 제품과 사업의 문제를 해결해왔습니다." })).toBeInTheDocument();
+    expect(container.textContent).toContain(
+      "커머스, 데이터, 클라우드·공공 SaaS, 헬스케어 제품 개발까지 다양한 도메인에서 제품기획·사업개발·프로젝트 운영을 수행하며 고객의 시간과 비용을 줄이는 일에 집중해왔습니다.",
+    );
+    expect(screen.getByRole("heading", { name: "재직 기간이 짧아 보일 수 있지만, 제 커리어의 방향은 일관됐습니다." })).toBeInTheDocument();
+    expect(screen.getByText("짧은 경험들을 하나의 방향으로 연결해왔습니다.")).toBeInTheDocument();
+    expect(container.textContent).toContain(
+      "이제는 고객 문제를 깊게 이해하고 빠르게 검증하며, AI 기반의 차별화된 해결책을 함께 만들어갈 수 있는 조직에서 장기적으로 기여하고 싶습니다.",
+    );
     expect(
       Array.from(container.querySelectorAll<HTMLElement>("[data-experience-duration]")).map(
         (badge) => badge.dataset.experienceDuration,
@@ -197,7 +214,8 @@ describe("기본 포트폴리오 정보 구조", () => {
       "contact-form",
     ]));
     expect(container.querySelector("#contact > div.relative.z-10")).toHaveClass("max-w-7xl");
-    expect(container.querySelector("#contact form")).toHaveClass("max-w-3xl", "lg:max-w-none");
+    expect(container.querySelector("#contact form")).toHaveClass("w-full");
+    expect(container.querySelector("#contact form")).not.toHaveClass("max-w-3xl");
     expect(container.textContent).not.toContain("Arkylab");
     expect(container.textContent).not.toContain("Archi");
     expect(container.textContent).not.toContain("2026 이경민");

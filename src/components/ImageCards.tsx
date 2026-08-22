@@ -122,31 +122,35 @@ const ProjectCard = ({ project, index }: { project: FeaturedProject; index: numb
 
       <div className="mt-8">{evidence}</div>
 
-      <footer className="mt-8 flex flex-wrap items-end justify-between gap-5 border-t border-white/[0.07] pt-6">
-        <div className="flex flex-wrap gap-x-3 gap-y-2">
-          {project.tags.map((tag) => (
-            <span key={tag} className="break-words font-body text-[11px] text-white/50">
-              #{tag}
-            </span>
-          ))}
-        </div>
-        {project.link && (
-          <a
-            href={project.link.href}
-            target="_blank"
-            rel="noreferrer"
-            data-chat-exclusion="true"
-            onClick={() => {
-              if (project.id === "arkylab-ai-coach") trackPortfolioEvent("select_content");
-            }}
-            aria-label={project.id === "arkylab-ai-coach" ? "아키 베타 보기, 새 창에서 열기" : undefined}
-            className="inline-flex min-h-11 items-center gap-2 rounded-full border border-white/15 px-4 py-2 font-body text-xs font-bold text-white transition-colors hover:border-[#ff6645]/60 hover:text-[#ff8a70] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6645]"
-          >
-            {project.link.label}
-            <ArrowUpRight size={15} aria-hidden="true" />
-          </a>
-        )}
-      </footer>
+      {(project.tags.length > 0 || project.link) && (
+        <footer className="mt-8 flex flex-wrap items-end justify-between gap-5 border-t border-white/[0.07] pt-6">
+          {project.tags.length > 0 && (
+            <div className="flex flex-wrap gap-x-3 gap-y-2">
+              {project.tags.map((tag) => (
+                <span key={tag} className="break-words font-body text-[11px] text-white/50">
+                  #{tag}
+                </span>
+              ))}
+            </div>
+          )}
+          {project.link && (
+            <a
+              href={project.link.href}
+              target="_blank"
+              rel="noreferrer"
+              data-chat-exclusion="true"
+              onClick={() => {
+                if (project.id === "arkylab-ai-coach") trackPortfolioEvent("select_content");
+              }}
+              aria-label={project.id === "arkylab-ai-coach" ? "베타서비스 보기, 새 창에서 열기" : undefined}
+              className="inline-flex min-h-11 items-center gap-2 rounded-full border border-white/15 px-4 py-2 font-body text-xs font-bold text-white transition-colors hover:border-[#ff6645]/60 hover:text-[#ff8a70] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6645]"
+            >
+              {project.link.label}
+              <ArrowUpRight size={15} aria-hidden="true" />
+            </a>
+          )}
+        </footer>
+      )}
     </motion.article>
   );
 };
@@ -169,10 +173,10 @@ const ImageCards = () => {
             Projects
           </span>
           <h2 className="mt-4 break-words text-balance font-display text-3xl font-bold leading-tight tracking-[-0.03em] text-white md:text-5xl">
-            기여도가 높은 프로젝트를 소개합니다.
+            문제를 성과로 바꾼 프로젝트를 소개합니다.
           </h2>
           <p className="mt-6 max-w-3xl break-words text-balance font-body text-base leading-7 text-white/65 md:text-lg">
-            최신순으로 나열했으며, 문제·판단·실행·성과 순서로 정리했습니다.
+            기술을 활용해 고객의 시간과 비용을 줄인 과정을 문제·판단·실행·성과 순서로 정리했습니다.
           </p>
         </motion.div>
 
