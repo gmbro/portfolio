@@ -65,11 +65,11 @@ Supabase를 사용할 때는 버킷을 공개로 설정하고 객체의 `public`
 
 아키와 시럽월렛은 사용자가 직접 제공한 공개 Supabase Storage 자료를 사용한다. 시럽월렛 3장은 브라우저에서 모두 PNG `1600×1200px`, `complete=true`를 확인했고 `kind: "evidence"`로 등록했다.
 
-| 프로젝트 | 표시 순서 | 공개 URL | 원본 크기 | 상태 |
-|---|---:|---|---:|---|
-| Syrup Wallet 운영 | 1 | `https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/syrup/1.png` | `1600×1200px` | `evidence` |
-| Syrup Wallet 운영 | 2 | `https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/syrup/2.png` | `1600×1200px` | `evidence` |
-| Syrup Wallet 운영 | 3 | `https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/syrup/3.png` | `1600×1200px` | `evidence` |
+| 프로젝트 | 표시 순서 | 공개 URL | 원본 크기 | 실제 파일 크기 | 상태 |
+|---|---:|---|---:|---:|---|
+| Syrup Wallet 운영 | 1 | `https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/syrup/1.png` | `1600×1200px` | `698,452 bytes` (약 682KiB) | `evidence` |
+| Syrup Wallet 운영 | 2 | `https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/syrup/2.png` | `1600×1200px` | `669,600 bytes` (약 654KiB) | `evidence` |
+| Syrup Wallet 운영 | 3 | `https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/syrup/3.png` | `1600×1200px` | `628,074 bytes` (약 613KiB) | `evidence` |
 
 개념 목업 등록 예시는 다음과 같다.
 
