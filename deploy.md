@@ -1209,6 +1209,95 @@ GitHub Pages 배포 후 같은 세 너비에서 asset revision, launcher 외형�
 
 ---
 
+### 2026-08-22 / Hero 배경 가시성 개선 / base revision 28
+
+- 작업 대상 URL: `/`, 유효한 `/p/:slug`
+- 제외 URL: `/admin/links`, 무효 `/p/:slug`, 임의 404
+- 수정 전 라이브 URL: `https://archilab.ai.kr/`
+- 로컬 미리보기 URL: `http://127.0.0.1:4177/`
+- 배포 예정 URL: `https://archilab.ai.kr/`
+- 대상 revision: 기본 포트폴리오 base revision 28
+- 검사 브라우저: Codex In-app Browser
+- 검사 담당: Codex
+- 새 JD·경력·성과 사실은 없으며, 이번 작업은 사용자가 제공한 Hero 배경 이미지의 가시성만 개선한다.
+
+#### 1단계 — 사용자 과업·채용 신호 분석
+
+| 우선순위 | 사용자가 확인할 신호 | 이번 revision의 방향 |
+|---:|---|---|
+| 1 | 첫 화면에서 이경민의 실제 활동 맥락과 포트폴리오 톤이 보이는가 | Hero 배경 이미지 위의 검정 scrim을 소폭 완화 |
+| 2 | 이름·역할·핵심 경력 문구는 계속 빠르게 읽히는가 | 기존 방향성 gradient와 텍스트 색상은 유지 |
+| 3 | 변경이 배포 속도와 안정성을 해치지 않는가 | 컴포넌트·콘텐츠·이미지 요청은 건드리지 않고 CSS 한 줄만 변경 |
+
+- 핵심 Pain Point: Hero 이미지 자체는 정상 로드되지만 `.portfolio-hero__scrim`의 계산 opacity가 `1`이고 기존 gradient도 모바일 `0.8→0.9`, 데스크톱 좌측 `0.94`까지 어두워 배경 맥락이 거의 보이지 않는다.
+- North Star와 정보 구조는 base revision 27을 유지한다. 이번 수정은 채용 근거·CTA·챗봇·프로젝트 탐색 경로를 변경하지 않는다.
+
+#### 2단계 — 검증 근거 구조화
+
+| 근거 | 확인 상태 | 변경 원칙 |
+|---|---|---|
+| Hero 이미지 | Supabase `background.png`가 세 너비에서 정상 로드 | URL·crop·eager 로딩 유지 |
+| 텍스트 대비 | 방향성 gradient 위 흰색·코럴 텍스트 | gradient 자체는 유지하고 레이어 전체 투명도만 소폭 조정 |
+| 반응형 | 수정 전 clientWidth/scrollWidth `375/375`, `753/753`, `1425/1425` | 레이아웃 속성을 변경하지 않아 동일 폭 유지 |
+
+#### 3단계 — 시각 조정안 비교
+
+| 안 | 수정 방향 | 판단 |
+|---:|---|---|
+| 1 (채택) | 기존 scrim에 `opacity: 0.88` 추가 | 이미지가 약 12% 더 보이면서 기존 텍스트 보호 분포 유지 |
+| 2 | 배경 이미지 brightness를 더 높임 | 밝은 이미지 영역의 텍스트 대비까지 함께 흔들릴 수 있어 제외 |
+| 3 | desktop/mobile gradient 값을 각각 재작성 | 조정 범위가 커지고 회귀 검사가 늘어나 빠른 배포 요청과 불일치 |
+
+- Hero 문구·수치·키워드·CTA는 변경하지 않는다.
+
+#### 4단계 — 웹사이트 적용 계획
+
+- `src/index.css`의 `.portfolio-hero__scrim`에 `opacity: 0.88` 한 줄을 추가한다.
+- `design.md`의 Hero 배경 계약에 동일한 수치를 기록한다.
+- 사용자 요청에 따라 전체 회귀 검사는 생략하고 production build, 세 너비의 scrim 계산값·가로 오버플로, GitHub Actions 배포 성공만 최소 확인한다.
+
+#### 1차 진단 — 수정 전 라이브
+
+| 항목 | 390×844 | 768×900 | 1440×900 |
+|---|---:|---:|---:|
+| clientWidth / scrollWidth | `375 / 375` | `753 / 753` | `1425 / 1425` |
+| Hero scrim 계산 opacity | `1` | `1` | `1` |
+| Hero media filter | `brightness(1.08) saturate(0.84) contrast(1.04)` | 동일 | 동일 |
+
+| ID | 범위 | 발견한 문제 | 사용자 영향 | 심각도 | 수정 방향 | 상태 |
+|---|---|---|---|---|---|---|
+| QA-BASE28-001 | Hero | 이미지 위 scrim이 불투명 상태로 강하게 적용돼 배경이 거의 보이지 않음 | 첫 화면의 실제 활동 이미지와 전체 톤이 전달되지 않음 | 높음 | 기존 scrim에 `opacity: 0.88` 추가 | 발견 |
+
+#### 직접 수정
+
+| ID | 수정 파일 | 실제 수정 내용 | 콘텐츠 사실 변경 여부 | 결과 |
+|---|---|---|---|---|
+| QA-BASE28-001 | `src/index.css` | 기존 desktop/mobile gradient는 그대로 두고 `.portfolio-hero__scrim`에 `opacity: 0.88` 추가 | 없음 | 배경 활동 이미지 식별 가능 |
+| QA-BASE28-001 | `design.md` | Hero scrim의 가시성 계약과 opacity 값을 동기화 | 없음 | 구현·디자인 기준 일치 |
+
+- Hero 이미지 URL, media filter, object-position, 텍스트·지표·Navbar·챗봇·프로젝트·Contact는 변경하지 않았다.
+
+#### 동일 조건 재검사
+
+사용자 요청에 따라 전체 페이지·보호 route·챗봇 회귀 검사는 생략하고 변경 표면만 최소 확인했다.
+
+| 항목 | 390×844 | 768×900 | 1440×900 |
+|---|---:|---:|---:|
+| clientWidth / scrollWidth | `375 / 375` | `753 / 753` | `1425 / 1425` |
+| Hero scrim 계산 opacity | `0.88` | `0.88` | `0.88` |
+| Hero 이미지 로드 | 완료 | 완료 | 완료 |
+
+- 1440px Hero 캡처에서 배경의 행사 문구·인물·공간 맥락이 이전보다 명확히 보이고, 흰색 본문과 코럴 강조의 가독성은 유지됐다.
+- production build는 Vite 6.4.3에서 성공했다. CSS `76.83kB / gzip 13.91kB`, main `431.62kB / gzip 137.89kB`다.
+- 코드 로직·DOM·콘텐츠·의존성은 변경하지 않아 사용자 요청에 따라 Vitest·ESLint·전체 route 검사는 실행하지 않았다.
+- 미해결 배포 차단 없음. 배포 가능 여부: `가능`.
+
+#### 배포 후 실제 URL 점검
+
+배포 완료 후 기록한다.
+
+---
+
 ### 2026-08-22 / 핵심 정보 구조 단순화·프로젝트 증거 자동 슬라이드 준비 / base revision 27
 
 - 작업 대상 URL: `/`, 유효한 `/p/:slug`

@@ -208,6 +208,7 @@
 }
 
 .portfolio-hero__scrim {
+  opacity: 0.88;
   background:
     linear-gradient(
       90deg,
