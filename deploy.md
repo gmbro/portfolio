@@ -1310,7 +1310,27 @@ GitHub Pages 배포 후 같은 세 너비에서 asset revision, launcher 외형�
 
 #### 배포 후 실제 URL 점검
 
-배포 후 기록한다.
+| 항목 | 390×844 | 768×900 | 1440×900 |
+|---|---:|---:|---:|
+| 실제 URL 직접 로드 | 통과 | 통과 | 통과 |
+| clientWidth / scrollWidth | `375 / 375` | `753 / 753` | `1,425 / 1,425` |
+| Hero 높이 | `832px` | `832px` | `832px` |
+| 독립 역할 배지 | 3개 · 통과 | 3개 · 통과 | 3개 · 통과 |
+| 협업사 로고 | 8개 · 4×2 | 8개 · 4×2 | 8개 · 8×1 |
+| 로고 로드 / 깨진 이미지 | `8 / 8` · 0개 | `8 / 8` · 0개 | `8 / 8` · 0개 |
+| 가로 오버플로 | 없음 | 없음 | 없음 |
+| 브라우저 warning / error | 0 / 0 | 0 / 0 | 0 / 0 |
+
+- 배포 커밋: `06c082b5ec82759b921d6398e9f13e2cc283934d` (`feat: refine portfolio evidence and restore hero partners`).
+- GitHub Actions: `Deploy Portfolio to GitHub Pages` run #37, ID `32564627307`, `completed / success`.
+- GitHub Pages deployment: ID `6035284080`, 최종 state `success`, environment URL `https://archilab.ai.kr/`.
+- 캐시 우회 URL `https://archilab.ai.kr/?rev=06c082b`를 직접 열어 새 main JS `index-BBm1S9ky.js`와 CSS `index-BH2EZHbR.css`를 확인했다.
+- 라이브 Hero는 `Portfolio` → `AI Product Manager` → `7 years of experience` 순서를 유지하고, 제목 없이 로고 8개를 NIPA → 부산광역시 → LG유플러스 → KISA → 네오사피엔스 → NHN Cloud → Syrup Wallet → Fixness 순으로 표시한다.
+- 같은 배포에서 이전 승인 변경인 About 무채색 인물 이미지, 아키 이미지 점 내비게이션 3개, 데스크톱 Contact form 1,280px, Navbar `이경민 AI` 버튼도 실서비스에서 확인했다.
+- canonical은 `https://archilab.ai.kr/`, 기본 `/`에는 robots noindex가 없어 기존 indexable 정책을 유지한다.
+- 최종 공개 URL: `https://archilab.ai.kr/`.
+- publication 상태: 기본 공개 포트폴리오 base revision 35 배포 완료. 회사별 publication 신규 생성 없음.
+- 배포 결과: `성공`.
 
 ---
 
