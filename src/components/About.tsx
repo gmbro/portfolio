@@ -17,7 +17,7 @@ const productCapabilities = [
 
 const About = () => {
   return (
-    <section id="about" className="scroll-mt-20 bg-[#0a0a0a] px-6 py-16 text-white md:px-12 md:py-20">
+    <section id="about" className="portfolio-section-surface portfolio-section-surface--soft scroll-mt-20 px-6 py-16 text-white md:px-12 md:py-20">
       <div className="mx-auto max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 18 }}

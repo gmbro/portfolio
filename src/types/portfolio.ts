@@ -33,16 +33,16 @@ export interface PortfolioPublication {
 }
 
 export const defaultHeroContent: HeroContent = {
-  roleLabel: "AI Product Manager",
+  roleLabel: "이경민의 AI PM 포트폴리오",
   careerLabel: "· 7년 경력",
-  headline: "고객의 문제를 제품으로 해결합니다.",
-  highlight: "제품으로 해결합니다",
+  headline: "고객의 문제를 제품으로 해결해 온\nAI PM 이경민입니다.",
+  highlight: "AI PM 이경민",
   subcopy: [
-    "AI 제품 0→1, 350만 MAU 운영, 데이터 프로젝트와 B2B·B2G 사업화까지 제품과 프로젝트 전 과정을 경험했습니다.",
-    "현재는 Archi(아키)를 1인으로 기획·개발·사업·운영하며, 6명의 베타 참여자 피드백으로 다음 제품 결정을 내립니다.",
+    "AI 제품 0→1, 350만 MAU 운영, 데이터·운영 개선과 B2B·B2G 사업화 경험을 프로젝트의 문제·판단·실행·성과로 보여드립니다.",
+    "대표 프로젝트를 직접 살펴보거나, AI에게 필요한 경력 근거를 물어보세요.",
   ],
-  keywords: ["제품 0→1", "프로젝트 실행", "운영·사업화"],
-  ctaLabel: "프로젝트 보기",
+  keywords: ["AI 제품 0→1", "대규모 제품 운영", "운영 구조·사업화"],
+  ctaLabel: "프로젝트 증거 보기",
   ctaTarget: "case-studies",
   stats: [
     { value: "5개", label: "대표 프로젝트" },

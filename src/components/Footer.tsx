@@ -7,7 +7,7 @@ interface FooterProps {
 
 const Footer = ({ showAnalyticsSettings = true }: FooterProps) => {
   return (
-    <footer className="border-t border-border px-6 pb-32 pt-8 md:px-16">
+    <footer className="border-t border-white/10 bg-[rgba(7,7,7,0.82)] px-6 pb-32 pt-8 md:px-16">
       <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 font-body text-xs text-white/50">
         <span>© 2026 {profile.name}</span>
         {showAnalyticsSettings && (

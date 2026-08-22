@@ -61,12 +61,19 @@ describe("기본 포트폴리오 정보 구조", () => {
     const desktopNavigationLinks = Array.from(
       navigation.querySelectorAll<HTMLButtonElement>("div.hidden button"),
     ).map((button) => button.textContent?.trim());
-    expect(desktopNavigationLinks.indexOf("역량")).toBeLessThan(
+    expect(desktopNavigationLinks.indexOf("역량·근거")).toBeLessThan(
       desktopNavigationLinks.indexOf("프로젝트"),
     );
     expect(desktopNavigationLinks).not.toContain("현재 제품");
 
-    expect(screen.getByRole("heading", { name: "고객의 문제를 제품으로 해결합니다." })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "고객의 문제를 제품으로 해결해 온 AI PM 이경민입니다." })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "이경민 AI PM 포트폴리오, 처음으로" })).toBeInTheDocument();
+    expect(container.querySelector("#evidence")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "역량을 선택해 연결된 프로젝트 증거를 확인하세요." })).toBeInTheDocument();
+    expect(container.querySelector(".portfolio-ambient")).toBeInTheDocument();
+    expect(container.querySelector<HTMLImageElement>("#hero .portfolio-hero__media")?.src).toBe(
+      "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/background.png",
+    );
     expect(screen.getByText("제품의 시작부터 운영과 사업화까지, 서로 다른 문제를 맡아 왔습니다.")).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "무엇을 결정했고, 무엇이 달라졌는지 보여드립니다." })).toBeInTheDocument();
 
@@ -75,6 +82,7 @@ describe("기본 포트폴리오 정보 구조", () => {
       "https://archi.best",
     );
     expect(container.querySelectorAll("[data-project-rank]")).toHaveLength(5);
+    expect(container.querySelectorAll('[data-evidence-media-state="empty"]')).toHaveLength(5);
     expect(container.querySelector('[data-project-rank="1"][id="arkylab-ai-coach"]')).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "다음 선택에서는 조직의 목표를 중요한 기준으로 봅니다." })).toBeInTheDocument();
     const experienceArticles = Array.from(container.querySelectorAll("#experience article"));
@@ -89,9 +97,6 @@ describe("기본 포트폴리오 정보 구조", () => {
     expect(screen.queryByTestId("typebot-bubble")).not.toBeInTheDocument();
 
     fireEvent.click(localLauncher);
-    expect(screen.getByRole("dialog", { name: "경력·프로젝트 가이드" })).toBeInTheDocument();
-    expect(screen.queryByTestId("typebot-bubble")).not.toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button", { name: /AI 제품 0→1 경험/ }));
     expect(await screen.findByTestId("typebot-bubble")).toBeInTheDocument();
     await waitFor(() => expect(bubbleProps).toHaveBeenCalledWith(
       expect.objectContaining({

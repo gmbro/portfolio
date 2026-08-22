@@ -146,6 +146,91 @@
   }
 }
 
+.portfolio-page {
+  position: relative;
+  isolation: isolate;
+  background: #070707;
+}
+
+.portfolio-ambient {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: #070707;
+}
+
+.portfolio-ambient__fallback,
+.portfolio-ambient__video,
+.portfolio-ambient__veil {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.portfolio-ambient__fallback {
+  background:
+    radial-gradient(circle at 72% 24%, rgb(126 224 255 / 0.22), transparent 42%),
+    radial-gradient(circle at 16% 60%, rgb(255 149 216 / 0.18), transparent 38%),
+    radial-gradient(circle at 88% 84%, rgb(150 128 255 / 0.16), transparent 38%),
+    #070707;
+}
+
+.portfolio-ambient__video {
+  object-fit: cover;
+  opacity: 0.85;
+}
+
+.portfolio-ambient__veil {
+  background:
+    linear-gradient(180deg, rgb(7 7 7 / 0.5), rgb(7 7 7 / 0.66)),
+    radial-gradient(circle at 50% 12%, transparent, rgb(7 7 7 / 0.28) 72%);
+}
+
+.portfolio-section-surface {
+  background: linear-gradient(180deg, rgb(7 7 7 / 0.78), rgb(7 7 7 / 0.7));
+}
+
+.portfolio-section-surface--soft {
+  background: linear-gradient(180deg, rgb(10 10 10 / 0.72), rgb(7 7 7 / 0.64));
+}
+
+.portfolio-section-surface--strong {
+  background: linear-gradient(180deg, rgb(7 7 7 / 0.84), rgb(7 7 7 / 0.74));
+}
+
+.portfolio-hero__media {
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(0.78) contrast(1.06);
+}
+
+.portfolio-hero__scrim {
+  background:
+    linear-gradient(90deg, rgb(7 7 7 / 0.94) 0%, rgb(7 7 7 / 0.84) 55%, rgb(7 7 7 / 0.6) 100%),
+    linear-gradient(180deg, rgb(7 7 7 / 0.08) 45%, rgb(7 7 7 / 0.92) 100%);
+}
+
+@media (max-width: 639px) {
+  .portfolio-hero__media {
+    object-position: 45% center;
+  }
+
+  .portfolio-hero__scrim {
+    background:
+      linear-gradient(180deg, rgb(7 7 7 / 0.8), rgb(7 7 7 / 0.9)),
+      radial-gradient(circle at 50% 34%, transparent, rgb(7 7 7 / 0.28));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-ambient__video {
+    display: none;
+  }
+}
+
 typebot-bubble {
   --portfolio-chat-bottom: 20px;
 }
@@ -210,6 +295,38 @@ typebot-bubble {
   box-shadow:
     0 0 0 6px rgb(255 255 255 / 0.95),
     0 10px 32px rgb(0 0 0 / 0.22);
+}
+
+.portfolio-chat-launcher:disabled {
+  cursor: wait;
+  opacity: 0.82;
+}
+
+.portfolio-chat-load-error {
+  position: fixed;
+  right: 20px;
+  bottom: 96px;
+  z-index: 424242;
+  width: min(320px, calc(100% - 40px));
+  padding: 12px 14px;
+  border: 1px solid rgb(255 102 69 / 0.32);
+  border-radius: 16px;
+  background: #fff5f3;
+  color: #7a271a;
+  box-shadow: 0 16px 44px rgb(0 0 0 / 0.28);
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.portfolio-chat-load-error a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  color: #b42318;
+  font-weight: 750;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .portfolio-chat-guide {
@@ -633,6 +750,10 @@ typebot-bubble::part(button):focus-visible {
     width: 38px;
     height: 38px;
     font-size: 10px;
+  }
+
+  .portfolio-chat-load-error {
+    bottom: calc(max(6px, env(safe-area-inset-bottom)) + 64px);
   }
 
   .portfolio-chat-guide {

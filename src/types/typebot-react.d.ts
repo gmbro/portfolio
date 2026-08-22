@@ -9,6 +9,7 @@ declare module "@typebot.io/react" {
     inlineStyle?: Record<string, string>;
     onOpen?: () => void;
     onClose?: () => void;
+    onNewInputBlock?: () => void;
     previewMessage?: {
       message: string;
       autoShowDelay?: number;

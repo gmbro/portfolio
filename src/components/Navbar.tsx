@@ -2,9 +2,10 @@ import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { profile } from "@/data/portfolio";
+import { openPortfolioChat } from "@/lib/chat";
 
 const navItems = [
-  { label: "역량", id: "about" },
+  { label: "역량·근거", id: "evidence" },
   { label: "프로젝트", id: "case-studies" },
   { label: "경력", id: "experience" },
   { label: "문의", id: "contact" },
@@ -24,16 +25,19 @@ const Navbar = () => {
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className="fixed top-0 left-0 right-0 z-50 px-6 py-4 md:px-12 bg-background/70 backdrop-blur-xl border-b border-border"
+      className="fixed left-0 right-0 top-0 z-50 border-b border-white/10 bg-[rgba(7,7,7,0.9)] px-6 py-4 md:px-12"
       aria-label="주요 메뉴"
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
-        <div className="flex items-center shrink-0">
-          <span className="font-display text-base font-bold tracking-tight text-foreground">
-            {profile.name}
-          </span>
-        </div>
+        <button
+          type="button"
+          onClick={() => scrollTo("hero")}
+          aria-label="이경민 AI PM 포트폴리오, 처음으로"
+          className="flex min-h-11 shrink-0 items-center rounded-lg text-left font-display text-sm font-bold tracking-tight text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:text-base"
+        >
+          {profile.name}<span className="mx-1.5 text-white/35" aria-hidden="true">·</span><span>AI PM 포트폴리오</span>
+        </button>
 
         {/* Center nav links — desktop */}
         <div className="hidden lg:flex items-center gap-6 absolute left-1/2 -translate-x-1/2">
@@ -53,10 +57,10 @@ const Navbar = () => {
         <div className="flex items-center gap-4">
           <button
             type="button"
-            onClick={() => scrollTo("contact")}
+            onClick={openPortfolioChat}
             className="hidden min-h-11 sm:block px-5 py-2 text-xs font-body font-semibold uppercase tracking-wider bg-gradient-accent text-primary-foreground rounded-full hover:shadow-[var(--shadow-glow)] transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
-            문의하기
+            AI에게 묻기
           </button>
           <button
             type="button"

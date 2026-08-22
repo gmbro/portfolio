@@ -1,6 +1,10 @@
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { defaultHeroContent, type HeroContent } from "@/types/portfolio";
+import { openPortfolioChat } from "@/lib/chat";
+
+export const portfolioHeroBackground =
+  "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/background.png";
 
 interface HeroProps {
   content?: HeroContent;
@@ -25,15 +29,18 @@ const Hero = ({ content = defaultHeroContent }: HeroProps) => {
 
   return (
     <section id="hero" className="relative flex min-h-[100svh] overflow-hidden bg-[#070707] px-6 pb-20 pt-28 text-white md:px-12 md:pb-24 md:pt-32">
-      <div
-        className="pointer-events-none absolute inset-0 opacity-90"
-        style={{
-          background:
-            "radial-gradient(circle at 12% 16%, rgba(255,102,69,.23), transparent 32%), radial-gradient(circle at 86% 78%, rgba(255,129,10,.12), transparent 30%), #070707",
-        }}
+      <img
+        className="portfolio-hero__media pointer-events-none absolute inset-0 h-full w-full"
+        src={portfolioHeroBackground}
+        alt=""
+        width="1720"
+        height="764"
+        decoding="async"
+        {...{ fetchpriority: "high" }}
       />
+      <div className="portfolio-hero__scrim pointer-events-none absolute inset-0" />
       <div
-        className="pointer-events-none absolute inset-0 opacity-[0.16]"
+        className="pointer-events-none absolute inset-0 opacity-[0.08]"
         style={{
           backgroundImage:
             "linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px)",
@@ -98,7 +105,7 @@ const Hero = ({ content = defaultHeroContent }: HeroProps) => {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, delay: 0.32 }}
-          className="mt-8"
+          className="mt-8 flex flex-wrap gap-3"
         >
           <button
             type="button"
@@ -114,6 +121,13 @@ const Hero = ({ content = defaultHeroContent }: HeroProps) => {
             <span className="transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">
               →
             </span>
+          </button>
+          <button
+            type="button"
+            onClick={openPortfolioChat}
+            className="inline-flex min-h-12 max-w-full items-center gap-2 rounded-full border border-white/20 bg-black/35 px-6 py-3 text-left font-body text-sm font-bold text-white transition-colors hover:border-[#ff6645]/60 hover:text-[#ff9a83] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6645] focus-visible:ring-offset-4 focus-visible:ring-offset-[#070707] md:min-h-14 md:px-8"
+          >
+            AI에게 경력 묻기
           </button>
         </motion.div>
 

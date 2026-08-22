@@ -147,7 +147,7 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="relative scroll-mt-20 overflow-hidden bg-[#070707] px-6 py-24 text-white md:px-12 md:py-32">
+    <section id="contact" className="portfolio-section-surface portfolio-section-surface--soft relative scroll-mt-20 overflow-hidden px-6 py-24 text-white md:px-12 md:py-32">
       <div className="pointer-events-none absolute bottom-0 left-1/2 h-[34rem] w-[70rem] -translate-x-1/2 rounded-full bg-[#ff6645]/10 blur-[150px]" />
 
       <div className="relative z-10 mx-auto max-w-3xl">

@@ -125,6 +125,12 @@ export const featuredProjects: FeaturedProject[] = [
     result: "B2C AI 상담사 PoC를 0에서 1까지 구축했습니다.",
     metrics: ["0→1 PoC"],
     tags: ["STT · TTS", "Retrieval", "대화 데이터", "사업 제휴"],
+    visual: {
+      title: "AI 상담사 PoC 자료",
+      type: "image",
+      alt: "B2C AI 상담사 PoC의 PRD와 대화 흐름 및 제휴 범위 자료",
+      placeholderItems: ["PRD·와이어프레임", "대화 흐름", "제휴·산학협력 범위"],
+    },
   },
   {
     id: "sk-planet-syrup-wallet",
@@ -139,6 +145,12 @@ export const featuredProjects: FeaturedProject[] = [
     result: "수신율을 2배, 열람률을 1.5배 높이고 운영 시간을 기존의 1/10 수준으로 단축했습니다.",
     metrics: ["약 350만 MAU", "수신율 2배", "운영 시간 1/10"],
     tags: ["B2C", "서비스 운영", "타기팅", "프로세스 개선"],
+    visual: {
+      title: "대규모 제품 운영 자료",
+      type: "image",
+      alt: "대규모 제품의 푸시 운영 전후 흐름과 타기팅 및 분산 발송 구조 자료",
+      placeholderItems: ["푸시 운영 전후 흐름", "타기팅·분산 발송 구조", "성과 지표 산식"],
+    },
   },
 ];
 

@@ -33,6 +33,24 @@ export const chatbotStarterQuestions = [
   },
 ] as const;
 
+export const chatbotFollowupQuestions = [
+  {
+    id: "followup-zero-to-one",
+    label: "AI 제품 0→1 경험을 더 보여줘.",
+    question: "AI 제품 0→1 경험을 더 보여줘.",
+  },
+  {
+    id: "followup-data-operations",
+    label: "데이터·운영 개선 성과를 알려줘.",
+    question: "데이터와 운영 구조를 개선한 성과를 알려줘.",
+  },
+  {
+    id: "followup-business",
+    label: "B2B·B2G 사업화 역할을 알려줘.",
+    question: "GenON에서 맡은 B2B·B2G 사업화 역할을 알려줘.",
+  },
+] as const;
+
 export const validateChatbotQuestion = (value: string) => {
   const question = value.trim();
 

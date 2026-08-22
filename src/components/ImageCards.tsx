@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
-import { ArrowUpRight, Image as ImageIcon } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { portfolioProjects, type FeaturedProject } from "@/data/portfolio";
 import { trackPortfolioEvent } from "@/lib/analytics";
+import EvidenceMediaGallery, { type EvidenceMediaItem } from "@/components/EvidenceMediaGallery";
 
 const ProjectVisual = ({ project }: { project: FeaturedProject }) => {
   const visual = project.visual;
@@ -24,54 +25,30 @@ const ProjectVisual = ({ project }: { project: FeaturedProject }) => {
     );
   }
 
-  if (visual.src) {
-    return (
-      <figure className="overflow-hidden rounded-2xl border border-white/10 bg-black/30">
-        <img
-          src={visual.src}
-          alt={visual.alt}
-          loading="lazy"
-          className="aspect-[16/10] w-full bg-black object-contain"
-        />
-        {visual.caption && <figcaption className="px-4 py-3 text-xs leading-5 text-white/60">{visual.caption}</figcaption>}
-      </figure>
-    );
-  }
-
-  if (!import.meta.env.DEV) return null;
+  const items: EvidenceMediaItem[] = visual.src
+    ? [{ src: visual.src, alt: visual.alt, caption: visual.caption }]
+    : [];
 
   return (
-    <aside
-      data-visual-slot={project.title}
-      className="flex min-h-56 flex-col justify-between rounded-2xl border border-dashed border-[#ff6645]/35 bg-[#ff6645]/[0.045] p-5"
-      aria-label={`${project.title} 시각 자료 영역`}
-    >
-      <div>
-        <div className="flex items-center gap-2 text-[#ff8a70]">
-          <ImageIcon size={17} aria-hidden="true" />
-          <span className="font-body text-[10px] font-bold uppercase tracking-[0.2em]">시각 자료 영역</span>
-        </div>
-        <p className="mt-4 font-display text-base font-bold text-white">{visual.title}</p>
-      </div>
-      {visual.placeholderItems && (
-        <ul className="mt-6 space-y-2">
+    <div data-visual-slot={project.title}>
+      <EvidenceMediaGallery projectTitle={visual.title} items={items} />
+      {items.length === 0 && visual.placeholderItems.length > 0 && (
+        <ul className="mt-3 grid gap-2 rounded-2xl border border-white/[0.08] bg-black/20 p-4">
           {visual.placeholderItems.map((item) => (
-            <li key={item} className="flex items-start gap-2 font-body text-xs leading-5 text-white/60">
-              <span className="text-[#ff6645]" aria-hidden="true">
-                +
-              </span>
-              {item}
+            <li key={item} className="flex items-start gap-2 font-body text-xs leading-5 text-white/55">
+              <span className="text-[#ff6645]" aria-hidden="true">+</span>
+              <span>{item}</span>
             </li>
           ))}
         </ul>
       )}
-    </aside>
+    </div>
   );
 };
 
 const ProjectCard = ({ project, index }: { project: FeaturedProject; index: number }) => {
   const isPriority = index === 0;
-  const showsVisual = Boolean(project.visual?.src) || (import.meta.env.DEV && Boolean(project.visual));
+  const showsVisual = Boolean(project.visual);
   const evidence = (
     <dl className={`grid gap-6 ${isPriority ? "lg:grid-cols-3" : ""}`}>
       <div>
@@ -185,7 +162,7 @@ const ProjectCard = ({ project, index }: { project: FeaturedProject; index: numb
 
 const ImageCards = () => {
   return (
-    <section id="case-studies" className="scroll-mt-20 bg-[#070707] px-6 py-24 text-white md:px-12 md:py-32">
+    <section id="case-studies" className="portfolio-section-surface scroll-mt-20 px-6 py-24 text-white md:px-12 md:py-32">
       <div className="mx-auto max-w-7xl">
         <div id="product-proof" className="scroll-mt-24" aria-hidden="true" />
         <motion.div

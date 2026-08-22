@@ -3,7 +3,7 @@ import { careerExperiences } from "@/data/portfolio";
 
 const Experience = () => {
   return (
-    <section id="experience" className="scroll-mt-20 bg-[#070707] px-6 py-16 text-white md:px-12 md:py-20">
+    <section id="experience" className="portfolio-section-surface portfolio-section-surface--strong scroll-mt-20 px-6 py-16 text-white md:px-12 md:py-20">
       <div className="mx-auto max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 18 }}

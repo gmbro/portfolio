@@ -1207,6 +1207,161 @@ GitHub Pages 배포 후 같은 세 너비에서 asset revision, launcher 외형�
 - 최종 publication: 기본 공개 포트폴리오 base revision 10. 회사별 publication 신규 생성 없음. 기본 `/`은 indexable, 관리자·무효/회사별 링크·404는 각 런타임 정책에 따라 noindex를 유지한다.
 - 배포 결과: `성공`.
 
+---
+
+### 2026-08-22 / Evidence-first 포트폴리오·지속형 챗봇 입력 경험 / base revision 24
+
+- 작업 대상 URL: `/`, 유효한 `/p/:slug`
+- 제외 URL: `/admin/links`, 무효 `/p/:slug`, 임의 404
+- 수정 전 라이브 URL: `https://archilab.ai.kr/`
+- 배포 예정 URL: `https://archilab.ai.kr/`
+- 대상 revision: 기본 포트폴리오 base revision 24
+- 검사 브라우저: Codex In-app Browser
+- 검사 담당: Codex
+
+#### 1~4단계 적용 기준
+
+- 특정 회사 JD나 새로운 경력 사실은 제공되지 않았다. base revision 21의 검증된 `이경민 · AI Product Manager · 7년 경력`, 대표 프로젝트 5개, 350만 MAU, 운영 원가 70%+와 프로젝트 귀속을 유지한다.
+- 사용자 승인 기획인 `채용 의사결정을 위한 경력 증거 탐색`을 1단계 제품 가치로 삼는다. 기본 문서는 Evidence-first로 구성하고, Navbar·Hero·플로팅 진입점에서 같은 근거를 묻는 Chat-first 경로를 병렬 제공한다.
+- 이전 로컬 후보의 Hero·전역 미디어 배경·역량 탐색·프로젝트별 이미지 슬라이드/확대 영역을 함께 검증해 배포한다. 실제 프로젝트 PNG가 아직 없으므로 허위 화면을 만들지 않고 교체 가능한 영역만 표시한다.
+- 챗봇은 첫 화면과 답변 이후가 같은 코랄·화이트·Pretendard 체계를 사용한다. 답변 뒤에도 헤더, 예상 질문 3개와 넓은 입력폼을 실제 Typebot 채팅창 안에 유지하고 공식 `setInputValue → submitInput` 경로만 사용한다.
+
+#### 1차 진단 — 수정 전 라이브
+
+실제 라이브 base revision 21을 동일 브라우저에서 390×844, 768×900, 1440×900으로 검사했다. 390px에서는 공개 근거만 포함한 고정 질문 `AI 제품 0→1 경험을 보여줘.`를 제출해 답변 이후의 실제 Typebot 입력 상태를 확인했다.
+
+| 항목 | 390×844 | 768×900 | 1440×900 |
+|---|---:|---:|---:|
+| clientWidth / scrollWidth | `375 / 375` | `753 / 753` | `1425 / 1425` |
+| 문서 높이 | `9,917px` | `8,700px` | `6,597px` |
+| 분석 배너 | 0 | 0 | 0 |
+| 답변 후 Typebot panel | `350×704px` | 미실행 | 미실행 |
+| 답변 후 기본 input form / 실제 input | `296×58 / 약 56×56px` | 미실행 | 미실행 |
+| 답변 후 입력 폰트 | `Inter` | 미실행 | 미실행 |
+
+| ID | 범위 | 발견한 문제 | 사용자 영향 | 심각도 | 수정 방향 | 상태 |
+|---|---|---|---|---|---|---|---|
+| QA-BASE24-001 | 챗봇 답변 이후 | 초기 가이드가 사라지고 Typebot 기본 입력이 약 56px로 축소됨 | 후속 질문을 읽고 입력하기 어렵고 대화 흐름이 끊김 | 차단 | 실제 채팅창 안에 전폭 custom composer를 계속 유지 | 발견 |
+| QA-BASE24-002 | 챗봇 답변 이후 | 추천 질문이 사라져 사용자가 다음 질문을 다시 생각해야 함 | 근거 탐색의 다음 단계가 불명확 | 높음 | 입력폼 바로 위에 검증 근거와 연결된 예상 질문 3개를 항상 표시 | 발견 |
+| QA-BASE24-003 | 챗봇 전체 | 초기 코랄·Pretendard 가이드와 답변 이후 흰색·청록·Inter UI가 불일치 | 외부 위젯처럼 보이고 제품 신뢰·완성도 저하 | 높음 | 고정 코랄 헤더, 동일 font·bubble·focus·surface 토큰 적용 | 발견 |
+| QA-BASE24-004 | 배포 | base revision 23 Evidence·미디어·배경 후보가 로컬 검증 후 커밋·푸시되지 않음 | 사용자가 승인한 제품 기획이 실제 URL에 반영되지 않음 | 차단 | 현재 챗봇 개선과 함께 전체 후보를 재검증해 commit·push·Pages 배포 | 발견 |
+
+1차 진단 요약:
+
+- 현재 라이브의 가로 오버플로와 분석 배너는 0건이며 이를 회귀 조건으로 유지한다.
+- 답변 후 넓은 입력폼과 예상 질문 3개를 같은 채팅창 안에 지속시키고, native Typebot transcript는 그대로 살린다.
+- 질문·답변·이름·이메일·회사명은 URL·GA·prefilled variables·console에 전달하지 않는 기존 개인정보 경계를 유지한다.
+
+#### 직접 수정
+
+- `src/components/TypebotBubble.tsx`의 실제 `[part="bot"]` 내부 portal을 첫 화면 전용 guide가 아니라 지속형 chat shell로 확장했다. 코럴 gradient 헤더와 Pretendard를 처음부터 답변 이후까지 유지한다.
+- 첫 질문 뒤 native Typebot transcript는 중앙에 그대로 노출하고, native 축소 입력폼은 DOM·공식 입력 계약을 유지한 채 시각적으로만 1×1px로 숨겼다. 화면에는 390px 기준 324×50px, 768·1440px 기준 370×50px의 custom input과 50px 전폭 전송 버튼을 고정했다.
+- `src/data/chatbot.ts`에 검증된 후속 질문 3개를 추가했다. `AI 제품 0→1`, `데이터·운영 개선`, `GenON B2B·B2G 사업화` 질문을 입력폼 위에 항상 표시하고 같은 `setInputValue → submitInput` 경로로 전달한다.
+- Typebot `onNewInputBlock`을 로컬 타입과 상태 경계에 연결했다. 답변 중에는 composer를 제거하지 않고 `답변을 준비하고 있어요.` 상태로 비활성화하며 새 입력 블록이 준비되면 후속 질문과 입력을 다시 활성화한다.
+- Typebot native transcript의 폰트와 action color를 Pretendard·코럴로 통일했다. `Made with Typebot` 배지를 가리지 않도록 composer 하단에 전용 공간을 두고 모바일 실제 교차 면적을 0으로 맞췄다.
+- base revision 23의 `이경민 · AI PM 포트폴리오` Navbar/Hero, Supabase Hero·ambient 배경, 역량 근거 탐색, 대표 프로젝트 5개 PNG 슬라이드·확대 영역, `product.md`·`design.md`를 함께 유지했다. 새 경력 사실·이미지·수치는 만들지 않았다.
+- `design.md`에 답변 이후 헤더·예상 질문 3개·전폭 입력을 지속하는 UI 계약을 추가했다. 분석 기본 비활성, 질문 원문 미수집, query 제거, 보호 route 격리는 변경하지 않았다.
+
+#### 동일 조건 재검사
+
+최종 production build를 Codex In-app Browser에서 390×844, 768×900, 1440×900으로 위→아래 및 실제 Typebot 답변 이후 상태까지 재검사했다.
+
+| 항목 | 390×844 | 768×900 | 1440×900 |
+|---|---:|---:|---:|
+| clientWidth / scrollWidth | `375 / 375` | `753 / 753` | `1425 / 1425` |
+| 문서 높이 | `13,836px` | `12,475px` | `8,882px` |
+| Typebot panel | `350×704px` | `400×704px` | `400×704px` |
+| 지속 composer | `348×364px` | `398×368px` | `398×368px` |
+| custom input | `324×50px` | `370×50px` | `370×50px` |
+| 예상 질문 / 브랜드 배지 교차 | `3개 / 0px` | `3개 / 0px` | `3개 / 0px` |
+| 분석 배너 / 가로 오버플로 | `0 / 0` | `0 / 0` | `0 / 0` |
+
+- 첫 화면은 실제 Typebot 채팅창 안에 코럴 헤더, 추천 질문 4개, 직접 입력, 개인정보 안내를 표시했다. 질문 제출 뒤에는 같은 헤더와 Pretendard가 남고 native 답변, 예상 질문 3개, 후속 입력이 한 창 안에서 이어졌다.
+- 390px 답변 이후 native input은 opacity 0·1×1px, custom input은 324×50px이며 bot·composer 모두 `scrollWidth === clientWidth`다. `Made with Typebot` 배지와 custom 전송 버튼의 교차 면적은 0px다.
+- 768·1440px custom input은 370×50px, 예상 질문은 3개이며 같은 코럴·화이트 surface와 bubble 변수를 사용한다. 답변 완료 뒤 입력·후속 질문이 다시 활성화되는 것을 실제 Typebot 응답으로 확인했다.
+- Hero에 이름·AI PM·포트폴리오 성격, 역량 근거 탐색, 대표 프로젝트 5개의 이미지 준비 영역, 배경 video가 세 너비에서 표시되고 전체 가로 오버플로는 0이다. 분석 배너·Google UI는 0건이다.
+- `/admin/links`, `/p/not-real-slug`, 임의 404는 `noindex, nofollow`, Typebot·ambient·분석 UI 0을 유지한다. 모바일 404는 `390 = 390`으로 가로 오버플로가 없다.
+- 전체 Vitest `47/47`, 변경 소스 ESLint 오류 0·기존 UI scaffold Fast Refresh 경고 7, 깨끗한 내부 pnpm virtual store의 `tsc --noEmit -p tsconfig.app.json` 진단 0, `git diff --check`, Vite 6.4.3 production build가 통과했다.
+- 최종 build: HTML `1.16kB`, main `138.30kB`, CSS `16.10kB`, Typebot wrapper `1.27kB`, Typebot web runtime `199.27kB` gzip. Typebot은 초기 HTML preload 0이며 사용자 진입 뒤에만 로드된다.
+- production preview console warning/error 0. 미해결 배포 차단 없음. 배포 가능 여부: `가능`.
+
+#### 배포 후 실제 URL 점검
+
+- commit·`origin/main` push·GitHub Pages 완료 후 새 asset revision과 동일 세 너비 실서비스 결과를 기록한다.
+
+### 2026-08-19 / 전체 미디어 배경·Hero 증거 이미지·인윈도우 챗 가이드 / base revision 23
+
+#### 범위·제품 판단
+
+- 사용자 정정에 따라 `colorflow-animation.mp4`는 챗봇이 아니라 포트폴리오 전체 배경과 톤앤매너에 사용한다. `background.png`는 Hero 헤더 배경으로 배치하고 기존 검증 카피를 그 위에 유지한다.
+- 챗봇은 별도 pre-chat guide를 먼저 노출하지 않는다. launcher 클릭으로 실제 Typebot 창을 열고, 안내·추천 질문·개인정보 문구는 같은 채팅 창 경계 안에 표시한다.
+- 새 JD·경력·성과 사실은 없다. 확인된 대표 프로젝트 5개와 모든 수치·귀속은 유지하되, 합의한 1단계 `채용 의사결정을 위한 경력 증거 탐색`을 위해 Hero·Navbar의 정체성 문구와 정보 구조를 재배치한다.
+- Evidence Product와 Chat-first Portfolio를 병행한다. 정적 경력 증거가 기본 경로이며 Navbar·Hero·플로팅 런처에서 같은 인윈도우 챗봇을 여는 병렬 탐색 경로를 제공한다.
+- 이미지·차트는 실제 공개 PNG를 받기 전 `증거 이미지 준비 중` 슬롯으로 표시한다. 이후 동일 데이터 구조에서 슬라이드·키보드 탐색·클릭 확대 dialog로 교체할 수 있게 한다.
+- 사용자 제공 공개 자산은 Supabase Storage `videi` bucket의 `background.png`와 `colorflow-animation.mp4`다. 로컬 확인 결과 이미지는 `1720×764 RGBA / 약 994KB`, 영상은 `2560×1920 / 3초 / 약 764KB`다.
+
+#### 1차 진단 — 수정 전 라이브
+
+실제 `https://archilab.ai.kr/`을 Codex In-app Browser에서 390×844, 768×900, 1440×900으로 검사했다.
+
+| ID | 영역 | 발견한 문제 | 사용자 영향 | 심각도 | 수정 방향 | 상태 |
+|---|---|---|---|---|---|---|
+| QA-BASE23-001 | 전체 배경 | 페이지와 About·Projects·Experience·Contact가 각각 불투명 `#070707/#0a0a0a`이며 배경 영상이 없음 | 사용자가 요청한 파스텔 컬러 플로우 톤이 전체 경험에 반영되지 않음 | 높음 | 지연 로드·무음·반복 전역 video backdrop과 어두운 가독성 overlay를 추가하고 섹션 surface를 반투명화 | 발견 |
+| QA-BASE23-002 | Hero | 세 너비 모두 Hero 이미지 0, 기존 검정 radial/grid만 표시 | 실제 활동 이미지가 첫 인상과 경력 증거에 연결되지 않음 | 높음 | `background.png`를 장식 배경으로 eager 렌더하고 모바일 crop·어두운 다중 overlay 위에 기존 텍스트 유지 | 발견 |
+| QA-BASE23-003 | 챗봇 | launcher 클릭 뒤 실제 Typebot보다 별도 `경력·프로젝트 가이드` dialog가 먼저 표시됨 | 사용자가 기대한 하나의 채팅 창 경험과 다름 | 높음 | click-only lazy-load는 유지하되 클릭 시 Bubble을 직접 열고 guide를 Typebot window 내부 전용 mount에 렌더 | 발견 |
+| QA-BASE23-004 | CSP | Supabase project host는 `connect-src`에만 있고 `img-src`, `media-src`에는 없음 | 새 이미지·영상이 브라우저에서 차단됨 | 차단 | `img-src`·`media-src`에 정확한 Supabase host만 추가 | 발견 |
+| QA-BASE23-005 | 성능·접근성 | 994KB Hero PNG와 764KB 배경 영상은 그대로 초기 요청하면 이전 체감 속도 개선을 상쇄할 수 있음 | 느린 네트워크·데이터 절약·모션 민감 사용자 부담 | 높음 | Hero만 우선 로드, 영상은 첫 paint 뒤 지연 mount; reduced-motion·save-data에서는 정적 컬러 fallback | 발견 |
+
+| 수정 전 항목 | 390×844 | 768×900 | 1440×900 |
+|---|---:|---:|---:|
+| clientWidth / scrollWidth | `375 / 375` | `753 / 753` | `1425 / 1425` |
+| Hero 이미지 / 전체 배경 video | `0 / 0` | `0 / 0` | `0 / 0` |
+| Hero H1 가시성 / opacity | `가시 / 1` | `가시 / 1` | `가시 / 1` |
+| 챗봇 첫 화면 | 별도 guide dialog | 동일 | 동일 |
+
+- 현재 세 너비의 가로 오버플로는 0이며 이 상태를 회귀 기준으로 유지한다.
+- 이미지의 기존 행사 화면 문구와 새 Hero 텍스트가 경쟁할 수 있으므로 밝기·대비 overlay와 `object-position`을 너비별로 직접 검사한다.
+- 수정 전 기록을 완료했다. 이제 전역 backdrop, Hero media layer, section surface, CSP와 Typebot window 내부 guide만 변경한다.
+
+#### 직접 수정
+
+- `product.md`, `design.md`를 새로 만들고 1·2·3차 사용자, 1단계 범위, North Star `근거 기반 채용 판단 완료율`, Evidence-first + Chat-first IA, 시각 자료·접근성·성능 원칙을 배포 기준으로 고정했다.
+- Hero에는 Supabase `background.png` 장식 이미지를 적용하고 390px `object-position:45% center`, 데스크톱 중심 crop과 다중 dark scrim을 사용했다. H1은 `고객의 문제를 제품으로 해결해 온 AI PM 이경민입니다.`로 바꾸고 `이경민의 AI PM 포트폴리오 · 7년 경력`을 명시했다.
+- Navbar 브랜드를 `이경민 · AI PM 포트폴리오`로 확장했다. Hero primary CTA는 프로젝트 증거, secondary CTA와 Navbar CTA는 동일한 Chat-first 진입점으로 연결했다.
+- `PortfolioAmbient`를 Index에 한 번만 mount했다. Supabase `colorflow-animation.mp4`는 window load 후 300ms 지연, 무음·playsInline·1회 재생이며 reduced-motion·Data Saver에서는 URL 자체를 mount하지 않는다. 각 섹션은 반투명 surface로 바꾸고 Navbar blur를 제거했다.
+- `EvidenceNavigator`와 역량 매핑 데이터를 추가했다. `제품 0→1 / 데이터·운영 / 대규모 성장 / B2B·B2G 사업화 / 프로젝트 실행`을 현재 대표 프로젝트 5개의 담당 책임·결과·metric과 직접 연결하고 프로젝트 앵커로 이동시킨다.
+- `EvidenceMediaGallery`를 추가하고 대표 프로젝트 5개에 production placeholder를 표시했다. PNG 배열이 제공되면 이전·다음·점·Home/End/Arrow 탐색과 body portal 확대 dialog, Escape·focus trap·trigger focus 복귀를 지원한다.
+- Typebot 전에 뜨던 별도 guide를 제거했다. launcher·Navbar·Hero 진입은 Bubble을 직접 열고, 안내·추천 질문·직접 입력·개인정보 문구를 실제 `[part=bot]` 내부 전용 portal에 렌더한다. native flow는 guide 동안 `inert/aria-hidden` 처리하고 제출·닫기 race는 취소한다.
+- CSP `img-src`, `media-src`에 정확한 Supabase origin을 추가했다. 공개 기본 페이지 분석 OFF·배너 비노출, query 제거, 질문·답변 analytics 0 정책은 유지했다.
+
+#### 동일 조건 재검사
+
+- production build와 동일 소스를 Codex In-app Browser에서 390×844, 768×900, 1440×900으로 위→아래 재검사했다.
+
+| 수정 후 항목 | 390×844 | 768×900 | 1440×900 |
+|---|---:|---:|---:|
+| clientWidth / scrollWidth | `375 / 375` | `753 / 753` | `1425 / 1425` |
+| Hero 이미지 | `1720px 로드 / 45% crop` | 로드 / 중앙 crop | 로드 / 중앙 crop |
+| 전체 배경 video | 지연 mount / no loop | 동일 | 동일 |
+| 증거 역량 / 이미지 슬롯 | `5 / 5` | `5 / 5` | `5 / 5` |
+| 분석 배너 / 초기 Typebot | `0 / 0` | `0 / 0` | `0 / 0` |
+
+- 모바일·태블릿·데스크톱에서 Hero 이름·역할·문서 성격, CTA 2개와 3개 stat이 잘림 없이 보였다. Evidence accordion과 프로젝트 카드·이미지 슬롯의 가로 오버플로는 0이다.
+- 모바일 실제 Typebot 창은 bot rect `350×704`, guide mount `348×702`로 border 1px을 제외한 경계가 일치했고 mount의 부모는 실제 `[part=bot]`이었다. 추천 질문 4개·직접 입력·개인정보 문구가 같은 창 안에 보이며 native child는 guide 동안 inert 처리된다.
+- Typebot 직접 입력 준비 전 상태와 준비 완료, header 닫기, launcher focus 복귀를 확인했다. Navbar의 `AI에게 묻기`도 동일 인윈도우 guide를 열며 브라우저 console warning/error는 새 세션에서 0이었다.
+- `/admin/links`, `/p/not-real-slug`, 임의 404는 모두 `noindex, nofollow`, ambient 0, Typebot 0, 분석 UI 0이며 가로 오버플로 0이다.
+- 전체 Vitest `47/47`, 변경 파일 ESLint error 0, 깨끗한 내부 pnpm virtual store의 `tsc --noEmit` 진단 0, production build 성공을 확인했다. 현재 작업 폴더의 오래된 외부 pnpm symlink에서만 기존 `chart/input-otp` 오탐이 재현된다.
+- 최종 자체 초기 자산은 HTML `1.16kB`, main `137.42kB`, CSS `16.10kB` gzip이다. Hero PNG 약 994KB는 main 실행 뒤 요청되고 MP4 약 764KB는 load+300ms 뒤 요청된다. Typebot은 초기 preload 0, wrapper `1.27kB`는 의도 시점, web runtime `199.27kB`는 Bubble mount 시 로드된다.
+- 재검사 판단: 미해결 배포 차단 없음. 사용자 요청에 따라 `origin/main` push와 GitHub Pages 배포를 진행한다.
+
+#### 배포 후 실제 URL 점검
+
+- 2026-08-19 로컬 구현·검사는 완료했으나 `.git/index.lock` 생성을 위한 Codex 앱 권한 승인 단계에서 계정 사용 한도에 도달해 commit/push가 실행되지 않았다.
+- 소스·문서 변경은 작업 폴더에 보존되어 있으며 사용자 소유 `node_modules 2/`, `tsconfig.*.tsbuildinfo`는 스테이징·수정하지 않았다.
+- 배포 상태: `대기`. Git 쓰기 권한을 사용할 수 있는 다음 실행에서 의도한 파일만 commit → `origin/main` push → GitHub Actions success → 실제 URL 세 너비 재검사를 이어서 수행한다.
+
+---
+
 ### 2026-08-19 / 근거 탐색형 챗봇 입력 가이드·체감 속도 개선 / base revision 22
 
 #### 범위·제품 판단
