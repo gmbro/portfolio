@@ -1334,7 +1334,15 @@ base revision 26 로컬 production build를 전체 페이지 위→아래로 검
 
 #### 배포 후 실제 URL 점검
 
-- 구현 commit·GitHub Pages run·실제 asset·라이브 재검사 결과를 배포 완료 뒤 기록한다.
+- 구현 commit: `b0a2714558c6472cdc5f2d80cb644a934914ca5d` (`Simplify portfolio flow and add evidence carousel`). 기존 문서 전용 commit `a72271b`과 함께 `origin/main`에 push했다.
+- GitHub Actions `Deploy Portfolio to GitHub Pages` Run #32, ID `32545583643`은 `completed / success`다. `build` job `96963327242`의 checkout·pnpm·Node 설정·의존성 설치·품질 검사·Pages artifact build/upload와 `deploy` job `96963415850`의 Pages 배포가 모두 성공했다. 실행 URL: `https://github.com/gmbro/portfolio/actions/runs/32545583643`.
+- 실제 `https://archilab.ai.kr/`은 HTTP/2 `200`과 새 main asset `/assets/index-cVQexrzp.js`, CSS `/assets/index-COX1R33C.css`를 응답했다.
+- 실제 URL의 clientWidth / scrollWidth는 390×844에서 `375 / 375`, 768×900에서 `753 / 753`, 1440×900에서 `1425 / 1425`다. 문서 높이는 각각 `11,459px`, `10,157px`, `6,988px`로 로컬 최종 후보와 일치한다.
+- 세 너비 모두 `Hero → 소개 → 프로젝트 → 경력 → Contact`, Navbar `소개 / 프로젝트 / 경력 / Contact`, 프로젝트 이미지 슬롯 5개, Contact H2를 유지한다. `Evidence Product`, `#evidence`, `#product-proof`, `© 2026 이경민`은 모두 0건이다.
+- 390px 최초 로드의 Typebot host는 0이다. Navbar의 얼굴 이미지가 있는 `AI에게 묻기`를 선택한 뒤 실제 채팅 guide가 `364×818px`, 직접 입력 form이 `334px`, 시작 질문이 4개로 viewport 안에 열렸고 문서 가로 오버플로는 0이다.
+- 실제 PNG는 아직 제공되지 않아 5개 슬롯은 `증거 이미지 준비 중`을 표시한다. 다음 단계에서 각 visual의 `items[]`에 공개 PNG를 넣으면 검증된 2초 자동 수평 슬라이드가 별도 구조 변경 없이 활성화된다.
+- 라이브 `/p/not-real-slug`, `/admin/links`, `/not-a-real-page`를 390px에서 직접 검사했다. 세 경로 모두 `390 / 390`, `noindex, nofollow`, Typebot·ambient·분석 UI 0이다.
+- 라이브 브라우저 console warning/error 0. 배포 차단 및 롤백 사유 없음. 최종 publication은 기본 공개 포트폴리오 base revision 27이며 배포 상태는 `완료`다.
 
 ---
 
