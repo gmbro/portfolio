@@ -1316,7 +1316,27 @@ GitHub Pages 배포 후 같은 세 너비에서 asset revision, launcher 외형�
 
 #### 배포 후 실제 URL 점검
 
-GitHub Pages 배포 후 동일한 세 너비와 실제 asset revision을 기록한다.
+- 기능 배포 커밋: `6024c950a2f051238420290eef1c03f12db6b0a4` (`feat: refine portfolio metrics and about evidence`).
+- GitHub Actions: `Deploy Portfolio to GitHub Pages` run `#38`, ID `32566161233`의 build·deploy가 모두 성공했다 — `https://github.com/gmbro/portfolio/actions/runs/32566161233`.
+- 실제 공개 URL: `https://archilab.ai.kr/`.
+- 캐시 우회 URL `https://archilab.ai.kr/?rev=6024c95`에서 새 main JS `index-CySRrqD9.js`와 CSS `index-CDh4Mc4E.css`를 확인했다.
+
+| 항목 | 390×900 | 768×900 | 1440×900 |
+|---|---:|---:|---:|
+| Hero 높이 | `832px` | `832px` | `832px` |
+| 통계 카드 폭·높이 | `104×120px` | `208×160px` | `331×160px` |
+| 통계 숫자 font-size | `32.0px` | `47.5px` | `84.2px` |
+| label 상단 / 숫자 오버플로 | `확인 / 0` | `확인 / 0` | `확인 / 0` |
+| 전체 가로 오버플로 | `0` | `0` | `0` |
+| Hero / About 핵심 역량 | `없음 / 4개` | `없음 / 4개` | `없음 / 4개` |
+| About 원본 컬러 / 아키 수행 주체 | `확인 / 확인` | `확인 / 확인` | `확인 / 확인` |
+| 로드 완료 이미지 오류 | `0` | `0` | `0` |
+
+- 실제 URL의 로고 순서는 `NIPA → Neosapience → LG → KISA → Busan → Syrup → NHN → Fixness`로 확인했다.
+- 아키 프로젝트에는 `수행 주체 / 아키랩, FIXNESS`가 표시되고, Experience의 회사명 `아키랩`은 유지된다.
+- 현재 아키 증거 이미지 등록값은 `1809×1311`, `1355×1311`, `1784×1311px`이며, 신규 이미지 표준은 4:3 `1600×1200px` PNG다. 현재 4:3 `object-contain` 프레임은 다른 원본 비율을 자르지 않고 여백으로 보존한다.
+- 최종 publication: 기본 공개 포트폴리오 base revision 36. 회사별 publication 신규 생성 없음.
+- 배포 결과: `성공`.
 
 ---
 
