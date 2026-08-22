@@ -24,7 +24,7 @@
 
 갤러리는 모든 화면에서 4:3 고정 프레임과 `object-contain`을 사용한다. 정확히 `1600×1200px`로 내보내면 잘림이나 레터박스 없이 보인다. 다른 비율의 원본도 잘라내지 않지만 여백이 생길 수 있으므로, 가능하면 1600×1200 캔버스 안에 원본을 배치해 내보낸다.
 
-현재 개념 목업 3개는 생성 원본의 시각 품질을 우선해 권장 파일 크기보다 크다. 실제 용량은 아래 등록 현황에 별도로 기록하며, 실제 자료로 교체하거나 배포 성능을 최적화할 때는 1MB 이하를 다시 목표로 한다.
+현재 개념 목업 1개는 생성 원본의 시각 품질을 우선해 권장 파일 크기보다 크다. 실제 용량은 아래 등록 현황에 별도로 기록하며, 실제 자료로 교체하거나 배포 성능을 최적화할 때는 1MB 이하를 다시 목표로 한다.
 
 프로젝트는 한 행에 하나씩 표시되고 이미지 영역은 카드 폭 전체를 사용한다. 이미지 아래에는 별도 캡션이나 `랜딩 페이지 / 기록 화면 / 아키텍처` 같은 3줄 설명 목록을 노출하지 않는다.
 
@@ -53,23 +53,29 @@ Supabase를 사용할 때는 버킷을 공개로 설정하고 객체의 `public`
 
 ## 현재 개념 목업 등록 현황
 
-아래 3개 파일은 모두 `1600×1200px`, PNG, `sRGB IEC61966-2.1`, `kind: "concept-mockup"`으로 등록되어 있다. 경력 사실의 이해를 돕는 구조 설명용이며 실증자료로 인용하지 않는다.
+아래 1개 파일은 `1600×1200px`, PNG, `sRGB IEC61966-2.1`, `kind: "concept-mockup"`으로 등록되어 있다. 경력 사실의 이해를 돕는 구조 설명용이며 실증자료로 인용하지 않는다.
 
 | 프로젝트 | 저장소 경로 / `src` | 실제 파일 크기 | 상태 |
 |---|---|---:|---|
 | Vision AI 품질검사 | `public/evidence/nipa-vision-ai-poc/mockup-overview.png` / `/evidence/nipa-vision-ai-poc/mockup-overview.png` | `1,926,948 bytes` (약 1.84MiB) | `concept-mockup` |
-| STT 데이터셋 운영 | `public/evidence/selectstar-stt-operations/mockup-overview.png` / `/evidence/selectstar-stt-operations/mockup-overview.png` | `1,651,171 bytes` (약 1.57MiB) | `concept-mockup` |
-| AI 상담사 PoC | `public/evidence/skelter-ai-counselor/mockup-overview.png` / `/evidence/skelter-ai-counselor/mockup-overview.png` | `1,600,405 bytes` (약 1.53MiB) | `concept-mockup` |
 
 ## 현재 실제 자료 등록 현황
 
-아키와 시럽월렛은 사용자가 직접 제공한 공개 Supabase Storage 자료를 사용한다. 시럽월렛 3장은 브라우저에서 모두 PNG `1600×1200px`, `complete=true`를 확인했고 `kind: "evidence"`로 등록했다.
+아키·셀렉트스타 STT·시럽월렛·Skelter Labs AI 상담사는 사용자가 직접 제공한 공개 Supabase Storage 자료를 사용한다. 셀렉트스타·시럽월렛·AI 상담사 자료는 브라우저에서 모두 PNG `1600×1200px`, `complete=true`를 확인했고 `kind: "evidence"`로 등록했다.
 
 | 프로젝트 | 표시 순서 | 공개 URL | 원본 크기 | 실제 파일 크기 | 상태 |
 |---|---:|---|---:|---:|---|
 | Syrup Wallet 운영 | 1 | `https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/syrup/1.png` | `1600×1200px` | `698,452 bytes` (약 682KiB) | `evidence` |
 | Syrup Wallet 운영 | 2 | `https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/syrup/2.png` | `1600×1200px` | `669,600 bytes` (약 654KiB) | `evidence` |
 | Syrup Wallet 운영 | 3 | `https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/syrup/3.png` | `1600×1200px` | `628,074 bytes` (약 613KiB) | `evidence` |
+| 셀렉트스타 STT | 1 | `https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/select/1.png` | `1600×1200px` | `224,890 bytes` (약 220KiB) | `evidence` |
+| 셀렉트스타 STT | 2 | `https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/select/2.png` | `1600×1200px` | `266,246 bytes` (약 260KiB) | `evidence` |
+| 셀렉트스타 STT | 3 | `https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/select/3.png` | `1600×1200px` | `141,635 bytes` (약 138KiB) | `evidence` |
+| AI 상담사 PoC | 1 | `https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/skelter/skel.png` | `1600×1200px` | `693,838 bytes` (약 678KiB) | `evidence` |
+| AI 상담사 PoC | 2 | `https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/skelter/skel2.png` | `1600×1200px` | `419,422 bytes` (약 410KiB) | `evidence` |
+| AI 상담사 PoC | 3 | `https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/skelter/skel3.png` | `1600×1200px` | `846,353 bytes` (약 827KiB) | `evidence` |
+
+셀렉트스타 3번 자료에는 가명성 작업자 ID와 작업량이 화면 일부로 보인다. 사용자가 공개 URL을 직접 제공하고 포트폴리오 등록을 요청한 범위에서만 이미지로 표시하며, ID·작업량을 본문·alt·분석 이벤트로 추출하거나 개인과 연결하지 않는다.
 
 개념 목업 등록 예시는 다음과 같다.
 

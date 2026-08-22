@@ -168,10 +168,10 @@ const Hero = ({
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, delay: 0.5 }}
-            className="mt-6 grid w-full max-w-5xl grid-cols-4 items-center gap-x-4 gap-y-5 lg:grid-cols-8 lg:gap-x-6"
+            className="mt-7 grid w-full max-w-5xl grid-cols-4 items-center gap-x-3 gap-y-5 sm:gap-x-5 md:mt-8 md:gap-x-8 md:gap-y-6"
           >
             {portfolioExperienceLogos.map((logo) => (
-              <li key={logo.id} className="flex h-9 min-w-0 items-center justify-center md:h-11">
+              <li key={logo.id} className="flex h-12 min-w-0 items-center justify-center sm:h-14 md:h-16">
                 <img
                   data-hero-logo={logo.id}
                   src={logo.src}
@@ -180,7 +180,7 @@ const Hero = ({
                   height={logo.height}
                   loading="lazy"
                   decoding="async"
-                  className="max-h-full w-full object-contain brightness-0 invert opacity-75"
+                  className="h-full w-full object-contain brightness-0 invert opacity-80"
                 />
               </li>
             ))}

@@ -158,7 +158,7 @@ describe("기본 포트폴리오 정보 구조", () => {
     expect(container.querySelectorAll("[data-project-rank]")).toHaveLength(5);
     expect(container.querySelectorAll('[data-evidence-media-state="empty"]')).toHaveLength(0);
     expect(container.querySelectorAll('[data-evidence-media-state="ready"]')).toHaveLength(5);
-    expect(screen.getAllByText("개념 목업")).toHaveLength(3);
+    expect(screen.getAllByText("개념 목업")).toHaveLength(1);
     const flagship = container.querySelector<HTMLElement>('[data-project-rank="1"][id="arkylab-ai-coach"]');
     expect(flagship).toBeInTheDocument();
     expect(caseStudies?.querySelectorAll("[data-project-meta]")).toHaveLength(5);
@@ -188,14 +188,35 @@ describe("기본 포트폴리오 정보 구조", () => {
     expect(within(flagship as HTMLElement).queryByText("랜딩 페이지")).not.toBeInTheDocument();
     expect(within(flagship as HTMLElement).queryByText("기록 화면")).not.toBeInTheDocument();
     expect(within(flagship as HTMLElement).queryByText("아키텍처")).not.toBeInTheDocument();
+    const skelterProject = container.querySelector<HTMLElement>("#skelter-ai-counselor");
+    expect(skelterProject).toBeInTheDocument();
+    expect(within(skelterProject as HTMLElement).getByRole("img", {
+      name: "주현영 AI 챗봇 출시를 소개하는 온라인 기사 화면",
+    })).toHaveAttribute(
+      "src",
+      "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/skelter/skel.png",
+    );
+    expect(within(skelterProject as HTMLElement).getAllByRole("button", { name: /번째 이미지 보기/ })).toHaveLength(3);
+    expect(within(skelterProject as HTMLElement).queryByText("개념 목업")).not.toBeInTheDocument();
+    const selectstarProject = container.querySelector<HTMLElement>("#selectstar-stt-operations");
+    expect(selectstarProject).toBeInTheDocument();
+    expect(within(selectstarProject as HTMLElement).getByText("셀렉트스타 · LG유플러스")).toBeInTheDocument();
+    expect(within(selectstarProject as HTMLElement).getByRole("img", {
+      name: "화자 구간을 나누고 음성을 텍스트로 전사하는 Label Studio 작업 화면",
+    })).toHaveAttribute(
+      "src",
+      "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/select/1.png",
+    );
+    expect(within(selectstarProject as HTMLElement).getAllByRole("button", { name: /번째 이미지 보기/ })).toHaveLength(3);
+    expect(within(selectstarProject as HTMLElement).queryByText("개념 목업")).not.toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "다양한 환경에서 제품과 사업의 문제를 해결해왔습니다." })).toBeInTheDocument();
     expect(container.textContent).toContain(
       "커머스, 데이터, 클라우드·공공 SaaS, 헬스케어 제품 개발까지 다양한 도메인에서 제품기획·사업개발·프로젝트 운영을 수행하며 고객의 시간과 비용을 줄이는 일에 집중해왔습니다.",
     );
-    expect(screen.getByRole("heading", { name: "재직 기간이 짧아 보일 수 있지만, 제 커리어의 방향은 일관됐습니다." })).toBeInTheDocument();
-    expect(screen.getByText("짧은 경험들을 하나의 방향으로 연결해왔습니다.")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "짧은 경험들을 하나의 방향으로 연결해왔습니다." })).toBeInTheDocument();
+    expect(screen.getByText("Career Direction")).toBeInTheDocument();
     expect(container.textContent).toContain(
-      "이제는 고객 문제를 깊게 이해하고 빠르게 검증하며, AI 기반의 차별화된 해결책을 함께 만들어갈 수 있는 조직에서 장기적으로 기여하고 싶습니다.",
+      "재직 기간이 짧아 보일 수 있지만, 제 커리어의 방향은 일관됐습니다. 여러 회사를 거치며 고객군과 도메인은 달랐지만, 고객의 시간과 비용을 줄이고 기술을 실제 제품과 사업 성과로 연결하는 일에 집중해왔습니다. 공백기에는 짧게 재직한 스타트업 경험을 돌아보고 다음 역할에 필요한 도메인을 학습하며, 제가 가장 잘할 수 있는 일을 고민했습니다. 이제는 고객 문제를 깊게 이해하고 빠르게 검증하며 AI 기반의 차별화된 해결책을 함께 만들어갈 수 있는 조직에서 장기적으로 기여하고 싶습니다.",
     );
     expect(
       Array.from(container.querySelectorAll<HTMLElement>("[data-experience-duration]")).map(

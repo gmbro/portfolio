@@ -45,16 +45,16 @@ const ProjectCard = ({ project, index }: { project: FeaturedProject; index: numb
   const evidence = (
     <dl className="grid gap-6 xl:grid-cols-[0.85fr_1.55fr_1fr]">
       <div>
-        <dt className="mb-2 font-body text-[10px] font-bold uppercase tracking-[0.2em] text-white/50">문제</dt>
-        <dd className="break-words text-pretty font-body text-sm leading-6 text-white/70">{project.challenge}</dd>
+        <dt className="mb-2 font-body text-xs font-bold uppercase leading-5 tracking-[0.16em] text-white/50 md:text-sm">문제</dt>
+        <dd className="break-words text-pretty font-body text-[15px] leading-7 text-white/70 md:text-[17px] md:leading-8">{project.challenge}</dd>
       </div>
       <div>
-        <dt className="mb-2 font-body text-[10px] font-bold uppercase tracking-[0.2em] text-white/50">판단·실행</dt>
-        <dd className="break-words text-pretty font-body text-sm leading-6 text-white/72">{project.action}</dd>
+        <dt className="mb-2 font-body text-xs font-bold uppercase leading-5 tracking-[0.16em] text-white/50 md:text-sm">판단·실행</dt>
+        <dd className="break-words text-pretty font-body text-[15px] leading-7 text-white/72 md:text-[17px] md:leading-8">{project.action}</dd>
       </div>
       <div>
-        <dt className="mb-2 font-body text-[10px] font-bold uppercase tracking-[0.2em] text-[#ff8a70]">성과</dt>
-        <dd className="break-words text-pretty font-body text-sm font-medium leading-6 text-white/88">{project.result}</dd>
+        <dt className="mb-2 font-body text-xs font-bold uppercase leading-5 tracking-[0.16em] text-[#ff8a70] md:text-sm">성과</dt>
+        <dd className="break-words text-pretty font-body text-[15px] font-medium leading-7 text-white/88 md:text-[17px] md:leading-8">{project.result}</dd>
       </div>
     </dl>
   );
@@ -95,10 +95,10 @@ const ProjectCard = ({ project, index }: { project: FeaturedProject; index: numb
             className="mt-6 grid overflow-hidden rounded-2xl border border-white/[0.08] bg-black/25 md:grid-cols-2"
           >
             <div data-project-meta-field="organization" className="min-w-0 px-4 py-4 md:px-5 md:py-5">
-              <dt className="font-body text-[10px] font-bold uppercase tracking-[0.16em] text-white/50">
+              <dt className="font-body text-xs font-bold uppercase leading-5 tracking-[0.14em] text-white/55 md:text-sm">
                 {project.organizationLabel}
               </dt>
-              <dd className="mt-2 break-words text-pretty font-body text-sm font-semibold leading-6 text-white/90 md:text-base">
+              <dd className="mt-2 break-words text-pretty font-body text-[15px] font-semibold leading-7 text-white/90 md:text-[17px] md:leading-8">
                 {project.organization}
               </dd>
             </div>
@@ -106,10 +106,10 @@ const ProjectCard = ({ project, index }: { project: FeaturedProject; index: numb
               data-project-meta-field="responsibility"
               className="min-w-0 border-t border-white/[0.08] px-4 py-4 md:border-l md:border-t-0 md:px-5 md:py-5"
             >
-              <dt className="font-body text-[10px] font-bold uppercase tracking-[0.16em] text-white/50">
+              <dt className="font-body text-xs font-bold uppercase leading-5 tracking-[0.14em] text-white/55 md:text-sm">
                 {project.involvement.label}
               </dt>
-              <dd className="mt-2 break-words text-pretty font-body text-sm font-semibold leading-6 text-white/90 md:text-base">
+              <dd className="mt-2 break-words text-pretty font-body text-[15px] font-semibold leading-7 text-white/90 md:text-[17px] md:leading-8">
                 {project.involvement.value}
               </dd>
             </div>
