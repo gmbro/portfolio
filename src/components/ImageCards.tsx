@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { portfolioProjects, type FeaturedProject } from "@/data/portfolio";
 import { trackPortfolioEvent } from "@/lib/analytics";
@@ -49,10 +49,11 @@ const ProjectVisual = ({ project }: { project: FeaturedProject }) => {
 };
 
 const ProjectCard = ({ project, index }: { project: FeaturedProject; index: number }) => {
+  const prefersReducedMotion = useReducedMotion();
   const isPriority = index === 0;
   const showsVisual = Boolean(project.visual);
   const evidence = (
-    <dl className={`grid gap-6 ${isPriority ? "lg:grid-cols-3" : ""}`}>
+    <dl className={`grid gap-6 ${isPriority ? "xl:grid-cols-[0.85fr_1.55fr_1fr]" : ""}`}>
       <div>
         <dt className="mb-2 font-body text-[10px] font-bold uppercase tracking-[0.2em] text-white/50">문제</dt>
         <dd className="break-words text-pretty font-body text-sm leading-6 text-white/70">{project.challenge}</dd>
@@ -71,8 +72,9 @@ const ProjectCard = ({ project, index }: { project: FeaturedProject; index: numb
   return (
     <motion.article
       id={project.id}
+      data-section-reveal="project-card"
       data-project-rank={index + 1}
-      initial={{ opacity: 0, y: 18 }}
+      initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.08 }}
       transition={{ duration: 0.45, delay: Math.min(index * 0.05, 0.18) }}
@@ -163,11 +165,14 @@ const ProjectCard = ({ project, index }: { project: FeaturedProject; index: numb
 };
 
 const ImageCards = () => {
+  const prefersReducedMotion = useReducedMotion();
+
   return (
     <section id="case-studies" className="portfolio-section-surface scroll-mt-20 px-6 py-16 text-white md:px-12 md:py-20">
       <div className="mx-auto max-w-7xl">
         <motion.div
-          initial={{ opacity: 0, y: 18 }}
+          data-section-reveal="projects"
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
@@ -177,10 +182,10 @@ const ImageCards = () => {
             Projects
           </span>
           <h2 className="mt-4 break-words text-balance font-display text-3xl font-bold leading-tight tracking-[-0.03em] text-white md:text-5xl">
-            무엇을 결정했고, 무엇이 달라졌는지 보여드립니다.
+            기여도가 높은 프로젝트를 소개합니다.
           </h2>
           <p className="mt-6 max-w-3xl break-words text-balance font-body text-base leading-7 text-white/65 md:text-lg">
-            최신 AI 프로젝트부터 대규모 제품 운영까지, 문제·판단·실행·성과 순서로 확인할 수 있습니다.
+            최신순으로 나열했으며, 문제·판단·실행·성과 순서로 정리했습니다.
           </p>
         </motion.div>
 

@@ -1,12 +1,15 @@
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { careerExperiences } from "@/data/portfolio";
 
 const Experience = () => {
+  const prefersReducedMotion = useReducedMotion();
+
   return (
     <section id="experience" className="portfolio-section-surface portfolio-section-surface--strong scroll-mt-20 px-6 py-16 text-white md:px-12 md:py-20">
       <div className="mx-auto max-w-7xl">
         <motion.div
-          initial={{ opacity: 0, y: 18 }}
+          data-section-reveal="experience"
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
@@ -16,11 +19,13 @@ const Experience = () => {
             Experience
           </span>
           <h2 className="mt-4 break-words text-balance font-display text-3xl font-bold leading-tight tracking-[-0.03em] text-white md:text-4xl">
-            회사별 역할과 제품·운영의 맥락을 최신순으로 정리했습니다.
+            다양한 회사를 경험하면서 성장했습니다.
           </h2>
-          <div className="mt-5 max-w-3xl space-y-2 break-words text-pretty font-body text-base leading-7 text-white/65 md:text-lg">
-            <p>2018년 이후 회사 경력은 정규직이었으며, 현재는 1인 사업자로 아키를 운영하고 있습니다.</p>
-            <p>2017년 Kakao Commerce 인턴 경험을 포함해 제품과 책임 범위가 어떻게 확장됐는지 보여드립니다.</p>
+          <div className="mt-5 max-w-3xl break-words text-pretty font-body text-base leading-7 text-white/65 md:text-lg">
+            <p>
+              카카오커머스에서 퍼포먼스 마케팅 인턴으로 시작해 서비스 운영, AI PM, 사업 개발 등의 직무를
+              짧게는 3개월, 길게는 2년 이상 경험하며 조직에 필요한 업무를 수행해 왔습니다.
+            </p>
           </div>
         </motion.div>
 
@@ -35,7 +40,8 @@ const Experience = () => {
             return (
               <motion.li
                 key={`${experience.company}-${experience.period}`}
-                initial={{ opacity: 0, y: 18 }}
+                data-section-reveal="experience-item"
+                initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.12 }}
                 transition={{ duration: 0.45, delay: Math.min(index * 0.05, 0.2) }}
@@ -52,11 +58,16 @@ const Experience = () => {
                   <p className="break-words font-body text-sm font-medium leading-6 text-white/60">
                     {experience.period}
                   </p>
-                  {isCurrent && (
-                    <span className="mt-2 inline-flex rounded-full bg-[#ff6645] px-2.5 py-1 font-body text-[10px] font-bold uppercase tracking-[0.12em] text-white">
-                      재직 중
-                    </span>
-                  )}
+                  <span
+                    data-experience-duration={experience.duration}
+                    className={`mt-2 inline-flex whitespace-nowrap rounded-full border px-2.5 py-1 font-body text-[10px] font-bold tracking-[0.08em] ${
+                      isCurrent
+                        ? "border-[#ff6645] bg-[#ff6645] text-white"
+                        : "border-[#ff6645]/30 bg-[#ff6645]/10 text-[#ff9a83]"
+                    }`}
+                  >
+                    {experience.duration}
+                  </span>
                 </div>
 
                 <article aria-labelledby={headingId} className="min-w-0">
@@ -72,7 +83,7 @@ const Experience = () => {
                   </div>
                   <p className="mt-2 break-words font-body text-sm font-semibold leading-6 text-[#ff7a5f]">
                     {experience.title}
-                    {experience.team && experience.team !== experience.title ? ` · ${experience.team}` : ""}
+                    {experience.team && experience.team !== experience.title ? `, ${experience.team}` : ""}
                   </p>
                   <p className="mt-3 max-w-4xl break-words text-pretty font-body text-sm leading-7 text-white/70 md:text-base">
                     {experience.description}
@@ -84,23 +95,25 @@ const Experience = () => {
         </ol>
 
         <motion.aside
-          initial={{ opacity: 0, y: 18 }}
+          data-section-reveal="career-direction"
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.45 }}
           className="mt-12 rounded-3xl border border-[#ff6645]/25 bg-[#ff6645]/[0.06] p-6 md:p-8"
           aria-labelledby="career-direction-title"
         >
-          <p className="font-body text-[11px] font-bold uppercase tracking-[0.22em] text-[#ff8a70]">커리어 방향</p>
+          <p className="font-body text-[11px] font-bold tracking-[0.1em] text-[#ff8a70]">이런 조직을 선호합니다.</p>
           <h3
             id="career-direction-title"
             className="mt-3 max-w-3xl break-words text-balance font-display text-2xl font-bold leading-tight text-white md:text-3xl"
           >
-            다음 선택에서는 조직의 목표를 중요한 기준으로 봅니다.
+            완벽한 조직이 아니어도 됩니다. 매출 규모가 크지 않아도 됩니다.
           </h3>
           <p className="mt-4 max-w-4xl break-words text-pretty font-body text-sm leading-7 text-white/70 md:text-base">
-            지금까지의 이직은 개인의 성장과 역량 향상을 위한 선택이었습니다. 향후 2~3년의 목표는 조직의 목표에
-            깊이 기여하며, 고객 문제를 확실히 해결하는 완성도 높은 제품을 만드는 것입니다.
+            지금까지의 이직은 잦았습니다. 이전에는 개인의 성장과 역량 향상을 위한 선택에 집중했다면, 다음에는
+            고객의 문제를 정확히 이해하고 빠르게 검증할 수 있으며, 차별화된 기술 해자를 구축해 시장을 바꾸려는
+            의지가 있는 조직을 원합니다.
           </p>
         </motion.aside>
       </div>

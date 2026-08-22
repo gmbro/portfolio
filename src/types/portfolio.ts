@@ -9,7 +9,7 @@ export interface HeroContent {
   roleLabel: string;
   careerLabel?: string;
   headline: string;
-  highlight?: string;
+  highlight?: string | string[];
   subcopy: string[];
   keywords: [string, string, string] | [string, string, string, string];
   ctaLabel?: string;
@@ -33,9 +33,9 @@ export interface PortfolioPublication {
 }
 
 export const defaultHeroContent: HeroContent = {
-  roleLabel: "AI Product & Project Manager",
-  headline: "AI 역량이 우수한 제너럴리스트로서\n고객의 문제를 제품으로 해결합니다.",
-  highlight: "AI 역량",
+  roleLabel: "AI Product Manager with 7 years of experience",
+  headline: "고객의 문제를 제품으로 해결합니다.",
+  highlight: ["고객", "제품"],
   subcopy: [],
   keywords: [
     "프로덕트의 제로투원 경험",
@@ -44,9 +44,9 @@ export const defaultHeroContent: HeroContent = {
     "B2C Product 기획·개발",
   ],
   stats: [
-    { value: "5개", label: "수행 프로젝트" },
-    { value: "3개", label: "프로덕트 기획 및 운영" },
-    { value: "3억", label: "매출 기여" },
+    { value: "5+", label: "수행 프로젝트" },
+    { value: "3+", label: "제품 기획.운영" },
+    { value: "28억", label: "매출 기여" },
   ],
 };
 

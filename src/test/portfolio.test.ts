@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import type { Json } from "@/lib/database.types";
 import { defaultHeroContent, parsePortfolioPageContent } from "@/types/portfolio";
 import { chatbotStarterQuestions } from "@/data/chatbot";
+import { parseCountUpValue } from "@/lib/countUp";
 import {
   careerExperiences,
   featuredProjects,
@@ -125,11 +126,11 @@ describe("parsePortfolioPageContent", () => {
 });
 
 describe("검증된 기본 포트폴리오 콘텐츠", () => {
-  it("AI Product & Project Manager 제너럴리스트 Hero를 사용한다", () => {
+  it("7년 경력 AI Product Manager Hero를 사용한다", () => {
     expect(defaultHeroContent).toEqual({
-      roleLabel: "AI Product & Project Manager",
-      headline: "AI 역량이 우수한 제너럴리스트로서\n고객의 문제를 제품으로 해결합니다.",
-      highlight: "AI 역량",
+      roleLabel: "AI Product Manager with 7 years of experience",
+      headline: "고객의 문제를 제품으로 해결합니다.",
+      highlight: ["고객", "제품"],
       subcopy: [],
       keywords: [
         "프로덕트의 제로투원 경험",
@@ -138,13 +139,13 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
         "B2C Product 기획·개발",
       ],
       stats: [
-        { value: "5개", label: "수행 프로젝트" },
-        { value: "3개", label: "프로덕트 기획 및 운영" },
-        { value: "3억", label: "매출 기여" },
+        { value: "5+", label: "수행 프로젝트" },
+        { value: "3+", label: "제품 기획.운영" },
+        { value: "28억", label: "매출 기여" },
       ],
     });
-    expect(defaultHeroContent.highlight).toBe("AI 역량");
-    expect(defaultHeroContent.headline).toContain("AI 역량");
+    expect(defaultHeroContent.highlight).toEqual(["고객", "제품"]);
+    expect(defaultHeroContent.headline).not.toContain("AI 역량");
     expect(defaultHeroContent.ctaLabel).toBeUndefined();
     expect(defaultHeroContent.ctaTarget).toBeUndefined();
   });
@@ -156,7 +157,6 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
       "아키랩",
       "GenON",
       "Selectstar",
-      "Adler",
       "Skelter Labs",
       "SK Planet",
       "Kakao Commerce",
@@ -165,10 +165,17 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
       "2026.06–진행 중",
       "2025.01–2026.05",
       "2024.06–2025.01",
-      "2023.04–2023.06",
       "2021.09–2023.04",
       "2018.04–2020.04",
       "2017.05–2017.12",
+    ]);
+    expect(careerExperiences.map((experience) => experience.duration)).toEqual([
+      "3개월",
+      "1년 6개월",
+      "7개월",
+      "1년 7개월",
+      "2년",
+      "7개월",
     ]);
     expect(careerExperiences[0]).toMatchObject({
       company: "아키랩",
@@ -188,28 +195,42 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
     expect(arkylab).toMatchObject({
       company: "아키랩",
       period: "2026.06–진행 중",
-      description: "아키를 운영하는 1인 사업자로 제품과 사업 전 과정을 맡고 있습니다.",
+      duration: "3개월",
+      description: "1인 사업자로 헬스케어·커뮤니티·법률 서비스를 개발해 운영하고 있습니다.",
     });
     expect(flagshipProject).toMatchObject({
       organization: "아키랩",
       category: "아키 · 실사용 베타",
       involvement: { label: "담당 책임", value: "제품 기획·개발·사업·운영 전담" },
       link: { label: "아키 베타 보기", href: "https://archi.best" },
-      metrics: ["베타 참여자 6명", "2026.07–진행 중", "제품 전 과정 1인 전담"],
+      metrics: ["베타 참여자 15명", "2026.06–진행 중", "제품 전 과정 1인 전담"],
       visual: { alt: expect.stringContaining("아키") },
     });
-    expect(flagshipProject.action).toContain("그리드 배경 촬영 기능");
-    expect(flagshipProject.result).toContain("시퀀스");
-    expect(flagshipProject.result).toContain("영상 기록");
+    expect(flagshipProject.visual?.placeholderItems).toEqual(["랜딩 페이지", "기록 화면", "아키텍처"]);
+    expect(flagshipProject.action).toContain("Gemini API");
+    expect(flagshipProject.action).toContain("MediaPipe");
+    expect(flagshipProject.action).toContain("33개 관절");
+    expect(flagshipProject.result).toContain("15명");
+    expect(flagshipProject.result).toContain("교정 운동 전후 비교");
+    expect(JSON.stringify({ arkylab, flagshipProject })).not.toMatch(/6명|2026\.07|1인 제품/);
   });
 
-  it("Hero의 수행 프로젝트 수를 공개 CAR 프로젝트와 연결한다", () => {
+  it("Hero의 수행 프로젝트 하한을 공개 CAR 프로젝트와 연결한다", () => {
     expect(defaultHeroContent.stats?.[0]).toEqual({
-      value: "5개",
+      value: "5+",
       label: "수행 프로젝트",
     });
     expect(portfolioProjects).toHaveLength(5);
     expect(portfolioProjects.some((project) => project.organization.includes("GenON"))).toBe(true);
+  });
+
+  it("숫자로 시작하는 Hero 지표만 카운트업 대상으로 파싱한다", () => {
+    expect(defaultHeroContent.stats?.map(({ value }) => parseCountUpValue(value))).toEqual([
+      { target: 5, suffix: "+" },
+      { target: 3, suffix: "+" },
+      { target: 28, suffix: "억" },
+    ]);
+    expect(parseCountUpValue("검증")).toBeNull();
   });
 
   it("챗봇 추천 질문 4개를 공개된 프로젝트·경력 근거와 연결한다", () => {
@@ -219,12 +240,14 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
       "data-operations",
       "b2b-b2g",
     ]);
-    expect(portfolioProjects.find(({ id }) => id === "skelter-ai-counselor")?.metrics).toContain(
-      "0→1 PoC",
-    );
-    expect(portfolioProjects.find(({ id }) => id === "sk-planet-syrup-wallet")?.metrics).toContain(
-      "약 350만 MAU",
-    );
+    expect(portfolioProjects.find(({ id }) => id === "skelter-ai-counselor")).toMatchObject({
+      category: "Product 0 to 1",
+      metrics: expect.arrayContaining(["PoC"]),
+    });
+    expect(portfolioProjects.find(({ id }) => id === "sk-planet-syrup-wallet")).toMatchObject({
+      category: "350만 MAU 제품 광고 운영",
+      metrics: expect.arrayContaining(["제품 운영"]),
+    });
     expect(portfolioProjects.find(({ id }) => id === "selectstar-stt-operations")?.metrics).toContain(
       "운영 원가 70%+ 절감",
     );
@@ -254,17 +277,17 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
       portfolioProjects.map((project) => `${project.organizationLabel}: ${project.organization}`),
     ).toEqual([
       "수행 주체: 아키랩",
-      "수행 회사: GenON · NIPA 지원 사업",
-      "수행 회사: Selectstar · 프로젝트실",
-      "수행 회사: Skelter Labs · 제품",
+      "수행 회사: GenON · NIPA 지원사업 AI 바우처",
+      "수행 회사: 셀렉터스타 · LG유플러스",
+      "수행 회사: 스켈터랩스 · 네오사피엔스",
       "수행 회사: SK Planet · Syrup Wallet",
     ]);
     expect(
       portfolioProjects.map((project) => `${project.involvement.label}: ${project.involvement.value}`),
     ).toEqual([
       "담당 책임: 제품 기획·개발·사업·운영 전담",
-      "담당 책임: 제안·산출물·이해관계자 관리",
-      "담당 책임: STT 전환 기획·운영 품질 관리",
+      "담당 책임: 제안서·산출물·프로젝트 관리",
+      "담당 책임: 프로젝트 수행·STT 제품 기획",
       "담당 책임: 제품·대화 설계 및 제휴 주도",
       "담당 책임: 푸시 기능 기획·운영 개선",
     ]);
@@ -285,17 +308,97 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
     expect(serialized).not.toContain("Arkylab");
     expect(serialized).not.toMatch(/(^|[^A-Za-z])Arky([^A-Za-z]|$)/);
     expect(serialized).not.toContain("9년차");
+    expect(serialized).not.toContain("Adler");
     expect(serialized).not.toMatch(/클래스팅|Classting/i);
     expect(serialized).toMatch(/[가-힣]/);
   });
 
-  it("짧은 Adler 경력의 고용 형태와 종료 배경을 확인된 범위로 설명한다", () => {
-    const adler = careerExperiences.find((experience) => experience.company === "Adler");
+  it("사용자가 제외한 Adler 경력을 공개 데이터에 포함하지 않는다", () => {
+    expect(careerExperiences.some((experience) => experience.company === "Adler")).toBe(false);
+  });
 
-    expect(adler?.period).toBe("2023.04–2023.06");
-    expect(adler?.description).toContain("정규직");
-    expect(adler?.description).toContain("회사");
-    expect(adler?.description).toContain("휴업");
-    expect(adler?.description).not.toMatch(/폐업|해고|경영난/);
+  it("주석에서 확정한 프로젝트 제목·라벨·핵심 근거를 보존한다", () => {
+    expect(
+      portfolioProjects.map(({ id, category, title, organization, involvement, metrics }) => ({
+        id,
+        category,
+        title,
+        organization,
+        involvement: involvement.value,
+        metrics,
+      })),
+    ).toEqual([
+      {
+        id: "arkylab-ai-coach",
+        category: "아키 · 실사용 베타",
+        title: "운동 강사를 위한 AI 기록 솔루션",
+        organization: "아키랩",
+        involvement: "제품 기획·개발·사업·운영 전담",
+        metrics: ["베타 참여자 15명", "2026.06–진행 중", "제품 전 과정 1인 전담"],
+      },
+      {
+        id: "nipa-vision-ai-poc",
+        category: "Vision AI · 프로젝트 관리",
+        title: "Vision AI를 활용한 신발 아웃솔 품질 검사 효율화 프로젝트",
+        organization: "GenON · NIPA 지원사업 AI 바우처",
+        involvement: "제안서·산출물·프로젝트 관리",
+        metrics: ["7개월 수행", "PoC·산출물 관리"],
+      },
+      {
+        id: "selectstar-stt-operations",
+        category: "AI 데이터 가공",
+        title: "음성 전사 데이터셋 구축 프로젝트",
+        organization: "셀렉터스타 · LG유플러스",
+        involvement: "프로젝트 수행·STT 제품 기획",
+        metrics: ["맨먼스 약 1/10", "운영 원가 70%+ 절감", "수행사 커뮤니케이션"],
+      },
+      {
+        id: "skelter-ai-counselor",
+        category: "Product 0 to 1",
+        title: "Retrieval 기술을 활용한 AI 상담사 PoC",
+        organization: "스켈터랩스 · 네오사피엔스",
+        involvement: "제품·대화 설계 및 제휴 주도",
+        metrics: ["제품 기획", "사업 제휴", "PoC", "챗봇"],
+      },
+      {
+        id: "sk-planet-syrup-wallet",
+        category: "350만 MAU 제품 광고 운영",
+        title: "시럽월렛 광고 운영",
+        organization: "SK Planet · Syrup Wallet",
+        involvement: "푸시 기능 기획·운영 개선",
+        metrics: ["제품 운영", "타겟팅 기획", "운영 효율화"],
+      },
+    ]);
+
+    const skelter = portfolioProjects.find(({ id }) => id === "skelter-ai-counselor");
+    const syrup = portfolioProjects.find(({ id }) => id === "sk-planet-syrup-wallet");
+    expect(skelter?.visual?.placeholderItems).toEqual(["PRD", "대화 흐름", "PoC"]);
+    expect(skelter?.result).toContain("사업 제휴");
+    expect(syrup?.action).toContain("유효 토큰");
+    expect(syrup?.action).toContain("분산 발송");
+    expect(syrup?.action).toContain("어드민");
+    expect(syrup?.tags).toEqual(["B2C", "서비스 운영", "푸시 기능 개선", "프로세스 운영 개선"]);
+  });
+
+  it("주석에서 확정한 회사 설명·직무·팀·경력 설명을 보존한다", () => {
+    const byCompany = Object.fromEntries(careerExperiences.map((experience) => [experience.company, experience]));
+
+    expect(byCompany.Selectstar).toMatchObject({
+      companyDesc: "AI 데이터 가공",
+      description: "음성 전사 데이터셋 구축 프로젝트를 수행하며 STT 제품 개발을 주도했습니다.",
+    });
+    expect(byCompany.Adler).toBeUndefined();
+    expect(byCompany["Skelter Labs"]).toMatchObject({
+      companyDesc: "B2B AI 챗봇 사업",
+      title: "프로덕트 매니저",
+      team: "제품팀",
+    });
+    expect(byCompany["Skelter Labs"].description).toContain("사업 제휴를 담당했습니다");
+    expect(byCompany["SK Planet"]).toMatchObject({ title: "운영 매니저", team: "서비스 운영팀" });
+    expect(byCompany["Kakao Commerce"]).toMatchObject({
+      title: "퍼포먼스 마케터",
+      team: "선물하기팀",
+    });
+    expect(byCompany["Kakao Commerce"].description).toContain("클릭 전환율");
   });
 });

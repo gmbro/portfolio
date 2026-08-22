@@ -1,5 +1,5 @@
 import emailjs from "@emailjs/browser";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { LoaderCircle } from "lucide-react";
 import { useState } from "react";
 import { profile } from "@/data/portfolio";
@@ -58,6 +58,7 @@ const getEmailJsErrorMessage = (status: number | null) => {
 };
 
 const Contact = () => {
+  const prefersReducedMotion = useReducedMotion();
   const [form, setForm] = useState<FormState>(initialForm);
   const [consented, setConsented] = useState(false);
   const [sending, setSending] = useState(false);
@@ -150,27 +151,29 @@ const Contact = () => {
     <section id="contact" className="portfolio-section-surface portfolio-section-surface--soft relative scroll-mt-20 overflow-hidden px-6 py-16 text-white md:px-12 md:py-20">
       <div className="pointer-events-none absolute bottom-0 left-1/2 h-[34rem] w-[70rem] -translate-x-1/2 rounded-full bg-[#ff6645]/10 blur-[150px]" />
 
-      <div className="relative z-10 mx-auto max-w-3xl">
+      <div className="relative z-10 mx-auto max-w-7xl">
         <motion.div
-          initial={{ opacity: 0, y: 18 }}
+          data-section-reveal="contact"
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="mb-8"
+          className="mb-8 max-w-4xl md:mb-10"
         >
           <p className="font-body text-xs font-semibold uppercase tracking-[0.3em] text-[#ff6645]">Contact</p>
-          <h2 className="mt-4 font-display text-3xl font-bold tracking-[-0.03em] text-white md:text-5xl">
+          <h2 className="mt-4 break-words text-balance font-display text-3xl font-bold leading-tight tracking-[-0.03em] text-white md:text-5xl">
             채용·협업
           </h2>
         </motion.div>
 
         <motion.form
           onSubmit={handleSubmit}
-          initial={{ opacity: 0, y: 18 }}
+          data-section-reveal="contact-form"
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.08 }}
-          className="rounded-3xl border border-white/10 bg-[#111111] p-5 md:p-8"
+          className="w-full max-w-3xl rounded-3xl border border-white/10 bg-[#111111] p-5 md:p-8"
         >
           <div className="absolute -left-[9999px]" aria-hidden="true">
             <label htmlFor="contact-website">웹사이트</label>

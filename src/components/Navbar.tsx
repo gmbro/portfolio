@@ -33,10 +33,10 @@ const Navbar = () => {
         <button
           type="button"
           onClick={() => scrollTo("hero")}
-          aria-label="Lee Kyoungmin Portfolio, 처음으로"
+          aria-label="Kyoungmin Lee, 처음으로"
           className="flex min-h-11 max-w-[8.5rem] shrink items-center rounded-lg text-left font-display text-base font-extrabold leading-[1.05] tracking-[-0.03em] text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:max-w-none sm:shrink-0 sm:whitespace-nowrap sm:text-xl lg:text-2xl"
         >
-          Lee Kyoungmin Portfolio
+          Kyoungmin Lee
         </button>
 
         {/* Center nav links — desktop */}

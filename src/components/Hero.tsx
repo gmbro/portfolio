@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
-import { portfolioExperienceLogos } from "@/data/heroLogos";
+import CountUpValue from "@/components/CountUpValue";
 import { defaultHeroContent, type HeroContent } from "@/types/portfolio";
 
 export const portfolioHeroBackground =
@@ -8,23 +8,32 @@ export const portfolioHeroBackground =
 
 interface HeroProps {
   content?: HeroContent;
-  showExperienceLogos?: boolean;
 }
 
-const highlightHeadline = (line: string, highlight?: string) => {
-  if (!highlight || !line.includes(highlight)) return line;
+const highlightHeadline = (line: string, highlight?: string | string[]) => {
+  const highlights = (Array.isArray(highlight) ? highlight : [highlight]).filter(
+    (term): term is string => Boolean(term && line.includes(term)),
+  );
+  if (highlights.length === 0) return line;
 
-  const [before, ...afterParts] = line.split(highlight);
-  return (
-    <>
-      {before}
-      <span className="text-[#ff6645] [overflow-wrap:normal] [word-break:keep-all]">{highlight}</span>
-      {afterParts.join(highlight)}
-    </>
+  const escapedTerms = highlights.map((term) => term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+  const highlightPattern = new RegExp(`(${escapedTerms.join("|")})`, "g");
+
+  return line.split(highlightPattern).map((part, index) =>
+    highlights.includes(part) ? (
+      <span
+        key={`${part}-${index}`}
+        className="text-[#ff6645] [overflow-wrap:normal] [word-break:keep-all]"
+      >
+        {part}
+      </span>
+    ) : (
+      part
+    ),
   );
 };
 
-const Hero = ({ content = defaultHeroContent, showExperienceLogos = true }: HeroProps) => {
+const Hero = ({ content = defaultHeroContent }: HeroProps) => {
   const headlineLines = content.headline.split("\n").filter(Boolean);
   const stats = content.stats ?? [];
 
@@ -57,7 +66,7 @@ const Hero = ({ content = defaultHeroContent, showExperienceLogos = true }: Hero
           transition={{ duration: 0.45 }}
           className="flex max-w-full flex-wrap items-center gap-2"
         >
-          <span className="max-w-full break-words rounded-full border border-[#ff6645]/35 bg-[#ff6645]/10 px-4 py-2 font-body text-[10px] font-bold uppercase tracking-[0.12em] text-[#ff8a70] sm:text-xs md:text-sm">
+          <span className="max-w-full break-words rounded-full border border-[#ff6645]/35 bg-[#ff6645]/10 px-3.5 py-2 font-body text-[10px] font-bold tracking-[0.06em] text-[#ff8a70] sm:px-4 sm:text-xs sm:tracking-[0.1em] md:text-sm">
             {content.roleLabel}
             {content.careerLabel && <span className="ml-2 text-white/45">{content.careerLabel}</span>}
           </span>
@@ -122,45 +131,18 @@ const Hero = ({ content = defaultHeroContent, showExperienceLogos = true }: Hero
                 key={`${stat.value}-${stat.label}`}
                 className="flex min-h-[7.5rem] min-w-0 flex-col justify-between rounded-2xl border border-white/10 bg-[#111111]/90 px-3 py-4 shadow-[0_16px_60px_rgba(0,0,0,.25)] md:min-h-[7.875rem] md:rounded-3xl md:px-6 md:py-6"
               >
-                <dd className="break-words font-display text-[1.35rem] font-extrabold leading-none tracking-[-0.03em] text-white sm:text-3xl md:text-5xl">
-                  {stat.value}
-                </dd>
-                <dt className="mt-2 break-keep font-body text-[10px] font-medium leading-4 text-white/55 [overflow-wrap:break-word] sm:text-xs md:text-sm md:leading-5">
+                <dt className="order-2 mt-2 break-keep font-body text-[10px] font-medium leading-4 text-white/55 [overflow-wrap:break-word] sm:text-xs md:text-sm md:leading-5">
                   {stat.label}
                 </dt>
+                <dd
+                  data-stat-value={stat.value}
+                  className="order-1 break-words font-display text-[1.35rem] font-extrabold leading-none tracking-[-0.03em] text-white sm:text-3xl md:text-5xl"
+                >
+                  <CountUpValue value={stat.value} />
+                </dd>
               </div>
             ))}
           </motion.dl>
-        )}
-
-        {showExperienceLogos && (
-          <div className="mt-7 w-full max-w-5xl md:mt-8">
-            <h2
-              id="hero-partner-title"
-              className="font-body text-xs font-semibold tracking-[0.08em] text-white/60 md:text-sm"
-            >
-              수행 프로젝트 협업사
-            </h2>
-            <ul
-              className="mt-6 grid grid-cols-2 gap-x-8 gap-y-8 sm:grid-cols-4 sm:gap-x-10 md:mt-7 md:gap-x-12 md:gap-y-10"
-              aria-labelledby="hero-partner-title"
-            >
-              {portfolioExperienceLogos.map((logo) => (
-                <li key={logo.id} className="flex h-12 min-w-0 items-center justify-center sm:h-16">
-                  <img
-                    data-hero-logo={logo.id}
-                    src={logo.src}
-                    alt={logo.alt}
-                    width={logo.width}
-                    height={logo.height}
-                    loading="lazy"
-                    decoding="async"
-                    className="h-full w-full object-contain brightness-0 invert opacity-75"
-                  />
-                </li>
-              ))}
-            </ul>
-          </div>
         )}
       </div>
 

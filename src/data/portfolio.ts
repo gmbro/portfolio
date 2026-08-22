@@ -1,6 +1,6 @@
 export const profile = {
   name: "이경민",
-  englishName: "LEE GYEONGMIN",
+  englishName: "Kyoungmin Lee",
   role: "AI Product Manager",
   email: "gmbro7942@gmail.com",
   linkedin: "https://www.linkedin.com/in/gmbro",
@@ -58,14 +58,15 @@ export const flagshipProject: FeaturedProject = {
   organizationLabel: "수행 주체",
   organization: "아키랩",
   involvement: { label: "담당 책임", value: "제품 기획·개발·사업·운영 전담" },
-  title: "운동 강사의 반복 기록 문제를 해결하는 AI 제품 아키를 베타로 검증하고 있습니다.",
-  challenge: "운동 강사가 수업 기록과 회원 상태를 지속적으로 관리하기 어려운 문제를 확인했습니다.",
+  title: "운동 강사를 위한 AI 기록 솔루션",
+  challenge:
+    "운동 강사의 수업 기록이 파편화되고 휘발되며, 수업 내용이 회원에게 공유되지 않아 강사의 전문성을 입증하는 데 한계가 발생합니다.",
   action:
-    "제품 기획·개발·사업·운영을 1인으로 전담했습니다. 회원의 운동 전 체형을 분석하고 싶다는 요청을 반영해 그리드 배경 촬영 기능을 추가했습니다.",
+    "Gemini API와 MediaPipe의 33개 관절 추적 기술을 결합해 수업 기록 환경을 구축했습니다. 강사의 음성 큐잉(Voice)을 텍스트로 변환한 데이터와 회원의 동작 변화(Vision)를 실시간으로 동기화하고, AI 기반 요약·분석 기능을 구현해 복잡한 운동 현장에서도 빠르게 기록하고 공유할 수 있도록 했습니다.",
   result:
-    "2026년 7월부터 베타 참여자 6명과 운영하고 있습니다. 운동마다 기록 방식이 달라 시퀀스를 추가하면 복잡해진다는 피드백에 따라 도입하지 않고 영상 기록에 집중했습니다.",
-  metrics: ["베타 참여자 6명", "2026.07–진행 중", "제품 전 과정 1인 전담"],
-  tags: ["Codex", "Supabase", "1인 제품", "베타 검증"],
+    "2026년 6월부터 개발을 시작해 2026년 8월 기준 운동 강사 15명의 피드백으로 기능을 고도화하고 있습니다. 교정 운동 전후 비교 기능에 대한 수요를 확인했으며, 상용화 단계의 수익 가능성을 검증하고 있습니다.",
+  metrics: ["베타 참여자 15명", "2026.06–진행 중", "제품 전 과정 1인 전담"],
+  tags: ["Codex", "Supabase", "바이브코딩", "베타 검증"],
   link: {
     label: "아키 베타 보기",
     href: "https://archi.best",
@@ -74,7 +75,7 @@ export const flagshipProject: FeaturedProject = {
     title: "아키 제품 자료",
     type: "image",
     alt: "아키 AI 기록 제품의 사용 흐름과 베타 검증 자료",
-    placeholderItems: ["제품 화면", "6명 베타 사용 흐름", "그리드 촬영 추가·시퀀스 제외 결정"],
+    placeholderItems: ["랜딩 페이지", "기록 화면", "아키텍처"],
   },
 };
 
@@ -84,9 +85,9 @@ export const featuredProjects: FeaturedProject[] = [
     category: "Vision AI · 프로젝트 관리",
     period: "2025.06–2025.12",
     organizationLabel: "수행 회사",
-    organization: "GenON · NIPA 지원 사업",
-    involvement: { label: "담당 책임", value: "제안·산출물·이해관계자 관리" },
-    title: "수작업 검사 문제를 Vision AI PoC로 구체화하고, 제안부터 종결까지 조율했습니다.",
+    organization: "GenON · NIPA 지원사업 AI 바우처",
+    involvement: { label: "담당 책임", value: "제안서·산출물·프로젝트 관리" },
+    title: "Vision AI를 활용한 신발 아웃솔 품질 검사 효율화 프로젝트",
     challenge: "신발 아웃솔의 수작업 품질 검사 공정을 Vision AI로 개선해야 했습니다.",
     action:
       "제안서를 작성하고 7개월간 중간 보고, PoC 결과, 고객 피드백과 주요 산출물을 관리했습니다. 수요 기업·내부 개발팀·NIPA 사이의 커뮤니케이션을 조율했습니다.",
@@ -102,17 +103,17 @@ export const featuredProjects: FeaturedProject[] = [
   },
   {
     id: "selectstar-stt-operations",
-    category: "AI 데이터 · 운영",
+    category: "AI 데이터 가공",
     period: "2024.06–2025.01",
     organizationLabel: "수행 회사",
-    organization: "Selectstar · 프로젝트실",
-    involvement: { label: "담당 책임", value: "STT 전환 기획·운영 품질 관리" },
-    title: "수작업 전사 병목을 STT 제품·운영 구조로 전환했습니다.",
+    organization: "셀렉터스타 · LG유플러스",
+    involvement: { label: "담당 책임", value: "프로젝트 수행·STT 제품 기획" },
+    title: "음성 전사 데이터셋 구축 프로젝트",
     challenge: "수작업 중심의 음성 전사 과정에는 많은 인력과 반복 작업이 필요했습니다.",
     action:
       "STT 전사 제품과 전처리·후처리 기준을 기획하고 Python 기반 작업을 추가했습니다. 약 200명의 어노테이터 운영 및 품질 관리 체계도 구축했습니다.",
     result: "필요 맨먼스를 기존의 약 1/10로 줄이고 운영 원가를 70% 이상 절감했습니다.",
-    metrics: ["맨먼스 약 1/10", "운영 원가 70%+ 절감", "약 200명 운영"],
+    metrics: ["맨먼스 약 1/10", "운영 원가 70%+ 절감", "수행사 커뮤니케이션"],
     tags: ["STT", "Python", "데이터 구축", "운영 설계"],
     visual: {
       title: "STT 운영 개선 자료",
@@ -123,38 +124,39 @@ export const featuredProjects: FeaturedProject[] = [
   },
   {
     id: "skelter-ai-counselor",
-    category: "AI 제품 · 0→1",
+    category: "Product 0 to 1",
     period: "2021.09–2023.04",
     organizationLabel: "수행 회사",
-    organization: "Skelter Labs · 제품",
+    organization: "스켈터랩스 · 네오사피엔스",
     involvement: { label: "담당 책임", value: "제품·대화 설계 및 제휴 주도" },
-    title: "B2B AI 기술을 B2C 상담사 PoC로 구체화했습니다.",
+    title: "Retrieval 기술을 활용한 AI 상담사 PoC",
     challenge: "사내 B2B 챗봇 엔진을 사용자가 직접 경험할 수 있는 B2C 상담 서비스로 확장해야 했습니다.",
     action:
       "STT·TTS·Retrieval을 연결하고 서비스 범위, 대화 흐름, PRD, 와이어프레임과 대화 데이터를 설계했습니다. 디지털 휴먼·TTS 제휴와 대학 산학협력도 주도했습니다.",
-    result: "B2C AI 상담사 PoC를 0에서 1까지 구축했습니다.",
-    metrics: ["0→1 PoC"],
+    result: "B2C AI 상담사 PoC를 0에서 1까지 구축해 고객사와의 사업 제휴를 이끌어냈습니다.",
+    metrics: ["제품 기획", "사업 제휴", "PoC", "챗봇"],
     tags: ["STT · TTS", "Retrieval", "대화 데이터", "사업 제휴"],
     visual: {
       title: "AI 상담사 PoC 자료",
       type: "image",
       alt: "B2C AI 상담사 PoC의 PRD와 대화 흐름 및 제휴 범위 자료",
-      placeholderItems: ["PRD·와이어프레임", "대화 흐름", "제휴·산학협력 범위"],
+      placeholderItems: ["PRD", "대화 흐름", "PoC"],
     },
   },
   {
     id: "sk-planet-syrup-wallet",
-    category: "대규모 제품 운영",
+    category: "350만 MAU 제품 광고 운영",
     period: "2018.04–2020.04",
     organizationLabel: "수행 회사",
     organization: "SK Planet · Syrup Wallet",
     involvement: { label: "담당 책임", value: "푸시 기능 기획·운영 개선" },
-    title: "대규모 제품의 푸시 병목을 진단하고 타기팅·발송 구조를 개선했습니다.",
+    title: "시럽월렛 광고 운영",
     challenge: "광고 푸시의 낮은 수신 효율과 서버 과부하, 반복적인 수작업 운영을 함께 개선해야 했습니다.",
-    action: "유효 토큰 타기팅, 분산 발송과 사용자군 리타기팅 기능을 기획하고 운영 프로세스를 재설계했습니다.",
+    action:
+      "낮은 수신 효율을 개선하기 위해 유효 토큰 타기팅과 서버 과부하를 예방하는 분산 발송 기능을 기획했습니다. 반복적인 수작업을 없애기 위해 광고팀이 직접 에셋을 등록할 수 있는 어드민 기능을 추가해 운영 프로세스 개선을 주도했습니다.",
     result: "수신율을 2배, 열람률을 1.5배 높이고 운영 시간을 기존의 1/10 수준으로 단축했습니다.",
-    metrics: ["약 350만 MAU", "수신율 2배", "운영 시간 1/10"],
-    tags: ["B2C", "서비스 운영", "타기팅", "프로세스 개선"],
+    metrics: ["제품 운영", "타겟팅 기획", "운영 효율화"],
+    tags: ["B2C", "서비스 운영", "푸시 기능 개선", "프로세스 운영 개선"],
     visual: {
       title: "대규모 제품 운영 자료",
       type: "image",
@@ -171,6 +173,7 @@ export interface CareerExperience {
   companyDesc: string;
   title: string;
   period: string;
+  duration: string;
   team: string;
   description: string;
   achievements: string[];
@@ -183,10 +186,11 @@ export const careerExperiences: CareerExperience[] = [
     companyDesc: "AI 제품 개발·운영",
     title: "대표",
     period: "2026.06–진행 중",
+    duration: "3개월",
     team: "",
-    description: "아키를 운영하는 1인 사업자로 제품과 사업 전 과정을 맡고 있습니다.",
+    description: "1인 사업자로 헬스케어·커뮤니티·법률 서비스를 개발해 운영하고 있습니다.",
     achievements: [
-      "운동 강사를 위한 AI 기록 서비스 아키, 2026.07부터 참여자 6명과 베타 진행 중",
+      "운동 강사를 위한 AI 기록 서비스 아키, 2026.06부터 참여자 15명과 베타 진행 중",
       "트레바리 독서 커뮤니티를 위한 AI 솔루션 제작 및 운영",
       "부당한 정책에 대해 환불받을 수 있도록 지원하는 B2C 법률 서비스 제작 및 납품",
     ],
@@ -197,6 +201,7 @@ export const careerExperiences: CareerExperience[] = [
     companyDesc: "클라우드 · AI 사업",
     title: "프로.사업개발",
     period: "2025.01–2026.05",
+    duration: "1년 6개월",
     team: "",
     description: "SaaS·클라우드 제품의 공공 시장 진입을 위한 B2B·B2G 사업 개발, 보안 인증 대응과 대외 마케팅을 담당했습니다.",
     achievements: [
@@ -208,11 +213,12 @@ export const careerExperiences: CareerExperience[] = [
   },
   {
     company: "Selectstar",
-    companyDesc: "AI 데이터 전문 기업",
+    companyDesc: "AI 데이터 가공",
     title: "프로젝트 매니저",
     period: "2024.06–2025.01",
+    duration: "7개월",
     team: "프로젝트실",
-    description: "음성 전사 데이터셋 구축을 STT 기반 제품과 운영 구조로 전환했습니다.",
+    description: "음성 전사 데이터셋 구축 프로젝트를 수행하며 STT 제품 개발을 주도했습니다.",
     achievements: [
       "STT 도입으로 맨먼스를 기존의 약 1/10 수준으로 단축",
       "기존 운영 원가 대비 70% 이상 절감",
@@ -221,27 +227,14 @@ export const careerExperiences: CareerExperience[] = [
     tags: ["STT", "데이터 구축", "Python", "운영 설계"],
   },
   {
-    company: "Adler",
-    companyDesc: "3D 소셜 스타트업",
-    title: "프로덕트 매니저",
-    period: "2023.04–2023.06",
-    team: "제품",
-    description:
-      "정규직으로 3D 소셜 MVP의 출시 전 기획·QA·개발 일정을 맡았으며, 회사 사정에 따른 휴업으로 근무 기간은 3개월이었습니다.",
-    achievements: [
-      "CS 어드민·신고·차단 기능과 운영 프로세스 설계",
-      "기능 명세서·요구사항 정의서·와이어프레임 작성",
-      "WAU·DAU 기반 전사 지표와 참여도 대시보드 정의",
-    ],
-    tags: ["MVP", "QA", "제품 운영", "지표 설계"],
-  },
-  {
     company: "Skelter Labs",
-    companyDesc: "AI 기술 기업",
+    companyDesc: "B2B AI 챗봇 사업",
     title: "프로덕트 매니저",
     period: "2021.09–2023.04",
-    team: "제품",
-    description: "STT·TTS·Retrieval을 결합한 B2C AI 상담사 PoC의 제품·대화 설계와 제휴를 맡았습니다.",
+    duration: "1년 7개월",
+    team: "제품팀",
+    description:
+      "STT·TTS·Retrieval을 결합한 B2C AI 상담사 PoC의 제품·대화 설계와 사업 제휴를 담당했습니다.",
     achievements: [
       "서비스 콘셉트·기능 범위·대화 흐름·PRD·와이어프레임 설계",
       "페르소나·심리테스트 기반 대화 데이터 기획",
@@ -252,9 +245,10 @@ export const careerExperiences: CareerExperience[] = [
   {
     company: "SK Planet",
     companyDesc: "Syrup Wallet",
-    title: "운영 PM",
+    title: "운영 매니저",
     period: "2018.04–2020.04",
-    team: "Syrup Wallet 운영",
+    duration: "2년",
+    team: "서비스 운영팀",
     description: "약 350만 MAU 규모 서비스의 광고 푸시 운영과 발송 기능 개선을 담당했습니다.",
     achievements: [
       "유효 토큰 타기팅으로 푸시 수신율 2배 향상",
@@ -266,10 +260,12 @@ export const careerExperiences: CareerExperience[] = [
   {
     company: "Kakao Commerce",
     companyDesc: "카카오톡 선물하기",
-    title: "퍼포먼스 마케팅 인턴",
+    title: "퍼포먼스 마케터",
     period: "2017.05–2017.12",
-    team: "선물하기 톡채널",
-    description: "사용자 반응 데이터를 바탕으로 타깃·메시지·카드 노출 구조를 개선했습니다.",
+    duration: "7개월",
+    team: "선물하기팀",
+    description:
+      "선물하기 톡채널의 광고 발송을 운영하고 사용자 데이터를 활용해 클릭 전환율을 개선하는 업무를 담당했습니다.",
     achievements: [
       "패션 콘텐츠 타깃·문구 개선으로 카드 열람률 10배 향상",
       "카카오프렌즈 카드 노출 구조 재구성으로 구매전환율 3배 향상에 기여",

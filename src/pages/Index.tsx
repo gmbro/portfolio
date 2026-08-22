@@ -33,7 +33,7 @@ const Index = ({ heroContent, analyticsEnabled = false }: IndexProps) => {
       </a>
       <Navbar />
       <main id="main-content" className="relative z-10" tabIndex={-1}>
-        <Hero content={heroContent} showExperienceLogos={heroContent === undefined} />
+        <Hero content={heroContent} />
         <About />
         <ImageCards />
         <Experience />
