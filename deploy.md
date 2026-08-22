@@ -1294,7 +1294,11 @@ GitHub Pages 배포 후 같은 세 너비에서 asset revision, launcher 외형�
 
 #### 배포 후 실제 URL 점검
 
-배포 완료 후 기록한다.
+- 구현 커밋 `1eec30792d9135a7832dae1129fc2077fd68d85c` (`Improve hero background visibility`)을 `origin/main`에 push했다.
+- GitHub Actions `Deploy Portfolio to GitHub Pages` Run #33, ID `32548448651`은 `completed / success`다. 실행 기록: `https://github.com/gmbro/portfolio/actions/runs/32548448651`.
+- 실제 `https://archilab.ai.kr/`은 새 main asset `/assets/index-C9jBd5Hy.js`와 CSS `/assets/index-C2CcA7qZ.css`를 응답했다.
+- 라이브 390×844, 768×900, 1440×900에서 Hero scrim 계산 opacity는 모두 `0.88`, clientWidth/scrollWidth는 각각 `375/375`, `753/753`, `1425/1425`이며 배경 이미지 로드는 완료 상태다.
+- 사용자 요청대로 그 외 전체 화면·챗봇·보호 route 반복 검증은 수행하지 않았다. 배포 차단 및 롤백 사유 없음. 최종 배포 상태: `완료`.
 
 ---
 
