@@ -8,10 +8,20 @@ export const profile = {
 
 export type ProjectVisualType = "image" | "video";
 
+export interface FeaturedProjectVisualItem {
+  id?: string;
+  src: string;
+  alt: string;
+  caption?: string;
+  width?: number;
+  height?: number;
+}
+
 export interface FeaturedProjectVisual {
   title: string;
   type: ProjectVisualType;
   src?: string;
+  items?: readonly FeaturedProjectVisualItem[];
   poster?: string;
   alt: string;
   caption?: string;

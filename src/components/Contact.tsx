@@ -147,7 +147,7 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="portfolio-section-surface portfolio-section-surface--soft relative scroll-mt-20 overflow-hidden px-6 py-24 text-white md:px-12 md:py-32">
+    <section id="contact" className="portfolio-section-surface portfolio-section-surface--soft relative scroll-mt-20 overflow-hidden px-6 py-16 text-white md:px-12 md:py-20">
       <div className="pointer-events-none absolute bottom-0 left-1/2 h-[34rem] w-[70rem] -translate-x-1/2 rounded-full bg-[#ff6645]/10 blur-[150px]" />
 
       <div className="relative z-10 mx-auto max-w-3xl">
@@ -156,11 +156,11 @@ const Contact = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="mb-10"
+          className="mb-8"
         >
           <p className="font-body text-xs font-semibold tracking-[0.3em] text-[#ff6645]">채용·협업</p>
           <h2 className="mt-4 font-display text-3xl font-bold tracking-[-0.03em] text-white md:text-5xl">
-            문의하기
+            Contact
           </h2>
         </motion.div>
 

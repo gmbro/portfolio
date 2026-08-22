@@ -13,13 +13,14 @@ import {
 import { createPortal } from "react-dom";
 import type { BubbleProps } from "@typebot.io/react";
 import {
+  chatbotAvatar,
   chatbotFollowupQuestions,
   chatbotGuide,
   chatbotStarterQuestions,
   validateChatbotQuestion,
 } from "@/data/chatbot";
 import { trackPortfolioEvent } from "@/lib/analytics";
-import { PORTFOLIO_OPEN_CHAT_EVENT } from "@/lib/chat";
+import { PORTFOLIO_OPEN_CHAT_EVENT, type PortfolioOpenChatDetail } from "@/lib/chat";
 
 const TYPEBOT_ID = "portfolio-typebot";
 const TYPEBOT_GUIDE_MOUNT_ID = "portfolio-chat-window-guide-mount";
@@ -59,9 +60,6 @@ const withTimeout = <T,>(promise: Promise<T>, timeoutMs: number) =>
       },
     );
   });
-
-const chatbotAvatar =
-  "https://s3.typebotstorage.com/public/workspaces/cmsodqtlt00000ajdy01a2oa5/typebots/cmsodrpss000004ji0579oaia/bubble-icon?v=1786441335928";
 
 const closeIcon =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='24' fill='%23f4f4f5'/%3E%3Cpath d='m17 17 14 14M31 17 17 31' fill='none' stroke='%23111111' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E";
@@ -104,8 +102,8 @@ const guideStyles = `
   }
 
   [part="bot"][data-portfolio-chat-mode="conversation"] .typebot-container {
-    padding-top: 92px !important;
-    padding-bottom: 370px !important;
+    padding-top: 64px !important;
+    padding-bottom: 256px !important;
     background: #ffffff !important;
   }
 
@@ -127,11 +125,11 @@ const guideStyles = `
 
   .portfolio-chat-window-guide__header {
     display: grid;
-    min-height: 92px;
-    grid-template-columns: 46px minmax(0, 1fr) 44px;
-    gap: 12px;
+    min-height: 64px;
+    grid-template-columns: 40px minmax(0, 1fr) 44px;
+    gap: 10px;
     align-items: center;
-    padding: 16px 18px;
+    padding: 10px 12px;
     background: linear-gradient(135deg, #e94f35 0%, #ff6645 54%, #ff9b45 100%);
     color: #ffffff;
     pointer-events: auto;
@@ -140,12 +138,12 @@ const guideStyles = `
   .portfolio-chat-window-guide__avatar {
     position: relative;
     display: grid;
-    width: 46px;
-    height: 46px;
+    width: 40px;
+    height: 40px;
     overflow: hidden;
     place-items: center;
     border: 1px solid rgb(255 255 255 / 0.72);
-    border-radius: 16px;
+    border-radius: 14px;
     background: #111111;
     color: #ffffff;
     font-size: 11px;
@@ -160,23 +158,11 @@ const guideStyles = `
     object-fit: cover;
   }
 
-  .portfolio-chat-window-guide__heading {
-    display: flex;
-    min-width: 0;
-    flex-direction: column;
-    gap: 3px;
-  }
-
-  .portfolio-chat-window-guide__heading span {
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: 0.14em;
-    opacity: 0.78;
-  }
+  .portfolio-chat-window-guide__heading { min-width: 0; }
 
   .portfolio-chat-window-guide__heading strong {
     overflow-wrap: anywhere;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 800;
     line-height: 1.3;
   }
@@ -289,7 +275,7 @@ const guideStyles = `
     flex-direction: column;
     gap: 8px;
     margin-top: auto;
-    padding: 12px 14px 62px;
+    padding: 10px 14px 58px;
     border-top: 1px solid #e4e4e7;
     background: rgb(255 255 255 / 0.98);
     box-shadow: 0 -14px 32px rgb(24 24 27 / 0.08);
@@ -305,21 +291,30 @@ const guideStyles = `
   }
 
   .portfolio-chat-window-guide__followups {
-    display: grid;
-    gap: 5px;
+    display: flex;
+    gap: 7px;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    padding: 1px 1px 4px;
+    scroll-snap-type: inline proximity;
+    scrollbar-width: none;
+    touch-action: pan-x;
   }
+
+  .portfolio-chat-window-guide__followups::-webkit-scrollbar { display: none; }
 
   .portfolio-chat-window-guide__followups button {
     display: flex;
-    width: 100%;
-    min-width: 0;
-    min-height: 32px;
+    width: auto;
+    min-width: max-content;
+    min-height: 44px;
+    flex: 0 0 auto;
     align-items: center;
     justify-content: space-between;
     gap: 8px;
-    padding: 6px 10px;
+    padding: 8px 12px;
     border: 1px solid #e4e4e7;
-    border-radius: 10px;
+    border-radius: 9999px;
     background: #fff8f6;
     color: #3f3f46;
     font-family: inherit;
@@ -328,6 +323,8 @@ const guideStyles = `
     line-height: 1.35;
     text-align: left;
     cursor: pointer;
+    scroll-snap-align: start;
+    white-space: nowrap;
   }
 
   .portfolio-chat-window-guide__followups button span:first-child {
@@ -342,6 +339,16 @@ const guideStyles = `
 
   .portfolio-chat-window-guide__conversation .portfolio-chat-window-guide__form {
     margin-top: 0;
+  }
+
+  .portfolio-chat-window-guide__form--conversation label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 
   .portfolio-chat-window-guide__form label {
@@ -424,13 +431,13 @@ const guideStyles = `
 
   @media (max-width: 639px) {
     .portfolio-chat-window-guide { border-radius: 22px; }
-    .portfolio-chat-window-guide__header { min-height: 84px; padding: 14px 16px; }
+    .portfolio-chat-window-guide__header { min-height: 62px; padding: 9px 10px; }
     .portfolio-chat-window-guide__body { padding: 15px; }
     [part="bot"][data-portfolio-chat-mode="conversation"] .typebot-container {
-      padding-top: 84px !important;
-      padding-bottom: 364px !important;
+      padding-top: 62px !important;
+      padding-bottom: 252px !important;
     }
-    .portfolio-chat-window-guide__conversation { padding: 10px 12px 60px; }
+    .portfolio-chat-window-guide__conversation { padding: 9px 12px 56px; }
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -487,22 +494,19 @@ interface TypebotBubbleProps {
 }
 
 const TypebotBubble = ({ observeAnalyticsConsent = false }: TypebotBubbleProps) => {
-  const [contactVisible, setContactVisible] = useState(false);
-  const [externalActionVisible, setExternalActionVisible] = useState(false);
   const [analyticsConsentVisible, setAnalyticsConsentVisible] = useState(false);
   const [question, setQuestion] = useState("");
   const [questionError, setQuestionError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [hasRequestedBot, setHasRequestedBot] = useState(false);
-  const [bubbleReady, setBubbleReady] = useState(false);
   const [inputReady, setInputReady] = useState(false);
   const [guideVisible, setGuideVisible] = useState(true);
   const [loadFailed, setLoadFailed] = useState(false);
   const [renderAttempt, setRenderAttempt] = useState(0);
   const [guidePortalTarget, setGuidePortalTarget] = useState<HTMLElement | null>(null);
   const [BubbleComponent, setBubbleComponent] = useState<ComponentType<BubbleProps> | null>(null);
-  const launcherRef = useRef<HTMLButtonElement>(null);
+  const chatTriggerRef = useRef<HTMLElement | null>(null);
   const guideInputRef = useRef<HTMLInputElement>(null);
   const guideCloseRef = useRef<HTMLButtonElement>(null);
   const moduleRef = useRef<TypebotModule>();
@@ -536,17 +540,10 @@ const TypebotBubble = ({ observeAnalyticsConsent = false }: TypebotBubbleProps) 
     return typebot;
   }, []);
 
-  const warmTypebot = useCallback(() => {
-    void loadTypebotModule().then(rememberTypebotModule).catch(() => undefined);
-  }, [rememberTypebotModule]);
-
-  const focusTypebotButton = useCallback(() => {
+  const focusChatTrigger = useCallback(() => {
     if (focusFrameRef.current !== undefined) window.cancelAnimationFrame(focusFrameRef.current);
     focusFrameRef.current = window.requestAnimationFrame(() => {
-      const button = document
-        .querySelector(`typebot-bubble#${TYPEBOT_ID}`)
-        ?.shadowRoot?.querySelector<HTMLButtonElement>('button[part="button"]');
-      (button ?? launcherRef.current)?.focus({ preventScroll: true });
+      chatTriggerRef.current?.focus({ preventScroll: true });
       focusFrameRef.current = undefined;
     });
   }, []);
@@ -574,13 +571,12 @@ const TypebotBubble = ({ observeAnalyticsConsent = false }: TypebotBubbleProps) 
     if (!bubbleReadyRef.current) {
       loadAttemptRef.current += 1;
       setHasRequestedBot(false);
-      setBubbleReady(false);
       setInputReady(false);
       setGuidePortalTarget(null);
     }
 
-    focusTypebotButton();
-  }, [cancelPendingSubmission, clearReadyTimeout, clearReplyTimeout, focusTypebotButton]);
+    focusChatTrigger();
+  }, [cancelPendingSubmission, clearReadyTimeout, clearReplyTimeout, focusChatTrigger]);
 
   const handleLoadError = useCallback(() => {
     loadAttemptRef.current += 1;
@@ -589,7 +585,6 @@ const TypebotBubble = ({ observeAnalyticsConsent = false }: TypebotBubbleProps) 
     userRequestedOpen.current = false;
     bubbleReadyRef.current = false;
     setHasRequestedBot(false);
-    setBubbleReady(false);
     setInputReady(false);
     setGuidePortalTarget(null);
     setIsOpen(false);
@@ -633,29 +628,6 @@ const TypebotBubble = ({ observeAnalyticsConsent = false }: TypebotBubbleProps) 
   useEffect(() => {
     if (analyticsConsentVisible && isOpen) closeChat();
   }, [analyticsConsentVisible, closeChat, isOpen]);
-
-  useEffect(() => {
-    const contact = document.getElementById("contact");
-    if (!contact || typeof window.IntersectionObserver !== "function") return;
-    const observer = new IntersectionObserver(([entry]) => setContactVisible(entry.isIntersecting), { threshold: 0.02 });
-    observer.observe(contact);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const actions = Array.from(document.querySelectorAll("[data-chat-exclusion]"));
-    if (!actions.length || typeof window.IntersectionObserver !== "function") return;
-    const visibleActions = new Set<Element>();
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) visibleActions.add(entry.target);
-        else visibleActions.delete(entry.target);
-      });
-      setExternalActionVisible(visibleActions.size > 0);
-    }, { threshold: 0.01 });
-    actions.forEach((action) => observer.observe(action));
-    return () => observer.disconnect();
-  }, []);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -766,18 +738,23 @@ const TypebotBubble = ({ observeAnalyticsConsent = false }: TypebotBubbleProps) 
       });
 
       const input = root.querySelector<HTMLInputElement>(".typebot-input-form input, .typebot-input-form textarea");
+      const nativeInputForm = root.querySelector<HTMLElement>(".typebot-input-form");
       if (input) {
         if (input.placeholder !== chatbotGuide.placeholder) input.placeholder = chatbotGuide.placeholder;
         if (input.getAttribute("aria-label") !== chatbotGuide.placeholder) input.setAttribute("aria-label", chatbotGuide.placeholder);
+        input.tabIndex = -1;
       }
       const sendButton = root.querySelector<HTMLButtonElement>(".typebot-input-form button.typebot-button");
-      if (sendButton?.getAttribute("aria-label") !== "질문 보내기") sendButton?.setAttribute("aria-label", "질문 보내기");
+      if (sendButton) {
+        if (sendButton.getAttribute("aria-label") !== "질문 보내기") sendButton.setAttribute("aria-label", "질문 보내기");
+        sendButton.tabIndex = -1;
+      }
+      nativeInputForm?.setAttribute("aria-hidden", "true");
       if (!input) setInputReady(false);
       else if (!awaitingReplyRef.current) setInputReady(true);
 
-      if (button && botWindow) {
+      if (botWindow) {
         bubbleReadyRef.current = true;
-        setBubbleReady(true);
         if (!awaitingReplyRef.current) setIsLoading(false);
         clearReadyTimeout();
         if (userRequestedOpen.current) {
@@ -822,11 +799,15 @@ const TypebotBubble = ({ observeAnalyticsConsent = false }: TypebotBubbleProps) 
     };
   }, [BubbleComponent, clearReadyTimeout, hasRequestedBot, renderAttempt]);
 
-  const hideClosedLauncher = !isOpen && (contactVisible || externalActionVisible || analyticsConsentVisible);
-  const showLocalLauncher = !bubbleReady && !hideClosedLauncher;
-
-  const openChat = () => {
+  const openChat = (event?: Event) => {
     if (isLoading) return;
+    const trigger = event instanceof CustomEvent
+      ? (event as CustomEvent<PortfolioOpenChatDetail>).detail?.trigger
+      : undefined;
+    if (trigger instanceof HTMLElement) chatTriggerRef.current = trigger;
+    else if (!chatTriggerRef.current && document.activeElement instanceof HTMLElement && document.activeElement !== document.body) {
+      chatTriggerRef.current = document.activeElement;
+    }
     stripQueryBeforeThirdPartyLoad();
     const loadAttempt = loadAttemptRef.current + 1;
     loadAttemptRef.current = loadAttempt;
@@ -965,10 +946,9 @@ const TypebotBubble = ({ observeAnalyticsConsent = false }: TypebotBubbleProps) 
           <header className="portfolio-chat-window-guide__header">
             <span className="portfolio-chat-window-guide__avatar" aria-hidden="true">
               <span>AI</span>
-              <img src={chatbotAvatar} alt="" width="46" height="46" decoding="async" />
+              <img src={chatbotAvatar} alt="" width="40" height="40" decoding="async" />
             </span>
             <span className="portfolio-chat-window-guide__heading">
-              <span>{chatbotGuide.eyebrow}</span>
               <strong id="portfolio-chat-window-guide-title">{chatbotGuide.title}</strong>
             </span>
             <button ref={guideCloseRef} type="button" className="portfolio-chat-window-guide__close" aria-label="채팅 닫기" onClick={closeChat}>
@@ -1003,7 +983,11 @@ const TypebotBubble = ({ observeAnalyticsConsent = false }: TypebotBubbleProps) 
               <p id="portfolio-chat-window-followup-label" className="portfolio-chat-window-guide__followup-label">
                 이어서 이런 질문을 해보세요
               </p>
-              <div className="portfolio-chat-window-guide__followups" aria-labelledby="portfolio-chat-window-followup-label">
+              <div
+                className="portfolio-chat-window-guide__followups"
+                role="group"
+                aria-labelledby="portfolio-chat-window-followup-label"
+              >
                 {chatbotFollowupQuestions.map((followup) => (
                   <button
                     key={followup.id}
@@ -1026,32 +1010,13 @@ const TypebotBubble = ({ observeAnalyticsConsent = false }: TypebotBubbleProps) 
 
   return (
     <>
-      {showLocalLauncher && (
-        <button
-          ref={launcherRef}
-          type="button"
-          className="portfolio-chat-launcher"
-          aria-label={loadFailed ? "챗봇 다시 연결하기" : "물어보기 열기"}
-          aria-expanded={isOpen}
-          aria-controls={hasRequestedBot ? TYPEBOT_ID : undefined}
-          aria-busy={isLoading}
-          disabled={isLoading}
-          onPointerEnter={warmTypebot}
-          onFocus={warmTypebot}
-          onClick={openChat}
-        >
-          <svg className="portfolio-chat-launcher__plane" aria-hidden="true" viewBox="0 0 24 24" fill="none">
-            <path d="m22 2-7 20-4-9-9-4Z" /><path d="M22 2 11 13" />
-          </svg>
-          <span className="portfolio-chat-launcher__label">{isLoading ? "연결 중…" : loadFailed ? "다시 시도" : "물어보기"}</span>
-          <span className="portfolio-chat-launcher__avatar" aria-hidden="true">AI</span>
-        </button>
-      )}
-
-      {loadFailed && showLocalLauncher && (
+      {loadFailed && (
         <div className="portfolio-chat-load-error" role="alert">
           <p>{chatbotGuide.loadError}</p>
-          <a href="#case-studies">프로젝트 직접 보기</a>
+          <div>
+            <button type="button" onClick={() => openChat()}>다시 연결</button>
+            <a href="#case-studies">프로젝트 직접 보기</a>
+          </div>
         </div>
       )}
 
@@ -1064,8 +1029,8 @@ const TypebotBubble = ({ observeAnalyticsConsent = false }: TypebotBubbleProps) 
             isOpen={isOpen}
             inlineStyle={{
               "--container-bottom": "var(--portfolio-chat-bottom)",
-              "--bot-max-width": "min(400px, calc(100vw - 40px))",
-              "--bot-max-height": "min(704px, calc(100vh - 120px))",
+              "--bot-max-width": "min(480px, calc(100vw - 24px))",
+              "--bot-max-height": "min(820px, calc(100dvh - 24px))",
               "--typebot-container-font-family": '"Pretendard Variable", Pretendard',
               "--typebot-container-bg-color": "#ffffff",
               "--typebot-host-bubble-bg-rgb": "244, 244, 245",
@@ -1096,7 +1061,7 @@ const TypebotBubble = ({ observeAnalyticsConsent = false }: TypebotBubbleProps) 
                 iconColor: "#111111",
                 customIconSrc: chatbotAvatar,
                 customCloseIconSrc: closeIcon,
-                isHidden: hideClosedLauncher,
+                isHidden: true,
                 size: "large",
               },
             }}

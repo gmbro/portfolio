@@ -33,41 +33,6 @@ vi.mock("@typebot.io/react", () => ({
   submitInput,
 }));
 
-interface ObserverController {
-  callback: IntersectionObserverCallback;
-  targets: Element[];
-}
-
-const observers: ObserverController[] = [];
-
-class ControlledIntersectionObserver implements IntersectionObserver {
-  readonly root = null;
-  readonly rootMargin = "0px";
-  readonly thresholds = [0.02];
-  private readonly controller: ObserverController;
-
-  constructor(callback: IntersectionObserverCallback) {
-    this.controller = { callback, targets: [] };
-    observers.push(this.controller);
-  }
-
-  disconnect() {
-    this.controller.targets.length = 0;
-  }
-
-  observe(target: Element) {
-    this.controller.targets.push(target);
-  }
-
-  takeRecords(): IntersectionObserverEntry[] {
-    return [];
-  }
-
-  unobserve(target: Element) {
-    this.controller.targets = this.controller.targets.filter((item) => item !== target);
-  }
-}
-
 const latestBubbleProps = () => bubbleProps.mock.calls.at(-1)?.[0] as {
   isOpen: boolean;
   onOpen: () => void;
@@ -79,11 +44,13 @@ const latestBubbleProps = () => bubbleProps.mock.calls.at(-1)?.[0] as {
 };
 
 const renderTypebot = async (observeAnalyticsConsent = false) => {
-  const { default: TypebotBubble } = await import("@/components/TypebotBubble");
+  const [{ default: TypebotBubble }, { openPortfolioChat }] = await Promise.all([
+    import("@/components/TypebotBubble"),
+    import("@/lib/chat"),
+  ]);
   return render(
     <>
-      <a href="https://archi.best" data-chat-exclusion="true">Archi 베타 보기</a>
-      <section id="contact">문의</section>
+      <button type="button" onClick={(event) => openPortfolioChat(event.currentTarget)}>AI에게 묻기</button>
       <TypebotBubble observeAnalyticsConsent={observeAnalyticsConsent} />
     </>,
   );
@@ -93,10 +60,6 @@ const attachTypebotHost = () => {
   const host = document.createElement("typebot-bubble");
   host.id = "portfolio-typebot";
   const root = host.attachShadow({ mode: "open" });
-
-  const button = document.createElement("button");
-  button.setAttribute("part", "button");
-  button.setAttribute("aria-pressed", "true");
 
   const botWindow = document.createElement("div");
   botWindow.setAttribute("part", "bot");
@@ -109,14 +72,14 @@ const attachTypebotHost = () => {
   send.setAttribute("aria-label", "Send");
   form.append(input, send);
   botWindow.append(form);
-  root.append(button, botWindow);
+  root.append(botWindow);
   document.body.appendChild(host);
 
-  return { host, root, button, botWindow, form, input, send };
+  return { host, root, botWindow, form, input, send };
 };
 
 const openChatWithHost = async () => {
-  fireEvent.click(screen.getByRole("button", { name: "물어보기 열기" }));
+  fireEvent.click(screen.getByRole("button", { name: "AI에게 묻기" }));
   await screen.findByTestId("typebot-bubble");
   const attached = attachTypebotHost();
   await waitFor(() => {
@@ -133,20 +96,7 @@ const shadowButton = (root: ShadowRoot, label: RegExp) => {
   return button;
 };
 
-const setTargetVisibility = (selector: string, isIntersecting: boolean) => {
-  const observer = observers.find(({ targets }) => targets.some((target) => target.matches(selector)));
-  const target = observer?.targets.find((item) => item.matches(selector));
-  if (!observer || !target) throw new Error(`${selector} observer was not registered`);
-
-  act(() => {
-    observer.callback(
-      [{ target, isIntersecting } as IntersectionObserverEntry],
-      {} as IntersectionObserver,
-    );
-  });
-};
-
-describe("Typebot launcher와 채팅창 내부 가이드", () => {
+describe("상단 CTA와 채팅창 내부 가이드", () => {
   beforeEach(() => {
     bubbleProps.mockClear();
     trackPortfolioEvent.mockClear();
@@ -154,10 +104,8 @@ describe("Typebot launcher와 채팅창 내부 가이드", () => {
     submitInput.mockClear();
     inputBridgeCalls.length = 0;
     bubbleShouldThrow.value = false;
-    observers.length = 0;
     window.history.replaceState({}, "", "/");
     window.sessionStorage.clear();
-    vi.stubGlobal("IntersectionObserver", ControlledIntersectionObserver);
   });
 
   afterEach(() => {
@@ -168,14 +116,16 @@ describe("Typebot launcher와 채팅창 내부 가이드", () => {
     window.history.replaceState({}, "", "/");
   });
 
-  it("launcher 클릭으로 실제 Bubble을 바로 열고 guide를 shadow 채팅창 안에 렌더한다", async () => {
+  it("상단 CTA 클릭으로 native launcher 없이 Bubble과 guide를 shadow 채팅창 안에 렌더한다", async () => {
     await renderTypebot();
     expect(screen.queryByTestId("typebot-bubble")).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "물어보기 열기" })).not.toBeInTheDocument();
 
     const { root, botWindow, form, input, send } = await openChatWithHost();
 
     expect(document.querySelector(".portfolio-chat-guide")).not.toBeInTheDocument();
-    expect(root.textContent).toContain("경력·프로젝트 가이드");
+    expect(root.querySelector('[part="button"]')).not.toBeInTheDocument();
+    expect(root.textContent).toContain("AI PM 이경민");
     expect(root.textContent).toContain("확인된 경력·프로젝트를 기준으로 답합니다");
     expect(root.textContent).toContain("AI 제품 0→1 경험");
     expect(root.textContent).toContain("대규모 제품 운영 성과");
@@ -191,8 +141,14 @@ describe("Typebot launcher와 채팅창 내부 가이드", () => {
     expect(form).toHaveAttribute("inert");
     expect(form).toHaveAttribute("aria-hidden", "true");
     expect(input.placeholder).toBe("경력·프로젝트를 물어보세요");
+    expect(input).toHaveAttribute("tabindex", "-1");
     expect(send).toHaveAttribute("aria-label", "질문 보내기");
-    expect(latestBubbleProps()).toMatchObject({ id: "portfolio-typebot", isOpen: true });
+    expect(send).toHaveAttribute("tabindex", "-1");
+    expect(latestBubbleProps()).toMatchObject({
+      id: "portfolio-typebot",
+      isOpen: true,
+      theme: { button: { isHidden: true } },
+    });
   });
 
   it("추천 질문 전송 뒤에도 같은 헤더·예상 질문 3개·넓은 입력폼을 유지한다", async () => {
@@ -212,7 +168,7 @@ describe("Typebot launcher와 채팅창 내부 가이드", () => {
     expect(trackPortfolioEvent).toHaveBeenCalledWith("chat_open");
     const conversation = root.querySelector(".portfolio-chat-window-guide--conversation");
     expect(conversation).not.toBeNull();
-    expect(conversation).toHaveTextContent("경력·프로젝트 가이드");
+    expect(conversation).toHaveTextContent("AI PM 이경민");
     expect(conversation).toHaveTextContent("이어서 이런 질문을 해보세요");
     expect(conversation).toHaveTextContent("AI 제품 0→1 경험을 더 보여줘.");
     expect(conversation).toHaveTextContent("데이터·운영 개선 성과를 알려줘.");
@@ -227,9 +183,13 @@ describe("Typebot launcher와 채팅창 내부 가이드", () => {
       .toContain(".portfolio-chat-window-guide__form input");
     expect(root.querySelector('style[data-portfolio-chat-window-guide="true"]')?.textContent)
       .toContain("width: 100%");
+    expect(root.querySelector('style[data-portfolio-chat-window-guide="true"]')?.textContent)
+      .toContain("overflow-x: auto");
+    expect(root.querySelector('style[data-portfolio-chat-window-guide="true"]')?.textContent)
+      .toContain("scroll-snap-type: inline proximity");
     expect(botWindow).toHaveAttribute("data-portfolio-chat-mode", "conversation");
     await waitFor(() => expect(form).not.toHaveAttribute("inert"));
-    expect(form).not.toHaveAttribute("aria-hidden");
+    expect(form).toHaveAttribute("aria-hidden", "true");
     expect(latestBubbleProps()).not.toHaveProperty("prefilledVariables");
     expect(latestBubbleProps().inlineStyle).toMatchObject({
       "--typebot-container-font-family": '"Pretendard Variable", Pretendard',
@@ -287,53 +247,35 @@ describe("Typebot launcher와 채팅창 내부 가이드", () => {
     expect(setInputValue).toHaveBeenCalledWith("대표 프로젝트를 알려줘", { id: "portfolio-typebot" });
   });
 
-  it("Escape로 실제 채팅창을 닫고 Typebot launcher에 포커스를 돌려준다", async () => {
+  it("Escape로 실제 채팅창을 닫고 상단 CTA에 포커스를 돌려준다", async () => {
     await renderTypebot();
-    const { root, button } = await openChatWithHost();
+    const trigger = screen.getByRole("button", { name: "AI에게 묻기" });
+    const { root } = await openChatWithHost();
     expect(root.querySelector(".portfolio-chat-window-guide")).toBeTruthy();
 
     fireEvent.keyDown(window, { key: "Escape" });
 
     await waitFor(() => expect(latestBubbleProps().isOpen).toBe(false));
-    await waitFor(() => expect(root.activeElement).toBe(button));
+    await waitFor(() => expect(document.activeElement).toBe(trigger));
   });
 
-  it("문의 구간에서는 닫힌 launcher만 숨기고 열린 대화는 유지한다", async () => {
-    await renderTypebot();
-    await openChatWithHost();
-
-    act(() => latestBubbleProps().onOpen());
-    setTargetVisibility("#contact", true);
-    await waitFor(() => expect(latestBubbleProps().theme.button.isHidden).toBe(false));
-
-    act(() => latestBubbleProps().onClose());
-    await waitFor(() => expect(latestBubbleProps().theme.button.isHidden).toBe(true));
-  });
-
-  it("외부 프로젝트 CTA가 보일 때 닫힌 local launcher를 숨긴다", async () => {
-    await renderTypebot();
-    expect(screen.getByRole("button", { name: "물어보기 열기" })).toBeInTheDocument();
-    setTargetVisibility("[data-chat-exclusion]", true);
-    expect(screen.queryByRole("button", { name: "물어보기 열기" })).not.toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Archi 베타 보기" })).toBeInTheDocument();
-  });
-
-  it("분석 기능을 켠 경우에만 동의 배너를 감시하고 launcher를 숨긴다", async () => {
+  it("분석 동의 배너가 나타나면 열린 대화를 닫되 상단 CTA는 유지한다", async () => {
     await renderTypebot(true);
-    expect(screen.getByRole("button", { name: "물어보기 열기" })).toBeInTheDocument();
+    await openChatWithHost();
+    expect(latestBubbleProps().isOpen).toBe(true);
     const banner = document.createElement("aside");
     banner.setAttribute("data-analytics-consent-banner", "true");
-    document.body.appendChild(banner);
-    await waitFor(() => expect(screen.queryByRole("button", { name: "물어보기 열기" })).not.toBeInTheDocument());
-    banner.remove();
-    await waitFor(() => expect(screen.getByRole("button", { name: "물어보기 열기" })).toBeInTheDocument());
-  });
-
-  it("IntersectionObserver를 지원하지 않는 브라우저에서도 launcher를 표시한다", async () => {
-    vi.stubGlobal("IntersectionObserver", undefined);
-    await renderTypebot();
-    expect(screen.getByRole("button", { name: "물어보기 열기" })).toBeInTheDocument();
-    expect(screen.queryByTestId("typebot-bubble")).not.toBeInTheDocument();
+    await act(async () => {
+      document.body.appendChild(banner);
+      await new Promise((resolve) => window.setTimeout(resolve, 0));
+    });
+    await waitFor(() => expect(latestBubbleProps().isOpen).toBe(false));
+    expect(screen.getByRole("button", { name: "AI에게 묻기" })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "물어보기 열기" })).not.toBeInTheDocument();
+    await act(async () => {
+      banner.remove();
+      await new Promise((resolve) => window.setTimeout(resolve, 0));
+    });
   });
 
   it("Typebot 렌더 실패를 격리하고 정적 프로젝트 경로를 제공한다", async () => {
@@ -341,7 +283,7 @@ describe("Typebot launcher와 채팅창 내부 가이드", () => {
     const consoleError = vi.spyOn(console, "error").mockImplementation(() => undefined);
     await renderTypebot();
 
-    fireEvent.click(screen.getByRole("button", { name: "물어보기 열기" }));
+    fireEvent.click(screen.getByRole("button", { name: "AI에게 묻기" }));
 
     expect(await screen.findByRole("alert")).toHaveTextContent("챗봇을 연결하지 못했습니다");
     expect(screen.getByRole("link", { name: "프로젝트 직접 보기" })).toHaveAttribute("href", "#case-studies");
@@ -352,7 +294,7 @@ describe("Typebot launcher와 채팅창 내부 가이드", () => {
   it("Typebot host가 10초 안에 준비되지 않으면 무한 로딩 대신 복구 경로를 보여준다", async () => {
     vi.useFakeTimers();
     await renderTypebot();
-    fireEvent.click(screen.getByRole("button", { name: "물어보기 열기" }));
+    fireEvent.click(screen.getByRole("button", { name: "AI에게 묻기" }));
     await act(async () => {
       await Promise.resolve();
       await Promise.resolve();
@@ -362,7 +304,7 @@ describe("Typebot launcher와 채팅창 내부 가이드", () => {
     act(() => vi.advanceTimersByTime(10_001));
 
     expect(screen.getByRole("alert")).toHaveTextContent("챗봇을 연결하지 못했습니다");
-    expect(screen.getByRole("button", { name: "챗봇 다시 연결하기" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "다시 연결" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "프로젝트 직접 보기" })).toBeInTheDocument();
   });
 });

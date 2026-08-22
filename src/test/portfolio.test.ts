@@ -54,6 +54,37 @@ describe("parsePortfolioPageContent", () => {
     expect(parsePortfolioPageContent(invalidContent)).toBeNull();
   });
 
+  it("보조 문장 1~2개와 CTA가 없는 공개용 Hero를 허용한다", () => {
+    const withoutCta = structuredClone(validContent) as Record<string, unknown>;
+    const hero = withoutCta.hero as Record<string, unknown>;
+    hero.subcopy = ["검증된 한 문장으로 역할 범위를 설명합니다."];
+    delete hero.ctaLabel;
+    delete hero.ctaTarget;
+
+    expect(parsePortfolioPageContent(withoutCta as Json)).toMatchObject({
+      hero: {
+        subcopy: ["검증된 한 문장으로 역할 범위를 설명합니다."],
+      },
+    });
+    expect(parsePortfolioPageContent(withoutCta as Json)?.hero.ctaLabel).toBeUndefined();
+    expect(parsePortfolioPageContent(withoutCta as Json)?.hero.ctaTarget).toBeUndefined();
+  });
+
+  it("CTA 한쪽만 있거나 보조 문장이 0개·3개인 Hero를 거절한다", () => {
+    const labelOnly = structuredClone(validContent) as Record<string, unknown>;
+    delete (labelOnly.hero as Record<string, unknown>).ctaTarget;
+
+    const noSubcopy = structuredClone(validContent) as Record<string, unknown>;
+    (noSubcopy.hero as Record<string, unknown>).subcopy = [];
+
+    const tooManySubcopy = structuredClone(validContent) as Record<string, unknown>;
+    (tooManySubcopy.hero as Record<string, unknown>).subcopy = ["첫째", "둘째", "셋째"];
+
+    expect(parsePortfolioPageContent(labelOnly as Json)).toBeNull();
+    expect(parsePortfolioPageContent(noSubcopy as Json)).toBeNull();
+    expect(parsePortfolioPageContent(tooManySubcopy as Json)).toBeNull();
+  });
+
   it("rejects invalid metadata types before they reach document metadata", () => {
     const invalidMeta = structuredClone(validContent) as Record<string, unknown>;
     invalidMeta.meta = { pageTitle: 42 };
@@ -94,25 +125,25 @@ describe("parsePortfolioPageContent", () => {
 });
 
 describe("검증된 기본 포트폴리오 콘텐츠", () => {
-  it("AI Product Manager 포지셔닝과 Archi 중심 Hero를 사용한다", () => {
+  it("AI Product & Project Manager 제너럴리스트 Hero를 사용한다", () => {
     expect(defaultHeroContent).toEqual({
-      roleLabel: "이경민의 AI PM 포트폴리오",
-      careerLabel: "· 7년 경력",
-      headline: "고객의 문제를 제품으로 해결해 온\nAI PM 이경민입니다.",
-      highlight: "AI PM 이경민",
+      roleLabel: "AI Product & Project Manager",
+      headline: "AI 역량이 우수한 제너럴리스트로서\n고객의 문제를 제품으로 해결합니다.",
+      highlight: "AI 역량",
       subcopy: [
-        "AI 제품 0→1, 350만 MAU 운영, 데이터·운영 개선과 B2B·B2G 사업화 경험을 프로젝트의 문제·판단·실행·성과로 보여드립니다.",
-        "대표 프로젝트를 직접 살펴보거나, AI에게 필요한 경력 근거를 물어보세요.",
+        "제품의 제로투원과 350만 MAU 제품의 운영을 경험하고 제품 기획, 사업 개발, 퍼포먼스 마케팅 등 다양한 영역에서 역량을 키워왔습니다. B2B AI Project에 강점이 있으며 최근 직접 개발한 B2C Product로 헬스케어 데이터의 휘발성에 대한 문제를 풀고 있습니다.",
       ],
-      keywords: ["AI 제품 0→1", "대규모 제품 운영", "운영 구조·사업화"],
-      ctaLabel: "프로젝트 증거 보기",
-      ctaTarget: "case-studies",
+      keywords: ["프로덕트의 제로투원 경험", "350만 MAU 제품 운영", "B2B&B2G 프로젝트"],
       stats: [
-        { value: "5개", label: "대표 프로젝트" },
-        { value: "350만", label: "MAU 제품 운영" },
-        { value: "70%+", label: "운영 원가 절감" },
+        { value: "5개", label: "수행 프로젝트" },
+        { value: "3개", label: "프로덕트 기획 및 운영" },
+        { value: "3억", label: "매출 기여" },
       ],
     });
+    expect(defaultHeroContent.highlight).toBe("AI 역량");
+    expect(defaultHeroContent.headline).toContain("AI 역량");
+    expect(defaultHeroContent.ctaLabel).toBeUndefined();
+    expect(defaultHeroContent.ctaTarget).toBeUndefined();
   });
 
   it("keeps the verified identity and career history in newest-first order", () => {
@@ -169,10 +200,10 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
     expect(flagshipProject.result).toContain("영상 기록");
   });
 
-  it("Hero의 대표 프로젝트 수를 공개 CAR 프로젝트와 연결한다", () => {
+  it("Hero의 수행 프로젝트 수를 공개 CAR 프로젝트와 연결한다", () => {
     expect(defaultHeroContent.stats?.[0]).toEqual({
       value: "5개",
-      label: "대표 프로젝트",
+      label: "수행 프로젝트",
     });
     expect(portfolioProjects).toHaveLength(5);
     expect(portfolioProjects.some((project) => project.organization.includes("GenON"))).toBe(true);
@@ -237,7 +268,7 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
     expect(JSON.stringify(portfolioProjects)).not.toMatch(/기여도|90%|100%/);
   });
 
-  it("공식 제품명과 7년 경력을 사용하고 이전 표기를 남기지 않는다", () => {
+  it("공식 제품명을 사용하고 이전 표기를 남기지 않는다", () => {
     const serialized = JSON.stringify({
       defaultHeroContent,
       profile,
@@ -246,7 +277,6 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
     });
 
     expect(serialized).toContain("Archi(아키)");
-    expect(serialized).toContain("7년 경력");
     expect(serialized).not.toMatch(/(^|[^A-Za-z])Arky([^A-Za-z]|$)/);
     expect(serialized).not.toContain("9년차");
     expect(serialized).not.toMatch(/클래스팅|Classting/i);

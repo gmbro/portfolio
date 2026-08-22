@@ -25,9 +25,11 @@ const ProjectVisual = ({ project }: { project: FeaturedProject }) => {
     );
   }
 
-  const items: EvidenceMediaItem[] = visual.src
-    ? [{ src: visual.src, alt: visual.alt, caption: visual.caption }]
-    : [];
+  const items: EvidenceMediaItem[] = visual.items?.length
+    ? [...visual.items]
+    : visual.src
+      ? [{ src: visual.src, alt: visual.alt, caption: visual.caption }]
+      : [];
 
   return (
     <div data-visual-slot={project.title}>
@@ -162,15 +164,14 @@ const ProjectCard = ({ project, index }: { project: FeaturedProject; index: numb
 
 const ImageCards = () => {
   return (
-    <section id="case-studies" className="portfolio-section-surface scroll-mt-20 px-6 py-24 text-white md:px-12 md:py-32">
+    <section id="case-studies" className="portfolio-section-surface scroll-mt-20 px-6 py-16 text-white md:px-12 md:py-20">
       <div className="mx-auto max-w-7xl">
-        <div id="product-proof" className="scroll-mt-24" aria-hidden="true" />
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="mb-12 max-w-4xl md:mb-16"
+          className="mb-8 max-w-4xl md:mb-10"
         >
           <span className="font-body text-xs font-semibold uppercase tracking-[0.3em] text-[#ff6645]">
             프로젝트

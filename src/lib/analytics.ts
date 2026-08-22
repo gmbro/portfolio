@@ -24,7 +24,7 @@ declare global {
 
 const eventParameters: Record<PortfolioAnalyticsEvent, Record<string, string>> = {
   select_content: { content_type: "product_demo", content_id: "archi" },
-  chat_open: { surface: "floating" },
+  chat_open: { surface: "navbar" },
   contact_start: { form_id: "portfolio_contact" },
   generate_lead: { lead_source: "portfolio_contact" },
 };

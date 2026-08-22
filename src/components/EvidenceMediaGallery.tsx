@@ -5,10 +5,16 @@ import {
   useMemo,
   useRef,
   useState,
+  type FocusEvent as ReactFocusEvent,
   type KeyboardEvent as ReactKeyboardEvent,
   type MouseEvent as ReactMouseEvent,
+  type PointerEvent as ReactPointerEvent,
 } from "react";
 import { createPortal } from "react-dom";
+import { motion } from "framer-motion";
+
+export const EVIDENCE_AUTOPLAY_INTERVAL_MS = 2_000;
+const SLIDE_TRANSITION_SECONDS = 0.65;
 
 export interface EvidenceMediaItem {
   id?: string;
@@ -34,6 +40,18 @@ const focusableSelector = [
   '[tabindex]:not([tabindex="-1"])',
 ].join(",");
 
+const slideVariants = {
+  enter: (direction: 1 | -1) => ({
+    x: direction > 0 ? "100%" : "-100%",
+    opacity: 0.72,
+  }),
+  center: { x: "0%", opacity: 1 },
+  exit: (direction: 1 | -1) => ({
+    x: direction > 0 ? "-100%" : "100%",
+    opacity: 0.72,
+  }),
+};
+
 const EvidenceMediaGallery = ({
   projectTitle,
   items = [],
@@ -44,7 +62,24 @@ const EvidenceMediaGallery = ({
   const dialogTitleId = `evidence-media-dialog-title-${instanceId}`;
   const dialogDescriptionId = `evidence-media-dialog-description-${instanceId}`;
   const [activeIndex, setActiveIndex] = useState(0);
+  const [slideDirection, setSlideDirection] = useState<1 | -1>(1);
   const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [userPaused, setUserPaused] = useState(false);
+  const [pointerPaused, setPointerPaused] = useState(false);
+  const [focusPaused, setFocusPaused] = useState(false);
+  const [documentVisible, setDocumentVisible] = useState(() =>
+    typeof document === "undefined" || document.visibilityState !== "hidden",
+  );
+  const [inViewport, setInViewport] = useState(() => typeof IntersectionObserver === "undefined");
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(() =>
+    typeof window !== "undefined" && typeof window.matchMedia === "function"
+      ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      : false,
+  );
+  const [announcement, setAnnouncement] = useState("");
+  const galleryRef = useRef<HTMLElement>(null);
+  const activeIndexRef = useRef(0);
+  const activeImageButtonRef = useRef<HTMLButtonElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const returnFocusRef = useRef<HTMLButtonElement | null>(null);
@@ -57,24 +92,50 @@ const EvidenceMediaGallery = ({
   const activeItem = validItems[activeIndex];
   const hasMultipleItems = itemCount > 1;
 
+  const announceSlide = useCallback(
+    (index: number) => {
+      const item = validItems[index];
+      if (item) setAnnouncement(`${index + 1} / ${itemCount}: ${item.alt}`);
+    },
+    [itemCount, validItems],
+  );
+
   const goToSlide = useCallback(
     (nextIndex: number) => {
       if (itemCount === 0) return;
-      setActiveIndex(((nextIndex % itemCount) + itemCount) % itemCount);
+      const normalizedIndex = ((nextIndex % itemCount) + itemCount) % itemCount;
+      setSlideDirection(normalizedIndex >= activeIndexRef.current ? 1 : -1);
+      activeIndexRef.current = normalizedIndex;
+      setActiveIndex(normalizedIndex);
+      announceSlide(normalizedIndex);
     },
-    [itemCount],
+    [announceSlide, itemCount],
   );
 
   const goPrevious = useCallback(() => {
-    setActiveIndex((current) => (itemCount === 0 ? 0 : (current - 1 + itemCount) % itemCount));
-  }, [itemCount]);
+    if (itemCount === 0) return;
+    const nextIndex = (activeIndexRef.current - 1 + itemCount) % itemCount;
+    setSlideDirection(-1);
+    activeIndexRef.current = nextIndex;
+    setActiveIndex(nextIndex);
+    announceSlide(nextIndex);
+  }, [announceSlide, itemCount]);
 
   const goNext = useCallback(() => {
-    setActiveIndex((current) => (itemCount === 0 ? 0 : (current + 1) % itemCount));
-  }, [itemCount]);
+    if (itemCount === 0) return;
+    const nextIndex = (activeIndexRef.current + 1) % itemCount;
+    setSlideDirection(1);
+    activeIndexRef.current = nextIndex;
+    setActiveIndex(nextIndex);
+    announceSlide(nextIndex);
+  }, [announceSlide, itemCount]);
 
   const restoreTriggerFocus = useCallback(() => {
-    const focusTrigger = () => returnFocusRef.current?.focus({ preventScroll: true });
+    const focusTrigger = () => {
+      const originalTrigger = returnFocusRef.current;
+      const target = originalTrigger?.isConnected ? originalTrigger : activeImageButtonRef.current;
+      target?.focus({ preventScroll: true });
+    };
     if (typeof window.requestAnimationFrame === "function") window.requestAnimationFrame(focusTrigger);
     else window.setTimeout(focusTrigger, 0);
   }, []);
@@ -90,8 +151,80 @@ const EvidenceMediaGallery = ({
   };
 
   useEffect(() => {
-    setActiveIndex((current) => (itemCount === 0 ? 0 : Math.min(current, itemCount - 1)));
+    if (typeof window.matchMedia !== "function") return;
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const syncPreference = (event?: MediaQueryListEvent) => {
+      setPrefersReducedMotion(event?.matches ?? mediaQuery.matches);
+    };
+
+    syncPreference();
+    mediaQuery.addEventListener?.("change", syncPreference);
+    return () => mediaQuery.removeEventListener?.("change", syncPreference);
+  }, []);
+
+  useEffect(() => {
+    const gallery = galleryRef.current;
+    if (!gallery || typeof IntersectionObserver === "undefined") {
+      setInViewport(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setInViewport(Boolean(entry?.isIntersecting && entry.intersectionRatio > 0)),
+      { threshold: 0.1 },
+    );
+    observer.observe(gallery);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const syncVisibility = () => setDocumentVisible(document.visibilityState !== "hidden");
+    syncVisibility();
+    document.addEventListener("visibilitychange", syncVisibility);
+    return () => document.removeEventListener("visibilitychange", syncVisibility);
+  }, []);
+
+  useEffect(() => {
+    setActiveIndex((current) => {
+      const nextIndex = itemCount === 0 ? 0 : Math.min(current, itemCount - 1);
+      activeIndexRef.current = nextIndex;
+      return nextIndex;
+    });
+    setAnnouncement("");
   }, [itemCount]);
+
+  const autoplayActive =
+    hasMultipleItems &&
+    inViewport &&
+    documentVisible &&
+    !prefersReducedMotion &&
+    !userPaused &&
+    !pointerPaused &&
+    !focusPaused &&
+    !lightboxOpen;
+
+  useEffect(() => {
+    if (!autoplayActive) return;
+    const autoplayTimer = window.setTimeout(() => {
+      setSlideDirection(1);
+      setActiveIndex((current) => {
+        const nextIndex = (current + 1) % itemCount;
+        activeIndexRef.current = nextIndex;
+        return nextIndex;
+      });
+    }, EVIDENCE_AUTOPLAY_INTERVAL_MS);
+
+    return () => window.clearTimeout(autoplayTimer);
+  }, [activeIndex, autoplayActive, itemCount]);
+
+  useEffect(() => {
+    if (!inViewport || itemCount < 2 || typeof Image === "undefined") return;
+    const nextItem = validItems[(activeIndex + 1) % itemCount];
+    if (!nextItem) return;
+    const preloadImage = new Image();
+    preloadImage.decoding = "async";
+    preloadImage.src = nextItem.src;
+  }, [activeIndex, inViewport, itemCount, validItems]);
 
   useEffect(() => {
     if (itemCount === 0 && lightboxOpen) closeLightbox();
@@ -106,6 +239,16 @@ const EvidenceMediaGallery = ({
     const focusFrame = typeof window.requestAnimationFrame === "function"
       ? window.requestAnimationFrame(focusCloseButton)
       : window.setTimeout(focusCloseButton, 0);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      if (typeof window.cancelAnimationFrame === "function") window.cancelAnimationFrame(focusFrame);
+      else window.clearTimeout(focusFrame);
+    };
+  }, [lightboxOpen]);
+
+  useEffect(() => {
+    if (!lightboxOpen) return;
 
     const handleDialogKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -149,10 +292,7 @@ const EvidenceMediaGallery = ({
 
     document.addEventListener("keydown", handleDialogKeyDown);
     return () => {
-      document.body.style.overflow = previousOverflow;
       document.removeEventListener("keydown", handleDialogKeyDown);
-      if (typeof window.cancelAnimationFrame === "function") window.cancelAnimationFrame(focusFrame);
-      else window.clearTimeout(focusFrame);
     };
   }, [closeLightbox, goNext, goPrevious, hasMultipleItems, lightboxOpen]);
 
@@ -177,12 +317,48 @@ const EvidenceMediaGallery = ({
     if (event.target === event.currentTarget) closeLightbox();
   };
 
+  const handleFocusLeave = (event: ReactFocusEvent<HTMLElement>) => {
+    const nextTarget = event.relatedTarget;
+    if (!(nextTarget instanceof Node) || !event.currentTarget.contains(nextTarget)) {
+      setFocusPaused(false);
+    }
+  };
+
+  const handlePointerEnter = (event: ReactPointerEvent<HTMLElement>) => {
+    if (!event.pointerType || event.pointerType === "mouse") setPointerPaused(true);
+  };
+
+  const handlePointerLeave = (event: ReactPointerEvent<HTMLElement>) => {
+    if (!event.pointerType || event.pointerType === "mouse") setPointerPaused(false);
+  };
+
+  const toggleUserPaused = () => {
+    setUserPaused((paused) => {
+      const nextPaused = !paused;
+      if (!nextPaused) setFocusPaused(false);
+      return nextPaused;
+    });
+  };
+
+  const autoplayStatus = prefersReducedMotion
+    ? "모션 감소 설정으로 자동 넘김이 꺼져 있습니다."
+    : userPaused
+      ? "자동 넘김이 일시정지되었습니다."
+      : pointerPaused || focusPaused || lightboxOpen
+        ? "이미지를 살펴보는 동안 자동 넘김이 멈춥니다."
+        : "2초마다 다음 증거 이미지로 자동 이동합니다.";
+
   return (
     <section
+      ref={galleryRef}
       className={`min-w-0 max-w-full overflow-hidden rounded-3xl border border-white/10 bg-[#111111]/95 ${className}`.trim()}
       aria-labelledby={titleId}
       aria-roledescription={activeItem ? "carousel" : undefined}
       onKeyDown={handleGalleryKeyDown}
+      onPointerEnter={handlePointerEnter}
+      onPointerLeave={handlePointerLeave}
+      onFocusCapture={() => setFocusPaused(true)}
+      onBlurCapture={handleFocusLeave}
     >
       <h3 id={titleId} className="sr-only">{projectTitle} 증거 이미지</h3>
 
@@ -200,41 +376,54 @@ const EvidenceMediaGallery = ({
         </div>
       ) : (
         <div className="min-w-0 p-3 sm:p-4">
-          <figure
-            className="min-w-0"
-            role="group"
-            aria-roledescription="slide"
-            aria-label={`${activeIndex + 1} / ${itemCount}`}
-          >
-            <button
-              type="button"
-              className="group relative block aspect-[16/10] w-full min-w-0 overflow-hidden rounded-2xl bg-black/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6645] focus-visible:ring-offset-2 focus-visible:ring-offset-[#111111]"
-              aria-label={`${activeItem.alt} 확대해서 보기`}
-              aria-haspopup="dialog"
-              onClick={openLightbox}
+          <div className="relative aspect-[16/10] min-w-0 overflow-hidden rounded-2xl bg-black/40" aria-live="off">
+            <motion.figure
+              key={activeItem.id ?? activeItem.src}
+              className="absolute inset-0 min-w-0"
+              role="group"
+              aria-roledescription="slide"
+              aria-label={`${activeIndex + 1} / ${itemCount}`}
+              custom={slideDirection}
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              transition={{
+                duration: prefersReducedMotion ? 0 : SLIDE_TRANSITION_SECONDS,
+                ease: [0.22, 1, 0.36, 1],
+              }}
             >
-              <img
-                src={activeItem.src}
-                alt={activeItem.alt}
-                width={activeItem.width}
-                height={activeItem.height}
-                loading="lazy"
-                decoding="async"
-                className="h-full w-full object-contain motion-safe:transition-opacity motion-safe:duration-200 motion-reduce:transition-none"
-              />
-              <span
-                className="pointer-events-none absolute inset-x-3 bottom-3 rounded-full bg-black/75 px-3 py-2 text-center font-body text-xs font-semibold text-white opacity-100 motion-safe:transition-opacity motion-reduce:transition-none sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-visible:opacity-100"
-                aria-hidden="true"
-              >
-                클릭하여 확대
-              </span>
-            </button>
-            {activeItem.caption && (
-              <figcaption className="break-words px-1 pt-3 font-body text-xs leading-5 text-white/65 sm:text-sm">
-                {activeItem.caption}
-              </figcaption>
-            )}
-          </figure>
+                <button
+                  ref={activeImageButtonRef}
+                  type="button"
+                  className="group relative block h-full w-full min-w-0 overflow-hidden rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6645] focus-visible:ring-inset"
+                  aria-label={`${activeItem.alt} 확대해서 보기`}
+                  aria-haspopup="dialog"
+                  onClick={openLightbox}
+                >
+                  <img
+                    src={activeItem.src}
+                    alt={activeItem.alt}
+                    width={activeItem.width}
+                    height={activeItem.height}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-full w-full object-contain"
+                  />
+                  <span
+                    className="pointer-events-none absolute inset-x-3 bottom-3 rounded-full bg-black/75 px-3 py-2 text-center font-body text-xs font-semibold text-white opacity-100 motion-safe:transition-opacity motion-reduce:transition-none sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-visible:opacity-100"
+                    aria-hidden="true"
+                  >
+                    클릭하여 확대
+                  </span>
+                </button>
+            </motion.figure>
+          </div>
+
+          {activeItem.caption && (
+            <p className="break-words px-1 pt-3 font-body text-xs leading-5 text-white/65 sm:text-sm">
+              {activeItem.caption}
+            </p>
+          )}
 
           {hasMultipleItems && (
             <div className="mt-3 flex min-w-0 items-center justify-between gap-2" aria-label="슬라이드 제어">
@@ -278,8 +467,27 @@ const EvidenceMediaGallery = ({
             </div>
           )}
 
+          {hasMultipleItems && (
+            <div className="mt-2 flex min-w-0 flex-wrap items-center justify-between gap-2 rounded-xl border border-white/10 bg-white/[0.025] px-3 py-2">
+              <span className="min-w-0 break-words font-body text-[11px] leading-5 text-white/55 sm:text-xs">
+                {autoplayStatus}
+              </span>
+              {!prefersReducedMotion && (
+                <button
+                  type="button"
+                  className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-full border border-white/15 px-4 font-body text-xs font-bold text-white motion-safe:transition-colors motion-reduce:transition-none hover:border-[#ff6645]/60 hover:text-[#ff8a70] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6645]"
+                  aria-label={userPaused ? "자동 넘김 재생" : "자동 넘김 일시정지"}
+                  aria-pressed={userPaused}
+                  onClick={toggleUserPaused}
+                >
+                  {userPaused ? "자동 재생" : "일시정지"}
+                </button>
+              )}
+            </div>
+          )}
+
           <p className="sr-only" aria-live="polite" aria-atomic="true">
-            {activeIndex + 1} / {itemCount}: {activeItem.alt}
+            {announcement}
           </p>
         </div>
       )}

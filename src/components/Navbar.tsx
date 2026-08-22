@@ -2,13 +2,14 @@ import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { profile } from "@/data/portfolio";
+import { chatbotAvatar } from "@/data/chatbot";
 import { openPortfolioChat } from "@/lib/chat";
 
 const navItems = [
-  { label: "역량·근거", id: "evidence" },
+  { label: "소개", id: "about" },
   { label: "프로젝트", id: "case-studies" },
   { label: "경력", id: "experience" },
-  { label: "문의", id: "contact" },
+  { label: "Contact", id: "contact" },
 ];
 
 const Navbar = () => {
@@ -25,7 +26,7 @@ const Navbar = () => {
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className="fixed left-0 right-0 top-0 z-50 border-b border-white/10 bg-[rgba(7,7,7,0.9)] px-6 py-4 md:px-12"
+      className="fixed left-0 right-0 top-0 z-50 border-b border-white/10 bg-[rgba(7,7,7,0.9)] px-4 py-3 sm:px-6 md:px-10 lg:px-12"
       aria-label="주요 메뉴"
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
@@ -33,10 +34,11 @@ const Navbar = () => {
         <button
           type="button"
           onClick={() => scrollTo("hero")}
-          aria-label="이경민 AI PM 포트폴리오, 처음으로"
-          className="flex min-h-11 shrink-0 items-center rounded-lg text-left font-display text-sm font-bold tracking-tight text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:text-base"
+          aria-label="7년차 PM 이경민의 포트폴리오입니다. 처음으로"
+          className="flex min-h-11 shrink-0 items-center rounded-lg text-left font-display text-[11px] font-bold tracking-tight text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:text-sm md:text-base"
         >
-          {profile.name}<span className="mx-1.5 text-white/35" aria-hidden="true">·</span><span>AI PM 포트폴리오</span>
+          <span className="md:hidden">{profile.name} · 7년차 PM</span>
+          <span className="hidden md:inline">7년차 PM {profile.name}의 포트폴리오입니다.</span>
         </button>
 
         {/* Center nav links — desktop */}
@@ -54,12 +56,22 @@ const Navbar = () => {
         </div>
 
         {/* CTA — right */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-3 lg:gap-4">
           <button
             type="button"
-            onClick={openPortfolioChat}
-            className="hidden min-h-11 sm:block px-5 py-2 text-xs font-body font-semibold uppercase tracking-wider bg-gradient-accent text-primary-foreground rounded-full hover:shadow-[var(--shadow-glow)] transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            onClick={(event) => openPortfolioChat(event.currentTarget)}
+            aria-haspopup="dialog"
+            data-portfolio-chat-trigger="true"
+            className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full bg-gradient-accent py-1.5 pl-1.5 pr-3 font-body text-[11px] font-semibold tracking-tight text-primary-foreground transition-all duration-300 hover:shadow-[var(--shadow-glow)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:gap-2.5 sm:pr-4 sm:text-xs"
           >
+            <img
+              src={chatbotAvatar}
+              alt=""
+              width="32"
+              height="32"
+              decoding="async"
+              className="h-8 w-8 rounded-full border border-white/45 bg-white object-cover"
+            />
             AI에게 묻기
           </button>
           <button

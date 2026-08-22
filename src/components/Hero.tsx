@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { defaultHeroContent, type HeroContent } from "@/types/portfolio";
-import { openPortfolioChat } from "@/lib/chat";
 
 export const portfolioHeroBackground =
   "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/background.png";
@@ -64,7 +63,7 @@ const Hero = ({ content = defaultHeroContent }: HeroProps) => {
 
         <h1
           aria-label={headlineLines.join(" ")}
-          className="mt-7 max-w-6xl break-words text-balance font-display text-[2.25rem] font-extrabold leading-[1.08] tracking-[-0.04em] text-white sm:text-5xl md:mt-9 md:text-6xl lg:text-[5rem]"
+          className="mt-6 max-w-7xl break-words text-balance font-display text-[2.25rem] font-extrabold leading-[1.12] tracking-[-0.04em] text-white sm:text-5xl md:mt-8 md:text-[3.25rem] md:leading-[1.08] lg:text-[3.5rem] xl:text-[4.5rem]"
         >
           {headlineLines.map((line, index) => (
             <span key={`${line}-${index}`} className="block" aria-hidden="true">
@@ -77,7 +76,7 @@ const Hero = ({ content = defaultHeroContent }: HeroProps) => {
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, delay: 0.18 }}
-          className="mt-7 max-w-3xl space-y-1 break-words text-pretty font-body text-base leading-7 text-white/65 md:text-lg md:leading-8"
+          className="mt-5 max-w-3xl space-y-1 break-words text-pretty font-body text-[0.95rem] leading-7 text-white/70 md:mt-6 md:text-lg md:leading-8"
         >
           {content.subcopy.map((line) => (
             <p key={line}>{line}</p>
@@ -88,7 +87,7 @@ const Hero = ({ content = defaultHeroContent }: HeroProps) => {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, delay: 0.25 }}
-          className="mt-6 flex flex-wrap gap-2"
+          className="mt-5 flex flex-wrap gap-2 md:mt-6"
           aria-label="핵심 역량"
         >
           {content.keywords.map((keyword) => (
@@ -101,42 +100,12 @@ const Hero = ({ content = defaultHeroContent }: HeroProps) => {
           ))}
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.32 }}
-          className="mt-8 flex flex-wrap gap-3"
-        >
-          <button
-            type="button"
-            onClick={() => {
-              const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-              document
-                .getElementById(content.ctaTarget)
-                ?.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
-            }}
-            className="group inline-flex min-h-12 max-w-full items-center gap-2 break-words rounded-full bg-[#ff6645] px-6 py-3 text-left font-body text-sm font-bold text-white transition-colors hover:bg-[#ff7a5f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6645] focus-visible:ring-offset-4 focus-visible:ring-offset-[#070707] md:min-h-14 md:px-8"
-          >
-            {content.ctaLabel}
-            <span className="transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">
-              →
-            </span>
-          </button>
-          <button
-            type="button"
-            onClick={openPortfolioChat}
-            className="inline-flex min-h-12 max-w-full items-center gap-2 rounded-full border border-white/20 bg-black/35 px-6 py-3 text-left font-body text-sm font-bold text-white transition-colors hover:border-[#ff6645]/60 hover:text-[#ff9a83] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6645] focus-visible:ring-offset-4 focus-visible:ring-offset-[#070707] md:min-h-14 md:px-8"
-          >
-            AI에게 경력 묻기
-          </button>
-        </motion.div>
-
         {stats.length > 0 && (
           <motion.dl
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className={`mt-10 grid w-full gap-2 md:mt-14 md:gap-4 ${
+            className={`mt-8 grid w-full gap-2 md:mt-12 md:gap-4 ${
               stats.length === 1
                 ? "max-w-sm grid-cols-1"
                 : stats.length === 2
@@ -147,12 +116,12 @@ const Hero = ({ content = defaultHeroContent }: HeroProps) => {
             {stats.map((stat) => (
               <div
                 key={`${stat.value}-${stat.label}`}
-                className="min-w-0 rounded-2xl border border-white/10 bg-[#111111]/90 px-2 py-4 shadow-[0_16px_60px_rgba(0,0,0,.25)] md:rounded-3xl md:px-6 md:py-6"
+                className="flex min-h-[7.5rem] min-w-0 flex-col justify-between rounded-2xl border border-white/10 bg-[#111111]/90 px-3 py-4 shadow-[0_16px_60px_rgba(0,0,0,.25)] md:min-h-[7.875rem] md:rounded-3xl md:px-6 md:py-6"
               >
                 <dd className="break-words font-display text-[1.35rem] font-extrabold leading-none tracking-[-0.03em] text-white sm:text-3xl md:text-5xl">
                   {stat.value}
                 </dd>
-                <dt className="mt-1 break-words font-body text-[10px] font-medium leading-4 text-white/50 sm:text-xs md:mt-2 md:text-sm md:leading-5">
+                <dt className="mt-2 break-keep font-body text-[10px] font-medium leading-4 text-white/55 [overflow-wrap:break-word] sm:text-xs md:text-sm md:leading-5">
                   {stat.label}
                 </dt>
               </div>
@@ -162,7 +131,7 @@ const Hero = ({ content = defaultHeroContent }: HeroProps) => {
       </div>
 
       <div className="absolute bottom-7 left-1/2 z-10 hidden -translate-x-1/2 items-center gap-2 text-white/55 md:flex">
-        <span className="font-body text-[10px] font-semibold uppercase tracking-[0.24em]">프로젝트</span>
+        <span className="font-body text-[10px] font-semibold uppercase tracking-[0.24em]">소개</span>
         <ChevronDown size={14} aria-hidden="true" />
       </div>
     </section>

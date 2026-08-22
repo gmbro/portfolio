@@ -1209,6 +1209,329 @@ GitHub Pages 배포 후 같은 세 너비에서 asset revision, launcher 외형�
 
 ---
 
+### 2026-08-22 / 핵심 정보 구조 단순화·프로젝트 증거 자동 슬라이드 준비 / base revision 27
+
+- 작업 대상 URL: `/`, 유효한 `/p/:slug`
+- 제외 URL: `/admin/links`, 무효 `/p/:slug`, 임의 404
+- 수정 전 라이브 URL: `https://archilab.ai.kr/`
+- 로컬 미리보기 URL: `http://127.0.0.1:4177/`
+- 배포 예정 URL: `https://archilab.ai.kr/`
+- 대상 revision: 기본 포트폴리오 base revision 27
+- 검사 브라우저: Codex In-app Browser
+- 검사 담당: Codex
+- 새 JD·회사별 사실은 없으며, 이번 작업은 사용자가 확정한 정보 구조·표시명·이미지 탐색 방식만 변경한다.
+
+#### 1단계 — 사용자 과업·채용 신호 분석
+
+| 우선순위 | 사용자가 확인할 신호 | 이번 revision의 방향 |
+|---:|---|---|
+| 1 | 이경민이 어떤 PM인지 빠르게 이해하는가 | Hero 다음에 `소개`를 바로 배치해 역할·문제 해결 방식을 먼저 설명 |
+| 2 | 대표 프로젝트에서 실제 책임과 결과를 확인하는가 | 독립 `Evidence Product` 아코디언을 제거하고 프로젝트 카드의 문제·판단·실행·성과·증거 이미지로 수렴 |
+| 3 | 전체 경력과 다음 커리어 방향을 확인하는가 | 프로젝트 다음에 경력 타임라인과 기존 `커리어 방향` 블록 유지 |
+| 4 | 채용·협업 연락 방법을 찾는가 | 마지막 섹션·메뉴명을 한국어 행동문이 아닌 `Contact`로 통일 |
+
+- 핵심 Pain Point: Hero 바로 뒤의 1,475~1,998px `Evidence Product`가 About·프로젝트보다 먼저 등장해 같은 프로젝트 근거를 중복 탐색하게 한다.
+- 목표 정보 구조: `Hero → 소개 → 프로젝트 → 경력(커리어 방향) → Contact`.
+- North Star는 기존 **근거 기반 채용 판단 완료율**을 유지하되, 독립 역량 선택이 아니라 `소개 이해 → 관련 프로젝트 1개 확인 → 경력·Contact 중 다음 판단`의 짧은 경로로 측정한다.
+
+#### 2단계 — 검증 근거 구조화·유지 범위
+
+| 유지 근거 | 사용 위치 | 변경 원칙 |
+|---|---|---|
+| Hero 역할·헤드라인·5개·3개·3억 사용자 확인값 | Hero | 문구·수치·귀속 변경 없음 |
+| 공개 프로젝트 5개의 문제·판단·실행·성과·본인 책임 | 프로젝트 | Evidence Product의 중복 매핑만 제거하고 원본 카드 유지 |
+| 회사별 기간·직함·설명과 커리어 방향 | 경력 | 최신순·사용자 확인 직함·2~3년 방향 유지 |
+| EmailJS 문의 기능과 개인정보 동의 | Contact | 섹션 표시명만 `Contact`; 제출 행동명 `문의하기`는 유지 |
+| 프로젝트별 시각 자료 슬롯 | 프로젝트 | Evidence Product와 별개이므로 유지하고 여러 PNG 입력 구조·2초 자동 슬라이드를 준비 |
+
+- 실제 PNG는 아직 제공되지 않았으므로 이미지·성과 화면을 새로 만들지 않는다.
+- 자동 슬라이드는 유효 이미지가 2개 이상일 때만 작동하며, 키보드·확대 dialog·수동 탐색을 계속 제공한다.
+
+#### 3단계 — Hero 콘텐츠 3안 비교
+
+이번 요청은 Hero 카피 수정이 아니라 정보 구조 단순화이므로, 검증된 현재 Hero를 기준으로 세 방향을 비교했다.
+
+| 안 | Hero 방향 | 판단 |
+|---:|---|---|
+| 1 (채택) | base revision 26의 `AI Product & Project Manager`·제너럴리스트 카피·지표 유지 | 사용자가 직전 주석으로 직접 확정했으며 새 정보 구조와 충돌하지 않음 |
+| 2 | Hero를 `소개` 수준으로 축약 | 첫 화면의 역할·정량 신호가 약해져 미채택 |
+| 3 | Hero에 프로젝트 자동 슬라이드 추가 | 첫 화면 무게·초기 로드가 커지고 실제 PNG도 없어 미채택 |
+
+- Hero 카피·수치는 변경하지 않고, 다음 섹션 안내만 실제 순서에 맞춰 `프로젝트`에서 `소개`로 정정한다. Navbar의 얼굴 이미지가 있는 `AI에게 묻기` 단일 진입점도 유지한다.
+
+#### 4단계 — 웹사이트 적용 계획
+
+| 범위 | 적용 계획 |
+|---|---|
+| 정보 구조 | `EvidenceNavigator` 제거, `Hero → About → ImageCards → Experience → Contact` 순서 고정 |
+| 내비게이션 | `소개 / 프로젝트 / 경력 / Contact`와 실제 `about / case-studies / experience / contact` 앵커를 1:1 연결 |
+| Footer | `© 2026 이경민`과 Footer 전체 DOM 제거. 분석은 이미 기본 비활성이라 설정 동선 손실 없음 |
+| 간격 | About·프로젝트·경력·Contact를 모바일 64px, 태블릿 이상 80px 패딩 기준으로 통일하고 섹션 헤더 여백 축소 |
+| 이미지 | `visual.items` 배열을 추가하되 기존 단일 `visual.src`와 호환. 2초마다 수평 전환, 수동 일시정지·이전·다음·점·확대 유지 |
+| 접근성·성능 | reduced motion 자동 재생 금지, hover·focus·확대·비가시·백그라운드 탭에서 일시정지, 자동 변경은 live announcement 금지 |
+
+#### 1차 진단 — 수정 전
+
+base revision 26 로컬 production build를 전체 페이지 위→아래로 검사했다.
+
+| 항목 | 390×844 | 768×900 | 1440×900 |
+|---|---:|---:|---:|
+| clientWidth / scrollWidth | `375 / 375` | `753 / 753` | `1425 / 1425` |
+| 문서 높이 | `13,786px` | `12,437px` | `8,864px` |
+| 본문 순서 | Hero→Evidence→소개→프로젝트→경력→문의 | 동일 | 동일 |
+| Evidence 높이 | `1,998px` | `1,879px` | `1,475px` |
+| 프로젝트 상·하 패딩 | `96 / 96px` | `128 / 128px` | `128 / 128px` |
+| Contact 상·하 패딩 | `96 / 96px` | `128 / 128px` | `128 / 128px` |
+| 프로젝트 이미지 슬롯 / 가로 오버플로 | `5 / 0` | `5 / 0` | `5 / 0` |
+| Footer 저작권 | 표시 | 표시 | 표시 |
+
+| ID | 범위 | 발견한 문제 | 사용자 영향 | 심각도 | 수정 방향 | 상태 |
+|---|---|---|---|---|---|---|
+| QA-BASE27-001 | 정보 구조 | Hero 직후 `Evidence Product`가 프로젝트 근거를 1,475~1,998px 반복 | 소개·실제 프로젝트 도달이 늦음 | 차단 | 컴포넌트·데이터·테스트·메뉴 연결을 함께 제거 | 발견 |
+| QA-BASE27-002 | 섹션 순서·표시명 | 메뉴에 `역량·근거`, `문의`가 있고 목표 순서·`Contact`와 불일치 | 페이지 구조와 탐색 라벨이 다름 | 높음 | 소개→프로젝트→경력→Contact 순서·표시명 고정 | 발견 |
+| QA-BASE27-003 | Footer | `© 2026 이경민` 독립 Footer가 남음 | 사용자가 제거 요청한 비핵심 영역 지속 | 높음 | Footer DOM·전용 컴포넌트 제거 | 발견 |
+| QA-BASE27-004 | 간격 | 프로젝트·Contact만 모바일 96px·태블릿 이상 128px 패딩 | 섹션 전환이 길고 전체 탐색 속도 저하 | 보통 | About·Experience와 같은 64/80px 기준으로 축소 | 발견 |
+| QA-BASE27-005 | 이미지 탐색 | 현재 단일 이미지 교체 구조이며 자동·수평 슬라이드가 없음 | 다음 단계 PNG 여러 장을 요구 방식으로 표시할 수 없음 | 높음 | 복수 이미지 데이터와 2초 수평 자동 전환 계약 추가 | 발견 |
+| QA-BASE27-006 | 접근성 | 현재 polite live region에 자동 재생을 그대로 붙이면 2초마다 낭독될 수 있음 | 스크린리더 사용 방해 | 차단 | 자동 이동은 live off, 사용자 이동만 polite; 일시정지·reduced-motion·비가시 정지 적용 | 발견 |
+
+- 세 너비의 실제 텍스트·문서 가로 오버플로는 0건이며 이를 회귀 조건으로 유지한다.
+- Evidence Product와 프로젝트별 증거 이미지는 서로 다른 범위다. 전자는 삭제하지만 `EvidenceMediaGallery`와 5개 시각 자료 슬롯은 유지한다.
+- 수정 전 기록을 완료했으며 이제 소스·테스트·제품·디자인·분석 문서를 직접 수정한다.
+
+#### 직접 수정
+
+- `Index`에서 `EvidenceNavigator`와 페이지 Footer 렌더를 제거하고, 본문을 `Hero → About → ImageCards → Experience → Contact`로 고정했다. 전용 `EvidenceNavigator`, 매핑 데이터, 회귀 테스트와 `Footer` 컴포넌트도 삭제했다.
+- Navbar의 데스크톱·모바일 공통 항목을 `소개 / 프로젝트 / 경력 / Contact`로 바꾸고 실제 `about / case-studies / experience / contact` 앵커에 연결했다. About eyebrow는 `소개`, Contact H2는 `Contact`, Hero 하단 힌트는 `소개`로 통일했다.
+- 프로젝트와 Contact의 상·하 패딩을 모바일 96px에서 64px, 태블릿 이상 128px에서 80px로 축소해 About·경력과 같은 간격 체계로 맞췄다. 섹션 헤더 여백도 32~40px로 줄였다.
+- 프로젝트 visual에 복수 `items[]` 계약을 추가하고 기존 단일 `src` fallback을 유지했다. 실제 PNG는 아직 없으므로 5개 프로젝트의 `증거 이미지 준비 중` 슬롯과 요청 자료 목록은 그대로 남겼다.
+- `EvidenceMediaGallery`는 유효 이미지 2개 이상에서 2,000ms마다 다음 이미지가 오른쪽에서 왼쪽으로 650ms 진입한다. 이전·다음·점·Home·End·방향키·확대 dialog·caption·다음 이미지 preload를 유지한다.
+- 마우스 hover, 내부 focus, 확대 dialog, document hidden, viewport 밖에서는 자동 이동을 중지한다. 사용자 일시정지·재생을 제공하고 `prefers-reduced-motion`에서는 자동 이동과 전환 시간을 모두 끈다. 자동 이동은 `aria-live=off`, 사용자 직접 이동만 polite announcement를 사용한다.
+- 전환 중 접근성 트리에 두 장이 남지 않도록 활성 slide 하나만 DOM에 유지했다. dialog의 초기 focus lifecycle과 key listener를 분리하고, dialog에서 이미지를 바꾼 뒤 닫아도 현재 확대 버튼으로 focus가 복귀하도록 보정했다.
+- `product.md`, `design.md`, `analytics.md`를 새 정보 구조·2초 슬라이드·Navbar 챗봇 진입·Footer 부재와 동기화하고 분석 보존 설계의 `surface`를 `navbar`로 정정했다.
+- 정보 구조·삭제 영역·복수 이미지·자동 이동·정지 조건·reduced motion·live region·dialog focus 회귀를 테스트로 고정했다.
+
+#### 동일 조건 재검사
+
+최종 production build를 수정 전과 같은 Codex In-app Browser에서 390×844, 768×900, 1440×900으로 위→아래 직접 재검사했다.
+
+| 항목 | 390×844 | 768×900 | 1440×900 |
+|---|---:|---:|---:|
+| clientWidth / scrollWidth | `375 / 375` | `753 / 753` | `1425 / 1425` |
+| 문서 높이 | `11,459px` | `10,157px` | `6,988px` |
+| 본문 순서 | Hero→소개→프로젝트→경력→Contact | 동일 | 동일 |
+| Evidence Product / legacy anchor | `0 / 0` | `0 / 0` | `0 / 0` |
+| 본문 상·하 패딩 | `64 / 64px` | `80 / 80px` | `80 / 80px` |
+| 프로젝트 이미지 슬롯 / 가로 오버플로 | `5 / 0` | `5 / 0` | `5 / 0` |
+| Footer 저작권 | 없음 | 없음 | 없음 |
+
+- 수정 전 대비 문서 높이는 390px에서 `2,327px`, 768px에서 `2,280px`, 1440px에서 `1,876px` 줄었다. 세 너비 모두 문서 가로 오버플로 0이며 Navbar 항목·DOM 순서·화면 순서가 일치한다.
+- About·프로젝트·경력·커리어 방향·Contact를 실제 화면에서 확인했다. `Evidence Product`, `#evidence`, `#product-proof`, `© 2026 이경민`은 0건이고 Contact H2는 정확히 `Contact`다.
+- 실제 PNG가 아직 0장이므로 라이브 후보에서 자동 재생 UI가 숨겨지는 것은 정상이다. fixture 3장 기반 테스트에서 2초 자동 순환·수평 진입·hover/focus/dialog/hidden/offscreen 일시정지·명시적 재생·reduced motion·수동 announcement를 검증했다.
+- 전체 Vitest `48/48`, 깨끗한 pnpm virtual store의 TypeScript `tsc --noEmit` 진단 0, 전체 `src` ESLint 오류 0·기존 Fast Refresh 경고 7, Vite production build가 통과했다.
+- 최종 build gzip은 HTML `1.16kB`, main `137.89kB`, CSS `13.90kB`, Typebot wrapper `1.27kB`, Typebot web runtime `199.27kB`다. 기존 runtime raw 500kB 경고만 유지된다.
+- `/p/not-real-slug`, `/admin/links`, `/not-a-real-page`를 390px에서 직접 검사했다. 세 경로 모두 `390 / 390`, `noindex, nofollow`, Typebot·ambient·분석 UI 0으로 통과했다.
+- production preview console warning/error 0. QA-BASE27-001~006은 모두 수정·재검사 완료이며 미해결 배포 차단은 없다.
+
+#### 배포 후 실제 URL 점검
+
+- 구현 commit·GitHub Pages run·실제 asset·라이브 재검사 결과를 배포 완료 뒤 기록한다.
+
+---
+
+### 2026-08-22 / 제너럴리스트 Hero 카피·성과 지표 재구성 / base revision 26
+
+- 작업 대상 URL: `/`, 유효한 `/p/:slug`
+- 수정 전 라이브 URL: `https://archilab.ai.kr/`
+- 로컬 미리보기 URL: `http://127.0.0.1:4177/`
+- 배포 상태: 사용자 확인 전 `보류`
+- 근거 출처: 기존 공개 경력 데이터와 2026-08-22 사용자가 브라우저 주석으로 직접 확인한 Hero 문구·`3개`·`3억` 수치. `3억`의 회사·프로젝트·기간·매출 유형은 이번 요청에서 추가 추론하지 않는다.
+
+#### 1단계 — 요청·채용 신호 분석
+
+| 우선순위 | 평가자가 확인할 신호 | 이번 revision의 방향 |
+|---:|---|---|
+| 1 | AI 제품과 프로젝트를 함께 맡아 온 제너럴리스트인가 | 역할 라벨을 `AI Product & Project Manager`로 바꾸고 문제 해결형 제너럴리스트 문장을 Hero 중심에 배치 |
+| 2 | 제품 생애주기와 사업 영역의 폭이 구체적인가 | 제로투원·350만 MAU 운영·제품 기획·사업 개발·퍼포먼스 마케팅·B2B AI·직접 개발 B2C 제품을 한 문단으로 설명 |
+| 3 | 수행량·제품 책임·사업 기여를 숫자로 빠르게 확인할 수 있는가 | `5개 수행 프로젝트`, `3개 프로덕트 기획 및 운영`, `3억 매출 기여`를 사용자 확인값 그대로 표시 |
+| 4 | 첫 화면이 행동 버튼보다 정체성과 근거에 집중하는가 | Hero 설명 반복 문장과 Hero CTA 두 개를 모두 제거하고 Navbar의 단일 `AI에게 묻기`만 유지 |
+
+#### 2단계 — 검증 근거 구조화
+
+| Hero 주장 | 출처 등급 | 연결 근거·사용 범위 | 확대 금지 |
+|---|---|---|---|
+| 제로투원·약 350만 MAU 운영 | 기존 검증 데이터 | Archi·Skelter 0→1, SK Planet 약 350만 MAU | 모든 제품이 350만 MAU였다고 표현하지 않음 |
+| 제품 기획·사업 개발·퍼포먼스 마케팅 | 기존 검증 데이터 | 공개 경력 7개의 역할 범위 | 동일 회사에서 모두 수행했다고 합치지 않음 |
+| B2B AI Project 강점·직접 개발 B2C Product·헬스케어 데이터 휘발성 문제 | 사용자 직접 확인 | 이번 Hero 포지셔닝 문구로만 사용 | 출시·성장·의학적 효과로 확대하지 않음 |
+| `5개 / 수행 프로젝트` | 공개 데이터+사용자 확인 | 공개 CAR 프로젝트 5개와 일치 | 전체 경력의 총 프로젝트 수로 확대하지 않음 |
+| `3개 / 프로덕트 기획 및 운영` | 사용자 직접 확인 | 사용자가 지정한 Hero 집계값 | 집계 대상 프로젝트를 임의로 확정하지 않음 |
+| `3억 / 매출 기여` | 사용자 직접 확인 단일 출처 | 사용자가 지정한 Hero 기여 수치 | 매출 창출·계약액·GMV·특정 회사 성과로 임의 귀속하지 않음 |
+
+#### 3단계 — Hero 콘텐츠 3안 비교
+
+| 안 | 헤드라인 | 서브카피 방향 | 판단 |
+|---:|---|---|---|
+| 1 (채택) | `AI 역량이 우수한 제너럴리스트로서 고객의 문제를 제품으로 해결합니다.` | 사용자가 지정한 제로투원·350만 MAU·다직무·B2B AI·B2C 헬스케어 문장을 그대로 사용 | 사용자 주석과 정확히 일치하며 이번 revision의 최종안 |
+| 2 | `AI 제품·프로젝트 경험을 갖춘 제너럴리스트로서 고객의 문제를 제품으로 해결합니다.` | 객관적 경험 중심으로 축약 | 근거 표현은 더 보수적이지만 사용자 지정 `우수한` 포지셔닝과 달라 미채택 |
+| 3 | `AI Product & Project Manager로서 고객 문제를 제품으로 해결합니다.` | 모바일 5초 이해에 맞춘 한 문장 | 짧지만 제너럴리스트 메시지가 약해 미채택 |
+
+- 강조 범위는 새 헤드라인 안의 `AI 역량`으로 제한한다. 나머지 문장은 흰색으로 유지해 과도한 광고 톤을 피한다.
+- Hero의 역할·문서 정체성은 Navbar의 `7년차 PM 이경민의 포트폴리오입니다.`와 함께 읽힌다. Hero 배지에서는 사용자가 교체를 지정한 `7년 경력`을 반복하지 않는다.
+
+#### 4단계 — 웹사이트 적용 계획
+
+| 필드 | 최종 입력값 | 적용 원칙 |
+|---|---|---|
+| 역할 라벨 | `AI Product & Project Manager` | Hero 배지 단일 문구, 경력 접미사 제거 |
+| 헤드라인 | `AI 역량이 우수한 제너럴리스트로서 고객의 문제를 제품으로 해결합니다.` | 의미 단위 2행 데이터, 실제 줄바꿈은 반응형 허용 |
+| 서브카피 | 사용자가 지정한 장문 1개 | 두 번째 탐색 안내 문장 삭제 |
+| 키워드 | `프로덕트의 제로투원 경험` · `350만 MAU 제품 운영` · `B2B&B2G 프로젝트` | 문구 그대로 반영 |
+| Hero CTA | 없음 | 프로젝트·챗봇 버튼 모두 삭제, Navbar 단일 챗봇 CTA 유지 |
+| 지표 | `5개 / 수행 프로젝트` · `3개 / 프로덕트 기획 및 운영` · `3억 / 매출 기여` | 사용자 확인값 그대로 반영 |
+
+#### 1차 진단 — 수정 전 로컬 후보
+
+base revision 25 로컬 production preview를 390×844, 768×900, 1440×900과 사용자 주석 폭 946×1188에서 검사했다.
+
+| 항목 | 390×844 | 768×900 | 1440×900 |
+|---|---:|---:|---:|
+| clientWidth / scrollWidth | `375 / 375` | `753 / 753` | `1425 / 1425` |
+| Hero 높이 | `844px` | `938px` | `918px` |
+| H1 크기 | `327×116.6px` | `657×180px` | `1152×160px` |
+| 서브카피 | 2문단·`327×144px` | 2문단·`657×100px` | 2문단·`768×100px` |
+| Hero CTA | `프로젝트 증거 보기` 1개 | 동일 | 동일 |
+| stat 카드 | 약 `104×76px` | 약 `208×126px` | 약 `331×126px` |
+
+| ID | 범위 | 발견한 문제 | 사용자 영향 | 심각도 | 수정 방향 | 상태 |
+|---|---|---|---|---|---|---|
+| QA-BASE26-001 | Hero 카피 | 역할·헤드라인·서브카피·키워드가 주석 최종안과 불일치 | 사용자가 의도한 AI 제너럴리스트 포지셔닝이 전달되지 않음 | 차단 | 14개 주석의 정확한 값을 기본 Hero 데이터에 반영 | 발견 |
+| QA-BASE26-002 | Hero 설명 | 삭제 요청한 두 번째 탐색 안내 문장이 남아 있음 | 같은 탐색 행동이 Navbar·Hero에서 반복 | 높음 | 서브카피를 1문단으로 축소 | 발견 |
+| QA-BASE26-003 | Hero 행동 | 삭제 요청한 `프로젝트 증거 보기`가 남아 있음 | 첫 화면이 정체성보다 행동 버튼에 분산 | 차단 | Hero action 블록을 DOM에서 제거 | 발견 |
+| QA-BASE26-004 | Hero 지표 | 기존 `5개·350만·70%+`가 새 `5개·3개·3억` 정의와 불일치 | 사용자 확인 성과 구조가 반영되지 않음 | 차단 | 값·라벨 3쌍을 정확히 교체 | 발견 |
+| QA-BASE26-005 | 반응형 | 긴 새 H1·장문 서브카피·긴 가운데 stat 라벨이 네 폭에서 미검증 | 태블릿 글자 급증, 모바일 카드 높이 불균형 가능 | 높음 | H1 breakpoint를 완만하게 조정하고 카드 최소 높이·줄바꿈을 재검사 | 발견 |
+| QA-BASE26-006 | 수치 출처 | `3개`·`3억`은 저장소의 기존 프로젝트 귀속 자료가 아니라 이번 사용자 직접 확인값 | 임의 귀속 시 사실 범위 확대 가능 | 높음 | UI에는 지정값만 표시하고 배포 기록에 단일 출처·확대 금지를 유지 | 발견 |
+
+#### 직접 수정
+
+- `src/types/portfolio.ts`의 기본 Hero를 사용자 주석의 역할·헤드라인·장문 1개·키워드 3개·지표 3쌍으로 교체했다. `careerLabel`과 기본 CTA 데이터는 제거했다.
+- 회사별 publication 호환을 위해 Hero parser는 보조 문장 1~2개를 허용하고 CTA는 `label+target 모두 있음` 또는 `둘 다 없음`만 허용한다. 한쪽만 있거나 안전하지 않은 target은 계속 거절한다.
+- `src/components/Hero.tsx`에서 Hero action 블록을 DOM에서 완전히 제거했다. Navbar의 얼굴 이미지가 있는 `AI에게 묻기` 1개만 대화 진입점으로 유지한다.
+- 긴 새 헤드라인에 맞춰 글자 크기를 모바일 36px, 태블릿 52px, 1024px 56px, 1280px 이상 72px로 완만하게 확장했다. 서브카피·키워드·지표 간격을 줄여 CTA 삭제 공간을 정보에 재배분했다.
+- 세 지표 카드는 모바일 최소 120px, 태블릿 이상 126px의 동일 높이 flex 카드로 만들고 긴 `프로덕트 기획 및 운영` 라벨에 어절 단위 줄바꿈을 적용했다.
+- `src/test/portfolio.test.ts`, `src/test/index.test.tsx`에 새 카피·지표 쌍·Hero 버튼 0개·Navbar 챗봇 1개·삭제 문구 부재·CTA optional parser 계약을 고정했다.
+- `product.md`, `design.md`에 Hero의 정보 책임, CTA 0개, 사용자 직접 확인 수치의 확대 금지와 Navbar 단일 챗봇 진입 원칙을 동기화했다.
+
+#### 동일 조건 재검사
+
+최종 production build를 수정 전과 같은 Codex In-app Browser에서 390×844, 768×900, 946×1188, 1440×900으로 직접 재검사했다.
+
+| 항목 | 390×844 | 768×900 | 946×1188 | 1440×900 |
+|---|---:|---:|---:|---:|
+| clientWidth / scrollWidth | `375 / 375` | `753 / 753` | `931 / 931` | `1425 / 1425` |
+| 문서 높이 | `13,786px` | `12,437px` | `12,345px` | `8,864px` |
+| Hero 높이 / 콘텐츠 하단 | `846 / 766px` | `900 / 804px` | `1,188 / 1,092px` | `900 / 804px` |
+| H1 글자 / 추정 행 | `36px / 4행` | `52px / 4행` | `52px / 2행` | `72px / 2행` |
+| stat 카드 | `104×120px` | `208×126px` | `268×126px` | `331×126px` |
+| Hero 버튼 / 내부 오버플로 | `0 / 0` | `0 / 0` | `0 / 0` | `0 / 0` |
+
+- 네 너비 모두 `AI Product & Project Manager`, 새 헤드라인, 장문 1개, 키워드 3개와 `5개·3개·3억` 지표를 정확히 표시한다. 삭제 대상 안내 문장과 `프로젝트 증거 보기`, `AI에게 경력 묻기`는 Hero에서 0건이다.
+- 390px에서 Hero는 콘텐츠에 맞춰 viewport보다 약 2px 자연 확장되지만 콘텐츠 하단은 section 하단보다 80px 위에 있어 잘림이 없다. 세 stat 카드는 모두 120px로 같고 가운데 긴 라벨도 `clientWidth === scrollWidth`다.
+- 768px H1은 의미 단위 4행, 946·1440px은 2행이다. 제공 Hero 배경은 네 너비 모두 `naturalWidth=1720`으로 로드되고 텍스트 대비와 인물 가시성을 함께 유지한다.
+- Navbar는 390px에서도 모바일 브랜드와 얼굴 이미지 `AI에게 묻기`, 메뉴가 겹치지 않는다. 공개 루트의 Hero 버튼은 0개, Navbar 챗봇 진입점은 정확히 1개, 초기 Typebot host는 0개다.
+- `/admin/links`, `/p/not-real-slug`, `/not-a-real-page`를 390px 직접 로드했다. 세 경로 모두 `390 / 390`, `noindex, nofollow`, Typebot·ambient·분석 UI·Google script 0으로 통과했다.
+- 전체 Vitest `46/46`, 깨끗한 내부 virtual store의 TypeScript 5.9.3 `tsc --noEmit` 진단 0, 전체 `src` ESLint 오류 0·기존 Fast Refresh 경고 7, Vite production build와 `git diff --check`가 통과했다.
+- 최종 build는 HTML `1.16kB`, main `138.05kB`, CSS `14.14kB`, Typebot wrapper `1.27kB`, Typebot web runtime `199.27kB` gzip이다. 초기 Typebot preload·분석 script는 0이며 기존 runtime raw 500kB 경고만 유지된다.
+- production preview console warning/error는 0건이다. 미해결 배포 차단 없음. 현재 상태는 사용자 미리보기 확인 대기이며 commit·push·실제 배포는 진행하지 않는다.
+
+#### 배포 후 실제 URL 점검
+
+- 사용자 확인 전에는 commit·push·배포하지 않는다.
+
+---
+
+### 2026-08-22 / 단일 챗봇 진입점·대화 가용 면적·Hero 이미지 대비 / base revision 25
+
+- 작업 대상 URL: `/`, 유효한 `/p/:slug`
+- 수정 전 라이브 URL: `https://archilab.ai.kr/`
+- 로컬 미리보기 URL: `http://127.0.0.1:4177/`
+- 배포 상태: 사용자 확인 전 `보류`
+- 새 JD·회사별 사실은 없다. 1차 사용자인 채용 담당자가 포트폴리오 정체성과 경력 근거 탐색 경로를 더 빨리 이해하도록 기존 검증 사실과 UI만 조정한다.
+
+#### 1~4단계 기획 기준
+
+- Step 1 사용자 과업: `7년차 PM 이경민의 포트폴리오`임을 상단에서 즉시 이해하고, 중복되지 않은 단일 CTA로 AI 경력 가이드를 연다.
+- Step 2 검증 근거: 기존의 7년 경력, AI PM 역할, 대표 프로젝트 5개와 Typebot의 공개 경력 corpus를 그대로 사용한다. 새 수치·성과·직무 적합성 주장은 추가하지 않는다.
+- Step 3 콘텐츠 설계: Hero 3안 중 현재 선택된 `고객의 문제를 제품으로 해결해 온 AI PM 이경민입니다.`가 근거 강도와 문제 해결 포지셔닝이 가장 높아 유지한다. 상단 브랜드만 `7년차 PM 이경민의 포트폴리오`로 명확화하고, 모바일 공간에서는 의미를 유지한 축약형을 사용한다.
+- Step 4 웹사이트화: 상단 `AI에게 묻기`를 유일한 챗봇 진입점으로 만들고 얼굴 이미지를 왼쪽에 배치한다. 챗봇은 더 큰 panel, 축소 header와 가로 질문 rail로 대화 영역을 넓힌다. Hero scrim만 완화해 제공된 배경을 더 명확히 보이게 하되 텍스트 대비를 유지한다.
+
+#### 1차 진단 — 수정 전 라이브
+
+실제 `https://archilab.ai.kr/`을 Codex In-app Browser에서 390×844, 768×900, 1440×900으로 검사했다.
+
+| 항목 | 390×844 | 768×900 | 1440×900 |
+|---|---:|---:|---:|
+| clientWidth / scrollWidth | `375 / 375` | `753 / 753` | `1425 / 1425` |
+| 상단 브랜드 | `이경민 · AI PM 포트폴리오` | 동일 | 동일 |
+| 상단 CTA / 얼굴 이미지 | 숨김 / 0 | 표시 / 0 | 표시 / 0 |
+| 우하단 챗봇 버튼 | 표시 | 표시 | 표시 |
+| Hero scrim | 세로 `80%→90%` | 좌측 `94%`, 중앙 `84%`, 우측 `60%` | 동일 |
+
+- 390px 실제 chatbot panel은 `350×704px`, header는 `348×84px`, guide body는 618px, 첫 추천 질문 영역은 124px, 입력은 `318×50px`이다.
+- header는 `AI PORTFOLIO / 경력·프로젝트 가이드` 두 줄을 사용한다. 답변 뒤 예상 질문 3개도 세로로 쌓여 native transcript 가용 높이를 줄인다.
+- 상단 CTA와 우하단 launcher가 동시에 존재한다. 모바일에서는 상단 CTA가 숨고 우하단 launcher만 남아 사용자가 요청한 단일 상단 진입점과 반대다.
+- Hero 원격 이미지는 정상 로드되지만 강한 검정 scrim 때문에 행사 이미지와 인물의 맥락이 희미하다.
+
+| ID | 범위 | 발견한 문제 | 사용자 영향 | 심각도 | 수정 방향 | 상태 |
+|---|---|---|---|---|---|---|
+| QA-BASE25-001 | 챗봇 | panel 704px와 84px 이중 제목 header, 세로 질문 목록으로 답변 영역이 좁음 | 긴 경력 답변을 한눈에 읽기 어려움 | 높음 | panel을 viewport 안에서 확대하고 header를 한 줄로 축소, 후속 질문을 가로 rail로 전환 | 발견 |
+| QA-BASE25-002 | 챗봇 진입 | 상단 CTA와 우하단 launcher가 중복되고 모바일 상단 CTA는 숨김 | 어디서 대화를 시작해야 하는지 일관되지 않음 | 높음 | 모든 너비의 상단 CTA 하나만 유지하고 local/native launcher를 항상 숨김 | 발견 |
+| QA-BASE25-003 | 상단 CTA | 얼굴 이미지가 없음 | 포트폴리오 주체와 AI 가이드 연결이 약함 | 보통 | 기존 공개 chatbot 얼굴 이미지를 CTA 왼쪽에 28~32px로 표시 | 발견 |
+| QA-BASE25-004 | Hero | scrim이 최대 94%로 배경 증거 이미지를 거의 가림 | 사용자가 제공한 현장 이미지의 맥락이 전달되지 않음 | 보통 | 채도 복원과 scrim 완화, 390/768/1440 대비·크롭 재검사 | 발견 |
+| QA-BASE25-005 | Navbar 주석 | `7년차 PM 이경민의 포트폴리오` 설명이 상단에 직접 드러나지 않음 | 첫 5초 정체성 확인이 한 단계 늦음 | 보통 | 검증된 7년 경력을 사용해 브랜드·접근성 이름을 명확화 | 발견 |
+
+#### 직접 수정
+
+| ID | 수정 파일 | 실제 수정 내용 | 사실 변경 여부 | 결과 |
+|---|---|---|---|---|
+| QA-BASE25-001 | `src/components/TypebotBubble.tsx`, `src/data/chatbot.ts` | panel 최대 크기를 `480×820px`로 확대하고 header를 얼굴 이미지+`AI PM 이경민` 한 줄·62~64px로 축소했다. 답변 뒤 후속 질문 3개는 44px 가로 scroll-snap rail로 전환하고 16px·50px 입력을 채팅 가용 폭 전체에 유지했다. | 없음 | 통과 |
+| QA-BASE25-002 | `src/components/TypebotBubble.tsx`, `src/components/Hero.tsx`, `src/components/Navbar.tsx`, `src/lib/chat.ts`, `src/index.css` | Typebot native button·로컬 우하단 launcher·Hero 보조 챗봇 CTA를 제거하고 Navbar `AI에게 묻기`만 남겼다. launcher DOM이 없는 상태에서도 실제 bot panel로 준비 완료를 판정하고, 닫은 뒤 해당 Navbar CTA로 포커스를 복귀시킨다. 이전 launcher·별도 pre-chat guide의 미사용 전역 CSS도 삭제했다. | 없음 | 통과 |
+| QA-BASE25-003 | `src/components/Navbar.tsx`, `src/data/chatbot.ts` | 기존 공개 chatbot 얼굴 이미지를 공용 상수로 만들고 모든 화면 폭의 상단 CTA 왼쪽에 32px 원형 이미지로 표시했다. | 없음 | 통과 |
+| QA-BASE25-004 | `src/index.css` | Hero 이미지의 밝기·채도를 보정하고 desktop scrim 우측 끝을 60%에서 34%로 완화했다. 작은 본문이 놓이는 좌측 60%와 모바일의 기존 강한 scrim·45% crop은 유지했다. | 장식 배경 표현만 변경 | 통과 |
+| QA-BASE25-005 | `src/components/Navbar.tsx`, `src/test/index.test.tsx` | desktop 브랜드를 `7년차 PM 이경민의 포트폴리오입니다.`, mobile을 `이경민 · 7년차 PM`으로 표시하고 접근성 이름에 전체 문장을 유지했다. | 검증된 7년 경력 재배치 | 통과 |
+| 문서화 | `product.md`, `design.md`, `deploy.md` | 단일 Navbar 진입점, compact chat, 후속 질문 rail, panel 크기와 배경 대비 원칙을 배포 전 기준 문서에 동기화했다. | 없음 | 완료 |
+
+- 질문 원문·답변·회사명·URL query를 분석이나 prefilled variable로 보내지 않는 기존 privacy 경계를 유지했다.
+- native Typebot input은 공식 bridge를 위해 DOM에 유지하되 `aria-hidden`, `tabIndex=-1`로 중복 키보드 탐색에서 제외했다.
+- 회사별 publication·Supabase 경력 데이터·EmailJS·GA 기본 비활성 정책·프로젝트 사실은 변경하지 않았다.
+
+#### 동일 조건 재검사
+
+최종 production build를 수정 전과 같은 Codex In-app Browser 조건에서 재검사했다. 390px에서는 공개 근거 질문 `AI 제품 0→1 경험을 보여줘.`를 실제 Typebot에 제출해 답변 완료 뒤 상태까지 확인했다.
+
+| 항목 | 390×844 | 768×900 | 1440×900 |
+|---|---:|---:|---:|
+| clientWidth / scrollWidth | `375 / 375` | `753 / 753` | `1425 / 1425` |
+| Navbar 브랜드 | `이경민 · 7년차 PM` | `7년차 PM 이경민의 포트폴리오입니다.` | 동일 |
+| 상단 CTA / 얼굴 이미지 | `표시 / 1` | `표시 / 1` | `표시 / 1` |
+| Hero·우하단 챗봇 CTA | `0 / 0` | `0 / 0` | `0 / 0` |
+| Typebot panel | `366×820px` | `480×820px` | `480×820px` |
+| native Typebot launcher | 0 | 0 | 0 |
+
+- 390px 답변 완료 상태에서 header는 62px, 후속 질문은 3개, 가로 rail은 `340 / 562px`로 내부에서만 scroll한다. 입력은 `340×50px`, composer는 약 277px이며 panel에서 header·composer를 제외한 대화 기록 가용 높이는 약 481px이다.
+- 390px 닫기 버튼과 후속 질문의 최소 터치 높이는 44px이다. Escape로 닫으면 실제 대화를 연 Navbar `AI에게 묻기`에 포커스가 복귀한다.
+- 768·1440px의 첫 입력은 `442×50px`이며 panel은 viewport 안에 유지된다. 세 너비 모두 페이지 가로 오버플로와 native·local 우하단 launcher가 0이다.
+- 사용자 주석과 같은 946×1188 조건은 `931 / 931px`로 통과했다. 브랜드 234px, 상단 CTA 118px, 메뉴 44px가 겹치지 않고 Hero 우측 배경은 더 선명해졌으며 좌측 카피 대비는 유지된다.
+- `/admin/links`, `/p/not-real-slug`, 임의 404는 390px에서 `noindex, nofollow`, Typebot 0, portfolio ambient 0, analytics UI·Google script 0, 가로 오버플로 0이다. 무효 맞춤 링크는 `유효하지 않은 링크입니다`로 전환된다.
+- 자동 검사: Vitest `44/44`, clean TypeScript 5.9.3 `tsc --noEmit` 통과, 변경 파일 ESLint 오류·경고 0, 전체 `src` ESLint 오류 0·기존 Fast Refresh 경고 7, `git diff --check` 통과.
+- production build: Vite 6.4.3 성공. main `137.98kB gzip`, CSS `14.11kB gzip`, Typebot wrapper `1.27kB gzip`, Typebot web runtime `199.27kB gzip`. 미사용 launcher·pre-chat CSS 정리로 최종 직전 후보보다 CSS가 `2.09kB gzip` 감소했다. Typebot은 초기 HTML에 preload되지 않고 상단 CTA 선택 뒤에만 mount된다. 기존 web runtime raw 500kB 초과 경고는 유지된다.
+- 로컬 production preview console warning/error는 0건이다.
+- 현재 배포 가능 여부: `사용자 미리보기 확인 대기`. commit·push·실제 배포는 아직 하지 않는다.
+
+#### 배포 후 실제 URL 점검
+
+- 사용자 미리보기 확인 전에는 commit·push·배포하지 않는다.
+
+---
+
 ### 2026-08-22 / Evidence-first 포트폴리오·지속형 챗봇 입력 경험 / base revision 24
 
 - 작업 대상 URL: `/`, 유효한 `/p/:slug`

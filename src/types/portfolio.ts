@@ -12,8 +12,8 @@ export interface HeroContent {
   highlight?: string;
   subcopy: string[];
   keywords: [string, string, string];
-  ctaLabel: string;
-  ctaTarget: string;
+  ctaLabel?: string;
+  ctaTarget?: string;
   stats?: HeroStat[];
 }
 
@@ -33,21 +33,17 @@ export interface PortfolioPublication {
 }
 
 export const defaultHeroContent: HeroContent = {
-  roleLabel: "이경민의 AI PM 포트폴리오",
-  careerLabel: "· 7년 경력",
-  headline: "고객의 문제를 제품으로 해결해 온\nAI PM 이경민입니다.",
-  highlight: "AI PM 이경민",
+  roleLabel: "AI Product & Project Manager",
+  headline: "AI 역량이 우수한 제너럴리스트로서\n고객의 문제를 제품으로 해결합니다.",
+  highlight: "AI 역량",
   subcopy: [
-    "AI 제품 0→1, 350만 MAU 운영, 데이터·운영 개선과 B2B·B2G 사업화 경험을 프로젝트의 문제·판단·실행·성과로 보여드립니다.",
-    "대표 프로젝트를 직접 살펴보거나, AI에게 필요한 경력 근거를 물어보세요.",
+    "제품의 제로투원과 350만 MAU 제품의 운영을 경험하고 제품 기획, 사업 개발, 퍼포먼스 마케팅 등 다양한 영역에서 역량을 키워왔습니다. B2B AI Project에 강점이 있으며 최근 직접 개발한 B2C Product로 헬스케어 데이터의 휘발성에 대한 문제를 풀고 있습니다.",
   ],
-  keywords: ["AI 제품 0→1", "대규모 제품 운영", "운영 구조·사업화"],
-  ctaLabel: "프로젝트 증거 보기",
-  ctaTarget: "case-studies",
+  keywords: ["프로덕트의 제로투원 경험", "350만 MAU 제품 운영", "B2B&B2G 프로젝트"],
   stats: [
-    { value: "5개", label: "대표 프로젝트" },
-    { value: "350만", label: "MAU 제품 운영" },
-    { value: "70%+", label: "운영 원가 절감" },
+    { value: "5개", label: "수행 프로젝트" },
+    { value: "3개", label: "프로덕트 기획 및 운영" },
+    { value: "3억", label: "매출 기여" },
   ],
 };
 
@@ -76,18 +72,21 @@ export const parsePortfolioPageContent = (value: Json): PortfolioPageContent | n
   const careerLabel = normalizeOptionalString(heroCandidate.careerLabel, 24);
   const headline = normalizeString(heroCandidate.headline, 120);
   const highlight = normalizeOptionalString(heroCandidate.highlight, 60);
-  const ctaLabel = normalizeString(heroCandidate.ctaLabel, 32);
-  const ctaTarget = normalizeString(heroCandidate.ctaTarget, 64);
+  const ctaLabel = normalizeOptionalString(heroCandidate.ctaLabel, 32);
+  const ctaTarget = normalizeOptionalString(heroCandidate.ctaTarget, 64);
   const headlineLines = headline?.split("\n") ?? [];
+  const hasCompleteCta = ctaLabel !== undefined && ctaTarget !== undefined;
+  const hasPartialCta = (ctaLabel === undefined) !== (ctaTarget === undefined);
 
   if (
     !roleLabel ||
     careerLabel === null ||
     !headline ||
     highlight === null ||
-    !ctaLabel ||
-    !ctaTarget ||
-    !isSafeTarget(ctaTarget) ||
+    ctaLabel === null ||
+    ctaTarget === null ||
+    hasPartialCta ||
+    (hasCompleteCta && !isSafeTarget(ctaTarget)) ||
     headlineLines.length > 2 ||
     headlineLines.some((line) => !line.trim() || line.trim().length > 60)
   ) {
@@ -96,7 +95,9 @@ export const parsePortfolioPageContent = (value: Json): PortfolioPageContent | n
 
   const subcopySource = heroCandidate.subcopy;
   const keywordSource = heroCandidate.keywords;
-  if (!Array.isArray(subcopySource) || subcopySource.length !== 2) return null;
+  if (!Array.isArray(subcopySource) || subcopySource.length < 1 || subcopySource.length > 2) {
+    return null;
+  }
   if (!Array.isArray(keywordSource) || keywordSource.length !== 3) return null;
 
   const subcopy = subcopySource.map((item) => normalizeString(item, 180));
@@ -140,10 +141,9 @@ export const parsePortfolioPageContent = (value: Json): PortfolioPageContent | n
       careerLabel,
       headline,
       highlight,
-      subcopy: subcopy as [string, string],
+      subcopy: subcopy as string[],
       keywords: keywords as [string, string, string],
-      ctaLabel,
-      ctaTarget,
+      ...(hasCompleteCta ? { ctaLabel, ctaTarget } : {}),
       stats: normalizedStats as HeroStat[] | undefined,
     },
   };

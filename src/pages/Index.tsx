@@ -1,12 +1,10 @@
 import { useLayoutEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import EvidenceNavigator from "@/components/EvidenceNavigator";
 import About from "@/components/About";
 import ImageCards from "@/components/ImageCards";
 import Experience from "@/components/Experience";
 import Contact from "@/components/Contact";
-import Footer from "@/components/Footer";
 import TypebotBubble from "@/components/TypebotBubble";
 import AnalyticsConsentBanner from "@/components/AnalyticsConsent";
 import PortfolioAmbient from "@/components/PortfolioAmbient";
@@ -36,15 +34,11 @@ const Index = ({ heroContent, analyticsEnabled = false }: IndexProps) => {
       <Navbar />
       <main id="main-content" className="relative z-10" tabIndex={-1}>
         <Hero content={heroContent} />
-        <EvidenceNavigator />
         <About />
         <ImageCards />
         <Experience />
         <Contact />
       </main>
-      <div className="relative z-10">
-        <Footer showAnalyticsSettings={analyticsEnabled} />
-      </div>
       <TypebotBubble observeAnalyticsConsent={analyticsEnabled} />
       {analyticsEnabled && <AnalyticsConsentBanner />}
     </div>
