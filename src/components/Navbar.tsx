@@ -1,14 +1,13 @@
 import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
-import { profile } from "@/data/portfolio";
 import { chatbotAvatar } from "@/data/chatbot";
 import { openPortfolioChat } from "@/lib/chat";
 
 const navItems = [
-  { label: "소개", id: "about" },
-  { label: "프로젝트", id: "case-studies" },
-  { label: "경력", id: "experience" },
+  { label: "About", id: "about" },
+  { label: "Projects", id: "case-studies" },
+  { label: "Experience", id: "experience" },
   { label: "Contact", id: "contact" },
 ];
 
@@ -34,11 +33,10 @@ const Navbar = () => {
         <button
           type="button"
           onClick={() => scrollTo("hero")}
-          aria-label="7년차 PM 이경민의 포트폴리오입니다. 처음으로"
-          className="flex min-h-11 shrink-0 items-center rounded-lg text-left font-display text-[11px] font-bold tracking-tight text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:text-sm md:text-base"
+          aria-label="Lee Kyoungmin Portfolio, 처음으로"
+          className="flex min-h-11 max-w-[8.5rem] shrink items-center rounded-lg text-left font-display text-base font-extrabold leading-[1.05] tracking-[-0.03em] text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:max-w-none sm:shrink-0 sm:whitespace-nowrap sm:text-xl lg:text-2xl"
         >
-          <span className="md:hidden">{profile.name} · 7년차 PM</span>
-          <span className="hidden md:inline">7년차 PM {profile.name}의 포트폴리오입니다.</span>
+          Lee Kyoungmin Portfolio
         </button>
 
         {/* Center nav links — desktop */}

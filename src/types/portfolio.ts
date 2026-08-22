@@ -11,7 +11,7 @@ export interface HeroContent {
   headline: string;
   highlight?: string;
   subcopy: string[];
-  keywords: [string, string, string];
+  keywords: [string, string, string] | [string, string, string, string];
   ctaLabel?: string;
   ctaTarget?: string;
   stats?: HeroStat[];
@@ -36,10 +36,13 @@ export const defaultHeroContent: HeroContent = {
   roleLabel: "AI Product & Project Manager",
   headline: "AI 역량이 우수한 제너럴리스트로서\n고객의 문제를 제품으로 해결합니다.",
   highlight: "AI 역량",
-  subcopy: [
-    "제품의 제로투원과 350만 MAU 제품의 운영을 경험하고 제품 기획, 사업 개발, 퍼포먼스 마케팅 등 다양한 영역에서 역량을 키워왔습니다. B2B AI Project에 강점이 있으며 최근 직접 개발한 B2C Product로 헬스케어 데이터의 휘발성에 대한 문제를 풀고 있습니다.",
+  subcopy: [],
+  keywords: [
+    "프로덕트의 제로투원 경험",
+    "350만 MAU 제품 운영",
+    "B2B&B2G 프로젝트",
+    "B2C Product 기획·개발",
   ],
-  keywords: ["프로덕트의 제로투원 경험", "350만 MAU 제품 운영", "B2B&B2G 프로젝트"],
   stats: [
     { value: "5개", label: "수행 프로젝트" },
     { value: "3개", label: "프로덕트 기획 및 운영" },

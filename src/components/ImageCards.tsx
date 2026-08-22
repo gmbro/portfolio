@@ -150,7 +150,7 @@ const ProjectCard = ({ project, index }: { project: FeaturedProject; index: numb
             onClick={() => {
               if (project.id === "arkylab-ai-coach") trackPortfolioEvent("select_content");
             }}
-            aria-label={project.id === "arkylab-ai-coach" ? "Archi 베타 보기, 새 창에서 열기" : undefined}
+            aria-label={project.id === "arkylab-ai-coach" ? "아키 베타 보기, 새 창에서 열기" : undefined}
             className="inline-flex min-h-11 items-center gap-2 rounded-full border border-white/15 px-4 py-2 font-body text-xs font-bold text-white transition-colors hover:border-[#ff6645]/60 hover:text-[#ff8a70] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6645]"
           >
             {project.link.label}
@@ -174,7 +174,7 @@ const ImageCards = () => {
           className="mb-8 max-w-4xl md:mb-10"
         >
           <span className="font-body text-xs font-semibold uppercase tracking-[0.3em] text-[#ff6645]">
-            프로젝트
+            Projects
           </span>
           <h2 className="mt-4 break-words text-balance font-display text-3xl font-bold leading-tight tracking-[-0.03em] text-white md:text-5xl">
             무엇을 결정했고, 무엇이 달라졌는지 보여드립니다.

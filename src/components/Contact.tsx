@@ -158,9 +158,9 @@ const Contact = () => {
           transition={{ duration: 0.5 }}
           className="mb-8"
         >
-          <p className="font-body text-xs font-semibold tracking-[0.3em] text-[#ff6645]">채용·협업</p>
+          <p className="font-body text-xs font-semibold uppercase tracking-[0.3em] text-[#ff6645]">Contact</p>
           <h2 className="mt-4 font-display text-3xl font-bold tracking-[-0.03em] text-white md:text-5xl">
-            Contact
+            채용·협업
           </h2>
         </motion.div>
 

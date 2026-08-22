@@ -53,12 +53,12 @@ export interface FeaturedProject {
 
 export const flagshipProject: FeaturedProject = {
   id: "arkylab-ai-coach",
-  category: "Archi · 실사용 베타",
+  category: "아키 · 실사용 베타",
   period: "2026.06–진행 중",
   organizationLabel: "수행 주체",
-  organization: "Arkylab",
+  organization: "아키랩",
   involvement: { label: "담당 책임", value: "제품 기획·개발·사업·운영 전담" },
-  title: "운동 강사의 반복 기록 문제를 해결하는 AI 제품 Archi(아키)를 베타로 검증하고 있습니다.",
+  title: "운동 강사의 반복 기록 문제를 해결하는 AI 제품 아키를 베타로 검증하고 있습니다.",
   challenge: "운동 강사가 수업 기록과 회원 상태를 지속적으로 관리하기 어려운 문제를 확인했습니다.",
   action:
     "제품 기획·개발·사업·운영을 1인으로 전담했습니다. 회원의 운동 전 체형을 분석하고 싶다는 요청을 반영해 그리드 배경 촬영 기능을 추가했습니다.",
@@ -67,13 +67,13 @@ export const flagshipProject: FeaturedProject = {
   metrics: ["베타 참여자 6명", "2026.07–진행 중", "제품 전 과정 1인 전담"],
   tags: ["Codex", "Supabase", "1인 제품", "베타 검증"],
   link: {
-    label: "Archi 베타 보기",
+    label: "아키 베타 보기",
     href: "https://archi.best",
   },
   visual: {
-    title: "Archi 제품 자료",
+    title: "아키 제품 자료",
     type: "image",
-    alt: "Archi(아키) AI 기록 제품의 사용 흐름과 베타 검증 자료",
+    alt: "아키 AI 기록 제품의 사용 흐름과 베타 검증 자료",
     placeholderItems: ["제품 화면", "6명 베타 사용 흐름", "그리드 촬영 추가·시퀀스 제외 결정"],
   },
 };
@@ -179,14 +179,14 @@ export interface CareerExperience {
 
 export const careerExperiences: CareerExperience[] = [
   {
-    company: "Arkylab",
+    company: "아키랩",
     companyDesc: "AI 제품 개발·운영",
     title: "대표",
     period: "2026.06–진행 중",
     team: "",
-    description: "Archi(아키)를 운영하는 1인 사업자로 제품과 사업 전 과정을 맡고 있습니다.",
+    description: "아키를 운영하는 1인 사업자로 제품과 사업 전 과정을 맡고 있습니다.",
     achievements: [
-      "운동 강사를 위한 AI 기록 서비스 Archi(아키), 2026.07부터 참여자 6명과 베타 진행 중",
+      "운동 강사를 위한 AI 기록 서비스 아키, 2026.07부터 참여자 6명과 베타 진행 중",
       "트레바리 독서 커뮤니티를 위한 AI 솔루션 제작 및 운영",
       "부당한 정책에 대해 환불받을 수 있도록 지원하는 B2C 법률 서비스 제작 및 납품",
     ],

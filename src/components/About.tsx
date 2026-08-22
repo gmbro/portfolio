@@ -27,7 +27,7 @@ const About = () => {
           className="grid gap-8 lg:grid-cols-[0.72fr_1.28fr] lg:gap-16"
         >
           <div>
-            <p className="font-body text-xs font-semibold uppercase tracking-[0.3em] text-[#ff6645]">소개</p>
+            <p className="font-body text-xs font-semibold uppercase tracking-[0.3em] text-[#ff6645]">About</p>
             <h2 className="mt-4 max-w-xl break-words text-balance font-display text-3xl font-bold leading-tight tracking-[-0.03em] text-white md:text-4xl">
               제품의 시작부터 운영과 사업화까지, 서로 다른 문제를 맡아 왔습니다.
             </h2>

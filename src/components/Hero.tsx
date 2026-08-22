@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
+import { portfolioExperienceLogos } from "@/data/heroLogos";
 import { defaultHeroContent, type HeroContent } from "@/types/portfolio";
 
 export const portfolioHeroBackground =
@@ -7,6 +8,7 @@ export const portfolioHeroBackground =
 
 interface HeroProps {
   content?: HeroContent;
+  showExperienceLogos?: boolean;
 }
 
 const highlightHeadline = (line: string, highlight?: string) => {
@@ -22,7 +24,7 @@ const highlightHeadline = (line: string, highlight?: string) => {
   );
 };
 
-const Hero = ({ content = defaultHeroContent }: HeroProps) => {
+const Hero = ({ content = defaultHeroContent, showExperienceLogos = true }: HeroProps) => {
   const headlineLines = content.headline.split("\n").filter(Boolean);
   const stats = content.stats ?? [];
 
@@ -72,16 +74,18 @@ const Hero = ({ content = defaultHeroContent }: HeroProps) => {
           ))}
         </h1>
 
-        <motion.div
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.18 }}
-          className="mt-5 max-w-3xl space-y-1 break-words text-pretty font-body text-[0.95rem] leading-7 text-white/70 md:mt-6 md:text-lg md:leading-8"
-        >
-          {content.subcopy.map((line) => (
-            <p key={line}>{line}</p>
-          ))}
-        </motion.div>
+        {content.subcopy.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.18 }}
+            className="mt-5 max-w-3xl space-y-1 break-words text-pretty font-body text-[0.95rem] leading-7 text-white/70 md:mt-6 md:text-lg md:leading-8"
+          >
+            {content.subcopy.map((line) => (
+              <p key={line}>{line}</p>
+            ))}
+          </motion.div>
+        )}
 
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -128,10 +132,40 @@ const Hero = ({ content = defaultHeroContent }: HeroProps) => {
             ))}
           </motion.dl>
         )}
+
+        {showExperienceLogos && (
+          <div className="mt-7 w-full max-w-5xl md:mt-8">
+            <h2
+              id="hero-partner-title"
+              className="font-body text-xs font-semibold tracking-[0.08em] text-white/60 md:text-sm"
+            >
+              수행 프로젝트 협업사
+            </h2>
+            <ul
+              className="mt-6 grid grid-cols-2 gap-x-8 gap-y-8 sm:grid-cols-4 sm:gap-x-10 md:mt-7 md:gap-x-12 md:gap-y-10"
+              aria-labelledby="hero-partner-title"
+            >
+              {portfolioExperienceLogos.map((logo) => (
+                <li key={logo.id} className="flex h-12 min-w-0 items-center justify-center sm:h-16">
+                  <img
+                    data-hero-logo={logo.id}
+                    src={logo.src}
+                    alt={logo.alt}
+                    width={logo.width}
+                    height={logo.height}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-full w-full object-contain brightness-0 invert opacity-75"
+                  />
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
 
       <div className="absolute bottom-7 left-1/2 z-10 hidden -translate-x-1/2 items-center gap-2 text-white/55 md:flex">
-        <span className="font-body text-[10px] font-semibold uppercase tracking-[0.24em]">소개</span>
+        <span className="font-body text-[10px] font-semibold uppercase tracking-[0.24em]">About</span>
         <ChevronDown size={14} aria-hidden="true" />
       </div>
     </section>

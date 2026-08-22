@@ -13,13 +13,13 @@ const Experience = () => {
           className="mb-8 max-w-4xl md:mb-10"
         >
           <span className="font-body text-xs font-semibold uppercase tracking-[0.3em] text-[#ff6645]">
-            경력
+            Experience
           </span>
           <h2 className="mt-4 break-words text-balance font-display text-3xl font-bold leading-tight tracking-[-0.03em] text-white md:text-4xl">
             회사별 역할과 제품·운영의 맥락을 최신순으로 정리했습니다.
           </h2>
           <div className="mt-5 max-w-3xl space-y-2 break-words text-pretty font-body text-base leading-7 text-white/65 md:text-lg">
-            <p>2018년 이후 회사 경력은 정규직이었으며, 현재는 1인 사업자로 Archi(아키)를 운영하고 있습니다.</p>
+            <p>2018년 이후 회사 경력은 정규직이었으며, 현재는 1인 사업자로 아키를 운영하고 있습니다.</p>
             <p>2017년 Kakao Commerce 인턴 경험을 포함해 제품과 책임 범위가 어떻게 확장됐는지 보여드립니다.</p>
           </div>
         </motion.div>

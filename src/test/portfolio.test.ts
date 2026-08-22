@@ -130,10 +130,13 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
       roleLabel: "AI Product & Project Manager",
       headline: "AI 역량이 우수한 제너럴리스트로서\n고객의 문제를 제품으로 해결합니다.",
       highlight: "AI 역량",
-      subcopy: [
-        "제품의 제로투원과 350만 MAU 제품의 운영을 경험하고 제품 기획, 사업 개발, 퍼포먼스 마케팅 등 다양한 영역에서 역량을 키워왔습니다. B2B AI Project에 강점이 있으며 최근 직접 개발한 B2C Product로 헬스케어 데이터의 휘발성에 대한 문제를 풀고 있습니다.",
+      subcopy: [],
+      keywords: [
+        "프로덕트의 제로투원 경험",
+        "350만 MAU 제품 운영",
+        "B2B&B2G 프로젝트",
+        "B2C Product 기획·개발",
       ],
-      keywords: ["프로덕트의 제로투원 경험", "350만 MAU 제품 운영", "B2B&B2G 프로젝트"],
       stats: [
         { value: "5개", label: "수행 프로젝트" },
         { value: "3개", label: "프로덕트 기획 및 운영" },
@@ -150,7 +153,7 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
     expect(profile.name).toBe("이경민");
     expect(profile.role).toBe("AI Product Manager");
     expect(careerExperiences.map((experience) => experience.company)).toEqual([
-      "Arkylab",
+      "아키랩",
       "GenON",
       "Selectstar",
       "Adler",
@@ -168,7 +171,7 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
       "2017.05–2017.12",
     ]);
     expect(careerExperiences[0]).toMatchObject({
-      company: "Arkylab",
+      company: "아키랩",
       title: "대표",
       team: "",
     });
@@ -179,21 +182,21 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
     });
   });
 
-  it("Archi 제품과 Arkylab 운영 주체를 구분하고 실사용 학습을 보존한다", () => {
+  it("아키 제품과 아키랩 운영 주체를 구분하고 실사용 학습을 보존한다", () => {
     const [arkylab] = careerExperiences;
 
     expect(arkylab).toMatchObject({
-      company: "Arkylab",
+      company: "아키랩",
       period: "2026.06–진행 중",
-      description: "Archi(아키)를 운영하는 1인 사업자로 제품과 사업 전 과정을 맡고 있습니다.",
+      description: "아키를 운영하는 1인 사업자로 제품과 사업 전 과정을 맡고 있습니다.",
     });
     expect(flagshipProject).toMatchObject({
-      organization: "Arkylab",
-      category: "Archi · 실사용 베타",
+      organization: "아키랩",
+      category: "아키 · 실사용 베타",
       involvement: { label: "담당 책임", value: "제품 기획·개발·사업·운영 전담" },
-      link: { label: "Archi 베타 보기", href: "https://archi.best" },
+      link: { label: "아키 베타 보기", href: "https://archi.best" },
       metrics: ["베타 참여자 6명", "2026.07–진행 중", "제품 전 과정 1인 전담"],
-      visual: { alt: expect.stringContaining("Archi(아키)") },
+      visual: { alt: expect.stringContaining("아키") },
     });
     expect(flagshipProject.action).toContain("그리드 배경 촬영 기능");
     expect(flagshipProject.result).toContain("시퀀스");
@@ -230,7 +233,7 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
     );
   });
 
-  it("Archi 다음에 핵심 프로젝트를 사용자 지정 서사 순서로 배열한다", () => {
+  it("아키 다음에 핵심 프로젝트를 사용자 지정 서사 순서로 배열한다", () => {
     expect(portfolioProjects.map((project) => project.id)).toEqual([
       "arkylab-ai-coach",
       "nipa-vision-ai-poc",
@@ -250,7 +253,7 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
     expect(
       portfolioProjects.map((project) => `${project.organizationLabel}: ${project.organization}`),
     ).toEqual([
-      "수행 주체: Arkylab",
+      "수행 주체: 아키랩",
       "수행 회사: GenON · NIPA 지원 사업",
       "수행 회사: Selectstar · 프로젝트실",
       "수행 회사: Skelter Labs · 제품",
@@ -276,7 +279,10 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
       portfolioProjects,
     });
 
-    expect(serialized).toContain("Archi(아키)");
+    expect(serialized).toContain("아키");
+    expect(serialized).toContain("아키랩");
+    expect(serialized).not.toContain("Archi");
+    expect(serialized).not.toContain("Arkylab");
     expect(serialized).not.toMatch(/(^|[^A-Za-z])Arky([^A-Za-z]|$)/);
     expect(serialized).not.toContain("9년차");
     expect(serialized).not.toMatch(/클래스팅|Classting/i);
