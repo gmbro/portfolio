@@ -9,7 +9,7 @@ import TypebotBubble from "@/components/TypebotBubble";
 import AnalyticsConsentBanner from "@/components/AnalyticsConsent";
 import PortfolioAmbient from "@/components/PortfolioAmbient";
 import { setAnalyticsRouteEnabled } from "@/lib/analytics";
-import type { HeroContent } from "@/types/portfolio";
+import { defaultHeroContent, type HeroContent } from "@/types/portfolio";
 
 interface IndexProps {
   heroContent?: HeroContent;
@@ -17,6 +17,8 @@ interface IndexProps {
 }
 
 const Index = ({ heroContent, analyticsEnabled = false }: IndexProps) => {
+  const isDefaultPortfolio = heroContent === undefined;
+
   useLayoutEffect(() => {
     setAnalyticsRouteEnabled(analyticsEnabled);
     return () => setAnalyticsRouteEnabled(false);
@@ -33,8 +35,12 @@ const Index = ({ heroContent, analyticsEnabled = false }: IndexProps) => {
       </a>
       <Navbar />
       <main id="main-content" className="relative z-10" tabIndex={-1}>
-        <Hero content={heroContent} showExperienceLogos={heroContent === undefined} />
-        <About />
+        <Hero
+          content={heroContent}
+          showExperienceLogos={isDefaultPortfolio}
+          showKeywords={!isDefaultPortfolio}
+        />
+        <About keywords={isDefaultPortfolio ? defaultHeroContent.keywords : undefined} />
         <ImageCards />
         <Experience />
         <Contact />

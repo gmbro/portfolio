@@ -18,7 +18,11 @@ const productCapabilities = [
   },
 ];
 
-const About = () => {
+interface AboutProps {
+  keywords?: readonly string[];
+}
+
+const About = ({ keywords = [] }: AboutProps) => {
   const prefersReducedMotion = useReducedMotion();
 
   return (
@@ -37,6 +41,18 @@ const About = () => {
             <h2 className="mt-4 max-w-xl break-words text-balance font-display text-[1.75rem] font-bold leading-tight tracking-[-0.03em] text-white sm:text-3xl md:text-4xl">
               저는 제너럴리스트이자 AI 스페셜리스트입니다.
             </h2>
+            {keywords.length > 0 && (
+              <div aria-label="핵심 역량" className="mt-5 flex max-w-2xl flex-wrap gap-2 md:mt-6">
+                {keywords.map((keyword) => (
+                  <span
+                    key={keyword}
+                    className="max-w-full break-words rounded-full border border-white/12 bg-white/[0.04] px-4 py-2 font-body text-xs font-semibold text-white/80 md:text-sm"
+                  >
+                    {keyword}
+                  </span>
+                ))}
+              </div>
+            )}
             <figure
               data-about-portrait
               className="mt-8 flex justify-center sm:mt-9 lg:justify-start"
@@ -49,7 +65,7 @@ const About = () => {
                   height={548}
                   loading="lazy"
                   decoding="async"
-                  className="h-full w-full rounded-full object-cover object-center grayscale contrast-[1.06] brightness-[0.96]"
+                  className="h-full w-full rounded-full object-cover object-center"
                 />
               </div>
             </figure>

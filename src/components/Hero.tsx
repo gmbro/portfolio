@@ -10,6 +10,7 @@ export const portfolioHeroBackground =
 interface HeroProps {
   content?: HeroContent;
   showExperienceLogos?: boolean;
+  showKeywords?: boolean;
 }
 
 const highlightHeadline = (line: string, highlight?: string | string[]) => {
@@ -35,7 +36,11 @@ const highlightHeadline = (line: string, highlight?: string | string[]) => {
   );
 };
 
-const Hero = ({ content = defaultHeroContent, showExperienceLogos = false }: HeroProps) => {
+const Hero = ({
+  content = defaultHeroContent,
+  showExperienceLogos = false,
+  showKeywords = true,
+}: HeroProps) => {
   const headlineLines = content.headline.split("\n").filter(Boolean);
   const stats = content.stats ?? [];
   const summaryLabels = ["Portfolio", content.roleLabel, content.careerLabel].filter(
@@ -106,22 +111,24 @@ const Hero = ({ content = defaultHeroContent, showExperienceLogos = false }: Her
           </motion.div>
         )}
 
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.25 }}
-          className="mt-5 flex flex-wrap gap-2 md:mt-6"
-          aria-label="핵심 역량"
-        >
-          {content.keywords.map((keyword) => (
-            <span
-              key={keyword}
-              className="max-w-full break-words rounded-full border border-white/12 bg-white/[0.04] px-4 py-2 font-body text-xs font-semibold text-white/80 md:text-sm"
-            >
-              {keyword}
-            </span>
-          ))}
-        </motion.div>
+        {showKeywords && (
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.25 }}
+            className="mt-5 flex flex-wrap gap-2 md:mt-6"
+            aria-label="핵심 역량"
+          >
+            {content.keywords.map((keyword) => (
+              <span
+                key={keyword}
+                className="max-w-full break-words rounded-full border border-white/12 bg-white/[0.04] px-4 py-2 font-body text-xs font-semibold text-white/80 md:text-sm"
+              >
+                {keyword}
+              </span>
+            ))}
+          </motion.div>
+        )}
 
         {stats.length > 0 && (
           <motion.dl
@@ -139,14 +146,14 @@ const Hero = ({ content = defaultHeroContent, showExperienceLogos = false }: Her
             {stats.map((stat) => (
               <div
                 key={`${stat.value}-${stat.label}`}
-                className="flex min-h-[7.5rem] min-w-0 flex-col justify-between rounded-2xl border border-white/10 bg-[#111111]/90 px-3 py-4 shadow-[0_16px_60px_rgba(0,0,0,.25)] md:min-h-[7.875rem] md:rounded-3xl md:px-6 md:py-6"
+                className="flex min-h-[7.5rem] min-w-0 flex-col rounded-2xl border border-white/10 bg-[#111111]/90 px-3 py-4 shadow-[0_16px_60px_rgba(0,0,0,.25)] [container-type:inline-size] md:min-h-[10rem] md:rounded-3xl md:px-6 md:py-6"
               >
-                <dt className="order-2 mt-2 break-keep font-body text-[10px] font-medium leading-4 text-white/55 [overflow-wrap:break-word] sm:text-xs md:text-sm md:leading-5">
+                <dt className="min-h-8 break-keep font-body text-[10px] font-medium leading-4 text-white/55 [overflow-wrap:break-word] sm:text-xs md:min-h-5 md:text-sm md:leading-5">
                   {stat.label}
                 </dt>
                 <dd
                   data-stat-value={stat.value}
-                  className="order-1 break-words font-display text-[1.35rem] font-extrabold leading-none tracking-[-0.03em] text-white sm:text-3xl md:text-5xl"
+                  className="mt-1 flex min-h-0 flex-1 items-center whitespace-nowrap font-display text-[clamp(2rem,30cqi,5.5rem)] font-extrabold leading-[0.9] tracking-[-0.05em] text-white [font-variant-numeric:tabular-nums] md:mt-2"
                 >
                   <CountUpValue value={stat.value} />
                 </dd>

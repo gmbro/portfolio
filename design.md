@@ -4,8 +4,8 @@
 
 ## 정보 구조
 
-1. Hero: `Portfolio` · `AI Product Manager` · `7 years of experience` 독립 라벨, 고객 문제 해결 서사, 핵심 경험 태그·확인 수치·협업사 로고. Hero 내부 CTA는 두지 않는다.
-2. About: `저는 제너럴리스트이자 AI 스페셜리스트입니다.` 아래 사용자 제공 인물 이미지와 문제 정의 → 우선순위 → 결과 검증의 제품 접근 방식
+1. Hero: `Portfolio` · `AI Product Manager` · `7 years of experience` 독립 라벨, 고객 문제 해결 서사, 확인 수치·협업사 로고. Hero 내부 CTA는 두지 않는다.
+2. About: `저는 제너럴리스트이자 AI 스페셜리스트입니다.` 아래 핵심 경험 태그 4개·사용자 제공 인물 이미지와 문제 정의 → 우선순위 → 결과 검증의 제품 접근 방식
 3. Projects: `기여도가 높은 프로젝트를 소개합니다.` 아래 문제 → 판단·실행 → 성과 → 본인 책임 → 공개 가능한 시각 자료
 4. Experience: Adler를 제외한 최신순 타임라인 6개, 기간별 재직 개월 배지와 선호 조직 방향
 5. Contact: 다른 섹션과 동일한 왼쪽 축에 `Contact` eyebrow와 `채용·협업` 제목, 모바일·태블릿에서는 읽기 폭 `max-w-3xl`, 데스크톱에서는 섹션 컨테이너 폭을 사용하는 문의 폼
@@ -31,18 +31,18 @@
 - Navbar는 `Kyoungmin Lee`를 영문 브랜드로 표시한다. 이름·포트폴리오 정체성은 Navbar가 담당해 Hero 안에서 반복하지 않는다.
 - Hero 상단은 `Portfolio`, `AI Product Manager`, `7 years of experience`를 각각 독립 배지로 표시한다. 모바일에서는 배지 내부가 아니라 배지 사이에서만 줄바꿈한다.
 - 헤드라인은 `고객의 문제를 제품으로 해결합니다.` 한 문장으로 구성하고, `고객`과 `제품`을 코럴로 강조한다.
-- Hero 설명 문단은 노출하지 않고 헤드라인 다음에 경험 태그를 바로 배치한다.
-- 경험 태그는 `프로덕트의 제로투원 경험`, `350만 MAU 제품 운영`, `B2B&B2G 프로젝트`, `B2C Product 기획·개발`을 사용한다.
-- 지표는 `5+ / 수행 프로젝트`, `3+ / 제품 기획.운영`, `28억 / 매출 기여`를 표시한다. 세 값은 사용자 직접 확인값이며 별도 프로젝트·기간·매출 유형으로 임의 확장하지 않는다.
+- Hero 설명 문단은 노출하지 않고 헤드라인 다음에 확인 수치를 바로 배치한다.
+- 기본 페이지의 경험 태그는 About 제목 아래로 이동해 `프로덕트의 제로투원 경험`, `350만 MAU 제품 운영`, `B2B&B2G 프로젝트`, `B2C Product 기획·개발`을 표시한다. 회사별 맞춤 Hero의 검증된 키워드 3개는 Hero에 유지한다.
+- 지표는 상단 label·하단 숫자 순으로 `수행 프로젝트 / 5+`, `제품 기획.운영 / 3+`, `매출 기여 / 28억`을 표시한다. 숫자는 카드별 inline-size container 기준 `clamp()`로 확대하며, 세 값은 사용자 직접 확인값이므로 별도 프로젝트·기간·매출 유형으로 임의 확장하지 않는다.
 - 지표의 숫자는 새로고침 뒤 `0`에서 최종값까지 약 1.6초 동안 한 번만 증가한다. 숫자 폭은 tabular number로 안정화하고, 스크린리더에는 최종값만 제공한다.
-- 지표 아래에는 별도 `Project partner company` 제목 없이 NIPA → 부산광역시 → LG유플러스 → KISA → 네오사피엔스 → NHN Cloud → Syrup Wallet → Fixness 순서의 투명 단색 로고를 표시한다. 모바일·태블릿은 4×2, 데스크톱은 8×1 compact grid를 사용하고 회사별 맞춤 Hero에는 노출하지 않는다.
+- 지표 아래에는 별도 `Project partner company` 제목 없이 NIPA → 네오사피엔스 → LG유플러스 → KISA → 부산광역시 → Syrup Wallet → NHN Cloud → Fixness 순서의 투명 단색 로고를 표시한다. 모바일·태블릿은 4×2, 데스크톱은 8×1 compact grid를 사용하고 회사별 맞춤 Hero에는 노출하지 않는다.
 - Hero는 콘텐츠가 잘리지 않는 범위에서 `min(100svh, 52rem)` 높이를 사용해 세로가 긴 화면에서도 다음 About 영역이 이어져 보이게 한다.
 - Hero에는 프로젝트 버튼과 챗봇 버튼을 모두 두지 않는다. 챗봇은 Navbar의 얼굴 이미지가 있는 `이경민 AI` 하나로만 연다.
 
 ## 이미지·차트 영역
 
 - About 인물 이미지는 왼쪽 제목 아래 독립 요소로 배치한다. 모바일은 176px, `sm`은 208px, 데스크톱은 약 272px이며 모바일 중앙·데스크톱 왼쪽 정렬을 사용한다.
-- About 인물 원본은 548×548px 투명 PNG다. 무채색·중립 배경 위에 `object-cover object-center`, 명시적 width/height, `loading="lazy"`, `decoding="async"`로 정사각형 영역을 안정적으로 채운다. 본문 배경이나 경력 증거 이미지로 사용하지 않는다.
+- About 인물 원본은 548×548px 투명 PNG다. 별도 grayscale·contrast·brightness 보정 없이 원본 컬러와 `object-cover object-center`, 명시적 width/height, `loading="lazy"`, `decoding="async"`로 정사각형 영역을 안정적으로 채운다. 본문 배경이나 경력 증거 이미지로 사용하지 않는다.
 - 프로젝트는 모든 화면 폭에서 한 행에 하나씩 배치한다. 증거 이미지 영역은 프로젝트 카드 폭 전체를 사용하고 4:3 고정 프레임 안에서 `object-contain`으로 원본을 자르지 않는다.
 - 모든 증거 이미지는 `evidence-images.md`에 따라 권장 4:3, 1600×1200px PNG로 제작해 `public/evidence/<project-id>/` 또는 공개 Supabase Storage URL에 등록한다.
 - 초기에는 `증거 이미지 준비 중`만 표시하고 필요한 공개 자료의 3줄 목록은 노출하지 않는다.

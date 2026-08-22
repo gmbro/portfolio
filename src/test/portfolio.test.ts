@@ -200,7 +200,7 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
       description: "1인 사업자로 헬스케어·커뮤니티·법률 서비스를 개발해 운영하고 있습니다.",
     });
     expect(flagshipProject).toMatchObject({
-      organization: "아키랩",
+      organization: "아키랩, FIXNESS",
       category: "아키 · 실사용 베타",
       involvement: { label: "담당 책임", value: "제품 기획·개발·사업·운영 전담" },
       link: { label: "아키 베타 보기", href: "https://archi.best" },
@@ -301,7 +301,7 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
     expect(
       portfolioProjects.map((project) => `${project.organizationLabel}: ${project.organization}`),
     ).toEqual([
-      "수행 주체: 아키랩",
+      "수행 주체: 아키랩, FIXNESS",
       "수행 회사: GenON · NIPA 지원사업 AI 바우처",
       "수행 회사: 셀렉터스타 · LG유플러스",
       "수행 회사: 스켈터랩스 · 네오사피엔스",
@@ -357,7 +357,7 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
         id: "arkylab-ai-coach",
         category: "아키 · 실사용 베타",
         title: "운동 강사를 위한 AI 기록 솔루션",
-        organization: "아키랩",
+        organization: "아키랩, FIXNESS",
         involvement: "제품 기획·개발·사업·운영 전담",
         metrics: ["베타 참여자 15명", "2026.06–진행 중", "제품 전 과정 1인 전담"],
       },

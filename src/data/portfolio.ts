@@ -56,7 +56,7 @@ export const flagshipProject: FeaturedProject = {
   category: "아키 · 실사용 베타",
   period: "2026.06–진행 중",
   organizationLabel: "수행 주체",
-  organization: "아키랩",
+  organization: "아키랩, FIXNESS",
   involvement: { label: "담당 책임", value: "제품 기획·개발·사업·운영 전담" },
   title: "운동 강사를 위한 AI 기록 솔루션",
   challenge:

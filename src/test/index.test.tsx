@@ -66,8 +66,11 @@ describe("기본 포트폴리오 정보 구조", () => {
       Array.from(hero?.querySelectorAll("h1 > span > span") ?? []).map((part) => part.textContent),
     ).toEqual(["고객", "제품"]);
     expect(within(hero as HTMLElement).queryByText("제품의 제로투원과 350만 MAU 제품의 운영을 경험하고 제품 기획, 사업 개발, 퍼포먼스 마케팅 등 다양한 영역에서 역량을 키워왔습니다. B2B AI Project에 강점이 있으며 최근 직접 개발한 B2C Product로 헬스케어 데이터의 휘발성에 대한 문제를 풀고 있습니다.")).not.toBeInTheDocument();
+    expect(hero?.querySelector('[aria-label="핵심 역량"]')).not.toBeInTheDocument();
     expect(
-      Array.from(hero?.querySelectorAll('[aria-label="핵심 역량"] span') ?? []).map((keyword) => keyword.textContent),
+      Array.from(about?.querySelectorAll('[aria-label="핵심 역량"] span') ?? []).map(
+        (keyword) => keyword.textContent,
+      ),
     ).toEqual([
       "프로덕트의 제로투원 경험",
       "350만 MAU 제품 운영",
@@ -77,7 +80,8 @@ describe("기본 포트폴리오 정보 구조", () => {
     expect(within(hero as HTMLElement).queryByText("대표 프로젝트를 직접 살펴보거나, AI에게 필요한 경력 근거를 물어보세요.")).not.toBeInTheDocument();
     expect(within(hero as HTMLElement).queryAllByRole("button")).toHaveLength(0);
     expect(within(hero as HTMLElement).queryByText("프로젝트 증거 보기")).not.toBeInTheDocument();
-    expect(Array.from(hero?.querySelectorAll("dl > div") ?? []).map((card) => ({
+    const statCards = Array.from(hero?.querySelectorAll("dl > div") ?? []);
+    expect(statCards.map((card) => ({
       value: card.querySelector<HTMLElement>("[data-stat-final-value]")?.dataset.statFinalValue,
       label: card.querySelector("dt")?.textContent,
     }))).toEqual([
@@ -85,6 +89,12 @@ describe("기본 포트폴리오 정보 구조", () => {
       { value: "3+", label: "제품 기획.운영" },
       { value: "28억", label: "매출 기여" },
     ]);
+    statCards.forEach((card) => {
+      expect(card.firstElementChild?.tagName).toBe("DT");
+      expect(card.lastElementChild?.tagName).toBe("DD");
+      expect(card.querySelector("dt")).not.toHaveClass("order-2");
+      expect(card.querySelector("dd")).not.toHaveClass("order-1");
+    });
     expect(
       Array.from(hero?.querySelectorAll<HTMLElement>("[data-count-up-target]") ?? []).map(
         (value) => value.dataset.countUpTarget,
@@ -98,7 +108,7 @@ describe("기본 포트폴리오 정보 구조", () => {
       Array.from(hero?.querySelectorAll<HTMLElement>("[data-hero-logo]") ?? []).map(
         (logo) => logo.dataset.heroLogo,
       ),
-    ).toEqual(["nipa", "busan", "lg", "kisa", "neo", "nhn", "syrup", "fixness"]);
+    ).toEqual(["nipa", "neo", "lg", "kisa", "busan", "syrup", "nhn", "fixness"]);
     expect(screen.queryByRole("heading", { name: "역량을 선택해 연결된 프로젝트 증거를 확인하세요." })).not.toBeInTheDocument();
     expect(container.querySelector(".portfolio-ambient")).toBeInTheDocument();
     expect(container.querySelector<HTMLImageElement>("#hero .portfolio-hero__media")?.src).toBe(
@@ -120,7 +130,8 @@ describe("기본 포트폴리오 정보 구조", () => {
     expect(aboutPortrait).toHaveAttribute("height", "548");
     expect(aboutPortrait).toHaveAttribute("loading", "lazy");
     expect(aboutPortrait).toHaveAttribute("decoding", "async");
-    expect(aboutPortrait).toHaveClass("object-cover", "grayscale");
+    expect(aboutPortrait).toHaveClass("object-cover");
+    expect(aboutPortrait).not.toHaveClass("grayscale", "contrast-[1.06]", "brightness-[0.96]");
     expect(aboutPortrait.closest("[data-about-portrait]")).toBeInTheDocument();
     expect(screen.getByText("제품과 기술은 수단입니다. 중요한 것은 고객의 문제를 얼마나 효과적으로 푸는가입니다.")).toBeInTheDocument();
     expect(screen.getByText("현장 피드백과 인터뷰를 통해 문제를 탐색하고, 우리 조직이 해결할 수 있는 문제에 집중합니다.")).toBeInTheDocument();
@@ -248,6 +259,12 @@ describe("기본 포트폴리오 정보 구조", () => {
       "맞춤형 Product Manager",
       "검증 경력",
     ]);
+    expect(
+      Array.from(hero?.querySelectorAll('[aria-label="핵심 역량"] span') ?? []).map(
+        (keyword) => keyword.textContent,
+      ),
+    ).toEqual(["문제 정의", "제품 실행", "성과 검증"]);
+    expect(container.querySelector('#about [aria-label="핵심 역량"]')).not.toBeInTheDocument();
     expect(hero?.querySelectorAll("[data-hero-logo]")).toHaveLength(0);
   });
 });
