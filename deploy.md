@@ -1435,7 +1435,26 @@ Hero·About·프로젝트 CAR·경력·Contact의 승인 카피와 수치는 이
 
 #### 배포 후 실제 URL 점검
 
-배포 후 기록한다.
+- 기능 배포 커밋: `5928954` (`Finalize portfolio evidence and security hardening`)
+- GitHub Pages Actions: `32609386948`, `completed / success`
+- Actions URL: `https://github.com/gmbro/portfolio/actions/runs/32609386948`
+- 실제 URL: `https://archilab.ai.kr/`
+
+| 항목 | 390×844 | 768×900 | 1440×900 |
+|---|---:|---:|---:|
+| clientWidth / scrollWidth | `375 / 375` | `753 / 753` | `1425 / 1425` |
+| 문서 높이 | `12,973px` | `11,810px` | `12,222px` |
+| 아키 article clientWidth / scrollWidth | `325 / 325` | `655 / 655` | `1278 / 1278` |
+| 아키 프레임 | `275×235.71px`, 7:6 | `589×504.85px`, 7:6 | `1196×1025.14px`, 7:6 |
+| 첫 이미지 | 새 `arky/1.png`, `1600×1200`, `contain` | 동일 | 동일 |
+| 최초 Typebot host | `0` | `0` | `0` |
+| 전역 가로 오버플로 / console warning·error | `0 / 0` | `0 / 0` | `0 / 0` |
+
+- 캐시 우회 쿼리로 세 너비를 다시 열어 이전 `arky1~3.png` 요청 `0`, 새 `arky/1.png` 로드와 `프로 · 사업 개발`, `제품 기획·운영` 최신 카피를 확인했다.
+- 1440px 실제 URL에서 활성 이미지가 약 4.3초 뒤 `arky/1.png → arky/2.png`로 전환됐다.
+- 390px 실제 URL에서 Typebot은 클릭 전 `0`, 클릭 후 `1`이고 전역 scrollWidth는 그대로 `375px`다.
+- 실제 브라우저 console warning/error `0`, 세 너비 모두 전역 가로 오버플로 `0`이다.
+- 배포 판정: 통과. 차단 문제 없음.
 
 ---
 
