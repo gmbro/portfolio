@@ -24,7 +24,7 @@ const Experience = () => {
           <div className="mt-5 max-w-3xl break-words text-pretty font-body text-base leading-7 text-white/65 md:text-lg">
             <p>
               커머스, 데이터, 클라우드·공공 SaaS, 헬스케어 제품 개발까지 다양한 도메인에서
-              제품기획·사업개발·프로젝트 운영을 수행하며 고객의 시간과 비용을 줄이는 일에 집중해왔습니다.
+              제품 기획·사업 개발·프로젝트 운영을 수행하며 고객의 시간과 비용을 줄이는 일에 집중해왔습니다.
             </p>
           </div>
         </motion.div>

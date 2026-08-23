@@ -32,7 +32,11 @@ const ProjectVisual = ({ project }: { project: FeaturedProject }) => {
 
   return (
     <div data-visual-slot={project.title}>
-      <EvidenceMediaGallery projectTitle={visual.title} items={items} />
+      <EvidenceMediaGallery
+        projectTitle={visual.title}
+        items={items}
+        frameAspectRatio={visual.frameAspectRatio}
+      />
     </div>
   );
 };
@@ -84,7 +88,10 @@ const ProjectCard = ({ project, index }: { project: FeaturedProject; index: numb
             >
               {project.title}
             </h3>
-            <p className="shrink-0 whitespace-nowrap font-body text-xs font-medium tracking-[0.01em] text-white/55">
+            <p
+              data-project-period="true"
+              className="shrink-0 whitespace-nowrap font-body text-sm font-medium leading-6 tracking-[0.01em] text-white/70 md:text-base md:leading-7"
+            >
               <span className="sr-only">프로젝트 기간 </span>
               {project.period}
             </p>
@@ -126,12 +133,12 @@ const ProjectCard = ({ project, index }: { project: FeaturedProject; index: numb
           <a
             href={project.link.href}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             data-chat-exclusion="true"
             onClick={() => {
               if (project.id === "arkylab-ai-coach") trackPortfolioEvent("select_content");
             }}
-            aria-label={project.id === "arkylab-ai-coach" ? "베타서비스 보기, 새 창에서 열기" : undefined}
+            aria-label={project.id === "arkylab-ai-coach" ? "베타 서비스 보기, 새 창에서 열기" : undefined}
             className="inline-flex min-h-11 items-center gap-2 rounded-full border border-white/15 px-4 py-2 font-body text-xs font-bold text-white transition-colors hover:border-[#ff6645]/60 hover:text-[#ff8a70] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6645]"
           >
             {project.link.label}

@@ -141,7 +141,11 @@ const LinkManager = () => {
       },
     });
 
-    setAuthMessage(error ? error.message : "로그인 링크를 이메일로 보냈습니다.");
+    setAuthMessage(
+      error
+        ? "로그인 요청을 처리하지 못했습니다. 잠시 후 다시 시도해 주세요."
+        : "로그인 링크를 이메일로 보냈습니다.",
+    );
   };
 
   if (!isSupabaseConfigured) {
@@ -155,7 +159,7 @@ const LinkManager = () => {
           <p className="text-sm font-semibold text-primary">PRIVATE ADMIN</p>
           <h1 className="mt-2 text-3xl font-extrabold">포트폴리오 링크 관리</h1>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-            소유자 이메일로 받은 로그인 링크를 사용합니다. 이 화면은 검색엔진에 노출되지 않습니다.
+            소유자 이메일로 받은 로그인 링크를 사용합니다. 이 화면은 검색 엔진에 노출되지 않습니다.
           </p>
           <Input
             className="mt-7"
@@ -225,7 +229,7 @@ const LinkManager = () => {
                       <Copy className="mr-2 h-4 w-4" /> 링크 복사
                     </Button>
                     <Button variant="outline" asChild>
-                      <a href={publicUrl} target="_blank" rel="noreferrer">
+                      <a href={publicUrl} target="_blank" rel="noopener noreferrer">
                         <ExternalLink className="mr-2 h-4 w-4" /> 미리보기
                       </a>
                     </Button>

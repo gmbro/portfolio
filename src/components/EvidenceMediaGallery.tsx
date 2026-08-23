@@ -29,6 +29,7 @@ export interface EvidenceMediaItem {
 export interface EvidenceMediaGalleryProps {
   projectTitle: string;
   items?: readonly EvidenceMediaItem[];
+  frameAspectRatio?: "4:3" | "7:6";
   className?: string;
 }
 
@@ -56,6 +57,7 @@ const slideVariants = {
 const EvidenceMediaGallery = ({
   projectTitle,
   items = [],
+  frameAspectRatio = "4:3",
   className = "",
 }: EvidenceMediaGalleryProps) => {
   const instanceId = useId().replace(/:/g, "");
@@ -344,10 +346,11 @@ const EvidenceMediaGallery = ({
   const autoplayStatus = prefersReducedMotion
     ? "모션 감소 설정으로 자동 넘김이 꺼져 있습니다."
     : userPaused
-      ? "자동 넘김이 일시정지되었습니다."
+      ? "자동 넘김이 일시 정지되었습니다."
       : pointerPaused || focusPaused || lightboxOpen
         ? "이미지를 살펴보는 동안 자동 넘김이 멈춥니다."
         : "4초마다 다음 증거 이미지로 자동 이동합니다.";
+  const frameClassName = frameAspectRatio === "7:6" ? "aspect-[7/6]" : "aspect-[4/3]";
 
   return (
     <section
@@ -378,8 +381,8 @@ const EvidenceMediaGallery = ({
       ) : (
         <div className="min-w-0" data-evidence-media-state="ready">
           <div
-            className="relative aspect-[4/3] min-w-0 overflow-hidden bg-black/40"
-            data-evidence-media-frame="4:3"
+            className={`relative min-w-0 overflow-hidden bg-black/40 ${frameClassName}`}
+            data-evidence-media-frame={frameAspectRatio}
             aria-live="off"
           >
             <motion.figure
@@ -432,11 +435,11 @@ const EvidenceMediaGallery = ({
               <button
                 type="button"
                 className="absolute right-3 top-3 z-10 inline-flex min-h-11 items-center justify-center rounded-full border border-white/20 bg-black/75 px-4 font-body text-[11px] font-bold text-white backdrop-blur-sm motion-safe:transition-colors motion-reduce:transition-none hover:border-[#ff6645]/60 hover:text-[#ff8a70] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6645]"
-                aria-label={userPaused ? "자동 넘김 재생" : "자동 넘김 일시정지"}
+                aria-label={userPaused ? "자동 넘김 재생" : "자동 넘김 일시 정지"}
                 aria-pressed={userPaused}
                 onClick={toggleUserPaused}
               >
-                {userPaused ? "재생" : "일시정지"}
+                {userPaused ? "재생" : "일시 정지"}
               </button>
             )}
           </div>

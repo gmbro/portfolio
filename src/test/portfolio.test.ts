@@ -136,7 +136,7 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
       keywords: ["AI", "Product", "Project", "B2B", "B2C"],
       stats: [
         { value: "5+", label: "수행 프로젝트" },
-        { value: "3+", label: "제품 기획.운영" },
+        { value: "3+", label: "제품 기획·운영" },
         { value: "13억", label: "매출 기여" },
       ],
     });
@@ -180,7 +180,7 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
     });
     expect(careerExperiences[1]).toMatchObject({
       company: "GenON",
-      title: "프로.사업개발",
+      title: "프로 · 사업 개발",
       team: "",
     });
   });
@@ -196,34 +196,37 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
     });
     expect(flagshipProject).toMatchObject({
       organization: "아키랩, FIXNESS",
-      category: "제품, 베타서비스",
+      category: "제품, 베타 서비스",
       involvement: { label: "담당 업무", value: "제품 기획·개발·사업·운영 전담" },
-      link: { label: "베타서비스 보기", href: "https://archi.best" },
-      metrics: ["제품 개발", "사업 제휴", "베타서비스 운영"],
-      visual: { alt: expect.stringContaining("아키") },
+      link: { label: "베타 서비스 보기", href: "https://archi.best" },
+      metrics: ["제품 개발", "사업 제휴", "베타 서비스 운영"],
+      visual: { alt: expect.stringContaining("아키"), frameAspectRatio: "7:6" },
     });
     expect(flagshipProject.visual?.placeholderItems).toEqual([]);
     expect(flagshipProject.visual?.items).toEqual([
       expect.objectContaining({
-        id: "arky-product-flow",
-        src: expect.stringContaining("/arky/arky1.png"),
-        alt: expect.stringContaining("수업 캘린더"),
-        width: 1809,
-        height: 1311,
+        id: "arky-motion-tracking",
+        src: expect.stringContaining("/arky/1.png"),
+        alt: expect.stringContaining("관절 추적선"),
+        width: 1600,
+        height: 1200,
+        kind: "evidence",
       }),
       expect.objectContaining({
-        id: "arky-recording-proof",
-        src: expect.stringContaining("/arky/arky2.png"),
-        alt: expect.stringContaining("수업 기록 영상"),
-        width: 1355,
-        height: 1311,
+        id: "arky-product-screens",
+        src: expect.stringContaining("/arky/2.png"),
+        alt: expect.stringContaining("모바일 화면 3종"),
+        width: 1600,
+        height: 1200,
+        kind: "evidence",
       }),
       expect.objectContaining({
-        id: "arky-user-manual",
-        src: expect.stringContaining("/arky/arky3.png"),
-        alt: expect.stringContaining("이용 매뉴얼"),
-        width: 1784,
-        height: 1311,
+        id: "arky-report-sharing",
+        src: expect.stringContaining("/arky/3.png"),
+        alt: expect.stringContaining("수업 기록 공유"),
+        width: 1600,
+        height: 1200,
+        kind: "evidence",
       }),
     ]);
     expect(flagshipProject.visual?.items?.every((item) => item.caption === undefined)).toBe(true);
@@ -231,7 +234,7 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
     expect(flagshipProject.action).toContain("자세 변화");
     expect(flagshipProject.action).toContain("강사와 회원");
     expect(flagshipProject.result).toContain("15명");
-    expect(flagshipProject.result).toContain("교정운동 전후 비교");
+    expect(flagshipProject.result).toContain("교정 운동 전후 비교");
     expect(flagshipProject.result).toContain("1인 개발");
     expect(flagshipProject.result).toContain("회원 공유");
     expect(flagshipProject.result).toContain("SaaS");
@@ -276,7 +279,7 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
       "70% 이상 절감",
     );
     expect(careerExperiences.find(({ company }) => company === "GenON")?.tags).toContain(
-      "B2B · B2G",
+      "B2B·B2G",
     );
   });
 
@@ -354,16 +357,16 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
     ).toEqual([
       {
         id: "arkylab-ai-coach",
-        category: "제품, 베타서비스",
+        category: "제품, 베타 서비스",
         title: "운동 강사를 위한 AI 기록 솔루션",
         organization: "아키랩, FIXNESS",
         involvement: "제품 기획·개발·사업·운영 전담",
-        metrics: ["제품 개발", "사업 제휴", "베타서비스 운영"],
+        metrics: ["제품 개발", "사업 제휴", "베타 서비스 운영"],
       },
       {
         id: "nipa-vision-ai-poc",
         category: "Vision AI · 프로젝트 관리",
-        title: "AI Vision 기반 신발 아웃솔 품질검사 효율화 프로젝트",
+        title: "AI Vision 기반 신발 아웃솔 품질 검사 효율화 프로젝트",
         organization: "GenON · NIPA 지원사업 AI 바우처",
         involvement: "제안서·산출물·프로젝트 관리",
         metrics: ["제안서 작성", "PoC·산출물 관리"],
@@ -394,19 +397,6 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
       },
     ]);
 
-    const conceptMockupProjects = featuredProjects.filter(({ id }) => id === "nipa-vision-ai-poc");
-    for (const project of conceptMockupProjects) {
-      expect(project.visual?.placeholderItems).toEqual([]);
-      expect(project.visual?.items).toHaveLength(1);
-      expect(project.visual?.items?.[0]).toMatchObject({
-        src: `/evidence/${project.id}/mockup-overview.png`,
-        alt: expect.stringContaining("개념 목업"),
-        width: 1600,
-        height: 1200,
-        kind: "concept-mockup",
-      });
-    }
-
     const nipa = portfolioProjects.find(({ id }) => id === "nipa-vision-ai-poc");
     const selectstar = portfolioProjects.find(({ id }) => id === "selectstar-stt-operations");
     const skelter = portfolioProjects.find(({ id }) => id === "skelter-ai-counselor");
@@ -414,6 +404,38 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
     expect(nipa?.challenge).toContain("작업자 편차");
     expect(nipa?.action).toContain("NIPA AI 바우처");
     expect(nipa?.result).toContain("사업비 정산");
+    expect(nipa?.visual?.placeholderItems).toEqual([]);
+    expect(nipa?.visual?.frameAspectRatio).toBe("7:6");
+    expect(nipa?.visual?.items).toEqual([
+      {
+        id: "nipa-vision-ai-test-report",
+        src: "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/pratama/1.png",
+        alt: "정확도·재현율·처리 속도의 시험 결과가 적합으로 표시된 AI 바우처 시험 성적서",
+        width: 1600,
+        height: 1200,
+        kind: "evidence",
+      },
+      {
+        id: "nipa-vision-ai-defect-flow",
+        src: "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/pratama/2.png",
+        alt: "신발 아웃솔 이미지를 AI로 세그멘테이션해 7종 불량 유형을 구분하는 검사 흐름도",
+        width: 1600,
+        height: 1200,
+        kind: "evidence",
+      },
+      {
+        id: "nipa-vision-ai-inspector",
+        src: "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/pratama/3.png",
+        alt: "신발 아웃솔의 결함 위치와 검사 수량을 보여주는 AI 품질 검사 실행 화면",
+        width: 1600,
+        height: 1200,
+        kind: "evidence",
+      },
+    ]);
+    expect(
+      portfolioProjects.flatMap((project) => project.visual?.items ?? [])
+        .filter((item) => item.kind === "concept-mockup"),
+    ).toHaveLength(0);
     expect(selectstar?.challenge).toContain("1000시간");
     expect(selectstar?.action).toContain("약 200명");
     expect(selectstar?.result).toContain("폐쇄망");
@@ -509,8 +531,8 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
       },
     ]);
     expect(syrup?.tags).toEqual([
-      "어드민운영",
-      "내외부 커뮤니케이션",
+      "어드민 운영",
+      "내·외부 커뮤니케이션",
       "푸시 기능 고도화",
       "운영 프로세스 개선",
     ]);

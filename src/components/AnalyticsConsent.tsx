@@ -57,7 +57,7 @@ const AnalyticsConsentBanner = () => {
           <a
             href="https://policies.google.com/privacy?hl=ko"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             className="mt-2 inline-flex min-h-11 items-center text-xs font-semibold text-[#ff8a70] underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6645]"
           >
             Google 개인정보처리방침

@@ -148,6 +148,33 @@ describe("EvidenceMediaGallery", () => {
     expect(screen.getByRole("img", { name: "결과 확인 화면" })).toBeInTheDocument();
   });
 
+  it("선택한 프로젝트만 7:6 프레임을 사용하고 원본 이미지 크기를 보존한다", () => {
+    const { container } = render(
+      <EvidenceMediaGallery
+        projectTitle="Vision AI 프로젝트"
+        frameAspectRatio="7:6"
+        items={[
+          {
+            src: "https://example.com/evidence/vision-ai.png",
+            alt: "신발 아웃솔 AI 품질 검사 실행 화면",
+            width: 1600,
+            height: 1200,
+          },
+        ]}
+      />,
+    );
+
+    expect(container.querySelector('[data-evidence-media-frame="7:6"]')).toHaveClass("aspect-[7/6]");
+    expect(screen.getByRole("img", { name: "신발 아웃솔 AI 품질 검사 실행 화면" })).toHaveAttribute(
+      "width",
+      "1600",
+    );
+    expect(screen.getByRole("img", { name: "신발 아웃솔 AI 품질 검사 실행 화면" })).toHaveAttribute(
+      "height",
+      "1200",
+    );
+  });
+
   it("화면 안에 있을 때 4초마다 옆 슬라이드로 자동 이동하고 자동 변경은 읽어주지 않는다", () => {
     vi.useFakeTimers();
     vi.stubGlobal("IntersectionObserver", VisibleIntersectionObserver);
@@ -184,7 +211,7 @@ describe("EvidenceMediaGallery", () => {
     expect(screen.queryByRole("img", { name: "우선순위 결정 화면" })).not.toBeInTheDocument();
   });
 
-  it("마우스 상호작용과 사용자의 일시정지 선택 동안 자동 이동을 멈춘다", () => {
+  it("마우스 상호작용과 사용자의 일시 정지 선택 동안 자동 이동을 멈춘다", () => {
     vi.useFakeTimers();
     vi.stubGlobal("IntersectionObserver", VisibleIntersectionObserver);
 
@@ -202,7 +229,7 @@ describe("EvidenceMediaGallery", () => {
     act(() => vi.advanceTimersByTime(EVIDENCE_AUTOPLAY_INTERVAL_MS));
     expect(screen.getByRole("img", { name: "우선순위 결정 화면" })).toBeInTheDocument();
 
-    const pauseButton = screen.getByRole("button", { name: "자동 넘김 일시정지" });
+    const pauseButton = screen.getByRole("button", { name: "자동 넘김 일시 정지" });
     act(() => pauseButton.focus());
     fireEvent.click(pauseButton);
     act(() => vi.advanceTimersByTime(EVIDENCE_AUTOPLAY_INTERVAL_MS * 2));
@@ -255,7 +282,7 @@ describe("EvidenceMediaGallery", () => {
     render(<EvidenceMediaGallery projectTitle="Archi" items={projectMedia} />);
 
     expect(screen.getByText("모션 감소 설정으로 자동 넘김이 꺼져 있습니다.")).toBeInTheDocument();
-    expect(screen.queryByRole("button", { name: "자동 넘김 일시정지" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "자동 넘김 일시 정지" })).not.toBeInTheDocument();
     act(() => vi.advanceTimersByTime(EVIDENCE_AUTOPLAY_INTERVAL_MS * 3));
     expect(screen.getByRole("img", { name: "문제 정의 화면" })).toBeInTheDocument();
     expect(screen.queryByRole("img", { name: "우선순위 결정 화면" })).not.toBeInTheDocument();
@@ -301,7 +328,7 @@ describe("EvidenceMediaGallery", () => {
         items={[
           {
             src: "/evidence/nipa-vision-ai-poc/mockup-overview.png",
-            alt: "개념 목업: AI Vision 기반 품질검사 대시보드",
+            alt: "개념 목업: AI Vision 기반 품질 검사 대시보드",
             width: 1600,
             height: 1200,
             kind: "concept-mockup",
@@ -311,7 +338,7 @@ describe("EvidenceMediaGallery", () => {
     );
 
     expect(screen.getByText("개념 목업")).toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button", { name: "개념 목업: AI Vision 기반 품질검사 대시보드 확대해서 보기" }));
+    fireEvent.click(screen.getByRole("button", { name: "개념 목업: AI Vision 기반 품질 검사 대시보드 확대해서 보기" }));
     expect(within(screen.getByRole("dialog")).getByText("1 / 1 · 개념 목업")).toBeInTheDocument();
   });
 

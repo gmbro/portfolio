@@ -87,7 +87,7 @@ describe("기본 포트폴리오 정보 구조", () => {
       label: card.querySelector("dt")?.textContent,
     }))).toEqual([
       { value: "5+", label: "수행 프로젝트" },
-      { value: "3+", label: "제품 기획.운영" },
+      { value: "3+", label: "제품 기획·운영" },
       { value: "13억", label: "매출 기여" },
     ]);
     statCards.forEach((card) => {
@@ -149,16 +149,31 @@ describe("기본 포트폴리오 정보 구조", () => {
     expect(screen.getByRole("heading", { name: "문제를 성과로 바꾼 프로젝트를 소개합니다." })).toBeInTheDocument();
     expect(screen.getByText("기술을 활용해 고객의 시간과 비용을 줄인 과정을 문제·판단·실행·성과 순서로 정리했습니다.")).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "채용·협업" })).toBeInTheDocument();
-    expect(screen.getByText("AI 제품기획·프로젝트 수행에 강점이 있습니다. 고객 문제를 뾰족하게 정의하고, AI 기술을 활용해 실제 성과로 연결하는 일에 기여할 수 있습니다.")).toBeInTheDocument();
+    expect(screen.getByText("AI 제품 기획·프로젝트 수행에 강점이 있습니다. 고객 문제를 뾰족하게 정의하고, AI 기술을 활용해 실제 성과로 연결하는 일에 기여할 수 있습니다.")).toBeInTheDocument();
 
-    expect(screen.getByRole("link", { name: "베타서비스 보기, 새 창에서 열기" })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: "베타 서비스 보기, 새 창에서 열기" })).toHaveAttribute(
       "href",
       "https://archi.best",
     );
     expect(container.querySelectorAll("[data-project-rank]")).toHaveLength(5);
     expect(container.querySelectorAll('[data-evidence-media-state="empty"]')).toHaveLength(0);
     expect(container.querySelectorAll('[data-evidence-media-state="ready"]')).toHaveLength(5);
-    expect(screen.getAllByText("개념 목업")).toHaveLength(1);
+    expect(screen.queryByText("개념 목업")).not.toBeInTheDocument();
+    const nipaProject = container.querySelector<HTMLElement>("#nipa-vision-ai-poc");
+    expect(nipaProject).toBeInTheDocument();
+    expect(within(nipaProject as HTMLElement).getByText("2025.06–2025.12")).toHaveClass(
+      "text-sm",
+      "md:text-base",
+    );
+    expect(within(nipaProject as HTMLElement).getByRole("img", {
+      name: "정확도·재현율·처리 속도의 시험 결과가 적합으로 표시된 AI 바우처 시험 성적서",
+    })).toHaveAttribute(
+      "src",
+      "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/pratama/1.png",
+    );
+    expect(within(nipaProject as HTMLElement).getAllByRole("button", { name: /번째 이미지 보기/ })).toHaveLength(3);
+    expect(nipaProject?.querySelector('[data-evidence-media-frame="7:6"]')).toHaveClass("aspect-[7/6]");
+    expect(within(nipaProject as HTMLElement).queryByText("개념 목업")).not.toBeInTheDocument();
     const flagship = container.querySelector<HTMLElement>('[data-project-rank="1"][id="arkylab-ai-coach"]');
     expect(flagship).toBeInTheDocument();
     expect(caseStudies?.querySelectorAll("[data-project-meta]")).toHaveLength(5);
@@ -172,17 +187,17 @@ describe("기본 포트폴리오 정보 구조", () => {
         value.textContent?.trim(),
       ),
     ).toEqual(["아키랩, FIXNESS", "제품 기획·개발·사업·운영 전담"]);
-    expect(within(flagship as HTMLElement).queryByText("제품, 베타서비스")).not.toBeInTheDocument();
+    expect(within(flagship as HTMLElement).queryByText("제품, 베타 서비스")).not.toBeInTheDocument();
     expect(within(flagship as HTMLElement).queryByText("제품 개발")).not.toBeInTheDocument();
     expect(within(flagship as HTMLElement).queryByText("#Codex")).not.toBeInTheDocument();
     expect(caseStudies?.querySelectorAll('[aria-label="검증된 성과"]')).toHaveLength(0);
     expect(caseStudies?.querySelectorAll("article footer span")).toHaveLength(0);
     expect(caseStudies?.querySelectorAll("article footer")).toHaveLength(1);
     expect(within(flagship as HTMLElement).getByRole("img", {
-      name: "아키 로그인, 수업 캘린더와 AI 수업 기록 상세 화면",
+      name: "운동 자세를 촬영하면서 휴대전화 화면에 관절 추적선이 표시된 수업 기록 장면",
     })).toHaveAttribute(
       "src",
-      "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/arky/arky1.png",
+      "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/arky/1.png",
     );
     expect(within(flagship as HTMLElement).getAllByRole("button", { name: /번째 이미지 보기/ })).toHaveLength(3);
     expect(within(flagship as HTMLElement).queryByText("랜딩 페이지")).not.toBeInTheDocument();
@@ -211,7 +226,7 @@ describe("기본 포트폴리오 정보 구조", () => {
     expect(within(selectstarProject as HTMLElement).queryByText("개념 목업")).not.toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "다양한 환경에서 제품과 사업의 문제를 해결해왔습니다." })).toBeInTheDocument();
     expect(container.textContent).toContain(
-      "커머스, 데이터, 클라우드·공공 SaaS, 헬스케어 제품 개발까지 다양한 도메인에서 제품기획·사업개발·프로젝트 운영을 수행하며 고객의 시간과 비용을 줄이는 일에 집중해왔습니다.",
+      "커머스, 데이터, 클라우드·공공 SaaS, 헬스케어 제품 개발까지 다양한 도메인에서 제품 기획·사업 개발·프로젝트 운영을 수행하며 고객의 시간과 비용을 줄이는 일에 집중해왔습니다.",
     );
     expect(screen.getByRole("heading", { name: "짧은 경험들을 하나의 방향으로 연결해왔습니다." })).toBeInTheDocument();
     expect(screen.getByText("Career Direction")).toBeInTheDocument();
@@ -231,9 +246,9 @@ describe("기본 포트폴리오 정보 구조", () => {
     ].forEach((role) => expect(screen.getByText(role)).toBeInTheDocument());
     const experienceArticles = Array.from(container.querySelectorAll("#experience article"));
     expect(experienceArticles[0]?.querySelector("p")?.textContent).toBe("대표");
-    expect(experienceArticles[1]?.querySelector("p")?.textContent).toBe("프로.사업개발");
+    expect(experienceArticles[1]?.querySelector("p")?.textContent).toBe("프로 · 사업 개발");
     expect(container.querySelector("#experience")?.textContent).not.toContain("대표 · 제품");
-    expect(container.querySelector("#experience")?.textContent).not.toContain("사업개발 · 사업개발");
+    expect(container.querySelector("#experience")?.textContent).not.toContain("사업 개발 · 사업 개발");
     expect(container.querySelector("#experience")?.textContent).not.toContain("Adler");
     expect(container.querySelector("#experience")?.textContent).not.toContain("3D 소셜 MVP");
     expect(container.querySelector("#experience ol")?.querySelectorAll(":scope > li")).toHaveLength(6);

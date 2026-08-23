@@ -60,7 +60,7 @@ export const portfolioExperienceLogos: HeroLogo[] = [
   },
   {
     id: "fixness",
-    alt: "Fixness 로고",
+    alt: "FIXNESS 로고",
     src: `${heroLogoBaseUrl}/fixness.webp`,
     width: 640,
     height: 151,

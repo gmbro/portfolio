@@ -50,7 +50,7 @@ export const defaultHeroContent: HeroContent = {
   ],
   stats: [
     { value: "5+", label: "수행 프로젝트" },
-    { value: "3+", label: "제품 기획.운영" },
+    { value: "3+", label: "제품 기획·운영" },
     { value: "13억", label: "매출 기여" },
   ],
 };

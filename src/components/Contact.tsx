@@ -165,7 +165,7 @@ const Contact = () => {
             채용·협업
           </h2>
           <p className="mt-5 max-w-3xl break-words text-pretty font-body text-base leading-7 text-white/65 md:text-lg">
-            AI 제품기획·프로젝트 수행에 강점이 있습니다. 고객 문제를 뾰족하게 정의하고, AI 기술을 활용해 실제
+            AI 제품 기획·프로젝트 수행에 강점이 있습니다. 고객 문제를 뾰족하게 정의하고, AI 기술을 활용해 실제
             성과로 연결하는 일에 기여할 수 있습니다.
           </p>
         </motion.div>
@@ -244,7 +244,7 @@ const Contact = () => {
               value={form.message}
               onChange={(event) => updateField("message", event.target.value)}
               className="w-full resize-y rounded-xl border border-white/10 bg-black/25 px-5 py-4 font-body text-base text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-[#ff6645]/55"
-              placeholder="채용, 프로젝트 협업 또는 사업 제휴 내용을 남겨주세요."
+              placeholder="채용, 프로젝트 협업 또는 사업 제휴 내용을 남겨 주세요."
             />
             <p className="mt-2 text-right font-body text-xs text-white/55">{form.message.length} / 2000</p>
           </div>
