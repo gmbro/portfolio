@@ -5131,4 +5131,24 @@ Hero 후보:
 
 #### 배포 후 실제 URL 점검
 
-- 배포 커밋·Actions run·라이브 asset·실제 URL 390·768·1440px 결과는 배포 완료 후 아래에 추가한다.
+- 배포 커밋: `53c71962faf1f4eabe6d47c264141b56c6ef74cd`
+- GitHub Actions: `Deploy Portfolio to GitHub Pages` run `32691828551` — `completed / success`
+- 운영 URL: `https://archilab.ai.kr/`
+- 운영 asset: `/assets/index-FZREV25o.js`, `/assets/index-P8pTACOC.css`
+
+| 운영 URL 항목 | 390×844 | 768×1024 | 1440×1000 |
+|---|---:|---:|---:|
+| clientWidth / scrollWidth | `375 / 375` | `753 / 753` | `1425 / 1425` |
+| 챗봇 dialog | `364×818px` | `558×858px` | `558×858px` |
+| 추천 질문 / 후속 질문 | `6 / 3` | `6 / 3` | `6 / 3` |
+| native Typebot 배지 | 1개 | 1개 | 1개 |
+| Contact form 폭 | `327px` | `657px` | `1280px` |
+| 문서 가로 오버플로 | 0 | 0 | 0 |
+
+- 운영 챗봇에서 `AI 상담사 PoC` 추천 질문을 실제 전송해 Skelter Labs의 PRD·대화 설계·0→1 경험 답변과 경로 전용 후속 질문 `상담사 기술 구조`, `PRD·대화 설계`, `PoC·사업 제휴` 3개를 확인했다.
+- 운영 채용 브리프에서 공개 `https://example.com/`을 Jina Reader로 읽어 `366자 추출됨`을 확인했고, 요구역량 신호 부족 시 점수를 만들지 않는 상태를 재확인했다.
+- `https://example.com/?token=...`은 Reader 요청 전에 `인증·개인정보 query` 오류로 차단됐다.
+- Product Lab의 추천 질문 6개·문맥형 후속 질문 3개·근거 연결 프로젝트 5개와 사용 지표 `현재 미수집`, `분석 비활성 · 측정 설계 완료` 문구를 확인했다.
+- 390·768·1440px 모두 공식 `Made with Typebot` 배지가 가려지지 않았고, 채팅 내부 스크롤·고정 입력창·가로 후속 질문 rail이 정상 동작했다.
+- 운영 페이지에서 Google Analytics 로더·동의 배너는 없었고 브라우저 console warning/error는 0건이다.
+- 배포 후 판정: `통과`.
