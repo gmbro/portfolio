@@ -5235,6 +5235,16 @@ Hero 후보:
 - 로컬 브라우저 console warning/error는 0건이다.
 - 로컬 판정: `통과`.
 
+#### 배포·운영 재검증
+
+- 배포 커밋: `b579db91948843c556a83f2423578e375e58f6ed` (`fix: refine portfolio section headlines`).
+- GitHub Pages run: [#49 · success](https://github.com/gmbro/portfolio/actions/runs/32703984913).
+- 운영 URL: `https://archilab.ai.kr/?release=49`.
+- 390·768·1440px 운영 화면에서 새 Hero·About·Experience·Contact 제목과 Hero 코럴 강조 구문 2개를 확인했다.
+- 세 너비 모두 Hero 텍스트 오버플로와 페이지 가로 오버플로는 0건이었다.
+- 운영 브라우저 console warning/error는 0건이다.
+- 배포 후 판정: `통과`.
+
 ### 2026-08-24 프로젝트 AI CTA·Career Direction 문장 위계 — 기준 버전 47
 
 #### 1차 진단 — 수정 전 운영 URL
