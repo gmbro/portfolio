@@ -108,16 +108,21 @@ const Experience = () => {
             id="career-direction-title"
             className="mt-3 max-w-4xl break-words text-balance font-display text-3xl font-bold leading-tight text-white md:text-4xl"
           >
-            짧은 경험들을 하나의 방향으로 연결해왔습니다.
+            Connect the Dots
           </h3>
-          <div className="mt-4 max-w-5xl break-words text-pretty font-body text-base leading-8 text-white/70 md:text-lg md:leading-9">
+          <div className="mt-4 max-w-5xl space-y-4 break-words text-pretty font-body text-base leading-8 text-white/70 md:space-y-5 md:text-lg md:leading-9">
             <p>
               재직 기간이 짧아 보일 수 있지만, 제 커리어의 방향은 일관됐습니다. 여러 회사를 거치며 고객군과
               도메인은 달랐지만, 고객의 시간과 비용을 줄이고 기술을 실제 제품과 사업 성과로 연결하는 일에
-              집중해왔습니다. 공백기에는 짧게 재직한 스타트업 경험을 돌아보고 다음 역할에 필요한 도메인을
-              학습하며, 제가 가장 잘할 수 있는 일을 고민했습니다. 이제는 고객 문제를 깊게 이해하고 빠르게
-              검증하며 AI 기반의 차별화된 해결책을 함께 만들어갈 수 있는 조직에서 장기적으로 기여하고
-              싶습니다.
+              집중해왔습니다.
+            </p>
+            <p>
+              공백기에는 짧게 재직한 스타트업 경험을 돌아보고 다음 역할에 필요한 도메인을 학습하며, 제가 가장
+              잘할 수 있는 일을 고민했습니다.
+            </p>
+            <p>
+              이제는 고객 문제를 깊게 이해하고 빠르게 검증하며 AI 기반의 차별화된 해결책을 함께 만들어갈 수
+              있는 조직에 기여하고 싶습니다.
             </p>
           </div>
         </motion.aside>

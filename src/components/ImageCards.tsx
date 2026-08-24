@@ -149,7 +149,7 @@ const ProjectCard = ({ project, index }: { project: FeaturedProject; index: numb
               className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-[#fff1ed] px-4 py-2 font-body text-xs font-bold text-[#b93822] transition-colors hover:bg-[#ffe4dc] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6645] sm:w-auto"
             >
               <Sparkles size={15} aria-hidden="true" />
-              이 프로젝트를 AI에게 묻기
+              이 프로젝트를 이경민AI 에게 묻기
             </button>
           )}
           {project.link && (
