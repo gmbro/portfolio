@@ -5288,6 +5288,23 @@ Hero 후보:
 - DOM 읽기 순서가 Hero → About → Projects → Experience → Contact로 이어지고 Product Lab은 존재하지 않는다.
 - 로컬 재검사 판정: `통과`.
 
+#### 배포 및 운영 URL 재검사
+
+- 배포 커밋: `6c4440f213fb900fc6ab290367368b5e37fb9b13`
+- GitHub Pages: [run 46](https://github.com/gmbro/portfolio/actions/runs/32700529322) `success`
+- 운영 URL: `https://archilab.ai.kr/`
+
+| 항목 | 390×844 | 768×900 | 1440×900 |
+|---|---:|---:|---:|
+| `Portfolio Product Lab` 문구 | 0 | 0 | 0 |
+| About / Projects 제목 | `1 / 1` | `1 / 1` | `1 / 1` |
+| 프로젝트 AI CTA | 5 | 5 | 5 |
+| 운영 브라우저 warning / error | `0 / 0` | `0 / 0` | `0 / 0` |
+
+- 390px 운영 채팅에서 `추천 질문 8개`, 공개 답변 출처 카드 1개, `첫 화면으로 돌아가기`, 공식 `Made with Typebot` 배지를 확인했다.
+- `첫 화면으로 돌아가기`는 채팅을 닫지 않고 추천 질문 첫 화면을 복원하며, Product Lab 제거와 무관하게 정상 동작한다.
+- 최종 배포 후 판정: `통과`.
+
 ### 2026-08-24 채용 브리프 추출 실패 복구 — 기준 버전 44
 
 #### 1단계 — JD 입력·추출 문제 분석
