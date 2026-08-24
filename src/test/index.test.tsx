@@ -53,9 +53,18 @@ describe("기본 포트폴리오 정보 구조", () => {
     const hero = container.querySelector<HTMLElement>("#hero");
     expect(hero).toBeInTheDocument();
     expect(hero).toHaveClass("portfolio-hero");
-    expect(screen.getByRole("heading", {
+    const heroHeading = screen.getByRole("heading", {
       name: "저는 '고객의 문제'를 '효과적으로 해결'할 수 있는 7년차 AI PM 이경민입니다.",
-    })).toBeInTheDocument();
+    });
+    expect(heroHeading).toBeInTheDocument();
+    expect(heroHeading).toHaveClass(
+      "text-[2.125rem]",
+      "sm:text-[2.5rem]",
+      "md:text-[2.75rem]",
+      "lg:text-[3.25rem]",
+      "xl:text-[4rem]",
+    );
+    expect(heroHeading).not.toHaveClass("md:text-[3.25rem]", "xl:text-[4.5rem]");
     const heroSummary = within(hero as HTMLElement).getByRole("list", {
       name: "포트폴리오 요약",
     });

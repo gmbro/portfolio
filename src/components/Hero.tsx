@@ -89,7 +89,7 @@ const Hero = ({
 
         <h1
           aria-label={headline}
-          className="mt-6 max-w-7xl break-words text-pretty font-display text-[2.25rem] font-extrabold leading-[1.2] tracking-[-0.04em] text-white sm:text-5xl sm:leading-[1.16] md:mt-8 md:text-[3.25rem] md:leading-[1.14] lg:text-[3.5rem] xl:text-[4.5rem]"
+          className="mt-6 max-w-7xl break-words text-pretty font-display text-[2.125rem] font-extrabold leading-[1.22] tracking-[-0.03em] text-white sm:text-[2.5rem] sm:leading-[1.2] md:mt-8 md:text-[2.75rem] md:leading-[1.18] lg:text-[3.25rem] lg:leading-[1.16] xl:text-[4rem]"
         >
           {highlightHeadline(headline, content.highlight)}
         </h1>
