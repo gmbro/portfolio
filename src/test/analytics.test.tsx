@@ -138,6 +138,54 @@ describe("Google Analytics 동의 기반 연동", () => {
     ]);
   });
 
+  it("챗봇 탐색 이벤트는 질문·JD 원문 없이 고정 식별자와 횟수만 전송한다", async () => {
+    const { analytics } = await loadAnalyticsModules();
+    analytics.initializeAnalytics();
+
+    expect(analytics.trackChatInteraction("chat_start", {
+      path: "arky-product",
+      source: "starter",
+      questionIndex: 1,
+    })).toBe(true);
+    expect(analytics.trackChatInteraction("chat_recommendation_click", {
+      path: "arky-product",
+      source: "followup",
+      questionId: "arky-beta-feedback",
+      position: 2,
+    })).toBe(true);
+    expect(analytics.trackChatInteraction("jd_brief_ready", {
+      path: "jd-brief",
+      source: "jd-brief",
+      inputKind: "file",
+    })).toBe(true);
+
+    const commands = (window.dataLayer ?? []).map(toCommand);
+    expect(commands).toContainEqual([
+      "event",
+      "chat_recommendation_click",
+      expect.objectContaining({
+        path: "arky-product",
+        source: "followup",
+        question_id: "arky-beta-feedback",
+        position: 2,
+      }),
+    ]);
+    expect(commands).toContainEqual([
+      "event",
+      "jd_brief_ready",
+      expect.objectContaining({
+        path: "jd-brief",
+        source: "jd-brief",
+        input_kind: "file",
+      }),
+    ]);
+
+    const serialized = JSON.stringify(commands);
+    expect(serialized).not.toContain("https://jobs.example.com");
+    expect(serialized).not.toContain("secret-jd.pdf");
+    expect(serialized).not.toContain("채용공고 원문");
+  });
+
   it("공개 루트에서 회사별 경로로 전환하면 분석 전송을 즉시 중지한다", async () => {
     const { analytics } = await loadAnalyticsModules();
     analytics.initializeAnalytics();

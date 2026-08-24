@@ -13,6 +13,25 @@ export type PortfolioAnalyticsEvent =
   | "contact_start"
   | "generate_lead";
 
+export type ChatInteractionEvent =
+  | "chat_start"
+  | "chat_question_submit"
+  | "chat_recommendation_click"
+  | "jd_brief_start"
+  | "jd_brief_ready";
+
+export type ChatQuestionSource = "starter" | "followup" | "freeform" | "jd-brief";
+export type JdBriefInputKind = "url" | "file";
+
+interface ChatInteractionParameters {
+  path?: string;
+  source?: ChatQuestionSource;
+  questionId?: string;
+  position?: number;
+  questionIndex?: number;
+  inputKind?: JdBriefInputKind;
+}
+
 type DataLayerItem = IArguments | unknown[];
 
 declare global {
@@ -168,5 +187,44 @@ export const trackPortfolioEvent = (eventName: PortfolioAnalyticsEvent) => {
     ...safePageContext,
   });
   sentEvents.add(eventName);
+  return true;
+};
+
+const safeSlug = (value: string | undefined) => {
+  const normalized = value?.trim().toLowerCase() ?? "";
+  return /^[a-z0-9-]{1,48}$/.test(normalized) ? normalized : undefined;
+};
+
+const safePositiveInteger = (value: number | undefined) =>
+  Number.isInteger(value) && (value ?? 0) > 0 && (value ?? 0) <= 100
+    ? value
+    : undefined;
+
+/**
+ * Sends only fixed interaction metadata. Never pass question text, a JD URL,
+ * a file name, extracted JD content, or a company name to this function.
+ */
+export const trackChatInteraction = (
+  eventName: ChatInteractionEvent,
+  parameters: ChatInteractionParameters = {},
+) => {
+  if (!analyticsRouteEnabled || !analyticsAllowed || !window.gtag) return false;
+
+  const path = safeSlug(parameters.path);
+  const questionId = safeSlug(parameters.questionId);
+  const position = safePositiveInteger(parameters.position);
+  const questionIndex = safePositiveInteger(parameters.questionIndex);
+  const source = parameters.source;
+  const inputKind = parameters.inputKind;
+
+  window.gtag("event", eventName, {
+    ...(path ? { path } : {}),
+    ...(questionId ? { question_id: questionId } : {}),
+    ...(position ? { position } : {}),
+    ...(questionIndex ? { question_index: questionIndex } : {}),
+    ...(source ? { source } : {}),
+    ...(inputKind ? { input_kind: inputKind } : {}),
+    ...safePageContext,
+  });
   return true;
 };

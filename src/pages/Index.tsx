@@ -2,6 +2,7 @@ import { useLayoutEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
+import PortfolioProductLab from "@/components/PortfolioProductLab";
 import ImageCards from "@/components/ImageCards";
 import Experience from "@/components/Experience";
 import Contact from "@/components/Contact";
@@ -41,6 +42,7 @@ const Index = ({ heroContent, analyticsEnabled = false }: IndexProps) => {
           showKeywords={!isDefaultPortfolio}
         />
         <About keywords={isDefaultPortfolio ? defaultHeroContent.keywords : undefined} />
+        <PortfolioProductLab />
         <ImageCards />
         <Experience />
         <Contact />

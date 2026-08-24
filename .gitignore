@@ -8,9 +8,11 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
+node_modules 2/
 .pnpm-store
 dist
 dist-ssr
+*.tsbuildinfo
 *.local
 .env*
 !.env.example

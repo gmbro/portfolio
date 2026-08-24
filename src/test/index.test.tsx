@@ -289,8 +289,8 @@ describe("기본 포트폴리오 정보 구조", () => {
         isOpen: true,
         inlineStyle: expect.objectContaining({
           "--container-bottom": "var(--portfolio-chat-bottom)",
-          "--bot-max-width": "min(480px, calc(100vw - 24px))",
-          "--bot-max-height": "min(820px, calc(100dvh - 24px))",
+          "--bot-max-width": "min(560px, calc(100vw - 24px))",
+          "--bot-max-height": "min(860px, calc(100dvh - 24px))",
           "--typebot-container-font-family": '"Pretendard Variable", Pretendard',
         }),
         theme: expect.objectContaining({

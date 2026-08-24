@@ -12,14 +12,21 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import type { BubbleProps } from "@typebot.io/react";
+import JdBriefForm from "@/components/JdBriefForm";
 import {
   chatbotAvatar,
-  chatbotFollowupQuestions,
   chatbotGuide,
   chatbotStarterQuestions,
+  getChatbotFollowupQuestions,
+  resolveChatbotQuestionPath,
   validateChatbotQuestion,
+  type ChatbotQuestionPath,
 } from "@/data/chatbot";
-import { trackPortfolioEvent } from "@/lib/analytics";
+import {
+  trackChatInteraction,
+  trackPortfolioEvent,
+  type ChatQuestionSource,
+} from "@/lib/analytics";
 import { PORTFOLIO_OPEN_CHAT_EVENT, type PortfolioOpenChatDetail } from "@/lib/chat";
 
 const TYPEBOT_ID = "portfolio-typebot";
@@ -78,6 +85,7 @@ const guideStyles = `
   #${TYPEBOT_GUIDE_MOUNT_ID}:empty { display: none; }
 
   .portfolio-chat-window-guide {
+    position: relative;
     display: flex;
     height: 100%;
     min-height: 0;
@@ -194,9 +202,52 @@ const guideStyles = `
     overflow-x: hidden;
     overflow-y: auto;
     overscroll-behavior: contain;
-    padding: 18px;
+    padding: 16px 18px 14px;
     background: #ffffff;
     pointer-events: auto;
+    scrollbar-gutter: stable;
+  }
+
+  .portfolio-chat-window-guide__tabs {
+    display: grid;
+    flex: 0 0 auto;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4px;
+    padding: 10px 18px 0;
+    background: #ffffff;
+    pointer-events: auto;
+  }
+
+  .portfolio-chat-window-guide__tab {
+    min-width: 0;
+    min-height: 44px;
+    padding: 8px 10px;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    background: #f4f4f5;
+    color: #71717a;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 750;
+    line-height: 1.3;
+    cursor: pointer;
+  }
+
+  .portfolio-chat-window-guide__tab[aria-selected="true"] {
+    border-color: rgb(255 102 69 / 0.35);
+    background: #fff1ed;
+    color: #c73822;
+  }
+
+  .portfolio-chat-window-guide__panel {
+    display: flex;
+    min-height: 0;
+    flex: 1;
+    flex-direction: column;
+  }
+
+  #portfolio-chat-jd-brief-panel .portfolio-chat-window-guide__body {
+    padding-bottom: 60px;
   }
 
   .portfolio-chat-window-guide__message {
@@ -237,7 +288,7 @@ const guideStyles = `
   }
 
   .portfolio-chat-window-guide__label {
-    margin: 16px 0 8px;
+    margin: 14px 0 8px;
     color: #52525b;
     font-size: 12px;
     font-weight: 750;
@@ -251,6 +302,7 @@ const guideStyles = `
 
   .portfolio-chat-window-guide__starters button {
     display: flex;
+    height: 58px;
     min-width: 0;
     min-height: 58px;
     align-items: center;
@@ -269,17 +321,410 @@ const guideStyles = `
     cursor: pointer;
   }
 
+  .portfolio-chat-window-guide__starters button span:first-child {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
   .portfolio-chat-window-guide__starters button span:last-child {
     flex: 0 0 auto;
     color: #ff6645;
     font-size: 15px;
   }
 
+  .portfolio-jd-brief {
+    display: flex;
+    min-height: 100%;
+    flex-direction: column;
+    color: #27272a;
+  }
+
+  .portfolio-jd-brief__intro {
+    display: grid;
+    gap: 4px;
+    padding: 13px 14px;
+    border-radius: 16px;
+    background: #f4f4f5;
+  }
+
+  .portfolio-jd-brief__intro strong {
+    color: #18181b;
+    font-size: 14px;
+    font-weight: 800;
+    line-height: 1.45;
+  }
+
+  .portfolio-jd-brief__intro span {
+    color: #52525b;
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .portfolio-jd-brief__source-switch {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+    margin-top: 12px;
+  }
+
+  .portfolio-jd-brief__source-switch button {
+    min-height: 44px;
+    padding: 8px 10px;
+    border: 1px solid #e4e4e7;
+    border-radius: 12px;
+    background: #ffffff;
+    color: #52525b;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 750;
+    cursor: pointer;
+  }
+
+  .portfolio-jd-brief__source-switch button.is-active {
+    border-color: rgb(255 102 69 / 0.5);
+    background: #fff8f6;
+    color: #c73822;
+  }
+
+  .portfolio-jd-brief__reader-form { margin-top: 11px; }
+
+  .portfolio-jd-brief__field label {
+    display: block;
+    margin-bottom: 7px;
+    color: #3f3f46;
+    font-size: 12px;
+    font-weight: 750;
+  }
+
+  .portfolio-jd-brief__field input {
+    width: 100%;
+    min-height: 48px;
+    padding: 0 12px;
+    border: 1px solid #d4d4d8;
+    border-radius: 12px;
+    background: #fafafa;
+    color: #111111;
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .portfolio-jd-brief__field input[type="file"] {
+    min-height: 52px;
+    padding: 7px;
+    color: #52525b;
+    font-size: 11px;
+  }
+
+  .portfolio-jd-brief__field input[type="file"]::file-selector-button {
+    min-height: 36px;
+    margin-right: 8px;
+    padding: 6px 10px;
+    border: 1px solid #d4d4d8;
+    border-radius: 9px;
+    background: #ffffff;
+    color: #27272a;
+    font-family: inherit;
+    font-weight: 750;
+    cursor: pointer;
+  }
+
+  .portfolio-jd-brief__field input::placeholder { color: #8b8b92; opacity: 1; }
+
+  .portfolio-jd-brief__file-name {
+    display: block;
+    margin-top: 5px;
+    overflow-wrap: anywhere;
+    color: #71717a;
+    font-size: 10px;
+    line-height: 1.4;
+  }
+
+  .portfolio-jd-brief__read-button,
+  .portfolio-jd-brief__create-button {
+    display: inline-flex;
+    width: 100%;
+    min-height: 48px;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  .portfolio-jd-brief__read-button {
+    margin-top: 9px;
+    border: 1px solid #d4d4d8;
+    background: #ffffff;
+    color: #27272a;
+  }
+
+  .portfolio-jd-brief__create-button {
+    margin-top: 10px;
+    border: 0;
+    background: linear-gradient(135deg, #e94f35 0%, #ff6645 52%, #ff9b45 100%);
+    color: #ffffff;
+  }
+
+  .portfolio-jd-brief__status,
+  .portfolio-jd-brief__error,
+  .portfolio-jd-brief__notice {
+    margin: 8px 0 0;
+    font-size: 10px;
+    line-height: 1.5;
+  }
+
+  .portfolio-jd-brief__status { color: #3f3f46; font-weight: 700; }
+  .portfolio-jd-brief__error { color: #b42318; font-weight: 650; }
+  .portfolio-jd-brief__notice { color: #71717a; }
+
+  .portfolio-jd-result {
+    display: grid;
+    gap: 10px;
+    margin-top: 14px;
+    padding: 13px;
+    border: 1px solid #fed7cc;
+    border-radius: 16px;
+    background: #fffaf8;
+    overflow-wrap: anywhere;
+  }
+
+  .portfolio-jd-result__header {
+    display: flex;
+    min-width: 0;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .portfolio-jd-result__header p {
+    margin: 0 0 2px;
+    color: #71717a;
+    font-size: 10px;
+    font-weight: 750;
+  }
+
+  .portfolio-jd-result__header h3 {
+    margin: 0;
+    color: #18181b;
+    font-size: 18px;
+    font-weight: 850;
+    line-height: 1.15;
+  }
+
+  .portfolio-jd-result__header h3 span {
+    color: #e94f35;
+    font-size: 34px;
+    letter-spacing: -0.04em;
+  }
+
+  .portfolio-jd-result__beta {
+    flex: 0 0 auto;
+    padding: 5px 7px;
+    border: 1px solid #fed7cc;
+    border-radius: 9999px;
+    background: #ffffff;
+    color: #c73822;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+  }
+
+  .portfolio-jd-result__summary {
+    margin: 0;
+    color: #27272a;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.55;
+  }
+
+  .portfolio-jd-result__requirements {
+    display: grid;
+    gap: 8px;
+  }
+
+  .portfolio-jd-result__requirement {
+    min-width: 0;
+    padding: 10px;
+    border: 1px solid #e4e4e7;
+    border-radius: 12px;
+    background: #ffffff;
+  }
+
+  .portfolio-jd-result__requirement > header {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .portfolio-jd-result__requirement h4 {
+    min-width: 0;
+    margin: 0;
+    color: #18181b;
+    font-size: 13px;
+    font-weight: 850;
+  }
+
+  .portfolio-jd-result__requirement > header > span {
+    flex: 0 0 auto;
+    color: #c73822;
+    font-size: 9px;
+    font-weight: 800;
+  }
+
+  .portfolio-jd-result__signals {
+    margin: 5px 0 0;
+    color: #71717a;
+    font-size: 9px;
+    line-height: 1.45;
+  }
+
+  .portfolio-jd-result__requirement ul,
+  .portfolio-jd-result__details ul,
+  .portfolio-jd-result__details ol {
+    display: grid;
+    gap: 7px;
+    margin: 8px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .portfolio-jd-result__requirement li {
+    display: grid;
+    gap: 3px;
+    padding-top: 8px;
+    border-top: 1px solid #f1f1f3;
+  }
+
+  .portfolio-jd-result__requirement li strong {
+    color: #27272a;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1.45;
+  }
+
+  .portfolio-jd-result__requirement li span {
+    color: #c73822;
+    font-size: 9px;
+    font-weight: 750;
+    line-height: 1.4;
+  }
+
+  .portfolio-jd-result__requirement li p,
+  .portfolio-jd-result__gap {
+    margin: 0;
+    color: #52525b;
+    font-size: 10px;
+    line-height: 1.5;
+  }
+
+  .portfolio-jd-result__gap {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid #f1f1f3;
+    color: #a13c2b;
+    font-weight: 700;
+  }
+
+  .portfolio-jd-result__details {
+    border-top: 1px solid #fed7cc;
+    padding-top: 9px;
+    color: #52525b;
+    font-size: 10px;
+    line-height: 1.5;
+  }
+
+  .portfolio-jd-result__details summary {
+    color: #3f3f46;
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  .portfolio-jd-result__details li {
+    position: relative;
+    padding-left: 12px;
+  }
+
+  .portfolio-jd-result__details li::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #ff6645;
+    content: "·";
+  }
+
+  .portfolio-jd-result__formula p {
+    margin: 7px 0 0;
+  }
+
+  .portfolio-jd-result__disclaimer {
+    margin: 0;
+    color: #71717a;
+    font-size: 9px;
+    line-height: 1.5;
+  }
+
+  .portfolio-jd-result__ask-button {
+    display: inline-flex;
+    width: 100%;
+    min-height: 46px;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    border: 0;
+    border-radius: 12px;
+    background: #18181b;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  .portfolio-jd-result__insufficient {
+    display: grid;
+    gap: 5px;
+    padding: 3px;
+  }
+
+  .portfolio-jd-result__insufficient strong {
+    color: #a13c2b;
+    font-size: 13px;
+  }
+
+  .portfolio-jd-result__insufficient p {
+    margin: 0;
+    color: #52525b;
+    font-size: 11px;
+    line-height: 1.55;
+  }
+
   .portfolio-chat-window-guide__form { margin-top: 14px; }
 
+  .portfolio-chat-window-guide__intro-composer {
+    flex: 0 0 auto;
+    padding: 11px 18px 58px;
+    border-top: 1px solid #e4e4e7;
+    background: rgb(255 255 255 / 0.98);
+    box-shadow: 0 -14px 32px rgb(24 24 27 / 0.08);
+    pointer-events: auto;
+  }
+
+  .portfolio-chat-window-guide__intro-composer .portfolio-chat-window-guide__form {
+    margin-top: 0;
+  }
+
   .portfolio-chat-window-guide__conversation {
+    position: relative;
     display: flex;
     width: 100%;
+    flex: 0 0 auto;
     flex-direction: column;
     gap: 8px;
     margin-top: auto;
@@ -440,7 +885,24 @@ const guideStyles = `
   @media (max-width: 639px) {
     .portfolio-chat-window-guide { border-radius: 22px; }
     .portfolio-chat-window-guide__header { min-height: 62px; padding: 9px 10px; }
-    .portfolio-chat-window-guide__body { padding: 15px; }
+    .portfolio-chat-window-guide__body {
+      padding: 12px;
+      scrollbar-gutter: auto;
+    }
+    .portfolio-chat-window-guide__tabs { padding: 8px 12px 0; }
+    .portfolio-chat-window-guide__tab { padding-inline: 7px; font-size: 11px; }
+    .portfolio-chat-window-guide__starters {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 7px;
+    }
+    .portfolio-chat-window-guide__starters button {
+      height: 50px;
+      min-height: 50px;
+      padding: 8px 11px;
+    }
+    .portfolio-chat-window-guide__intro-composer { padding: 9px 12px 54px; }
+    .portfolio-jd-brief__intro { padding: 11px 12px; }
+    .portfolio-jd-brief__source-switch { gap: 5px; }
     [part="bot"][data-portfolio-chat-mode="conversation"] .typebot-container {
       padding-top: 62px !important;
       padding-bottom: 252px !important;
@@ -503,8 +965,10 @@ interface TypebotBubbleProps {
 
 const TypebotBubble = ({ observeAnalyticsConsent = false }: TypebotBubbleProps) => {
   const [analyticsConsentVisible, setAnalyticsConsentVisible] = useState(false);
+  const [introTab, setIntroTab] = useState<"career" | "jd-brief">("career");
   const [question, setQuestion] = useState("");
   const [questionError, setQuestionError] = useState("");
+  const [activeQuestionPath, setActiveQuestionPath] = useState<ChatbotQuestionPath>("career-fit");
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [hasRequestedBot, setHasRequestedBot] = useState(false);
@@ -528,6 +992,8 @@ const TypebotBubble = ({ observeAnalyticsConsent = false }: TypebotBubbleProps) 
   const trackedOpen = useRef(false);
   const mountedRef = useRef(true);
   const awaitingReplyRef = useRef(false);
+  const conversationStartedRef = useRef(false);
+  const questionCountRef = useRef(0);
 
   const clearReadyTimeout = useCallback(() => {
     if (readyTimeoutRef.current === undefined) return;
@@ -639,22 +1105,49 @@ const TypebotBubble = ({ observeAnalyticsConsent = false }: TypebotBubbleProps) 
 
   useEffect(() => {
     if (!isOpen) return;
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key !== "Escape") return;
-      closeChat();
+    const handleDialogKeyboard = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closeChat();
+        return;
+      }
+      if (event.key !== "Tab" || !guidePortalTarget) return;
+
+      const focusable = Array.from(
+        guidePortalTarget.querySelectorAll<HTMLElement>(
+          'button:not(:disabled), input:not(:disabled), a[href], details > summary',
+        ),
+      ).filter((element) => !element.closest('[inert], [aria-hidden="true"]'));
+      if (focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const active = guidePortalTarget.getRootNode() instanceof ShadowRoot
+        ? (guidePortalTarget.getRootNode() as ShadowRoot).activeElement
+        : document.activeElement;
+      if (event.shiftKey && (active === first || !focusable.includes(active as HTMLElement))) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && (active === last || !focusable.includes(active as HTMLElement))) {
+        event.preventDefault();
+        first.focus();
+      }
     };
-    window.addEventListener("keydown", handleEscape);
-    return () => window.removeEventListener("keydown", handleEscape);
-  }, [closeChat, isOpen]);
+    window.addEventListener("keydown", handleDialogKeyboard);
+    return () => window.removeEventListener("keydown", handleDialogKeyboard);
+  }, [closeChat, guidePortalTarget, guideVisible, inputReady, introTab, isOpen]);
 
   useEffect(() => {
     if (!guidePortalTarget || !isOpen) return;
     const focusFrame = window.requestAnimationFrame(() => {
-      const focusTarget = inputReady ? guideInputRef.current : guideCloseRef.current;
+      const focusTarget = inputReady
+        ? guideInputRef.current
+          ?? guidePortalTarget.querySelector<HTMLInputElement>("input:not(:disabled)")
+          ?? guideCloseRef.current
+        : guideCloseRef.current;
       focusTarget?.focus({ preventScroll: true });
     });
     return () => window.cancelAnimationFrame(focusFrame);
-  }, [guidePortalTarget, guideVisible, inputReady, isOpen]);
+  }, [guidePortalTarget, guideVisible, inputReady, introTab, isOpen]);
 
   useEffect(() => {
     const botWindow = guidePortalTarget?.parentElement;
@@ -823,6 +1316,7 @@ const TypebotBubble = ({ observeAnalyticsConsent = false }: TypebotBubbleProps) 
     bubbleReadyRef.current = false;
     setQuestionError("");
     setLoadFailed(false);
+    setIntroTab("career");
     setGuideVisible(true);
     setInputReady(false);
     setIsLoading(true);
@@ -848,8 +1342,15 @@ const TypebotBubble = ({ observeAnalyticsConsent = false }: TypebotBubbleProps) 
     return () => window.removeEventListener(PORTFOLIO_OPEN_CHAT_EVENT, openChat);
   });
 
-  const startConversation = (value: string) => {
-    const validation = validateChatbotQuestion(value);
+  const startConversation = (
+    value: string,
+    path = resolveChatbotQuestionPath(value),
+    maxLength = 500,
+    source: ChatQuestionSource = "freeform",
+    questionId?: string,
+    position?: number,
+  ) => {
+    const validation = validateChatbotQuestion(value, maxLength);
     setQuestion(validation.question);
     setQuestionError(validation.error);
     if (validation.error) {
@@ -864,7 +1365,24 @@ const TypebotBubble = ({ observeAnalyticsConsent = false }: TypebotBubbleProps) 
       return;
     }
 
+    const questionIndex = questionCountRef.current + 1;
+    if (!conversationStartedRef.current) {
+      trackChatInteraction("chat_start", { path, source, questionIndex });
+      conversationStartedRef.current = true;
+    }
+    trackChatInteraction("chat_question_submit", { path, source, questionIndex });
+    if (questionId && position) {
+      trackChatInteraction("chat_recommendation_click", {
+        path,
+        source,
+        questionId,
+        position,
+      });
+    }
+    questionCountRef.current = questionIndex;
+
     awaitingReplyRef.current = true;
+    setActiveQuestionPath(path);
     clearReplyTimeout();
     setInputReady(false);
     setIsLoading(true);
@@ -947,8 +1465,13 @@ const TypebotBubble = ({ observeAnalyticsConsent = false }: TypebotBubbleProps) 
         <section
           className={`portfolio-chat-window-guide ${guideVisible ? "portfolio-chat-window-guide--intro" : "portfolio-chat-window-guide--conversation"}`}
           role="dialog"
+          aria-modal="true"
           aria-labelledby="portfolio-chat-window-guide-title"
-          aria-describedby={guideVisible ? "portfolio-chat-window-guide-description portfolio-chat-window-guide-privacy" : undefined}
+          aria-describedby={guideVisible
+            ? introTab === "career"
+              ? "portfolio-chat-window-guide-description portfolio-chat-window-guide-privacy"
+              : "portfolio-jd-brief-notice"
+            : undefined}
           aria-busy={isLoading}
         >
           <header className="portfolio-chat-window-guide__header">
@@ -963,31 +1486,104 @@ const TypebotBubble = ({ observeAnalyticsConsent = false }: TypebotBubbleProps) 
             </button>
           </header>
 
-          {guideVisible ? <div className="portfolio-chat-window-guide__body">
-            <div className="portfolio-chat-window-guide__message">
-              <span className="portfolio-chat-window-guide__message-avatar" aria-hidden="true">
-                <img src={chatbotAvatar} alt="" width="32" height="32" decoding="async" />
-              </span>
-              <p id="portfolio-chat-window-guide-description" className="portfolio-chat-window-guide__intro">{chatbotGuide.intro}</p>
+          {guideVisible ? <>
+            <div className="portfolio-chat-window-guide__tabs" role="tablist" aria-label="이경민 AI 사용 방식">
+              <button
+                id="portfolio-chat-career-tab"
+                type="button"
+                role="tab"
+                className="portfolio-chat-window-guide__tab"
+                aria-selected={introTab === "career"}
+                aria-controls="portfolio-chat-career-panel"
+                onClick={() => setIntroTab("career")}
+              >
+                경력 질문
+              </button>
+              <button
+                id="portfolio-chat-jd-brief-tab"
+                type="button"
+                role="tab"
+                className="portfolio-chat-window-guide__tab"
+                aria-selected={introTab === "jd-brief"}
+                aria-controls="portfolio-chat-jd-brief-panel"
+                onClick={() => setIntroTab("jd-brief")}
+              >
+                채용 브리프 Beta
+              </button>
             </div>
 
-            <p className="portfolio-chat-window-guide__label">추천 질문</p>
-            <div className="portfolio-chat-window-guide__starters">
-              {chatbotStarterQuestions.map((starter) => (
-                <button
-                  key={starter.id}
-                  type="button"
-                  disabled={!inputReady || isLoading}
-                  aria-label={`${starter.label}: ${starter.question}`}
-                  onClick={() => startConversation(starter.question)}
-                >
-                  <span>{starter.label}</span><span aria-hidden="true">↗</span>
-                </button>
-              ))}
-            </div>
+            {introTab === "career" ? (
+              <div
+                id="portfolio-chat-career-panel"
+                className="portfolio-chat-window-guide__panel"
+                role="tabpanel"
+                aria-labelledby="portfolio-chat-career-tab"
+              >
+                <div className="portfolio-chat-window-guide__body">
+                  <div className="portfolio-chat-window-guide__message">
+                    <span className="portfolio-chat-window-guide__message-avatar" aria-hidden="true">
+                      <img src={chatbotAvatar} alt="" width="32" height="32" decoding="async" />
+                    </span>
+                    <p id="portfolio-chat-window-guide-description" className="portfolio-chat-window-guide__intro">{chatbotGuide.intro}</p>
+                  </div>
 
-            {questionForm(false)}
-          </div> : (
+                  <p className="portfolio-chat-window-guide__label">추천 질문 6개</p>
+                  <div className="portfolio-chat-window-guide__starters">
+                    {chatbotStarterQuestions.map((starter, index) => (
+                      <button
+                        key={starter.id}
+                        type="button"
+                        disabled={!inputReady || isLoading}
+                        aria-label={`${starter.label}: ${starter.question}`}
+                        onClick={() => startConversation(
+                          starter.question,
+                          starter.path,
+                          500,
+                          "starter",
+                          starter.id,
+                          index + 1,
+                        )}
+                      >
+                        <span>{starter.label}</span><span aria-hidden="true">↗</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div className="portfolio-chat-window-guide__intro-composer">
+                  {questionForm(false)}
+                </div>
+              </div>
+            ) : (
+              <div
+                id="portfolio-chat-jd-brief-panel"
+                className="portfolio-chat-window-guide__panel"
+                role="tabpanel"
+                aria-labelledby="portfolio-chat-jd-brief-tab"
+              >
+                <div className="portfolio-chat-window-guide__body">
+                  <JdBriefForm
+                    disabled={!inputReady || isLoading}
+                    onReadStart={(inputKind) => trackChatInteraction("jd_brief_start", {
+                      path: "jd-brief",
+                      source: "jd-brief",
+                      inputKind,
+                    })}
+                    onExtracted={(inputKind) => trackChatInteraction("jd_brief_ready", {
+                      path: "jd-brief",
+                      source: "jd-brief",
+                      inputKind,
+                    })}
+                    onCreateBrief={(prompt) => startConversation(
+                      prompt,
+                      "jd-brief",
+                      500,
+                      "jd-brief",
+                    )}
+                  />
+                </div>
+              </div>
+            )}
+          </> : (
             <div className="portfolio-chat-window-guide__conversation">
               <p id="portfolio-chat-window-followup-label" className="portfolio-chat-window-guide__followup-label">
                 이어서 이런 질문을 해보세요
@@ -997,13 +1593,20 @@ const TypebotBubble = ({ observeAnalyticsConsent = false }: TypebotBubbleProps) 
                 role="group"
                 aria-labelledby="portfolio-chat-window-followup-label"
               >
-                {chatbotFollowupQuestions.map((followup) => (
+                {getChatbotFollowupQuestions(activeQuestionPath).map((followup, index) => (
                   <button
                     key={followup.id}
                     type="button"
                     disabled={!inputReady || isLoading}
                     aria-label={followup.question}
-                    onClick={() => startConversation(followup.question)}
+                    onClick={() => startConversation(
+                      followup.question,
+                      activeQuestionPath,
+                      500,
+                      "followup",
+                      followup.id,
+                      index + 1,
+                    )}
                   >
                     <span>{followup.label}</span><span aria-hidden="true">↗</span>
                   </button>
@@ -1038,8 +1641,8 @@ const TypebotBubble = ({ observeAnalyticsConsent = false }: TypebotBubbleProps) 
             isOpen={isOpen}
             inlineStyle={{
               "--container-bottom": "var(--portfolio-chat-bottom)",
-              "--bot-max-width": "min(480px, calc(100vw - 24px))",
-              "--bot-max-height": "min(820px, calc(100dvh - 24px))",
+              "--bot-max-width": "min(560px, calc(100vw - 24px))",
+              "--bot-max-height": "min(860px, calc(100dvh - 24px))",
               "--typebot-container-font-family": '"Pretendard Variable", Pretendard',
               "--typebot-container-bg-color": "#ffffff",
               "--typebot-host-bubble-bg-rgb": "244, 244, 245",
