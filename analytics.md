@@ -13,13 +13,16 @@
 
 | 지표 | 분자·분모 또는 계산식 | 준비 이벤트 | 허용하는 고정 파라미터 | 현재 상태 |
 |---|---|---|---|---|
-| 추천 질문 클릭률 | `chat_recommendation_click / chat_open` | 추천 질문 또는 후속 질문을 선택할 때 `chat_recommendation_click` | `path`, `source=starter\|followup`, `question_id`, `position`의 고정 allowlist 값 | 측정 준비 / 수집 전 |
-| 대화 시작률 | `chat_start / chat_open` | 챗봇을 열 때 기존 `chat_open`, 첫 유효 질문을 제출할 때 `chat_start` | `path`, `source=starter\|followup\|freeform\|jd-brief`, `question_index` | 측정 준비 / 수집 전 |
+| 검증된 경력 근거 도달률 | `evidence_card_open / chat_start` | 첫 유효 질문에 `chat_start`, 공개 출처 링크 선택에 `evidence_card_open` | `path`, allowlist `project_id` | 측정 준비 / 수집 전 |
+| 추천 질문 클릭률 | `chat_recommendation_click / chat_intro_view` | 챗봇 첫 화면 노출에 `chat_intro_view`, 추천·후속 질문 선택에 `chat_recommendation_click` | `path`, `audience`, `source=starter\|followup`, `question_id`, `position` | 측정 준비 / 수집 전 |
+| 근거 카드 열람률 | `evidence_card_open / chat_start` | 공개 출처 카드의 `근거 보기`를 선택할 때 `evidence_card_open` | `path`, allowlist `project_id` | 측정 준비 / 수집 전 |
 | 평균 질문 수 | `chat_question_submit` 이벤트 수 / `chat_start` 수 | 유효 질문을 제출할 때마다 `chat_question_submit` | `path`, `source`, `question_index`의 고정 allowlist 값 | 측정 준비 / 수집 전 |
+| 브리프 생성률 | `jd_brief_generate / jd_brief_start` | 채용 브리프 읽기 시작에 `jd_brief_start`, 공개 근거 분석 생성에 `jd_brief_generate` | `path=jd-brief`, `source=jd-brief`, `input_kind=url\|file\|paste` | 측정 준비 / 수집 전 |
 
-- `chat_start`는 채팅창을 연 뒤 첫 유효 질문에만 기록하고, `chat_question_submit`은 질문 횟수 계산을 위해 유효 제출마다 기록한다.
-- `path`, `source`, `question_id`, `position`, `question_index`, `input_kind`는 고정 allowlist 또는 안전한 slug·정수만 받는다.
-- Portfolio Product Lab에는 실제 값 대신 `현재 미수집`·`측정 설계 완료`를 표시한다. 분석을 명시적으로 재활성화하고 충분한 비교 기간과 표본 기준을 정하기 전에는 클릭률·시작률·평균 질문 수를 성과로 공개하지 않는다.
+- `chat_intro_view`는 챗봇 첫 화면을 열 때 기록하고, `chat_start`는 첫 유효 질문에만, `chat_question_submit`은 질문 횟수 계산을 위해 유효 제출마다 기록한다.
+- `chat_mode_select`는 세 사용자 모드의 고정 식별자만, `project_ai_open`은 allowlist 프로젝트와 질문 경로만 기록한다. `evidence_card_open`은 답변 출처 링크 선택을 기록하며 답변 본문을 수집하지 않는다.
+- `path`, `source`, `question_id`, `project_id`, `audience`, `position`, `question_index`, `input_kind`는 고정 allowlist 또는 안전한 slug·정수만 받는다.
+- 제품 학습 지표는 측정 설계로만 보존하며 공개 화면에는 표시하지 않는다. 분석을 명시적으로 재활성화하고 충분한 비교 기간과 표본 기준을 정하기 전에는 어떤 비율도 성과로 공개하지 않는다.
 
 ## 보존 중인 핵심 이벤트 설계 5개
 
@@ -56,4 +59,4 @@
 - 사용자가 분석을 허용해도 `/`을 벗어나는 즉시 태그를 비활성화하고 런타임 전송을 중지한다. 저장된 선택은 공개 루트에 다시 방문할 때만 적용한다.
 - `/p/*`, `/admin/links`, 404에서는 동의 UI·Google script·이벤트를 시작하지 않는다.
 - `page_location`, `page_title`, `page_referrer`는 모든 config·이벤트에서 공개 루트의 고정값만 사용한다. 실제 URL, query, hash, 회사별 slug와 유입 referrer는 전송하지 않는다.
-- JD Brief Beta의 공개 URL·PDF·이미지·본문 붙여넣기 입력값, 파일명, Jina Reader 추출문, 브라우저 안의 분석 결과와 자유 질문은 분석 이벤트에서 모두 제외한다. `jd_brief_start`·`jd_brief_ready`에는 `input_kind=url|file|paste` 고정값만 허용한다. Typebot에는 JD 원문이 아니라 상위 역량·공개 프로젝트명으로 만든 후속 질문만 전달하며, 해당 질문 본문도 분석 이벤트에 포함하지 않는다. 개인정보와 비공개 JD는 제품 입력 단계부터 금지한다.
+- JD Brief Beta의 공개 URL·PDF·이미지·본문 붙여넣기 입력값, 파일명, Jina Reader 추출문, 브라우저 안의 분석 결과와 자유 질문은 분석 이벤트에서 모두 제외한다. `jd_brief_start`·`jd_brief_ready`·`jd_brief_generate`에는 `input_kind=url|file|paste` 고정값만 허용한다. Typebot에는 JD 원문이 아니라 상위 역량·공개 프로젝트명으로 만든 후속 질문만 전달하며, 해당 질문 본문도 분석 이벤트에 포함하지 않는다. 개인정보와 비공개 JD는 제품 입력 단계부터 금지한다.
