@@ -18,7 +18,7 @@ const Experience = () => {
           <span className="font-body text-xs font-semibold uppercase tracking-[0.3em] text-[#ff6645]">
             Experience
           </span>
-          <h2 className="mt-4 break-words text-balance font-display text-3xl font-bold leading-tight tracking-[-0.03em] text-white md:text-4xl">
+          <h2 className="mt-4 break-words text-pretty font-display text-3xl font-bold leading-[1.3] tracking-[-0.03em] text-white md:text-4xl md:leading-[1.24]">
             사업, 제품 등 다양한 관점에서 문제 해결력을 길러왔습니다.
           </h2>
           <div className="mt-5 max-w-3xl break-words text-pretty font-body text-base leading-7 text-white/65 md:text-lg">
@@ -106,7 +106,7 @@ const Experience = () => {
           <p className="font-body text-[11px] font-bold uppercase tracking-[0.18em] text-[#ff8a70]">Career Direction</p>
           <h3
             id="career-direction-title"
-            className="mt-3 max-w-4xl break-words text-balance font-display text-3xl font-bold leading-tight text-white md:text-4xl"
+            className="mt-3 max-w-4xl break-words text-pretty font-display text-3xl font-bold leading-[1.3] text-white md:text-4xl md:leading-[1.24]"
           >
             Connect the Dots
           </h3>

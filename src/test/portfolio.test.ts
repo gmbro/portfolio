@@ -40,7 +40,10 @@ const validContent: Json = {
 describe("parsePortfolioPageContent", () => {
   it("키워드가 정확히 세 개인 공개용 Hero payload를 허용한다", () => {
     expect(parsePortfolioPageContent(validContent)).toMatchObject({
-      hero: { keywords: ["문제 정의", "데이터 분석", "프로젝트 관리"] },
+      hero: {
+        headline: "검증된 문제를 측정 가능한 성과로 연결합니다.",
+        keywords: ["문제 정의", "데이터 분석", "프로젝트 관리"],
+      },
     });
   });
 
@@ -97,9 +100,9 @@ describe("parsePortfolioPageContent", () => {
     expect(parsePortfolioPageContent(invalidMeta as Json)).toBeNull();
   });
 
-  it("회사별 Hero의 줄 수, 길이, stat 개수와 CTA target을 제한한다", () => {
-    const tooManyHeadlineLines = structuredClone(validContent) as Record<string, unknown>;
-    (tooManyHeadlineLines.hero as Record<string, unknown>).headline = "첫 줄\n둘째 줄\n셋째 줄";
+  it("회사별 Hero의 길이, stat 개수와 CTA target을 제한한다", () => {
+    const tooLongHeadline = structuredClone(validContent) as Record<string, unknown>;
+    (tooLongHeadline.hero as Record<string, unknown>).headline = "가".repeat(121);
 
     const tooManyStats = structuredClone(validContent) as Record<string, unknown>;
     (tooManyStats.hero as Record<string, unknown>).stats = [
@@ -115,7 +118,7 @@ describe("parsePortfolioPageContent", () => {
     const longToken = structuredClone(validContent) as Record<string, unknown>;
     (longToken.hero as Record<string, unknown>).roleLabel = "A".repeat(41);
 
-    expect(parsePortfolioPageContent(tooManyHeadlineLines as Json)).toBeNull();
+    expect(parsePortfolioPageContent(tooLongHeadline as Json)).toBeNull();
     expect(parsePortfolioPageContent(tooManyStats as Json)).toBeNull();
     expect(parsePortfolioPageContent(unsafeTarget as Json)).toBeNull();
     expect(parsePortfolioPageContent(longToken as Json)).toBeNull();
@@ -134,7 +137,7 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
     expect(defaultHeroContent).toEqual({
       roleLabel: "AI PM",
       careerLabel: "7 years of experience",
-      headline: "저는 '고객의 문제'를\n'효과적으로 해결'할 수 있는\n7년차 AI PM 이경민입니다.",
+      headline: "저는 '고객의 문제'를 '효과적으로 해결'할 수 있는 7년차 AI PM 이경민입니다.",
       highlight: ["'고객의 문제'", "'효과적으로 해결'"],
       subcopy: [],
       keywords: ["AI", "Product", "Project", "B2B", "B2C"],
@@ -145,6 +148,7 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
       ],
     });
     expect(defaultHeroContent.highlight).toEqual(["'고객의 문제'", "'효과적으로 해결'"]);
+    expect(defaultHeroContent.headline).not.toContain("\n");
     expect(defaultHeroContent.headline).not.toContain("AI 역량");
     expect(defaultHeroContent.ctaLabel).toBeUndefined();
     expect(defaultHeroContent.ctaTarget).toBeUndefined();

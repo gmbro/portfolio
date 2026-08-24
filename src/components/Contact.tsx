@@ -161,7 +161,7 @@ const Contact = () => {
           className="mb-8 max-w-4xl md:mb-10"
         >
           <p className="font-body text-xs font-semibold uppercase tracking-[0.3em] text-[#ff6645]">Contact</p>
-          <h2 className="mt-4 break-words text-balance font-display text-3xl font-bold leading-tight tracking-[-0.03em] text-white md:text-5xl">
+          <h2 className="mt-4 break-words text-pretty font-display text-3xl font-bold leading-[1.3] tracking-[-0.03em] text-white md:text-5xl md:leading-[1.22]">
             어떠한 제안이든 열려있습니다.
           </h2>
           <p className="mt-5 max-w-3xl break-words text-pretty font-body text-base leading-7 text-white/65 md:text-lg">

@@ -65,8 +65,9 @@ describe("기본 포트폴리오 정보 구조", () => {
       "7 years of experience",
     ]);
     expect(
-      Array.from(hero?.querySelectorAll("h1 > span > span") ?? []).map((part) => part.textContent),
+      Array.from(hero?.querySelectorAll("h1 > span") ?? []).map((part) => part.textContent),
     ).toEqual(["'고객의 문제'", "'효과적으로 해결'"]);
+    expect(hero?.querySelectorAll("h1 > span.block")).toHaveLength(0);
     expect(within(hero as HTMLElement).queryByText("제품의 제로투원과 350만 MAU 제품의 운영을 경험하고 제품 기획, 사업 개발, 퍼포먼스 마케팅 등 다양한 영역에서 역량을 키워왔습니다. B2B AI Project에 강점이 있으며 최근 직접 개발한 B2C Product로 헬스케어 데이터의 휘발성에 대한 문제를 풀고 있습니다.")).not.toBeInTheDocument();
     expect(hero?.querySelector('[aria-label="핵심 역량"]')).not.toBeInTheDocument();
     expect(

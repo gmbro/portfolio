@@ -41,7 +41,7 @@ const Hero = ({
   showExperienceLogos = false,
   showKeywords = true,
 }: HeroProps) => {
-  const headlineLines = content.headline.split("\n").filter(Boolean);
+  const headline = content.headline.replace(/\s+/g, " ").trim();
   const stats = content.stats ?? [];
   const summaryLabels = ["Portfolio", content.roleLabel, content.careerLabel].filter(
     (label): label is string => Boolean(label),
@@ -88,14 +88,10 @@ const Hero = ({
         </motion.ul>
 
         <h1
-          aria-label={headlineLines.join(" ")}
-          className="mt-6 max-w-7xl break-words text-balance font-display text-[2.25rem] font-extrabold leading-[1.12] tracking-[-0.04em] text-white sm:text-5xl md:mt-8 md:text-[3.25rem] md:leading-[1.08] lg:text-[3.5rem] xl:text-[4.5rem]"
+          aria-label={headline}
+          className="mt-6 max-w-7xl break-words text-pretty font-display text-[2.25rem] font-extrabold leading-[1.2] tracking-[-0.04em] text-white sm:text-5xl sm:leading-[1.16] md:mt-8 md:text-[3.25rem] md:leading-[1.14] lg:text-[3.5rem] xl:text-[4.5rem]"
         >
-          {headlineLines.map((line, index) => (
-            <span key={`${line}-${index}`} className="block" aria-hidden="true">
-              {highlightHeadline(line, content.highlight)}
-            </span>
-          ))}
+          {highlightHeadline(headline, content.highlight)}
         </h1>
 
         {content.subcopy.length > 0 && (
@@ -103,7 +99,7 @@ const Hero = ({
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, delay: 0.18 }}
-            className="mt-5 max-w-3xl space-y-1 break-words text-pretty font-body text-[0.95rem] leading-7 text-white/70 md:mt-6 md:text-lg md:leading-8"
+            className="mt-5 max-w-3xl space-y-3 break-words text-pretty font-body text-[0.95rem] leading-7 text-white/70 md:mt-6 md:text-lg md:leading-8"
           >
             {content.subcopy.map((line) => (
               <p key={line}>{line}</p>

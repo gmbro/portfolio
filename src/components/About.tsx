@@ -38,7 +38,7 @@ const About = ({ keywords = [] }: AboutProps) => {
         >
           <div className="min-w-0">
             <p className="font-body text-xs font-semibold uppercase tracking-[0.3em] text-[#ff6645]">About</p>
-            <h2 className="mt-4 max-w-xl break-words text-balance font-display text-[1.75rem] font-bold leading-tight tracking-[-0.03em] text-white sm:text-3xl md:text-4xl">
+            <h2 className="mt-4 break-words text-pretty font-display text-[1.75rem] font-bold leading-[1.3] tracking-[-0.03em] text-white sm:text-3xl md:text-4xl md:leading-[1.24]">
               여러 조직에서 다양한 문제를 해결하며 성장해왔습니다.
             </h2>
             {keywords.length > 0 && (

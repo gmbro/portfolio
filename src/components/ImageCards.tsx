@@ -82,10 +82,10 @@ const ProjectCard = ({ project, index }: { project: FeaturedProject; index: numb
     >
       <div>
         <div className="min-w-0">
-          <header className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
+          <header className="flex min-w-0 flex-col gap-3 lg:flex-row lg:items-start lg:justify-between lg:gap-6">
             <h3
               id={headingId}
-              className={`min-w-0 break-words text-balance font-display font-bold leading-[1.25] tracking-[-0.025em] text-white ${
+              className={`min-w-0 flex-1 break-words text-pretty font-display font-bold leading-[1.3] tracking-[-0.025em] text-white md:leading-[1.25] ${
                 isPriority ? "text-2xl md:text-4xl" : "text-xl md:text-2xl"
               }`}
             >
@@ -191,10 +191,10 @@ const ImageCards = () => {
           <span className="font-body text-xs font-semibold uppercase tracking-[0.3em] text-[#ff6645]">
             Projects
           </span>
-          <h2 className="mt-4 break-words text-balance font-display text-3xl font-bold leading-tight tracking-[-0.03em] text-white md:text-5xl">
+          <h2 className="mt-4 break-words text-pretty font-display text-3xl font-bold leading-[1.3] tracking-[-0.03em] text-white md:text-5xl md:leading-[1.22]">
             문제를 성과로 바꾼 프로젝트를 소개합니다.
           </h2>
-          <p className="mt-6 max-w-3xl break-words text-balance font-body text-base leading-7 text-white/65 md:text-lg">
+          <p className="mt-6 max-w-3xl break-words text-pretty font-body text-base leading-7 text-white/65 md:text-lg">
             기술을 활용해 고객의 시간과 비용을 줄인 과정을 문제·판단·실행·성과 순서로 정리했습니다.
           </p>
         </motion.div>

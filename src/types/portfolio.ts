@@ -38,7 +38,7 @@ export interface PortfolioPublication {
 export const defaultHeroContent: HeroContent = {
   roleLabel: "AI PM",
   careerLabel: "7 years of experience",
-  headline: "저는 '고객의 문제'를\n'효과적으로 해결'할 수 있는\n7년차 AI PM 이경민입니다.",
+  headline: "저는 '고객의 문제'를 '효과적으로 해결'할 수 있는 7년차 AI PM 이경민입니다.",
   highlight: ["'고객의 문제'", "'효과적으로 해결'"],
   subcopy: [],
   keywords: [
@@ -78,11 +78,11 @@ export const parsePortfolioPageContent = (value: Json): PortfolioPageContent | n
   const heroCandidate = hero as Record<string, unknown>;
   const roleLabel = normalizeString(heroCandidate.roleLabel, 40);
   const careerLabel = normalizeOptionalString(heroCandidate.careerLabel, 24);
-  const headline = normalizeString(heroCandidate.headline, 120);
+  const headlineSource = normalizeString(heroCandidate.headline, 120);
+  const headline = headlineSource?.replace(/\s+/g, " ").trim() ?? null;
   const highlight = normalizeOptionalString(heroCandidate.highlight, 60);
   const ctaLabel = normalizeOptionalString(heroCandidate.ctaLabel, 32);
   const ctaTarget = normalizeOptionalString(heroCandidate.ctaTarget, 64);
-  const headlineLines = headline?.split("\n") ?? [];
   const hasCompleteCta = ctaLabel !== undefined && ctaTarget !== undefined;
   const hasPartialCta = (ctaLabel === undefined) !== (ctaTarget === undefined);
 
@@ -94,9 +94,7 @@ export const parsePortfolioPageContent = (value: Json): PortfolioPageContent | n
     ctaLabel === null ||
     ctaTarget === null ||
     hasPartialCta ||
-    (hasCompleteCta && !isSafeTarget(ctaTarget)) ||
-    headlineLines.length > 2 ||
-    headlineLines.some((line) => !line.trim() || line.trim().length > 60)
+    (hasCompleteCta && !isSafeTarget(ctaTarget))
   ) {
     return null;
   }
