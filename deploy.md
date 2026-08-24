@@ -5196,6 +5196,17 @@ Hero 후보:
 - 로컬 브라우저 console warning/error는 0건이다.
 - 로컬 판정: `통과`.
 
+#### 배포·운영 재검증
+
+- 배포 커밋: `d51577ab81ea0b55423998f4b8e24f29b5a243dc` (`fix: refine project CTA and career direction`).
+- GitHub Pages run: [#47 · success](https://github.com/gmbro/portfolio/actions/runs/32702153848).
+- 운영 URL: `https://archilab.ai.kr/?release=47`.
+- 390·768·1440px에서 새 프로젝트 CTA 5개, `Connect the Dots`, 3개 의미 문단, `조직에 기여하고 싶습니다.`를 확인했다.
+- 세 너비 모두 기존 CTA·기존 제목·기존 마지막 문장은 0개였고 가로 오버플로도 0건이었다.
+- 390px 운영 화면에서 첫 프로젝트 CTA 클릭 시 챗봇 dialog와 프로젝트별 질문 prefill이 정상 동작하고 자동 전송되지 않는 것을 재확인했다.
+- 운영 브라우저 console warning/error는 0건이다.
+- 배포 후 판정: `통과`.
+
 ### 2026-08-24 Portfolio Product Lab·대화형 근거 탐색 — 기준 버전 45
 
 #### 1단계 — 문제·사용자·성공지표 정의
