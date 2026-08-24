@@ -142,6 +142,10 @@ describe("Google Analytics 동의 기반 연동", () => {
     const { analytics } = await loadAnalyticsModules();
     analytics.initializeAnalytics();
 
+    expect(analytics.trackChatInteraction("chat_intro_view", {
+      path: "career-fit",
+      audience: "recruiter",
+    })).toBe(true);
     expect(analytics.trackChatInteraction("chat_start", {
       path: "arky-product",
       source: "starter",
@@ -158,8 +162,35 @@ describe("Google Analytics 동의 기반 연동", () => {
       source: "jd-brief",
       inputKind: "file",
     })).toBe(true);
+    expect(analytics.trackChatInteraction("chat_mode_select", {
+      path: "career-fit",
+      audience: "partner",
+    })).toBe(true);
+    expect(analytics.trackChatInteraction("project_ai_open", {
+      path: "nipa-vision",
+      source: "project",
+      questionId: "nipa-vision",
+      projectId: "nipa-vision-ai-poc",
+    })).toBe(true);
+    expect(analytics.trackChatInteraction("evidence_card_open", {
+      path: "nipa-vision",
+      projectId: "nipa-vision-ai-poc",
+    })).toBe(true);
+    expect(analytics.trackChatInteraction("jd_brief_generate", {
+      path: "jd-brief",
+      source: "jd-brief",
+      inputKind: "file",
+    })).toBe(true);
 
     const commands = (window.dataLayer ?? []).map(toCommand);
+    expect(commands).toContainEqual([
+      "event",
+      "chat_intro_view",
+      expect.objectContaining({
+        path: "career-fit",
+        audience: "recruiter",
+      }),
+    ]);
     expect(commands).toContainEqual([
       "event",
       "chat_recommendation_click",
@@ -178,6 +209,21 @@ describe("Google Analytics 동의 기반 연동", () => {
         source: "jd-brief",
         input_kind: "file",
       }),
+    ]);
+    expect(commands).toContainEqual([
+      "event",
+      "project_ai_open",
+      expect.objectContaining({
+        path: "nipa-vision",
+        source: "project",
+        question_id: "nipa-vision",
+        project_id: "nipa-vision-ai-poc",
+      }),
+    ]);
+    expect(commands).toContainEqual([
+      "event",
+      "chat_mode_select",
+      expect.objectContaining({ audience: "partner" }),
     ]);
 
     const serialized = JSON.stringify(commands);

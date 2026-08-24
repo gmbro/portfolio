@@ -26,6 +26,7 @@ interface JdBriefFormProps {
   onCreateBrief: (prompt: string) => void;
   onReadStart?: (sourceType: JdBriefSourceType) => void;
   onExtracted?: (sourceType: JdBriefSourceType) => void;
+  onAnalyzed?: (sourceType: JdBriefSourceType) => void;
 }
 
 const getErrorMessage = (error: unknown) =>
@@ -38,6 +39,7 @@ const JdBriefForm = ({
   onCreateBrief,
   onReadStart,
   onExtracted,
+  onAnalyzed,
 }: JdBriefFormProps) => {
   const [sourceType, setSourceType] = useState<JdBriefSourceType>("url");
   const [url, setUrl] = useState("");
@@ -132,6 +134,7 @@ const JdBriefForm = ({
     try {
       setError("");
       setAnalysis(analyzeJdAgainstPortfolio(extractedText));
+      onAnalyzed?.(sourceType);
     } catch (buildError) {
       setError(getErrorMessage(buildError));
     }

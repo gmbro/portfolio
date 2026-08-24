@@ -1,7 +1,9 @@
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Sparkles } from "lucide-react";
+import { getProjectChatPrompt } from "@/data/chatbot";
 import { portfolioProjects, type FeaturedProject } from "@/data/portfolio";
-import { trackPortfolioEvent } from "@/lib/analytics";
+import { trackChatInteraction, trackPortfolioEvent } from "@/lib/analytics";
+import { openPortfolioChat } from "@/lib/chat";
 import EvidenceMediaGallery, { type EvidenceMediaItem } from "@/components/EvidenceMediaGallery";
 
 const ProjectVisual = ({ project }: { project: FeaturedProject }) => {
@@ -46,6 +48,7 @@ const ProjectCard = ({ project, index }: { project: FeaturedProject; index: numb
   const isPriority = index === 0;
   const showsVisual = Boolean(project.visual);
   const headingId = `${project.id}-title`;
+  const chatPrompt = getProjectChatPrompt(project.id);
   const evidence = (
     <dl className="grid gap-6 xl:grid-cols-[0.85fr_1.55fr_1fr]">
       <div>
@@ -128,22 +131,43 @@ const ProjectCard = ({ project, index }: { project: FeaturedProject; index: numb
 
       <div className="mt-8">{evidence}</div>
 
-      {project.link && (
-        <footer className="mt-8 flex justify-end border-t border-white/[0.07] pt-6">
-          <a
-            href={project.link.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            data-chat-exclusion="true"
-            onClick={() => {
-              if (project.id === "arkylab-ai-coach") trackPortfolioEvent("select_content");
-            }}
-            aria-label={project.id === "arkylab-ai-coach" ? "베타 서비스 보기, 새 창에서 열기" : undefined}
-            className="inline-flex min-h-11 items-center gap-2 rounded-full border border-white/15 px-4 py-2 font-body text-xs font-bold text-white transition-colors hover:border-[#ff6645]/60 hover:text-[#ff8a70] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6645]"
-          >
-            {project.link.label}
-            <ArrowUpRight size={15} aria-hidden="true" />
-          </a>
+      {(chatPrompt || project.link) && (
+        <footer className="mt-8 flex flex-col gap-3 border-t border-white/[0.07] pt-6 sm:flex-row sm:items-center sm:justify-between">
+          {chatPrompt && (
+            <button
+              type="button"
+              data-chat-exclusion="true"
+              onClick={(event) => {
+                trackChatInteraction("project_ai_open", {
+                  path: chatPrompt.path,
+                  source: "project",
+                  questionId: chatPrompt.questionId,
+                  projectId: project.id,
+                });
+                openPortfolioChat(event.currentTarget, chatPrompt);
+              }}
+              className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-[#fff1ed] px-4 py-2 font-body text-xs font-bold text-[#b93822] transition-colors hover:bg-[#ffe4dc] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6645] sm:w-auto"
+            >
+              <Sparkles size={15} aria-hidden="true" />
+              이 프로젝트를 AI에게 묻기
+            </button>
+          )}
+          {project.link && (
+            <a
+              href={project.link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-chat-exclusion="true"
+              onClick={() => {
+                if (project.id === "arkylab-ai-coach") trackPortfolioEvent("select_content");
+              }}
+              aria-label={project.id === "arkylab-ai-coach" ? "베타 서비스 보기, 새 창에서 열기" : undefined}
+              className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full border border-white/15 px-4 py-2 font-body text-xs font-bold text-white transition-colors hover:border-[#ff6645]/60 hover:text-[#ff8a70] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6645] sm:w-auto"
+            >
+              {project.link.label}
+              <ArrowUpRight size={15} aria-hidden="true" />
+            </a>
+          )}
         </footer>
       )}
     </motion.article>

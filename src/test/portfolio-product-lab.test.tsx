@@ -15,7 +15,7 @@ describe("PortfolioProductLab", () => {
     expect(section).toBeInTheDocument();
     expect(
       within(section as HTMLElement).getByRole("heading", {
-        name: "이 포트폴리오도 검증하며 성장합니다.",
+        name: "포트폴리오 자체를 하나의 제품으로 운영합니다.",
       }),
     ).toBeInTheDocument();
 
@@ -26,25 +26,36 @@ describe("PortfolioProductLab", () => {
       ...Object.values(chatbotFollowupQuestionsByPath).map((questions) => questions.length),
     );
 
-    expect(chatbotStarterQuestions).toHaveLength(6);
+    expect(chatbotStarterQuestions).toHaveLength(8);
     expect(followupCount).toBe(3);
     expect(within(coverage).getByText(`${chatbotStarterQuestions.length}개`)).toBeInTheDocument();
     expect(within(coverage).getByText(`${followupCount}개`)).toBeInTheDocument();
     expect(within(coverage).getByText(`${portfolioProjects.length}개`)).toBeInTheDocument();
-    expect(within(coverage).getByText("현재 미수집")).toBeInTheDocument();
-    expect(within(coverage).getByText("분석 비활성 · 측정 설계 완료")).toBeInTheDocument();
-    expect(section?.textContent).not.toMatch(/전환율|재방문율|사용자 수/);
+    expect(section).toHaveTextContent("해결할 문제");
+    expect(section).toHaveTextContent("제품 가설");
+    expect(section).toHaveTextContent("검증된 경력 근거 도달률");
+    expect(section).toHaveTextContent("추천 질문 클릭률");
+    expect(section).toHaveTextContent("근거 카드 열람률");
+    expect(section).toHaveTextContent("평균 질문 수");
+    expect(section).toHaveTextContent("브리프 생성률");
+    expect(within(section as HTMLElement).getAllByText("수집 전")).toHaveLength(4);
+    expect(section).toHaveTextContent("분석 비활성 · 베이스라인 수집 전");
   });
 
   it("제품 개선 단계를 정해진 순서로 보여준다", () => {
     render(<PortfolioProductLab />);
 
     const improvementLog = screen.getByRole("list", { name: "포트폴리오 개선 기록" });
-    expect(within(improvementLog).getAllByRole("listitem")).toHaveLength(3);
+    expect(within(improvementLog).getAllByRole("listitem")).toHaveLength(4);
     expect(
       within(improvementLog)
         .getAllByRole("heading")
         .map((heading) => heading.textContent),
-    ).toEqual(["Evidence-first", "Chat-first", "JD Brief Beta"]);
+    ).toEqual([
+      "추천 질문·사용자 모드 개편",
+      "답변 출처·프로젝트 CTA 연결",
+      "JD Brief 추출 실패 복구",
+      "실제 수치만 공개",
+    ]);
   });
 });

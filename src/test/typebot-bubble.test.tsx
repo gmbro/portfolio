@@ -53,6 +53,16 @@ const renderTypebot = async (observeAnalyticsConsent = false) => {
   return render(
     <>
       <button type="button" onClick={(event) => openPortfolioChat(event.currentTarget)}>이경민 AI</button>
+      <button
+        type="button"
+        onClick={(event) => openPortfolioChat(event.currentTarget, {
+          path: "nipa-vision",
+          question: "NIPA Vision AI 프로젝트의 수행 근거를 알려줘.",
+          questionId: "nipa-vision",
+        })}
+      >
+        프로젝트 AI
+      </button>
       <TypebotBubble observeAnalyticsConsent={observeAnalyticsConsent} />
     </>,
   );
@@ -141,14 +151,19 @@ describe("상단 CTA와 채팅창 내부 가이드", () => {
     expect(root.textContent).toContain("확인된 경력·프로젝트를 기준으로 답합니다");
     expect(shadowButton(root, /^경력 질문$/)).toHaveAttribute("aria-selected", "true");
     expect(shadowButton(root, /^채용 브리프 Beta$/)).toHaveAttribute("aria-selected", "false");
-    expect(root.textContent).toContain("추천 질문 6개");
+    expect(root.textContent).toContain("추천 질문 8개");
+    expect(root.textContent).toContain("채용 담당자");
+    expect(root.textContent).toContain("실무 리더");
+    expect(root.textContent).toContain("협업 파트너");
     expect(root.textContent).toContain("아키 0→1·베타");
     expect(root.textContent).toContain("Vision AI 프로젝트");
     expect(root.textContent).toContain("STT 운영 효율화");
     expect(root.textContent).toContain("AI 상담사 PoC");
     expect(root.textContent).toContain("350만 MAU 운영");
     expect(root.textContent).toContain("AI PM 커리어");
-    expect(root.querySelectorAll(".portfolio-chat-window-guide__starters button")).toHaveLength(6);
+    expect(root.textContent).toContain("채용 판단 요약");
+    expect(root.textContent).toContain("협업·책임 방식");
+    expect(root.querySelectorAll(".portfolio-chat-window-guide__starters button")).toHaveLength(8);
     expect(root.querySelector(".portfolio-chat-window-guide__intro-composer input")).not.toBeNull();
     expect(root.querySelector('style[data-portfolio-chat-window-guide="true"]')?.textContent)
       .not.toMatch(/lite-badge[^}]*display:\s*none|Made with Typebot[^}]*display:\s*none/i);
@@ -170,6 +185,47 @@ describe("상단 CTA와 채팅창 내부 가이드", () => {
       isOpen: true,
       theme: { button: { isHidden: true } },
     });
+  });
+
+  it("사용자 모드에 따라 추천 질문 8개의 우선순위를 바꾼다", async () => {
+    await renderTypebot();
+    const { root } = await openChatWithHost();
+    const starterLabels = () => Array.from(
+      root.querySelectorAll<HTMLButtonElement>(".portfolio-chat-window-guide__starters button"),
+    ).map((button) => button.textContent?.replace("↗", "").trim());
+
+    expect(shadowButton(root, /^채용 담당자$/)).toHaveAttribute("aria-pressed", "true");
+    expect(starterLabels()[0]).toBe("채용 판단 요약");
+
+    await act(async () => {
+      fireEvent.click(shadowButton(root, /^실무 리더$/));
+      await Promise.resolve();
+    });
+    expect(shadowButton(root, /^실무 리더$/)).toHaveAttribute("aria-pressed", "true");
+    expect(starterLabels()[0]).toBe("아키 0→1·베타");
+    expect(trackChatInteraction).toHaveBeenCalledWith("chat_mode_select", {
+      path: "career-fit",
+      audience: "leader",
+    });
+
+    await act(async () => {
+      fireEvent.click(shadowButton(root, /^협업 파트너$/));
+      await Promise.resolve();
+    });
+    expect(starterLabels()[0]).toBe("협업·책임 방식");
+  });
+
+  it("프로젝트 CTA는 관련 질문을 전송하지 않고 입력창에 준비한다", async () => {
+    await renderTypebot();
+    fireEvent.click(screen.getByRole("button", { name: "프로젝트 AI" }));
+    await screen.findByTestId("typebot-bubble");
+    const { root } = attachTypebotHost();
+    await waitFor(() => expect(root.querySelector(".portfolio-chat-window-guide")).toBeTruthy());
+
+    expect(root.querySelector<HTMLInputElement>("#portfolio-chat-window-question")?.value)
+      .toBe("NIPA Vision AI 프로젝트의 수행 근거를 알려줘.");
+    expect(shadowButton(root, /^실무 리더$/)).toHaveAttribute("aria-pressed", "true");
+    expect(submitInput).not.toHaveBeenCalled();
   });
 
   it("공개 LINK 또는 PDF·이미지로 JD를 읽고 브라우저에서 근거를 분석한 뒤 최소 정보만 Typebot에 전송한다", async () => {
@@ -255,6 +311,11 @@ describe("상단 CTA와 채팅창 내부 가이드", () => {
       inputKind: "url",
     });
     expect(trackChatInteraction).toHaveBeenCalledWith("jd_brief_ready", {
+      path: "jd-brief",
+      source: "jd-brief",
+      inputKind: "url",
+    });
+    expect(trackChatInteraction).toHaveBeenCalledWith("jd_brief_generate", {
       path: "jd-brief",
       source: "jd-brief",
       inputKind: "url",
@@ -415,7 +476,7 @@ describe("상단 CTA와 채팅창 내부 가이드", () => {
       path: "arky-product",
       source: "starter",
       questionId: "arky-product",
-      position: 1,
+      position: 3,
     });
     const conversation = root.querySelector(".portfolio-chat-window-guide--conversation");
     expect(conversation).not.toBeNull();
@@ -424,6 +485,9 @@ describe("상단 CTA와 채팅창 내부 가이드", () => {
     expect(conversation).toHaveTextContent("AI 기술 구조");
     expect(conversation).toHaveTextContent("베타 피드백 반영");
     expect(conversation).toHaveTextContent("상용화 검증");
+    expect(conversation).toHaveTextContent("프로젝트 출처");
+    expect(conversation).toHaveTextContent("운동 강사를 위한 AI 기록 솔루션");
+    expect(conversation).toHaveTextContent("근거 보기");
     expect(
       conversation?.querySelectorAll(".portfolio-chat-window-guide__followups button"),
     ).toHaveLength(3);
@@ -460,6 +524,55 @@ describe("상단 CTA와 채팅창 내부 가이드", () => {
       ["set", "아키에 Gemini와 MediaPipe를 어떤 구조로 적용했는지 알려줘.", "portfolio-typebot"],
       ["submit", "portfolio-typebot"],
     ]);
+  });
+
+  it("대화 화면 헤더의 뒤로가기로 추천 질문 첫 화면에 복귀한다", async () => {
+    await renderTypebot();
+    const { root, botWindow } = await openChatWithHost();
+
+    expect(Array.from(root.querySelectorAll("button")).some((button) =>
+      button.getAttribute("aria-label") === "첫 화면으로 돌아가기",
+    )).toBe(false);
+
+    fireEvent.click(shadowButton(root, /아키 0→1·베타/));
+    await waitFor(() => expect(submitInput).toHaveBeenCalledTimes(1));
+
+    const backButton = shadowButton(root, /^첫 화면으로 돌아가기$/);
+    expect(backButton).toBeVisible();
+    expect(root.querySelector(".portfolio-chat-window-guide__header--with-back")).not.toBeNull();
+
+    fireEvent.click(backButton);
+
+    await waitFor(() => {
+      expect(root.querySelector(".portfolio-chat-window-guide--intro")).not.toBeNull();
+      expect(botWindow).toHaveAttribute("data-portfolio-chat-mode", "intro");
+    });
+    expect(root.textContent).toContain("추천 질문 8개");
+    expect(shadowButton(root, /^경력 질문$/)).toHaveAttribute("aria-selected", "true");
+    expect(root.querySelector(".portfolio-chat-window-guide__header--with-back")).toBeNull();
+  });
+
+  it("답변 출처 카드에서 공개 프로젝트 근거로 이동한다", async () => {
+    await renderTypebot();
+    const target = document.createElement("article");
+    target.id = "arkylab-ai-coach";
+    document.body.appendChild(target);
+    const { root } = await openChatWithHost();
+
+    fireEvent.click(shadowButton(root, /아키 0→1·베타/));
+    await waitFor(() => expect(submitInput).toHaveBeenCalledTimes(1));
+    const evidenceLink = root.querySelector<HTMLAnchorElement>(
+      '.portfolio-chat-window-guide__source-card a[href="#arkylab-ai-coach"]',
+    );
+    expect(evidenceLink).not.toBeNull();
+
+    fireEvent.click(evidenceLink!);
+    expect(trackChatInteraction).toHaveBeenCalledWith("evidence_card_open", {
+      path: "arky-product",
+      projectId: "arkylab-ai-coach",
+    });
+    await waitFor(() => expect(latestBubbleProps().isOpen).toBe(false));
+    target.remove();
   });
 
   it("질문 전송 예약 직후 닫으면 외부 전송을 취소하고 입력 값을 비운다", async () => {

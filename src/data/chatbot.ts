@@ -19,7 +19,39 @@ export type ChatbotQuestionPath =
   | "skelter-counselor"
   | "syrup-operations"
   | "career-fit"
+  | "hiring-summary"
+  | "collaboration-style"
   | "jd-brief";
+
+export type ChatAudienceMode = "recruiter" | "leader" | "partner";
+
+export interface ChatbotAudienceMode {
+  id: ChatAudienceMode;
+  label: string;
+  description: string;
+  intro: string;
+}
+
+export const chatbotAudienceModes: readonly ChatbotAudienceMode[] = [
+  {
+    id: "recruiter",
+    label: "채용 담당자",
+    description: "경력 요약과 적합 근거",
+    intro: "채용 판단에 필요한 경력 요약과 검증된 프로젝트 근거를 빠르게 찾아보세요.",
+  },
+  {
+    id: "leader",
+    label: "실무 리더",
+    description: "문제·판단·실행 방식",
+    intro: "프로젝트에서 어떤 문제를 정의하고 무엇을 판단·실행했는지 근거로 확인해 보세요.",
+  },
+  {
+    id: "partner",
+    label: "협업 파트너",
+    description: "역할·책임·협업 방식",
+    intro: "프로젝트 범위와 담당 업무, 이해관계자와 협업한 방식을 중심으로 살펴보세요.",
+  },
+] as const;
 
 export interface ChatbotQuestion {
   id: string;
@@ -68,7 +100,59 @@ export const chatbotStarterQuestions: readonly ChatbotStarterQuestion[] = [
     label: "AI PM 커리어",
     question: "여러 직무 경험이 현재의 AI PM 역량으로 어떻게 연결되는지 알려줘.",
   },
+  {
+    id: "hiring-summary",
+    path: "hiring-summary",
+    label: "채용 판단 요약",
+    question: "채용 담당자가 먼저 확인할 핵심 경력 근거와 강점을 프로젝트 기준으로 요약해줘.",
+  },
+  {
+    id: "collaboration-style",
+    path: "collaboration-style",
+    label: "협업·책임 방식",
+    question: "프로젝트에서 담당 범위를 정하고 이해관계자와 협업한 방식을 알려줘.",
+  },
 ] as const;
+
+const starterPriorityByAudience: Readonly<Record<ChatAudienceMode, readonly ChatbotQuestionPath[]>> = {
+  recruiter: [
+    "hiring-summary",
+    "career-fit",
+    "arky-product",
+    "nipa-vision",
+    "selectstar-stt",
+    "skelter-counselor",
+    "syrup-operations",
+    "collaboration-style",
+  ],
+  leader: [
+    "arky-product",
+    "nipa-vision",
+    "selectstar-stt",
+    "skelter-counselor",
+    "syrup-operations",
+    "career-fit",
+    "hiring-summary",
+    "collaboration-style",
+  ],
+  partner: [
+    "collaboration-style",
+    "nipa-vision",
+    "selectstar-stt",
+    "skelter-counselor",
+    "arky-product",
+    "syrup-operations",
+    "career-fit",
+    "hiring-summary",
+  ],
+} as const;
+
+export const getChatbotStarterQuestions = (audience: ChatAudienceMode) => {
+  const priority = starterPriorityByAudience[audience];
+  return [...chatbotStarterQuestions].sort(
+    (left, right) => priority.indexOf(left.path) - priority.indexOf(right.path),
+  );
+};
 
 export const chatbotFollowupQuestionsByPath: Readonly<
   Record<ChatbotQuestionPath, readonly [ChatbotQuestion, ChatbotQuestion, ChatbotQuestion]>
@@ -175,6 +259,40 @@ export const chatbotFollowupQuestionsByPath: Readonly<
       question: "다음 조직에서 장기적으로 기여하고 싶은 문제를 알려줘.",
     },
   ],
+  "hiring-summary": [
+    {
+      id: "hiring-strong-evidence",
+      label: "가장 강한 근거",
+      question: "채용 판단에서 가장 강하게 확인할 수 있는 프로젝트 근거 3가지를 알려줘.",
+    },
+    {
+      id: "hiring-role-range",
+      label: "역할 범위",
+      question: "제품 기획·프로젝트 관리·사업 개발 경험이 실제 업무에서 어떻게 연결됐는지 알려줘.",
+    },
+    {
+      id: "hiring-interview",
+      label: "면접 확인 질문",
+      question: "공개 포트폴리오 근거를 더 검증하기 위한 면접 질문 3가지를 제안해줘.",
+    },
+  ],
+  "collaboration-style": [
+    {
+      id: "collaboration-scope",
+      label: "담당 범위 설정",
+      question: "프로젝트에서 본인의 담당 범위와 팀의 역할을 어떻게 구분했는지 알려줘.",
+    },
+    {
+      id: "collaboration-stakeholders",
+      label: "이해관계자 조율",
+      question: "고객사·개발팀·수행기관 사이의 요구사항을 조율한 사례를 알려줘.",
+    },
+    {
+      id: "collaboration-deliverables",
+      label: "산출물·진행 관리",
+      question: "제안서·PRD·보고서·운영 기준 같은 산출물을 어떻게 관리했는지 알려줘.",
+    },
+  ],
   "jd-brief": [
     {
       id: "jd-brief-evidence",
@@ -196,6 +314,8 @@ export const chatbotFollowupQuestionsByPath: Readonly<
 
 const questionPathMatchers: readonly [ChatbotQuestionPath, RegExp][] = [
   ["jd-brief", /\[채용\s*브리프\s*Beta\]|채용\s*브리프|JD\s*적합/i],
+  ["hiring-summary", /채용\s*(담당자|판단|요약)|핵심\s*경력\s*근거|강한\s*근거/i],
+  ["collaboration-style", /협업|담당\s*범위|이해관계자|산출물/i],
   ["arky-product", /아키|운동\s*강사|mediapipe|gemini/i],
   ["nipa-vision", /nipa|vision|비전|아웃솔|품질\s*검사/i],
   ["skelter-counselor", /스켈터|skelter|상담사|retrieval|tts/i],
@@ -208,6 +328,92 @@ export const resolveChatbotQuestionPath = (question: string): ChatbotQuestionPat
 
 export const getChatbotFollowupQuestions = (path: ChatbotQuestionPath) =>
   chatbotFollowupQuestionsByPath[path];
+
+export interface ChatbotEvidenceSource {
+  id: string;
+  eyebrow: string;
+  title: string;
+  summary: string;
+  href: `#${string}`;
+}
+
+const chatbotEvidenceSources: Readonly<Partial<Record<ChatbotQuestionPath, ChatbotEvidenceSource>>> = {
+  "arky-product": {
+    id: "arkylab-ai-coach",
+    eyebrow: "프로젝트 출처",
+    title: "운동 강사를 위한 AI 기록 솔루션",
+    summary: "아키랩·FIXNESS · 제품 기획·개발·사업·운영 전담",
+    href: "#arkylab-ai-coach",
+  },
+  "nipa-vision": {
+    id: "nipa-vision-ai-poc",
+    eyebrow: "프로젝트 출처",
+    title: "AI Vision 기반 신발 아웃솔 품질 검사",
+    summary: "GenON·NIPA AI 바우처 · 제안서·산출물·프로젝트 관리",
+    href: "#nipa-vision-ai-poc",
+  },
+  "selectstar-stt": {
+    id: "selectstar-stt-operations",
+    eyebrow: "프로젝트 출처",
+    title: "음성 전사 데이터셋 구축 프로젝트",
+    summary: "셀렉트스타·LG유플러스 · 프로젝트 수행·STT 제품 기획",
+    href: "#selectstar-stt-operations",
+  },
+  "skelter-counselor": {
+    id: "skelter-ai-counselor",
+    eyebrow: "프로젝트 출처",
+    title: "Retrieval 기술을 활용한 AI 상담사 PoC",
+    summary: "스켈터랩스·네오사피엔스 · 제품·대화 설계 및 제휴",
+    href: "#skelter-ai-counselor",
+  },
+  "syrup-operations": {
+    id: "sk-planet-syrup-wallet",
+    eyebrow: "프로젝트 출처",
+    title: "시럽월렛 광고 운영 효율화",
+    summary: "SK Planet·Syrup Wallet · 푸시 기능 기획·운영 개선",
+    href: "#sk-planet-syrup-wallet",
+  },
+  "career-fit": {
+    id: "experience",
+    eyebrow: "경력 출처",
+    title: "Experience · 경력 타임라인",
+    summary: "커머스·데이터·AI·공공 SaaS·헬스케어 경험",
+    href: "#experience",
+  },
+  "hiring-summary": {
+    id: "case-studies",
+    eyebrow: "공개 근거 모음",
+    title: "Projects · 검증된 프로젝트 5개",
+    summary: "문제·판단·실행·성과와 증거 이미지 기준",
+    href: "#case-studies",
+  },
+  "collaboration-style": {
+    id: "case-studies",
+    eyebrow: "협업 근거 모음",
+    title: "Projects · 수행 회사와 담당 업무",
+    summary: "프로젝트별 담당 범위와 이해관계자 조율 근거",
+    href: "#case-studies",
+  },
+};
+
+export const getChatbotEvidenceSource = (path: ChatbotQuestionPath) =>
+  chatbotEvidenceSources[path];
+
+const projectQuestionPathById: Readonly<Record<string, ChatbotQuestionPath>> = {
+  "arkylab-ai-coach": "arky-product",
+  "nipa-vision-ai-poc": "nipa-vision",
+  "selectstar-stt-operations": "selectstar-stt",
+  "skelter-ai-counselor": "skelter-counselor",
+  "sk-planet-syrup-wallet": "syrup-operations",
+};
+
+export const getProjectChatPrompt = (projectId: string) => {
+  const path = projectQuestionPathById[projectId];
+  const starter = chatbotStarterQuestions.find((question) => question.path === path);
+  return path && starter
+    ? { path, question: starter.question, questionId: starter.id }
+    : undefined;
+};
 
 export const validateChatbotQuestion = (value: string, maxLength = 500) => {
   const question = value.trim();

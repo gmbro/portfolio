@@ -264,7 +264,7 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
     expect(parseCountUpValue("검증")).toBeNull();
   });
 
-  it("챗봇 추천 질문 6개와 경로별 후속 질문을 공개된 프로젝트·경력 근거에 연결한다", () => {
+  it("챗봇 추천 질문 8개와 경로별 후속 질문을 공개된 프로젝트·경력 근거에 연결한다", () => {
     expect(chatbotStarterQuestions.map(({ id }) => id)).toEqual([
       "arky-product",
       "nipa-vision",
@@ -272,19 +272,23 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
       "skelter-counselor",
       "syrup-operations",
       "career-fit",
+      "hiring-summary",
+      "collaboration-style",
     ]);
-    expect(new Set(chatbotStarterQuestions.map(({ question }) => question))).toHaveProperty("size", 6);
-    expect(Object.values(chatbotFollowupQuestionsByPath)).toHaveLength(7);
+    expect(new Set(chatbotStarterQuestions.map(({ question }) => question))).toHaveProperty("size", 8);
+    expect(Object.values(chatbotFollowupQuestionsByPath)).toHaveLength(9);
     expect(Object.values(chatbotFollowupQuestionsByPath).every((questions) => questions.length === 3)).toBe(true);
     const followupQuestions = Object.values(chatbotFollowupQuestionsByPath).flat();
-    expect(new Set(followupQuestions.map(({ id }) => id))).toHaveProperty("size", 21);
-    expect(new Set(followupQuestions.map(({ question }) => question))).toHaveProperty("size", 21);
+    expect(new Set(followupQuestions.map(({ id }) => id))).toHaveProperty("size", 27);
+    expect(new Set(followupQuestions.map(({ question }) => question))).toHaveProperty("size", 27);
     expect(resolveChatbotQuestionPath("아키의 베타 검증 과정을 알려줘")).toBe("arky-product");
     expect(resolveChatbotQuestionPath("NIPA Vision 프로젝트를 알려줘")).toBe("nipa-vision");
     expect(resolveChatbotQuestionPath("STT 데이터 구축 경험을 알려줘")).toBe("selectstar-stt");
     expect(resolveChatbotQuestionPath("AI 상담사 Retrieval 구조를 알려줘")).toBe("skelter-counselor");
     expect(resolveChatbotQuestionPath("STT·TTS·Retrieval 상담사 구조를 알려줘")).toBe("skelter-counselor");
     expect(resolveChatbotQuestionPath("시럽 푸시 운영 경험을 알려줘")).toBe("syrup-operations");
+    expect(resolveChatbotQuestionPath("채용 담당자 관점의 핵심 근거를 알려줘")).toBe("hiring-summary");
+    expect(resolveChatbotQuestionPath("이해관계자 협업 방식을 알려줘")).toBe("collaboration-style");
     expect(resolveChatbotQuestionPath("[채용 브리프 Beta] JD 적합도를 분석해줘")).toBe("jd-brief");
     expect(resolveChatbotQuestionPath("이경민의 강점을 알려줘")).toBe("career-fit");
     expect(portfolioProjects.find(({ id }) => id === "skelter-ai-counselor")).toMatchObject({

@@ -14,19 +14,26 @@ export type PortfolioAnalyticsEvent =
   | "generate_lead";
 
 export type ChatInteractionEvent =
+  | "chat_intro_view"
   | "chat_start"
   | "chat_question_submit"
   | "chat_recommendation_click"
+  | "chat_mode_select"
+  | "evidence_card_open"
+  | "project_ai_open"
   | "jd_brief_start"
-  | "jd_brief_ready";
+  | "jd_brief_ready"
+  | "jd_brief_generate";
 
-export type ChatQuestionSource = "starter" | "followup" | "freeform" | "jd-brief";
+export type ChatQuestionSource = "starter" | "followup" | "freeform" | "project" | "jd-brief";
 export type JdBriefInputKind = "url" | "file" | "paste";
 
 interface ChatInteractionParameters {
   path?: string;
   source?: ChatQuestionSource;
   questionId?: string;
+  audience?: "recruiter" | "leader" | "partner";
+  projectId?: string;
   position?: number;
   questionIndex?: number;
   inputKind?: JdBriefInputKind;
@@ -212,14 +219,20 @@ export const trackChatInteraction = (
 
   const path = safeSlug(parameters.path);
   const questionId = safeSlug(parameters.questionId);
+  const projectId = safeSlug(parameters.projectId);
   const position = safePositiveInteger(parameters.position);
   const questionIndex = safePositiveInteger(parameters.questionIndex);
   const source = parameters.source;
   const inputKind = parameters.inputKind;
+  const audience = parameters.audience && ["recruiter", "leader", "partner"].includes(parameters.audience)
+    ? parameters.audience
+    : undefined;
 
   window.gtag("event", eventName, {
     ...(path ? { path } : {}),
     ...(questionId ? { question_id: questionId } : {}),
+    ...(projectId ? { project_id: projectId } : {}),
+    ...(audience ? { audience } : {}),
     ...(position ? { position } : {}),
     ...(questionIndex ? { question_index: questionIndex } : {}),
     ...(source ? { source } : {}),

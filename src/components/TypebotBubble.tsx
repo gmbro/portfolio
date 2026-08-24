@@ -14,12 +14,15 @@ import { createPortal } from "react-dom";
 import type { BubbleProps } from "@typebot.io/react";
 import JdBriefForm from "@/components/JdBriefForm";
 import {
+  chatbotAudienceModes,
   chatbotAvatar,
   chatbotGuide,
-  chatbotStarterQuestions,
+  getChatbotEvidenceSource,
   getChatbotFollowupQuestions,
+  getChatbotStarterQuestions,
   resolveChatbotQuestionPath,
   validateChatbotQuestion,
+  type ChatAudienceMode,
   type ChatbotQuestionPath,
 } from "@/data/chatbot";
 import {
@@ -111,7 +114,7 @@ const guideStyles = `
 
   [part="bot"][data-portfolio-chat-mode="conversation"] .typebot-container {
     padding-top: 64px !important;
-    padding-bottom: 256px !important;
+    padding-bottom: 350px !important;
     background: #ffffff !important;
   }
 
@@ -141,6 +144,32 @@ const guideStyles = `
     background: linear-gradient(135deg, #e94f35 0%, #ff6645 54%, #ff9b45 100%);
     color: #ffffff;
     pointer-events: auto;
+  }
+
+  .portfolio-chat-window-guide__header--with-back {
+    grid-template-columns: 44px 40px minmax(0, 1fr) 44px;
+  }
+
+  .portfolio-chat-window-guide__back {
+    display: grid;
+    width: 44px;
+    height: 44px;
+    place-items: center;
+    border: 1px solid rgb(255 255 255 / 0.42);
+    border-radius: 9999px;
+    background: rgb(255 255 255 / 0.14);
+    color: #ffffff;
+    cursor: pointer;
+  }
+
+  .portfolio-chat-window-guide__back svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: currentcolor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 
   .portfolio-chat-window-guide__avatar {
@@ -285,6 +314,59 @@ const guideStyles = `
     font-size: 14px;
     font-weight: 520;
     line-height: 1.55;
+  }
+
+  .portfolio-chat-window-guide__intro span {
+    display: block;
+    margin-top: 6px;
+    color: #52525b;
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .portfolio-chat-window-guide__audiences {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+    margin-top: 12px;
+  }
+
+  .portfolio-chat-window-guide__audiences button {
+    display: flex;
+    min-width: 0;
+    min-height: 54px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 2px;
+    padding: 8px 9px;
+    border: 1px solid #e4e4e7;
+    border-radius: 12px;
+    background: #ffffff;
+    color: #52525b;
+    font-family: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .portfolio-chat-window-guide__audiences button[aria-pressed="true"] {
+    border-color: rgb(255 102 69 / 0.55);
+    background: #fff1ed;
+    color: #b93822;
+  }
+
+  .portfolio-chat-window-guide__audiences strong {
+    overflow-wrap: anywhere;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1.3;
+  }
+
+  .portfolio-chat-window-guide__audiences span {
+    overflow-wrap: anywhere;
+    color: #71717a;
+    font-size: 9px;
+    line-height: 1.3;
   }
 
   .portfolio-chat-window-guide__label {
@@ -809,6 +891,64 @@ const guideStyles = `
     pointer-events: auto;
   }
 
+  .portfolio-chat-window-guide__source-card {
+    display: grid;
+    min-width: 0;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 10px;
+    align-items: center;
+    padding: 10px 11px;
+    border: 1px solid #e4e4e7;
+    border-radius: 14px;
+    background: #f8f8f9;
+  }
+
+  .portfolio-chat-window-guide__source-card div { min-width: 0; }
+
+  .portfolio-chat-window-guide__source-card small {
+    display: block;
+    color: #c73822;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+  }
+
+  .portfolio-chat-window-guide__source-card strong,
+  .portfolio-chat-window-guide__source-card p {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .portfolio-chat-window-guide__source-card strong {
+    margin-top: 2px;
+    color: #27272a;
+    font-size: 11px;
+    font-weight: 800;
+  }
+
+  .portfolio-chat-window-guide__source-card p {
+    margin: 3px 0 0;
+    color: #71717a;
+    font-size: 9px;
+  }
+
+  .portfolio-chat-window-guide__source-card a {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 11px;
+    border-radius: 9999px;
+    background: #18181b;
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 800;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
   .portfolio-chat-window-guide__followup-label {
     margin: 0;
     color: #52525b;
@@ -982,7 +1122,7 @@ const guideStyles = `
     .portfolio-jd-brief__source-switch button { padding-inline: 4px; font-size: 10px; }
     [part="bot"][data-portfolio-chat-mode="conversation"] .typebot-container {
       padding-top: 62px !important;
-      padding-bottom: 252px !important;
+      padding-bottom: 346px !important;
     }
     .portfolio-chat-window-guide__conversation { padding: 9px 12px 56px; }
   }
@@ -1043,6 +1183,7 @@ interface TypebotBubbleProps {
 const TypebotBubble = ({ observeAnalyticsConsent = false }: TypebotBubbleProps) => {
   const [analyticsConsentVisible, setAnalyticsConsentVisible] = useState(false);
   const [introTab, setIntroTab] = useState<"career" | "jd-brief">("career");
+  const [audienceMode, setAudienceMode] = useState<ChatAudienceMode>("recruiter");
   const [question, setQuestion] = useState("");
   const [questionError, setQuestionError] = useState("");
   const [activeQuestionPath, setActiveQuestionPath] = useState<ChatbotQuestionPath>("career-fit");
@@ -1071,6 +1212,10 @@ const TypebotBubble = ({ observeAnalyticsConsent = false }: TypebotBubbleProps) 
   const awaitingReplyRef = useRef(false);
   const conversationStartedRef = useRef(false);
   const questionCountRef = useRef(0);
+  const selectedAudience = chatbotAudienceModes.find((mode) => mode.id === audienceMode)
+    ?? chatbotAudienceModes[0];
+  const starterQuestions = getChatbotStarterQuestions(audienceMode);
+  const evidenceSource = getChatbotEvidenceSource(activeQuestionPath);
 
   const clearReadyTimeout = useCallback(() => {
     if (readyTimeoutRef.current === undefined) return;
@@ -1128,6 +1273,15 @@ const TypebotBubble = ({ observeAnalyticsConsent = false }: TypebotBubbleProps) 
 
     focusChatTrigger();
   }, [cancelPendingSubmission, clearReadyTimeout, clearReplyTimeout, focusChatTrigger]);
+
+  const returnToIntro = useCallback(() => {
+    cancelPendingSubmission();
+    setQuestion("");
+    setQuestionError("");
+    setActiveQuestionPath("career-fit");
+    setIntroTab("career");
+    setGuideVisible(true);
+  }, [cancelPendingSubmission]);
 
   const handleLoadError = useCallback(() => {
     loadAttemptRef.current += 1;
@@ -1379,9 +1533,11 @@ const TypebotBubble = ({ observeAnalyticsConsent = false }: TypebotBubbleProps) 
 
   const openChat = (event?: Event) => {
     if (isLoading) return;
-    const trigger = event instanceof CustomEvent
-      ? (event as CustomEvent<PortfolioOpenChatDetail>).detail?.trigger
+    const detail = event instanceof CustomEvent
+      ? (event as CustomEvent<PortfolioOpenChatDetail>).detail
       : undefined;
+    const trigger = detail?.trigger;
+    const openingAudience: ChatAudienceMode = detail?.prefill ? "leader" : audienceMode;
     if (trigger instanceof HTMLElement) chatTriggerRef.current = trigger;
     else if (!chatTriggerRef.current && document.activeElement instanceof HTMLElement && document.activeElement !== document.body) {
       chatTriggerRef.current = document.activeElement;
@@ -1392,6 +1548,13 @@ const TypebotBubble = ({ observeAnalyticsConsent = false }: TypebotBubbleProps) 
     userRequestedOpen.current = true;
     bubbleReadyRef.current = false;
     setQuestionError("");
+    setQuestion(detail?.prefill?.question ?? "");
+    setActiveQuestionPath(detail?.prefill?.path ?? "career-fit");
+    if (detail?.prefill) setAudienceMode("leader");
+    trackChatInteraction("chat_intro_view", {
+      path: detail?.prefill?.path ?? "career-fit",
+      audience: openingAudience,
+    });
     setLoadFailed(false);
     setIntroTab("career");
     setGuideVisible(true);
@@ -1551,7 +1714,17 @@ const TypebotBubble = ({ observeAnalyticsConsent = false }: TypebotBubbleProps) 
             : undefined}
           aria-busy={isLoading}
         >
-          <header className="portfolio-chat-window-guide__header">
+          <header className={`portfolio-chat-window-guide__header${guideVisible ? "" : " portfolio-chat-window-guide__header--with-back"}`}>
+            {!guideVisible && (
+              <button
+                type="button"
+                className="portfolio-chat-window-guide__back"
+                aria-label="첫 화면으로 돌아가기"
+                onClick={returnToIntro}
+              >
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6" /><path d="M9 12h9" /></svg>
+              </button>
+            )}
             <span className="portfolio-chat-window-guide__avatar" aria-hidden="true">
               <img src={chatbotAvatar} alt="" width="40" height="40" decoding="async" />
             </span>
@@ -1601,12 +1774,37 @@ const TypebotBubble = ({ observeAnalyticsConsent = false }: TypebotBubbleProps) 
                     <span className="portfolio-chat-window-guide__message-avatar" aria-hidden="true">
                       <img src={chatbotAvatar} alt="" width="32" height="32" decoding="async" />
                     </span>
-                    <p id="portfolio-chat-window-guide-description" className="portfolio-chat-window-guide__intro">{chatbotGuide.intro}</p>
+                    <p id="portfolio-chat-window-guide-description" className="portfolio-chat-window-guide__intro">
+                      {chatbotGuide.intro}
+                      <span>{selectedAudience.intro}</span>
+                    </p>
                   </div>
 
-                  <p className="portfolio-chat-window-guide__label">추천 질문 6개</p>
+                  <div className="portfolio-chat-window-guide__audiences" role="group" aria-label="탐색 사용자 선택">
+                    {chatbotAudienceModes.map((mode) => (
+                      <button
+                        key={mode.id}
+                        type="button"
+                        aria-label={mode.label}
+                        aria-pressed={audienceMode === mode.id}
+                        disabled={!inputReady || isLoading}
+                        onClick={() => {
+                          setAudienceMode(mode.id);
+                          trackChatInteraction("chat_mode_select", {
+                            path: "career-fit",
+                            audience: mode.id,
+                          });
+                        }}
+                      >
+                        <strong>{mode.label}</strong>
+                        <span>{mode.description}</span>
+                      </button>
+                    ))}
+                  </div>
+
+                  <p className="portfolio-chat-window-guide__label">추천 질문 {starterQuestions.length}개</p>
                   <div className="portfolio-chat-window-guide__starters">
-                    {chatbotStarterQuestions.map((starter, index) => (
+                    {starterQuestions.map((starter, index) => (
                       <button
                         key={starter.id}
                         type="button"
@@ -1650,6 +1848,11 @@ const TypebotBubble = ({ observeAnalyticsConsent = false }: TypebotBubbleProps) 
                       source: "jd-brief",
                       inputKind,
                     })}
+                    onAnalyzed={(inputKind) => trackChatInteraction("jd_brief_generate", {
+                      path: "jd-brief",
+                      source: "jd-brief",
+                      inputKind,
+                    })}
                     onCreateBrief={(prompt) => startConversation(
                       prompt,
                       "jd-brief",
@@ -1662,6 +1865,28 @@ const TypebotBubble = ({ observeAnalyticsConsent = false }: TypebotBubbleProps) 
             )}
           </> : (
             <div className="portfolio-chat-window-guide__conversation">
+              {evidenceSource && (
+                <aside className="portfolio-chat-window-guide__source-card" aria-label="답변 공개 근거">
+                  <div>
+                    <small>{evidenceSource.eyebrow}</small>
+                    <strong>{evidenceSource.title}</strong>
+                    <p>{evidenceSource.summary}</p>
+                  </div>
+                  <a
+                    href={evidenceSource.href}
+                    data-chat-exclusion="true"
+                    onClick={() => {
+                      trackChatInteraction("evidence_card_open", {
+                        path: activeQuestionPath,
+                        projectId: evidenceSource.id,
+                      });
+                      closeChat();
+                    }}
+                  >
+                    근거 보기 ↗
+                  </a>
+                </aside>
+              )}
               <p id="portfolio-chat-window-followup-label" className="portfolio-chat-window-guide__followup-label">
                 이어서 이런 질문을 해보세요
               </p>
