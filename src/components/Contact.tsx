@@ -162,7 +162,7 @@ const Contact = () => {
         >
           <p className="font-body text-xs font-semibold uppercase tracking-[0.3em] text-[#ff6645]">Contact</p>
           <h2 className="mt-4 break-words text-balance font-display text-3xl font-bold leading-tight tracking-[-0.03em] text-white md:text-5xl">
-            채용·협업
+            어떠한 제안이든 열려있습니다.
           </h2>
           <p className="mt-5 max-w-3xl break-words text-pretty font-body text-base leading-7 text-white/65 md:text-lg">
             AI 제품 기획·프로젝트 수행에 강점이 있습니다. 고객 문제를 뾰족하게 정의하고, AI 기술을 활용해 실제

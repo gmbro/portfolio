@@ -134,8 +134,8 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
     expect(defaultHeroContent).toEqual({
       roleLabel: "AI PM",
       careerLabel: "7 years of experience",
-      headline: "고객의 문제를 제품으로 해결합니다.",
-      highlight: ["고객", "제품"],
+      headline: "저는 '고객의 문제'를\n'효과적으로 해결'할 수 있는\n7년차 AI PM 이경민입니다.",
+      highlight: ["'고객의 문제'", "'효과적으로 해결'"],
       subcopy: [],
       keywords: ["AI", "Product", "Project", "B2B", "B2C"],
       stats: [
@@ -144,7 +144,7 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
         { value: "13억", label: "매출 기여" },
       ],
     });
-    expect(defaultHeroContent.highlight).toEqual(["고객", "제품"]);
+    expect(defaultHeroContent.highlight).toEqual(["'고객의 문제'", "'효과적으로 해결'"]);
     expect(defaultHeroContent.headline).not.toContain("AI 역량");
     expect(defaultHeroContent.ctaLabel).toBeUndefined();
     expect(defaultHeroContent.ctaTarget).toBeUndefined();

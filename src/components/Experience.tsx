@@ -19,7 +19,7 @@ const Experience = () => {
             Experience
           </span>
           <h2 className="mt-4 break-words text-balance font-display text-3xl font-bold leading-tight tracking-[-0.03em] text-white md:text-4xl">
-            다양한 환경에서 제품과 사업의 문제를 해결해왔습니다.
+            사업, 제품 등 다양한 관점에서 문제 해결력을 길러왔습니다.
           </h2>
           <div className="mt-5 max-w-3xl break-words text-pretty font-body text-base leading-7 text-white/65 md:text-lg">
             <p>

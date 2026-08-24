@@ -38,8 +38,8 @@ export interface PortfolioPublication {
 export const defaultHeroContent: HeroContent = {
   roleLabel: "AI PM",
   careerLabel: "7 years of experience",
-  headline: "고객의 문제를 제품으로 해결합니다.",
-  highlight: ["고객", "제품"],
+  headline: "저는 '고객의 문제'를\n'효과적으로 해결'할 수 있는\n7년차 AI PM 이경민입니다.",
+  highlight: ["'고객의 문제'", "'효과적으로 해결'"],
   subcopy: [],
   keywords: [
     "AI",

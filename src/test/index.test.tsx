@@ -53,7 +53,9 @@ describe("기본 포트폴리오 정보 구조", () => {
     const hero = container.querySelector<HTMLElement>("#hero");
     expect(hero).toBeInTheDocument();
     expect(hero).toHaveClass("portfolio-hero");
-    expect(screen.getByRole("heading", { name: "고객의 문제를 제품으로 해결합니다." })).toBeInTheDocument();
+    expect(screen.getByRole("heading", {
+      name: "저는 '고객의 문제'를 '효과적으로 해결'할 수 있는 7년차 AI PM 이경민입니다.",
+    })).toBeInTheDocument();
     const heroSummary = within(hero as HTMLElement).getByRole("list", {
       name: "포트폴리오 요약",
     });
@@ -64,7 +66,7 @@ describe("기본 포트폴리오 정보 구조", () => {
     ]);
     expect(
       Array.from(hero?.querySelectorAll("h1 > span > span") ?? []).map((part) => part.textContent),
-    ).toEqual(["고객", "제품"]);
+    ).toEqual(["'고객의 문제'", "'효과적으로 해결'"]);
     expect(within(hero as HTMLElement).queryByText("제품의 제로투원과 350만 MAU 제품의 운영을 경험하고 제품 기획, 사업 개발, 퍼포먼스 마케팅 등 다양한 영역에서 역량을 키워왔습니다. B2B AI Project에 강점이 있으며 최근 직접 개발한 B2C Product로 헬스케어 데이터의 휘발성에 대한 문제를 풀고 있습니다.")).not.toBeInTheDocument();
     expect(hero?.querySelector('[aria-label="핵심 역량"]')).not.toBeInTheDocument();
     expect(
@@ -117,7 +119,7 @@ describe("기본 포트폴리오 정보 구조", () => {
     );
     expect(
       screen.getByRole("heading", {
-        name: "넓게 이해하고, 뾰족하게 실행합니다.",
+        name: "여러 조직에서 다양한 문제를 해결하며 성장해왔습니다.",
       }),
     ).toBeInTheDocument();
     const aboutPortrait = within(about as HTMLElement).getByRole("img", {
@@ -148,7 +150,7 @@ describe("기본 포트폴리오 정보 구조", () => {
     expect(screen.getByText("목적과 지표를 설정한 뒤 결과를 빠르게 검증하고 다음 액션을 고민합니다.")).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "문제를 성과로 바꾼 프로젝트를 소개합니다." })).toBeInTheDocument();
     expect(screen.getByText("기술을 활용해 고객의 시간과 비용을 줄인 과정을 문제·판단·실행·성과 순서로 정리했습니다.")).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "채용·협업" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "어떠한 제안이든 열려있습니다." })).toBeInTheDocument();
     expect(screen.getByText("AI 제품 기획·프로젝트 수행에 강점이 있습니다. 고객 문제를 뾰족하게 정의하고, AI 기술을 활용해 실제 성과로 연결하는 일에 기여할 수 있습니다.")).toBeInTheDocument();
 
     expect(screen.getByRole("link", { name: "베타 서비스 보기, 새 창에서 열기" })).toHaveAttribute(
@@ -227,7 +229,7 @@ describe("기본 포트폴리오 정보 구조", () => {
     );
     expect(within(selectstarProject as HTMLElement).getAllByRole("button", { name: /번째 이미지 보기/ })).toHaveLength(3);
     expect(within(selectstarProject as HTMLElement).queryByText("개념 목업")).not.toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "다양한 환경에서 제품과 사업의 문제를 해결해왔습니다." })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "사업, 제품 등 다양한 관점에서 문제 해결력을 길러왔습니다." })).toBeInTheDocument();
     expect(container.textContent).toContain(
       "커머스, 데이터, 클라우드·공공 SaaS, 헬스케어 제품 개발까지 다양한 도메인에서 제품 기획·사업 개발·프로젝트 운영을 수행하며 고객의 시간과 비용을 줄이는 일에 집중해왔습니다.",
     );
