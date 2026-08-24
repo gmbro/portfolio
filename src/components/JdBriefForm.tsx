@@ -1,6 +1,7 @@
 import {
   useEffect,
   useId,
+  useMemo,
   useRef,
   useState,
   type ChangeEvent,
@@ -8,14 +9,17 @@ import {
 } from "react";
 import {
   analyzeJdAgainstPortfolio,
+  assessJdContentQuality,
   buildJdFollowupQuestion,
   extractJdTextFromFile,
   extractJdTextFromUrl,
+  JD_TEXT_MAX_CHARACTERS,
   JD_URL_MAX_CHARACTERS,
+  normalizeJdText,
   type JdPortfolioAnalysisResult,
 } from "@/lib/jdBrief";
 
-export type JdBriefSourceType = "url" | "file";
+export type JdBriefSourceType = "url" | "file" | "paste";
 
 interface JdBriefFormProps {
   disabled?: boolean;
@@ -38,6 +42,7 @@ const JdBriefForm = ({
   const [sourceType, setSourceType] = useState<JdBriefSourceType>("url");
   const [url, setUrl] = useState("");
   const [file, setFile] = useState<File | null>(null);
+  const [pastedText, setPastedText] = useState("");
   const [extractedText, setExtractedText] = useState("");
   const [analysis, setAnalysis] = useState<JdPortfolioAnalysisResult | null>(null);
   const [error, setError] = useState("");
@@ -47,6 +52,10 @@ const JdBriefForm = ({
   const baseId = useId().replace(/:/g, "");
   const errorId = `${baseId}-error`;
   const statusId = `${baseId}-status`;
+  const quality = useMemo(
+    () => extractedText ? assessJdContentQuality(extractedText) : null,
+    [extractedText],
+  );
 
   useEffect(
     () => () => {
@@ -94,9 +103,13 @@ const JdBriefForm = ({
     try {
       const text = sourceType === "url"
         ? await extractJdTextFromUrl(url, fetch, abortController.signal)
-        : file
-          ? await extractJdTextFromFile(file, fetch, abortController.signal)
-          : await Promise.reject(new Error("PDF 또는 이미지 파일을 선택해 주세요."));
+        : sourceType === "file"
+          ? file
+            ? await extractJdTextFromFile(file, fetch, abortController.signal)
+            : await Promise.reject(new Error("PDF 또는 이미지 파일을 선택해 주세요."))
+          : normalizeJdText(pastedText);
+
+      if (!text) throw new Error("주요 업무·자격요건이 포함된 공개 JD 본문을 붙여넣어 주세요.");
 
       if (requestIdRef.current !== requestId) return;
       setExtractedText(text);
@@ -114,7 +127,7 @@ const JdBriefForm = ({
   };
 
   const handleAnalyzeBrief = () => {
-    if (disabled || isReading || !extractedText) return;
+    if (disabled || isReading || !extractedText || !quality?.isSufficient) return;
 
     try {
       setError("");
@@ -130,10 +143,21 @@ const JdBriefForm = ({
   };
 
   const statusText = isReading
-    ? "Jina Reader가 공개 채용 공고를 읽고 있어요…"
+    ? sourceType === "paste"
+      ? "붙여넣은 공개 JD 본문을 확인하고 있어요…"
+      : "Jina Reader가 공개 채용 공고를 읽고 있어요…"
     : extractedText
-      ? `${extractedText.length.toLocaleString("ko-KR")}자 추출됨`
+      ? `${extractedText.length.toLocaleString("ko-KR")}자 ${sourceType === "paste" ? "확인됨" : "추출됨"}`
       : "";
+
+  const submitDisabled =
+    disabled ||
+    isReading ||
+    (sourceType === "url"
+      ? !url.trim()
+      : sourceType === "file"
+        ? !file
+        : !pastedText.trim());
 
   return (
     <div className="portfolio-jd-brief">
@@ -161,6 +185,15 @@ const JdBriefForm = ({
         >
           PDF·이미지
         </button>
+        <button
+          type="button"
+          className={sourceType === "paste" ? "is-active" : undefined}
+          aria-pressed={sourceType === "paste"}
+          disabled={disabled || isReading}
+          onClick={() => selectSourceType("paste")}
+        >
+          본문 붙여넣기
+        </button>
       </div>
 
       <form className="portfolio-jd-brief__reader-form" onSubmit={handleExtract} noValidate>
@@ -184,7 +217,7 @@ const JdBriefForm = ({
               }}
             />
           </div>
-        ) : (
+        ) : sourceType === "file" ? (
           <div key="file" className="portfolio-jd-brief__field">
             <label htmlFor={`${baseId}-file`}>공개 채용 공고 PDF 또는 이미지</label>
             <input
@@ -200,14 +233,37 @@ const JdBriefForm = ({
               {file ? file.name : "PDF, PNG, JPEG, WebP · 최대 5MB"}
             </span>
           </div>
+        ) : (
+          <div key="paste" className="portfolio-jd-brief__field">
+            <label htmlFor={`${baseId}-paste`}>공개 채용 공고 본문</label>
+            <textarea
+              id={`${baseId}-paste`}
+              value={pastedText}
+              maxLength={JD_TEXT_MAX_CHARACTERS}
+              rows={8}
+              placeholder={`주요업무\n- 담당할 업무를 붙여넣어 주세요.\n\n자격요건\n- 필요한 역량을 붙여넣어 주세요.`}
+              aria-invalid={Boolean(error)}
+              aria-describedby={`${error ? `${errorId} ` : ""}${statusText ? `${statusId} ` : ""}portfolio-jd-brief-notice`.trim()}
+              disabled={disabled || isReading}
+              onChange={(event) => {
+                resetExtraction();
+                setPastedText(event.target.value);
+              }}
+            />
+            <span className="portfolio-jd-brief__file-name">
+              자동 읽기가 제한된 사이트는 주요업무·자격요건·우대사항을 복사해 주세요.
+            </span>
+          </div>
         )}
 
         <button
           type="submit"
           className="portfolio-jd-brief__read-button"
-          disabled={disabled || isReading || (sourceType === "url" ? !url.trim() : !file)}
+          disabled={submitDisabled}
         >
-          {isReading ? "공고 읽는 중…" : "공고 읽기"}
+          {isReading
+            ? sourceType === "paste" ? "본문 확인 중…" : "공고 읽는 중…"
+            : sourceType === "paste" ? "본문 확인" : "공고 읽기"}
         </button>
       </form>
 
@@ -222,10 +278,31 @@ const JdBriefForm = ({
         </p>
       )}
 
+      {quality && (
+        <details className="portfolio-jd-brief__preview" open>
+          <summary>
+            <span>추출 미리보기</span>
+            <span>
+              {quality.detectedSections.length > 0
+                ? quality.detectedSections.join(" · ")
+                : "섹션 미감지"}
+            </span>
+          </summary>
+          <p>{quality.preview}</p>
+        </details>
+      )}
+
+      {quality && !quality.isSufficient && (
+        <div className="portfolio-jd-brief__quality-warning" role="alert">
+          <strong>분석 전 본문을 보완해 주세요.</strong>
+          <ul>{quality.issues.map((issue) => <li key={issue}>{issue}</li>)}</ul>
+        </div>
+      )}
+
       <button
         type="button"
         className="portfolio-jd-brief__create-button"
-        disabled={disabled || isReading || !extractedText}
+        disabled={disabled || isReading || !quality?.isSufficient}
         onClick={handleAnalyzeBrief}
       >
         근거 적합도 분석하기
@@ -328,9 +405,9 @@ const JdBriefForm = ({
 
       <p id="portfolio-jd-brief-notice" className="portfolio-jd-brief__notice">
         개인정보·회사 내부 문서·비공개 JD는 입력하지 마세요. 링크·파일은 Jina Reader에서 읽고,
-        근거 매핑은 브라우저에서 처리합니다. 심층 질문을 선택할 때만 상위 역량과 공개 프로젝트명이
-        Typebot으로 전송되며 JD 원문·링크·파일명은 전송하지 않습니다. URL query와 파일에도
-        공개 정보만 포함해 주세요.
+        붙여넣은 본문과 근거 매핑은 브라우저에서만 처리합니다. 심층 질문을 선택할 때만 상위 역량과
+        공개 프로젝트명이 Typebot으로 전송되며 JD 원문·링크·파일명은 전송하지 않습니다. URL
+        query와 파일에도 공개 정보만 포함해 주세요.
       </p>
     </div>
   );

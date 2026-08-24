@@ -56,4 +56,4 @@
 - 사용자가 분석을 허용해도 `/`을 벗어나는 즉시 태그를 비활성화하고 런타임 전송을 중지한다. 저장된 선택은 공개 루트에 다시 방문할 때만 적용한다.
 - `/p/*`, `/admin/links`, 404에서는 동의 UI·Google script·이벤트를 시작하지 않는다.
 - `page_location`, `page_title`, `page_referrer`는 모든 config·이벤트에서 공개 루트의 고정값만 사용한다. 실제 URL, query, hash, 회사별 slug와 유입 referrer는 전송하지 않는다.
-- JD Brief Beta의 공개 URL·PDF·이미지 입력값, 파일명, Jina Reader 추출문, 브라우저 안의 분석 결과와 자유 질문은 분석 이벤트에서 모두 제외한다. `jd_brief_start`·`jd_brief_ready`에는 `input_kind=url|file` 고정값만 허용한다. Typebot에는 JD 원문이 아니라 상위 역량·공개 프로젝트명으로 만든 후속 질문만 전달하며, 해당 질문 본문도 분석 이벤트에 포함하지 않는다. 개인정보와 비공개 JD는 제품 입력 단계부터 금지한다.
+- JD Brief Beta의 공개 URL·PDF·이미지·본문 붙여넣기 입력값, 파일명, Jina Reader 추출문, 브라우저 안의 분석 결과와 자유 질문은 분석 이벤트에서 모두 제외한다. `jd_brief_start`·`jd_brief_ready`에는 `input_kind=url|file|paste` 고정값만 허용한다. Typebot에는 JD 원문이 아니라 상위 역량·공개 프로젝트명으로 만든 후속 질문만 전달하며, 해당 질문 본문도 분석 이벤트에 포함하지 않는다. 개인정보와 비공개 JD는 제품 입력 단계부터 금지한다.

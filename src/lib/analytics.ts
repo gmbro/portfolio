@@ -21,7 +21,7 @@ export type ChatInteractionEvent =
   | "jd_brief_ready";
 
 export type ChatQuestionSource = "starter" | "followup" | "freeform" | "jd-brief";
-export type JdBriefInputKind = "url" | "file";
+export type JdBriefInputKind = "url" | "file" | "paste";
 
 interface ChatInteractionParameters {
   path?: string;

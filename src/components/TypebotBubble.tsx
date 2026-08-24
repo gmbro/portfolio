@@ -362,20 +362,20 @@ const guideStyles = `
 
   .portfolio-jd-brief__source-switch {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 6px;
     margin-top: 12px;
   }
 
   .portfolio-jd-brief__source-switch button {
     min-height: 44px;
-    padding: 8px 10px;
+    padding: 8px 6px;
     border: 1px solid #e4e4e7;
     border-radius: 12px;
     background: #ffffff;
     color: #52525b;
     font-family: inherit;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 750;
     cursor: pointer;
   }
@@ -396,10 +396,9 @@ const guideStyles = `
     font-weight: 750;
   }
 
-  .portfolio-jd-brief__field input {
+  .portfolio-jd-brief__field input,
+  .portfolio-jd-brief__field textarea {
     width: 100%;
-    min-height: 48px;
-    padding: 0 12px;
     border: 1px solid #d4d4d8;
     border-radius: 12px;
     background: #fafafa;
@@ -407,6 +406,18 @@ const guideStyles = `
     font-family: inherit;
     font-size: 14px;
     line-height: 1.4;
+  }
+
+  .portfolio-jd-brief__field input {
+    min-height: 48px;
+    padding: 0 12px;
+  }
+
+  .portfolio-jd-brief__field textarea {
+    min-height: 146px;
+    max-height: 260px;
+    padding: 11px 12px;
+    resize: vertical;
   }
 
   .portfolio-jd-brief__field input[type="file"] {
@@ -429,7 +440,8 @@ const guideStyles = `
     cursor: pointer;
   }
 
-  .portfolio-jd-brief__field input::placeholder { color: #8b8b92; opacity: 1; }
+  .portfolio-jd-brief__field input::placeholder,
+  .portfolio-jd-brief__field textarea::placeholder { color: #8b8b92; opacity: 1; }
 
   .portfolio-jd-brief__file-name {
     display: block;
@@ -480,6 +492,68 @@ const guideStyles = `
   .portfolio-jd-brief__status { color: #3f3f46; font-weight: 700; }
   .portfolio-jd-brief__error { color: #b42318; font-weight: 650; }
   .portfolio-jd-brief__notice { color: #71717a; }
+
+  .portfolio-jd-brief__preview {
+    margin-top: 9px;
+    border: 1px solid #e4e4e7;
+    border-radius: 12px;
+    background: #fafafa;
+  }
+
+  .portfolio-jd-brief__preview summary {
+    display: flex;
+    min-height: 42px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 8px 10px;
+    color: #3f3f46;
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  .portfolio-jd-brief__preview summary span:last-child {
+    min-width: 0;
+    color: #c73822;
+    font-size: 9px;
+    text-align: right;
+    overflow-wrap: anywhere;
+  }
+
+  .portfolio-jd-brief__preview > p {
+    max-height: 146px;
+    overflow: auto;
+    margin: 0;
+    padding: 0 10px 10px;
+    color: #52525b;
+    font-size: 10px;
+    line-height: 1.55;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+  }
+
+  .portfolio-jd-brief__quality-warning {
+    display: grid;
+    gap: 5px;
+    margin-top: 9px;
+    padding: 10px;
+    border: 1px solid #fecaca;
+    border-radius: 12px;
+    background: #fff7f6;
+    color: #991b1b;
+    font-size: 10px;
+    line-height: 1.5;
+  }
+
+  .portfolio-jd-brief__quality-warning strong { font-size: 11px; }
+
+  .portfolio-jd-brief__quality-warning ul {
+    display: grid;
+    gap: 2px;
+    margin: 0;
+    padding-left: 16px;
+  }
 
   .portfolio-jd-result {
     display: grid;
@@ -872,10 +946,12 @@ const guideStyles = `
   }
 
   .portfolio-chat-window-guide button:disabled,
-  .portfolio-chat-window-guide input:disabled { cursor: wait; opacity: 0.58; }
+  .portfolio-chat-window-guide input:disabled,
+  .portfolio-chat-window-guide textarea:disabled { cursor: wait; opacity: 0.58; }
 
   .portfolio-chat-window-guide button:focus-visible,
-  .portfolio-chat-window-guide input:focus-visible { outline: 2px solid #111111; outline-offset: 3px; }
+  .portfolio-chat-window-guide input:focus-visible,
+  .portfolio-chat-window-guide textarea:focus-visible { outline: 2px solid #111111; outline-offset: 3px; }
 
   @keyframes portfolio-chat-window-guide-in {
     from { opacity: 0; transform: translateY(8px) scale(0.99); }
@@ -902,7 +978,8 @@ const guideStyles = `
     }
     .portfolio-chat-window-guide__intro-composer { padding: 9px 12px 54px; }
     .portfolio-jd-brief__intro { padding: 11px 12px; }
-    .portfolio-jd-brief__source-switch { gap: 5px; }
+    .portfolio-jd-brief__source-switch { gap: 4px; }
+    .portfolio-jd-brief__source-switch button { padding-inline: 4px; font-size: 10px; }
     [part="bot"][data-portfolio-chat-mode="conversation"] .typebot-container {
       padding-top: 62px !important;
       padding-bottom: 252px !important;
