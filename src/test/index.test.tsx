@@ -233,9 +233,15 @@ describe("기본 포트폴리오 정보 구조", () => {
     );
     expect(screen.getByRole("heading", { name: "Connect the Dots" })).toBeInTheDocument();
     expect(screen.getByText("Career Direction")).toBeInTheDocument();
-    expect(screen.getByText(/^재직 기간이 짧아 보일 수 있지만/)).toBeInTheDocument();
-    expect(screen.getByText(/^공백기에는 짧게 재직한 스타트업 경험/)).toBeInTheDocument();
-    expect(screen.getByText(/^이제는 고객 문제를 깊게 이해하고/)).toHaveTextContent("조직에 기여하고 싶습니다.");
+    expect(screen.getByText(/^그 동안 여러 조직을 거치면서/)).toHaveTextContent(
+      "고객의 시간과 비용을 줄이고 기술을 실제 제품과 사업 성과로 연결하는 일입니다.",
+    );
+    expect(screen.getByText(/^공백기에는 다음 역할에 필요한 도메인을 학습하며/)).toHaveTextContent(
+      "퇴사 후 1인 솔로프리너로 AI 기반의 서비스를 만들고 있습니다.",
+    );
+    expect(screen.getByText(/^결국 모든 경험은 고객의 요구사항을 효과적으로 해결하고/)).toHaveTextContent(
+      "조직의 목표를 효율적으로 달성하는데 도움이 되었습니다.",
+    );
     expect(
       Array.from(container.querySelectorAll<HTMLElement>("[data-experience-duration]")).map(
         (badge) => badge.dataset.experienceDuration,
