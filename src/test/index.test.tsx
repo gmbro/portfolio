@@ -293,7 +293,7 @@ describe("기본 포트폴리오 정보 구조", () => {
     expect(container.textContent).not.toContain("Arkylab");
     expect(container.textContent).not.toContain("Archi");
     expect(container.textContent).not.toContain("2026 이경민");
-    const chatButtons = screen.getAllByRole("button", { name: "이경민 AI" });
+    const chatButtons = screen.getAllByRole("button", { name: "물어보기" });
     expect(chatButtons).toHaveLength(1);
     expect(chatButtons[0]).toHaveAttribute("aria-haspopup", "dialog");
     expect(chatButtons[0].querySelector("img")?.src).toContain("bubble-icon");

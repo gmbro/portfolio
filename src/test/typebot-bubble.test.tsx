@@ -52,7 +52,7 @@ const renderTypebot = async (observeAnalyticsConsent = false) => {
   ]);
   return render(
     <>
-      <button type="button" onClick={(event) => openPortfolioChat(event.currentTarget)}>이경민 AI</button>
+      <button type="button" onClick={(event) => openPortfolioChat(event.currentTarget)}>물어보기</button>
       <button
         type="button"
         onClick={(event) => openPortfolioChat(event.currentTarget, {
@@ -91,7 +91,7 @@ const attachTypebotHost = () => {
 };
 
 const openChatWithHost = async () => {
-  fireEvent.click(screen.getByRole("button", { name: "이경민 AI" }));
+  fireEvent.click(screen.getByRole("button", { name: "물어보기" }));
   await screen.findByTestId("typebot-bubble");
   const attached = attachTypebotHost();
   await waitFor(() => {
@@ -613,7 +613,7 @@ describe("상단 CTA와 채팅창 내부 가이드", () => {
 
   it("Escape로 실제 채팅창을 닫고 상단 CTA에 포커스를 돌려준다", async () => {
     await renderTypebot();
-    const trigger = screen.getByRole("button", { name: "이경민 AI" });
+    const trigger = screen.getByRole("button", { name: "물어보기" });
     const { root } = await openChatWithHost();
     expect(root.querySelector(".portfolio-chat-window-guide")).toBeTruthy();
 
@@ -634,7 +634,7 @@ describe("상단 CTA와 채팅창 내부 가이드", () => {
       await new Promise((resolve) => window.setTimeout(resolve, 0));
     });
     await waitFor(() => expect(latestBubbleProps().isOpen).toBe(false));
-    expect(screen.getByRole("button", { name: "이경민 AI" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "물어보기" })).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "물어보기 열기" })).not.toBeInTheDocument();
     await act(async () => {
       banner.remove();
@@ -647,7 +647,7 @@ describe("상단 CTA와 채팅창 내부 가이드", () => {
     const consoleError = vi.spyOn(console, "error").mockImplementation(() => undefined);
     await renderTypebot();
 
-    fireEvent.click(screen.getByRole("button", { name: "이경민 AI" }));
+    fireEvent.click(screen.getByRole("button", { name: "물어보기" }));
 
     expect(await screen.findByRole("alert")).toHaveTextContent("챗봇을 연결하지 못했습니다");
     expect(screen.getByRole("link", { name: "프로젝트 직접 보기" })).toHaveAttribute("href", "#case-studies");
@@ -658,7 +658,7 @@ describe("상단 CTA와 채팅창 내부 가이드", () => {
   it("Typebot host가 10초 안에 준비되지 않으면 무한 로딩 대신 복구 경로를 보여준다", async () => {
     vi.useFakeTimers();
     await renderTypebot();
-    fireEvent.click(screen.getByRole("button", { name: "이경민 AI" }));
+    fireEvent.click(screen.getByRole("button", { name: "물어보기" }));
     await act(async () => {
       await Promise.resolve();
       await Promise.resolve();

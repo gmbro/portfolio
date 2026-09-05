@@ -42,7 +42,7 @@
 - 지표의 숫자는 새로고침 뒤 `0`에서 최종값까지 약 1.6초 동안 한 번만 증가한다. 숫자 폭은 tabular number로 안정화하고, 스크린리더에는 최종값만 제공한다.
 - 지표 아래에는 별도 `Project partner company` 제목 없이 NIPA → 네오사피엔스 → LG유플러스 → KISA → 부산광역시 → Syrup Wallet → NHN Cloud → FIXNESS 순서의 투명 단색 로고를 표시한다. 모바일·태블릿·데스크톱 모두 4×2 grid를 사용해 로고 식별성을 유지하고 회사별 맞춤 Hero에는 노출하지 않는다.
 - Hero는 콘텐츠가 잘리지 않는 범위에서 `min(100svh, 52rem)` 높이를 사용해 세로가 긴 화면에서도 다음 About 영역이 이어져 보이게 한다.
-- Hero에는 프로젝트 버튼과 챗봇 버튼을 모두 두지 않는다. 챗봇은 Navbar의 얼굴 이미지가 있는 `이경민 AI` 하나로만 연다.
+- Hero에는 프로젝트 버튼과 챗봇 버튼을 모두 두지 않는다. 챗봇은 Navbar의 얼굴 이미지가 있는 `물어보기` 버튼 하나로만 연다.
 
 ## About
 
@@ -79,7 +79,7 @@
 
 ## 챗봇
 
-- Navbar의 얼굴 이미지가 있는 `이경민 AI`를 유일한 챗봇 진입점으로 사용한다. Hero와 우하단에는 중복 런처를 두지 않는다.
+- Navbar의 얼굴 이미지가 있는 `물어보기` 버튼을 유일한 챗봇 진입점으로 사용한다. Hero와 우하단에는 중복 런처를 두지 않는다.
 - 상단 CTA를 누르면 별도 pre-chat 팝업이 아니라 실제 Typebot 채팅창을 연다.
 - 첫 안내, 추천 질문, 직접 입력, 개인정보 안내는 채팅창 경계 안에 표시한다.
 - 첫 화면에 `채용 담당자`, `실무 리더`, `협업 파트너` 세 탐색 모드를 표시하고, 선택한 사용자에 따라 확인된 추천 질문 `8개`의 우선순위를 바꾼다.
@@ -110,7 +110,7 @@
 - Hero H1은 첫 프레임부터 보이며 핵심 정보에 opacity 진입 애니메이션을 적용하지 않는다.
 - About 전체 grid, Projects header·각 카드, Experience header·각 경력·커리어 방향, Contact header·form은 viewport 진입 시 `opacity 0 → 1`, `y 18px → 0`으로 한 번만 나타난다. 긴 section 전체를 opacity 0으로 감싸지 않는다.
 - 전역 `MotionConfig reducedMotion="user"`와 각 진입 요소의 reduced-motion 분기로 모션 감소 환경에서는 변환·카운트업 없이 최종 상태를 즉시 표시한다.
-- Typebot은 초기 preload하지 않고 사용자가 Navbar의 `이경민 AI`를 선택한 뒤에만 불러온다.
+- Typebot은 초기 preload하지 않고 사용자가 Navbar의 `물어보기`를 선택한 뒤에만 불러온다.
 - 원격 배경은 장식 자산이며 실패·차단·느린 네트워크에서 CSS fallback을 사용한다.
 - 관리자·404에는 포트폴리오 ambient, Typebot, 분석을 노출하지 않는다.
 - Contact 다음에 별도 저작권 Footer를 추가하지 않는다.

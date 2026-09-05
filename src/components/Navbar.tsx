@@ -70,7 +70,7 @@ const Navbar = () => {
               decoding="async"
               className="h-8 w-8 rounded-full border border-white/45 bg-white object-cover"
             />
-            이경민 AI
+            물어보기
           </button>
           <button
             type="button"
