@@ -5758,3 +5758,23 @@ Hero 후보:
 - `채팅 닫기` 선택 후 dialog가 제거되고 키보드 포커스가 Navbar의 `물어보기` 버튼으로 돌아왔다.
 - 모바일 채팅이 열린 상태에서도 문서 `scrollWidth 375 = clientWidth 375`로 가로 오버플로가 없었다.
 - 로컬 재검사 판정: `통과`.
+
+#### 6~7단계 — 배포 및 운영 URL 재검사
+
+- 배포 커밋: `f955072666d48ab96fddd521d278a838db208b37`
+- GitHub Pages: [run 52](https://github.com/gmbro/portfolio/actions/runs/33992483529) `completed / success`
+- 운영 URL: `https://archilab.ai.kr/?release=52`
+- 운영 main asset: `index-DAK4w4c5.js`
+
+| 운영 URL 항목 | 390×844 | 768×900 | 1440×900 |
+|---|---:|---:|---:|
+| clientWidth / scrollWidth | `375 / 375` | `753 / 753` | `1425 / 1425` |
+| CTA 문구·접근성 이름 | `물어보기` | `물어보기` | `물어보기` |
+| CTA 실제 크기 | `95×44px` | `104×44px` | `104×44px` |
+| 로고·메뉴 겹침 | 없음 | 없음 | 없음 |
+
+- 운영 390px에서 `물어보기`를 선택해 Typebot host·dialog와 내부 제목 `이경민 AI`를 확인했다.
+- `채팅 닫기` 후 dialog가 제거되고 포커스가 Navbar의 `물어보기` 버튼으로 돌아왔다.
+- 운영 페이지와 새 JavaScript asset은 모두 HTTP 200으로 제공되며, 직접 새 URL을 열어 revision 52 route 로드를 확인했다.
+- Hero·프로젝트·경력·수치·회사별 데이터에는 변경이 없다.
+- 최종 배포 후 판정: `통과`.
