@@ -5,7 +5,7 @@ import { portfolioExperienceLogos } from "@/data/heroLogos";
 import { defaultHeroContent, type HeroContent } from "@/types/portfolio";
 
 export const portfolioHeroBackground =
-  "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/background.png";
+  `${import.meta.env.BASE_URL}media/portfolio/background.png`;
 
 interface HeroProps {
   content?: HeroContent;

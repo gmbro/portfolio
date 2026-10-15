@@ -32,7 +32,7 @@ describe("Portfolio ambient background", () => {
     act(() => vi.advanceTimersByTime(301));
 
     const video = container.querySelector<HTMLVideoElement>("video");
-    expect(video?.src).toBe(portfolioAmbientVideo);
+    expect(video?.getAttribute("src")).toBe(portfolioAmbientVideo);
     expect(video).toHaveAttribute("autoplay");
     expect(video).toHaveAttribute("playsinline");
     expect(video).not.toHaveAttribute("loop");

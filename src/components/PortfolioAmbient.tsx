@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 export const portfolioAmbientVideo =
-  "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/colorflow-animation.mp4";
+  `${import.meta.env.BASE_URL}media/portfolio/colorflow-animation.mp4`;
 
 type NavigatorWithConnection = Navigator & {
   connection?: {

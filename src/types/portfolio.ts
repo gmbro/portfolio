@@ -36,11 +36,13 @@ export interface PortfolioPublication {
 }
 
 export const defaultHeroContent: HeroContent = {
-  roleLabel: "AI PM",
+  roleLabel: "AI Product Manager",
   careerLabel: "7 years of experience",
-  headline: "저는 '고객의 문제'를 '효과적으로 해결'할 수 있는 7년차 AI PM 이경민입니다.",
-  highlight: ["'고객의 문제'", "'효과적으로 해결'"],
-  subcopy: [],
+  headline: "AI 기술을 제품화하고, 운영 성과를 설계합니다.",
+  highlight: ["AI 기술을 제품화", "운영 성과를 설계"],
+  subcopy: [
+    "저는 AI 모델과 기술을 사용자 시나리오·데이터 처리·서비스 아키텍처로 구체화하는 제품 기획자로, STT·TTS·Retrieval 기반 AI 서비스 기획부터 데이터 파이프라인 설계, 제품 통합, 운영 비용 최적화까지 경험했습니다.",
+  ],
   keywords: [
     "AI",
     "Product",

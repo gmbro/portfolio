@@ -81,7 +81,7 @@ export const flagshipProject: FeaturedProject = {
     items: [
       {
         id: "arky-motion-tracking",
-        src: "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/arky/1.png",
+        src: `${import.meta.env.BASE_URL}media/portfolio/arky/1.png`,
         alt: "운동 자세를 촬영하면서 휴대전화 화면에 관절 추적선이 표시된 수업 기록 장면",
         width: 1600,
         height: 1200,
@@ -89,7 +89,7 @@ export const flagshipProject: FeaturedProject = {
       },
       {
         id: "arky-product-screens",
-        src: "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/arky/2.png",
+        src: `${import.meta.env.BASE_URL}media/portfolio/arky/2.png`,
         alt: "수업 캘린더와 AI 분석 기록, 회원별 수업 기록 목록을 보여주는 아키 모바일 화면 3종",
         width: 1600,
         height: 1200,
@@ -97,7 +97,7 @@ export const flagshipProject: FeaturedProject = {
       },
       {
         id: "arky-report-sharing",
-        src: "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/arky/3.png",
+        src: `${import.meta.env.BASE_URL}media/portfolio/arky/3.png`,
         alt: "AI 분석 리포트를 회원에게 한 번에 전달하는 아키 수업 기록 공유 기능 소개 화면",
         width: 1600,
         height: 1200,
@@ -133,7 +133,7 @@ export const featuredProjects: FeaturedProject[] = [
       items: [
         {
           id: "nipa-vision-ai-test-report",
-          src: "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/pratama/1.png",
+          src: `${import.meta.env.BASE_URL}media/portfolio/pratama/1.png`,
           alt: "정확도·재현율·처리 속도의 시험 결과가 적합으로 표시된 AI 바우처 시험 성적서",
           width: 1600,
           height: 1200,
@@ -141,7 +141,7 @@ export const featuredProjects: FeaturedProject[] = [
         },
         {
           id: "nipa-vision-ai-defect-flow",
-          src: "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/pratama/2.png",
+          src: `${import.meta.env.BASE_URL}media/portfolio/pratama/2.png`,
           alt: "신발 아웃솔 이미지를 AI로 세그멘테이션해 7종 불량 유형을 구분하는 검사 흐름도",
           width: 1600,
           height: 1200,
@@ -149,7 +149,7 @@ export const featuredProjects: FeaturedProject[] = [
         },
         {
           id: "nipa-vision-ai-inspector",
-          src: "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/pratama/3.png",
+          src: `${import.meta.env.BASE_URL}media/portfolio/pratama/3.png`,
           alt: "신발 아웃솔의 결함 위치와 검사 수량을 보여주는 AI 품질 검사 실행 화면",
           width: 1600,
           height: 1200,
@@ -182,7 +182,7 @@ export const featuredProjects: FeaturedProject[] = [
       items: [
         {
           id: "selectstar-stt-label-studio",
-          src: "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/select/1.png",
+          src: `${import.meta.env.BASE_URL}media/portfolio/select/1.png`,
           alt: "화자 구간을 나누고 음성을 텍스트로 전사하는 Label Studio 작업 화면",
           width: 1600,
           height: 1200,
@@ -190,7 +190,7 @@ export const featuredProjects: FeaturedProject[] = [
         },
         {
           id: "selectstar-stt-segmentation",
-          src: "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/select/2.png",
+          src: `${import.meta.env.BASE_URL}media/portfolio/select/2.png`,
           alt: "음성 파형의 발화 구간을 분할해 편집하는 온라인 라벨링 작업 화면",
           width: 1600,
           height: 1200,
@@ -198,7 +198,7 @@ export const featuredProjects: FeaturedProject[] = [
         },
         {
           id: "selectstar-stt-operation-dashboard",
-          src: "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/select/3.png",
+          src: `${import.meta.env.BASE_URL}media/portfolio/select/3.png`,
           alt: "전체 완료 작업량과 작업자별 누적 작업량을 보여주는 프로젝트 운영 대시보드",
           width: 1600,
           height: 1200,
@@ -231,7 +231,7 @@ export const featuredProjects: FeaturedProject[] = [
       items: [
         {
           id: "skelter-ai-counselor-launch-article",
-          src: "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/skelter/skel.png",
+          src: `${import.meta.env.BASE_URL}media/portfolio/skelter/skel.png`,
           alt: "주현영 AI 챗봇 출시를 소개하는 온라인 기사 화면",
           width: 1600,
           height: 1200,
@@ -239,7 +239,7 @@ export const featuredProjects: FeaturedProject[] = [
         },
         {
           id: "skelter-ai-counselor-demo",
-          src: "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/skelter/skel2.png",
+          src: `${import.meta.env.BASE_URL}media/portfolio/skelter/skel2.png`,
           alt: "음성 질문에 답하는 디지털 휴먼 AI 상담사 데모 화면",
           width: 1600,
           height: 1200,
@@ -247,7 +247,7 @@ export const featuredProjects: FeaturedProject[] = [
         },
         {
           id: "skelter-ai-counselor-conversation-data",
-          src: "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/skelter/skel3.png",
+          src: `${import.meta.env.BASE_URL}media/portfolio/skelter/skel3.png`,
           alt: "자기소개·타깃 사용자·정보성 대화 주제로 구성한 AI 상담사 대화 데이터 설계표",
           width: 1600,
           height: 1200,
@@ -280,7 +280,7 @@ export const featuredProjects: FeaturedProject[] = [
       items: [
         {
           id: "sk-planet-syrup-push-format",
-          src: "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/syrup/1.png",
+          src: `${import.meta.env.BASE_URL}media/portfolio/syrup/1.png`,
           alt: "시럽월렛 쿠폰 목록과 이미지형·텍스트형 푸시 알림 화면 비교",
           width: 1600,
           height: 1200,
@@ -288,7 +288,7 @@ export const featuredProjects: FeaturedProject[] = [
         },
         {
           id: "sk-planet-syrup-push-campaigns",
-          src: "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/syrup/2.png",
+          src: `${import.meta.env.BASE_URL}media/portfolio/syrup/2.png`,
           alt: "교육·생활 및 뷰티·화장품 분야 시럽월렛 푸시 메시지와 연결 페이지 집행 사례",
           width: 1600,
           height: 1200,
@@ -296,7 +296,7 @@ export const featuredProjects: FeaturedProject[] = [
         },
         {
           id: "sk-planet-syrup-top-banner-campaigns",
-          src: "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/syrup/3.png",
+          src: `${import.meta.env.BASE_URL}media/portfolio/syrup/3.png`,
           alt: "주방가전·생활가전·화장품 분야 시럽월렛 TOP 배너와 연결 페이지 집행 사례",
           width: 1600,
           height: 1200,

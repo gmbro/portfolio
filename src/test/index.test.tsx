@@ -54,7 +54,7 @@ describe("기본 포트폴리오 정보 구조", () => {
     expect(hero).toBeInTheDocument();
     expect(hero).toHaveClass("portfolio-hero");
     const heroHeading = screen.getByRole("heading", {
-      name: "저는 '고객의 문제'를 '효과적으로 해결'할 수 있는 7년차 AI PM 이경민입니다.",
+      name: "AI 기술을 제품화하고, 운영 성과를 설계합니다.",
     });
     expect(heroHeading).toBeInTheDocument();
     expect(heroHeading).toHaveClass(
@@ -70,12 +70,12 @@ describe("기본 포트폴리오 정보 구조", () => {
     });
     expect(Array.from(heroSummary.querySelectorAll("li")).map((item) => item.textContent)).toEqual([
       "Portfolio",
-      "AI PM",
+      "AI Product Manager",
       "7 years of experience",
     ]);
     expect(
       Array.from(hero?.querySelectorAll("h1 > span") ?? []).map((part) => part.textContent),
-    ).toEqual(["'고객의 문제'", "'효과적으로 해결'"]);
+    ).toEqual(["AI 기술을 제품화", "운영 성과를 설계"]);
     expect(hero?.querySelectorAll("h1 > span.block")).toHaveLength(0);
     expect(within(hero as HTMLElement).queryByText("제품의 제로투원과 350만 MAU 제품의 운영을 경험하고 제품 기획, 사업 개발, 퍼포먼스 마케팅 등 다양한 영역에서 역량을 키워왔습니다. B2B AI Project에 강점이 있으며 최근 직접 개발한 B2C Product로 헬스케어 데이터의 휘발성에 대한 문제를 풀고 있습니다.")).not.toBeInTheDocument();
     expect(hero?.querySelector('[aria-label="핵심 역량"]')).not.toBeInTheDocument();
@@ -124,8 +124,8 @@ describe("기본 포트폴리오 정보 구조", () => {
     ).toEqual(["nipa", "neo", "lg", "kisa", "busan", "syrup", "nhn", "fixness"]);
     expect(screen.queryByRole("heading", { name: "역량을 선택해 연결된 프로젝트 증거를 확인하세요." })).not.toBeInTheDocument();
     expect(container.querySelector(".portfolio-ambient")).toBeInTheDocument();
-    expect(container.querySelector<HTMLImageElement>("#hero .portfolio-hero__media")?.src).toBe(
-      "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/background.png",
+    expect(container.querySelector<HTMLImageElement>("#hero .portfolio-hero__media")?.getAttribute("src")).toBe(
+      "/media/portfolio/background.png",
     );
     expect(
       screen.getByRole("heading", {
@@ -137,7 +137,7 @@ describe("기본 포트폴리오 정보 구조", () => {
     });
     expect(aboutPortrait).toHaveAttribute(
       "src",
-      "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/me.png",
+      "/media/portfolio/me.png",
     );
     expect(aboutPortrait).toHaveAttribute("width", "548");
     expect(aboutPortrait).toHaveAttribute("height", "548");
@@ -181,7 +181,7 @@ describe("기본 포트폴리오 정보 구조", () => {
       name: "정확도·재현율·처리 속도의 시험 결과가 적합으로 표시된 AI 바우처 시험 성적서",
     })).toHaveAttribute(
       "src",
-      "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/pratama/1.png",
+      "/media/portfolio/pratama/1.png",
     );
     expect(within(nipaProject as HTMLElement).getAllByRole("button", { name: /번째 이미지 보기/ })).toHaveLength(3);
     expect(nipaProject?.querySelector('[data-evidence-media-frame="7:6"]')).toHaveClass("aspect-[7/6]");
@@ -212,7 +212,7 @@ describe("기본 포트폴리오 정보 구조", () => {
       name: "운동 자세를 촬영하면서 휴대전화 화면에 관절 추적선이 표시된 수업 기록 장면",
     })).toHaveAttribute(
       "src",
-      "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/arky/1.png",
+      "/media/portfolio/arky/1.png",
     );
     expect(within(flagship as HTMLElement).getAllByRole("button", { name: /번째 이미지 보기/ })).toHaveLength(3);
     expect(within(flagship as HTMLElement).queryByText("랜딩 페이지")).not.toBeInTheDocument();
@@ -224,7 +224,7 @@ describe("기본 포트폴리오 정보 구조", () => {
       name: "주현영 AI 챗봇 출시를 소개하는 온라인 기사 화면",
     })).toHaveAttribute(
       "src",
-      "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/skelter/skel.png",
+      "/media/portfolio/skelter/skel.png",
     );
     expect(within(skelterProject as HTMLElement).getAllByRole("button", { name: /번째 이미지 보기/ })).toHaveLength(3);
     expect(within(skelterProject as HTMLElement).queryByText("개념 목업")).not.toBeInTheDocument();
@@ -235,7 +235,7 @@ describe("기본 포트폴리오 정보 구조", () => {
       name: "화자 구간을 나누고 음성을 텍스트로 전사하는 Label Studio 작업 화면",
     })).toHaveAttribute(
       "src",
-      "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/select/1.png",
+      "/media/portfolio/select/1.png",
     );
     expect(within(selectstarProject as HTMLElement).getAllByRole("button", { name: /번째 이미지 보기/ })).toHaveLength(3);
     expect(within(selectstarProject as HTMLElement).queryByText("개념 목업")).not.toBeInTheDocument();

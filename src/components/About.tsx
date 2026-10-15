@@ -1,7 +1,7 @@
 import { motion, useReducedMotion } from "framer-motion";
 
 const aboutPortraitUrl =
-  "https://ilxovhnlfvbvtmgqyddb.supabase.co/storage/v1/object/public/videi/me.png";
+  `${import.meta.env.BASE_URL}media/portfolio/me.png`;
 
 const productCapabilities = [
   {

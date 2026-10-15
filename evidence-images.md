@@ -54,7 +54,7 @@ Supabase를 사용할 때는 버킷을 공개로 설정하고 객체의 `public`
 
 현재 공개 프로젝트 갤러리에 `kind: "concept-mockup"`으로 등록된 항목은 0개다. 컴포넌트는 향후 개념 목업을 다시 사용할 때를 위해 provenance 배지와 확대 화면 상태 표시를 계속 지원한다.
 
-## 현재 실제 자료 등록 현황
+## 기존 실제 자료 등록 현황 (Supabase 원본 이력)
 
 아키·NIPA Vision AI·셀렉트스타 STT·시럽월렛·Skelter Labs AI 상담사는 사용자가 직접 제공한 공개 Supabase Storage 자료를 사용한다. 모든 자료는 브라우저에서 PNG `1600×1200px`, `complete=true`를 확인했고 `kind: "evidence"`로 등록했다. 아키와 NIPA 자료는 원본 크기와 별도로 7:6의 `1400×1200px` 표시 프레임을 사용한다.
 
@@ -196,3 +196,7 @@ visual: {
 6. 390×844, 768×900, 1440×900에서 한 프로젝트가 한 행에 표시되는지, 첫 이미지, 이전·다음 버튼, 확대 dialog, 가로 넘침을 확인한다. 아키와 NIPA는 7:6 프레임, 나머지는 기본 4:3이며 모든 화면에서 `object-contain`으로 잘리지 않아야 한다.
 7. 원격 이미지의 `naturalWidth`가 0보다 큰지, 로컬 이미지의 `complete`가 true인지, 브라우저 콘솔 오류가 없는지 확인한다.
 8. 개념 목업에 회사 로고·브랜드 UI·실제 수치·개인정보·판독 가능한 긴 텍스트·워터마크가 없는지 시각 검사한다.
+
+## 2026-10-15 원본 백업 복구
+
+Supabase 프로젝트 일시 중지로 공개 주소가 NXDOMAIN을 반환했다. 대시보드 Storage objects 백업에서 기존에 공개 등록된 이미지 17장과 배경 영상 1개만 추출해 `public/media/portfolio/`에 바이트 변경 없이 저장했다. 위 표의 원본 자료·출처·공개 범위는 유지한다. 현재 코드에서는 `import.meta.env.BASE_URL + media/portfolio/`를 사용하며 이미지·배경 영상은 GitHub Pages에서 함께 제공된다. 데이터베이스 및 회사별 publication은 이전하지 않았다.
