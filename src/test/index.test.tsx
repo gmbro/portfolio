@@ -204,10 +204,10 @@ describe("기본 포트폴리오 정보 구조", () => {
     expect(within(flagship as HTMLElement).queryByText("#Codex")).not.toBeInTheDocument();
     expect(caseStudies?.querySelectorAll('[aria-label="검증된 성과"]')).toHaveLength(0);
     expect(caseStudies?.querySelectorAll("article footer span")).toHaveLength(0);
-    expect(caseStudies?.querySelectorAll("article footer")).toHaveLength(5);
-    expect(within(caseStudies as HTMLElement).getAllByRole("button", {
+    expect(caseStudies?.querySelectorAll("article footer")).toHaveLength(1);
+    expect(within(caseStudies as HTMLElement).queryAllByRole("button", {
       name: "이 프로젝트를 이경민AI 에게 묻기",
-    })).toHaveLength(5);
+    })).toHaveLength(0);
     expect(within(flagship as HTMLElement).getByRole("img", {
       name: "운동 자세를 촬영하면서 휴대전화 화면에 관절 추적선이 표시된 수업 기록 장면",
     })).toHaveAttribute(

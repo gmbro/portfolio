@@ -202,7 +202,7 @@ describe("검증된 기본 포트폴리오 콘텐츠", () => {
       company: "아키랩",
       period: "2026.06–진행 중",
       duration: "3개월",
-      description: "1인 사업자로 헬스케어·커뮤니티·법률 서비스를 개발해 운영하고 있습니다.",
+      description: "바이브코딩으로 헬스케어 AI 서비스를 개발하여 1인 솔로프리너로 체형교정 브랜드를 운영하고 있습니다.",
     });
     expect(flagshipProject).toMatchObject({
       organization: "아키랩, FIXNESS",

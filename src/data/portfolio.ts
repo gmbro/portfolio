@@ -330,7 +330,7 @@ export const careerExperiences: CareerExperience[] = [
     period: "2026.06–진행 중",
     duration: "3개월",
     team: "",
-    description: "1인 사업자로 헬스케어·커뮤니티·법률 서비스를 개발해 운영하고 있습니다.",
+    description: "바이브코딩으로 헬스케어 AI 서비스를 개발하여 1인 솔로프리너로 체형교정 브랜드를 운영하고 있습니다.",
     achievements: [
       "운동 강사를 위한 AI 기록 서비스 아키, 2026.06부터 참여자 15명과 베타 진행 중",
       "트레바리 독서 커뮤니티를 위한 AI 솔루션 제작 및 운영",
